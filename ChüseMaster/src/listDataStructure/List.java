@@ -11,6 +11,7 @@ public class List {
 	
 	public List(String list_type, String list_name) {
 		this.list_type = list_type;
+		this.list_name = list_name;
 	}
 	
 	public void addItem(ListItem item) {
@@ -33,6 +34,11 @@ public class List {
 
 	public String getName() {
 		return list_name;
+	}
+	
+	// Test method to return item at given index
+	public String getIndex(int index){
+		return list.get(index).getName();
 	}
 
 }
