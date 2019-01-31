@@ -51,36 +51,67 @@ public abstract class TournamentAlgorithms {
 		
 	}
 	
+	/**
+	 * Function to implement a double bracket tournament-style elimination
+	 * algorithm. This algorithm compares a list of items in pairs, and at
+	 * each comparison records the winner, as well as keeping track of the loser.
+	 * It then compares the list of losers amongst themselves, and finally compares
+	 * the winner of the loser-list with the original winner.
+	 * 
+	 * @param data_list - the list of items to compare
+	 * @return data_list - a list containing the winner of the overall algorithm
+	 */
 	public static ArrayList<ListItem> doubleBracketAlgorithm(ArrayList<ListItem> data_list){
 		
 		int i;
 		
+		//the list of loser items starts as a copy of the original data list
+		//this is because the winning items are gradually removed from the list
+		//leaving only the losers
 		ArrayList<ListItem> loser_list = data_list;
 		
+		//checks that there are more than two items within the list
 		if(data_list.size() > 2) {
 			
+			//loop while there is more than one item within the list
 			while(data_list.size() > 1) {
 				
+				//if the number of items in the list is even, perform an
+				//even pass
 				if(evenCheck(data_list.size())){
 					data_list = evenPass(data_list);
+					//loops for every item in the loser list,
+					//removing the winning items
 					for(i=0; i < data_list.size(); i++) {
 						loser_list.remove(data_list.get(i));
 					}
+				//if the number of items in the list is odd, perform an
+				//odd pass	
 				} else {
 					data_list = oddPass(data_list);
+					//loops for every item in the loser list,
+					//removing the winning items
 					for(i=0; i < data_list.size(); i++) {
 						loser_list.remove(data_list.get(i));
 					}
 				}
 			}
 			
+			//performs the single bracket tournament-style algorithm on the
+			//list of losing items to find the winner of the losing bracket
 			loser_list = singleBracketAlgorithm(loser_list);
+			
+			//adds the winner of the losing bracket to the data list
+			//at this point list contains:winner of first bracket, winner of 
+			//losing bracket
 			data_list.add(loser_list.get(0));
 			
 		}
 	
+		//performs single bracket algorithm on the list again to find the overall winner
 		data_list = singleBracketAlgorithm(data_list);
 		
+		//returns the list containing the winner
 		return data_list;
 		
 	}
@@ -105,21 +136,37 @@ public abstract class TournamentAlgorithms {
 	
 	}
 	
+		/**
+	 * Function to implement a single even pass through an n-bracket elimination
+	 * algorithm. Performs pair-wise comparisons of every item in the list.
+	 * 
+	 * @param data_list - the list of data to be compared
+	 * @return
+	 */
 	private static ArrayList<ListItem> evenPass(ArrayList<ListItem> data_list) {
 		
 		int i;
 		
+		//gets console input
+		//TODO remove the need for console input - integrate with UI
 		consoleInput = new Scanner(System.in);
 		
+		//creates array list for the output
 		ArrayList<ListItem> new_data_list = new ArrayList<ListItem>();
 		
+		//loops through half of the items in the list
+		//only needs to loop through half due to comparing two items in each loop
 		for(i = 0;i < data_list.size() / 2;i++) {
 			
+			//asks the user which item they prefer within the console
+			//TODO remove the need for console input - integrate with UI
 			System.out.println("Press 1 for object " + data_list.get(i * 2).getName() + " or 2 for object " + data_list.get((i * 2) + 1).getName());
 			String input = consoleInput.next();
 			
+			//if the console input is 1, adds first item to output list
 			if(input.equals("1")) {
 				new_data_list.add(data_list.get(i*2));
+			//if the console input is 2, adds second item to output list
 			} else {
 				new_data_list.add(data_list.get((i * 2) + 1));
 			}
