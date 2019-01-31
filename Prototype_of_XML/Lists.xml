@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lists>
+	<list ID="100">
+		<name>aaa</name>
+		<xml_link>aaa</xml_link>
+	</list>
+	<list ID="145">
+		<name>bbb</name>
+		<xml_link>bbb</xml_link>
+	</list>
+	<list ID="178">
+		<name>ccc</name>
+		<xml_link>ccc</xml_link>
+	</list>
+</lists>
