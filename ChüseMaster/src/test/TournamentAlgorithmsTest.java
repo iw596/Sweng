@@ -23,7 +23,6 @@ public class TournamentAlgorithmsTest {
 		test_data.add(new ListItem("Octopus"));
 		test_data.add(new ListItem("Cactus"));
 
-		
 		ArrayList<ListItem> output_value = new ArrayList<ListItem>();
 		
 		output_value = TournamentAlgorithms.doubleBracketAlgorithm(test_data);

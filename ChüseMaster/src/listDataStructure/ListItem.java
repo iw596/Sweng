@@ -16,6 +16,7 @@ public class ListItem implements ListInterface{
 	
 	//the name of the item
 	private String name;
+	private String item_type = "ListItem";
 	
 	/**
 	 * Constructor function for a generic list item.
