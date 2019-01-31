@@ -3,11 +3,10 @@ package listDataStructure;
 public class AudioItem extends ListItem implements ListInterface {
 
 	private String url;
-	private float length;
 	
-	public AudioItem(String name) {
+	public AudioItem(String url, String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
+		this.url = url;
 	}
 	
 	public String getUrl() {
