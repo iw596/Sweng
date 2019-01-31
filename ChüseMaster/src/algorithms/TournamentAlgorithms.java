@@ -1,13 +1,14 @@
 package algorithms;
 
 import java.util.ArrayList;
+import listDataStructure.*;
 import java.util.Scanner;
 
 public abstract class TournamentAlgorithms {
 
 	private static Scanner consoleInput;
 
-	public static ArrayList<String> singleBracketAlgorithm(ArrayList<String> data_list){
+	public static ArrayList<ListItem> singleBracketAlgorithm(ArrayList<ListItem> data_list){
 		
 		while(data_list.size() > 1) {
 			
@@ -18,17 +19,17 @@ public abstract class TournamentAlgorithms {
 			}
 		}
 		
-		System.out.println(data_list);
+		System.out.println(data_list.get(0).getName());
 		
 		return data_list;
 		
 	}
 	
-	public static ArrayList<String> doubleBracketAlgorithm(ArrayList<String> data_list){
+	public static ArrayList<ListItem> doubleBracketAlgorithm(ArrayList<ListItem> data_list){
 		
 		int i;
 		
-		ArrayList<String> loser_list = data_list;
+		ArrayList<ListItem> loser_list = data_list;
 		
 		if(data_list.size() > 2) {
 			
@@ -68,17 +69,17 @@ public abstract class TournamentAlgorithms {
 	
 	}
 	
-	private static ArrayList<String> evenPass(ArrayList<String> data_list) {
+	private static ArrayList<ListItem> evenPass(ArrayList<ListItem> data_list) {
 		
 		int i;
 		
 		consoleInput = new Scanner(System.in);
 		
-		ArrayList<String> new_data_list = new ArrayList<String>();
+		ArrayList<ListItem> new_data_list = new ArrayList<ListItem>();
 		
 		for(i = 0;i < data_list.size() / 2;i++) {
 			
-			System.out.println("Press 1 for object " + data_list.get(i * 2) + " or 2 for object " + data_list.get((i * 2) + 1));
+			System.out.println("Press 1 for object " + data_list.get(i * 2).getName() + " or 2 for object " + data_list.get((i * 2) + 1).getName());
 			String input = consoleInput.next();
 			
 			if(input.equals("1")) {
@@ -92,16 +93,16 @@ public abstract class TournamentAlgorithms {
 		
 	}
 	
-	private static ArrayList<String> oddPass(ArrayList<String> data_list) {
+	private static ArrayList<ListItem> oddPass(ArrayList<ListItem> data_list) {
 		
 		consoleInput = new Scanner(System.in);
 		
-		String last_data_item = data_list.get(data_list.size() - 1);
+		ListItem last_data_item = data_list.get(data_list.size() - 1);
 		data_list.remove(data_list.size() - 1);
 		
-		ArrayList<String> new_data_list = evenPass(data_list);
+		ArrayList<ListItem> new_data_list = evenPass(data_list);
 		
-		System.out.println("Press 1 for object " + new_data_list.get(0) + " or 2 for object " + last_data_item);
+		System.out.println("Press 1 for object " + new_data_list.get(0).getName() + " or 2 for object " + last_data_item.getName());
 		String input = consoleInput.next();
 		
 		if(input.equals("2")) {
