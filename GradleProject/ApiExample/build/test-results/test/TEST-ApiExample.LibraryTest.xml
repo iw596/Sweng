@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ApiExample.LibraryTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-02-12T12:36:34" hostname="elclas202" time="0.028">
+  <properties/>
+  <testcase name="testSomeLibraryMethod" classname="ApiExample.LibraryTest" time="0.028"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
