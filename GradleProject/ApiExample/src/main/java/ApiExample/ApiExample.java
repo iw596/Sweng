@@ -1,3 +1,5 @@
+package ApiExample;
+
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -17,6 +19,7 @@ import com.google.api.services.youtube.YouTube;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,11 +29,13 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
 
-import org.json.JSONObject;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class ApiExample {
 
+	public static final int max_playlist_length = 10;
+	
     /** Application name. */
     private static final String APPLICATION_NAME = "API Sample";
 
@@ -102,15 +107,23 @@ public class ApiExample {
             .build();
     }
 
-    public static void main(String[] args) throws IOException {
-
+    public static ArrayList<ArrayList<String>> getPlaylistData(String playlist_url) throws IOException{
+    	
         YouTube youtube = getYouTubeService();
-
+        
+        String playlist_id = getPlaylistIdFromUrl(playlist_url);
+        
+        
+        
+        ArrayList<ArrayList<String>> playlist_property_container = new ArrayList<ArrayList<String>>();
+        
+        
+        
         try {
             HashMap<String, String> parameters = new HashMap<>();
             parameters.put("part", "snippet");
-            parameters.put("maxResults", "1");
-            parameters.put("playlistId", "PLFsQleAWXsj_4yDeebiIADdH5FMayBiJo");
+            parameters.put("maxResults","" + max_playlist_length + "");
+            parameters.put("playlistId", playlist_id);
 
             YouTube.PlaylistItems.List playlistItemsListByPlaylistIdRequest = youtube.playlistItems().list(parameters.get("part").toString());
             if (parameters.containsKey("maxResults")) {
@@ -125,18 +138,24 @@ public class ApiExample {
             PlaylistItemListResponse response = playlistItemsListByPlaylistIdRequest.execute();
             
             JSONObject jsonObject = new JSONObject(response);
-            System.out.println(jsonObject.getJSONArray("items").getJSONObject(0).getJSONObject("snippet").getString("title"));
+
             
-            JSONArray jsonArray = jsonObject.getJSONArray("items");
-            //System.out.println(jsonArray.getJSONObject(0));
             
-            JSONObject video01 = jsonArray.getJSONObject(0);
-            //System.out.println(video01.getJSONObject("snippet").getString("title"));
+            int i;
             
-            System.out.println(response.getItems());
-            PrintWriter writer = new PrintWriter("test.txt", "UTF-8");
-            writer.println(response.getItems());
-            writer.close();
+            for(i=0;i < jsonObject.getJSONArray("items").length(); i++) {
+            	
+            	JSONObject snippet = jsonObject.getJSONArray("items").getJSONObject(i).getJSONObject("snippet");
+            	ArrayList<String> video_properties = new ArrayList<String>();
+            	
+            	video_properties.add(snippet.getString("title"));
+                video_properties.add(snippet.getString("channelTitle"));
+                video_properties.add(snippet.getString("description"));
+                video_properties.add(snippet.getJSONObject("resourceId").getString("videoId"));
+                
+                playlist_property_container.add(video_properties);
+            	
+            }
 
         } catch (GoogleJsonResponseException e) {
             e.printStackTrace();
@@ -144,6 +163,33 @@ public class ApiExample {
         } catch (Throwable t) {
             t.printStackTrace();
         }
+        
+        return playlist_property_container;
+    	
+    }
+    
+    private static String getPlaylistIdFromUrl(String playlist_url) {
+    	
+    	String[] url_parts = playlist_url.split("=");
+    	
+    	//System.out.println(url_parts[2]);
+    	
+    	return url_parts[2];
+    	
+    }
+    
+    
+    public static void main(String[] args) throws IOException {
+
+    	ArrayList<ArrayList<String>> output = getPlaylistData("https://www.youtube.com/watch?v=gZBbICLk_tM&list=PL11pFjJATdhmvAtI_76hy5Mwb9qTOpk1J");
+    	
+    	int i;
+    	
+    	for(i=0; i < output.size(); i++) {
+    		System.out.println("Item: " + i);
+    		System.out.println(output.get(i));
+    		System.out.println("");
+    	}
         
     }
 }
