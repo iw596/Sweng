@@ -33,5 +33,9 @@ public interface ListInterface {
 	public default String getURL() {
 		return null;
 	};
+	
+	public default void print() {
+		System.out.println("No print implementation present.");
+	}
 
 }

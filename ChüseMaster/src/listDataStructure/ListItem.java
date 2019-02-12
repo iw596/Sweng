@@ -16,7 +16,7 @@ public class ListItem implements ListInterface{
 	
 	//the name of the item
 	private String name;
-	private String item_type = "ListItem";
+	protected String item_type = "ListItem";
 	
 	/**
 	 * Constructor function for a generic list item.
@@ -32,6 +32,10 @@ public class ListItem implements ListInterface{
 	 */
 	public String getName() {
 		return this.name;
+	}
+	
+	public void print() {
+		System.out.println("Name: " + name + "; Item Type: " + item_type);
 	}
 	
 }

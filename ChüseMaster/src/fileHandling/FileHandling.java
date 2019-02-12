@@ -1,4 +1,4 @@
-package fileHandling;
+/*package fileHandling;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -29,7 +29,7 @@ import javax.swing.JLabel;
 
 
 import test.ImageTest;
-/**
+*//**
  * FileHandling is the class in the fileHandling package. This class handles the
  * handles the loading of files. .
  * 
@@ -38,7 +38,7 @@ import test.ImageTest;
  * Last edited by: Isaac Watson and Dan Jackson
  *
  * @author Isaac Watson and Dan Jackson 
- */
+ *//*
 
 
 
@@ -115,7 +115,7 @@ public final class FileHandling extends Application {
     }
             
  
-/*    private void openFile(File file) {
+    private void openFile(File file) {
         try {
             desktop.open(file);
         } catch (IOException ex) {
@@ -124,5 +124,6 @@ public final class FileHandling extends Application {
                     Level.SEVERE, null, ex
                 );
         }
-    }*/
+    }
 }
+*/

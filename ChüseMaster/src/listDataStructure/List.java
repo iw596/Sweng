@@ -36,9 +36,26 @@ public class List {
 		return list_name;
 	}
 	
+	public int getSize() {
+		return list.size();
+	}
+	
 	// Test method to return item at given index
-	public String getIndex(int index){
+	public String getNameAtIndex(int index){
 		return list.get(index).getName();
+	}
+	
+	public ListItem get(int index) {
+		return list.get(index);
+	}
+	
+	public void printList() {
+		
+		int i;
+		
+		for(i = 0; i < list.size(); i++) {
+			list.get(i).print();
+		}
 	}
 
 }
