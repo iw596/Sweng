@@ -2,8 +2,8 @@ package test;
 
 import org.junit.Test;
 
-import listDataStructure.List;
-import listDataStructure.ListItem;
+import listDataStructure.ChuseList;
+import listDataStructure.BasicItem;
 
 import static org.junit.Assert.*;
 
@@ -14,7 +14,7 @@ public class XMLHandlingTest {
 	@Test
 	public void readFile() throws Exception {
 		
-		List test_list = new List("text", "animals");
+		ChuseList test_list = new ChuseList("text", "animals");
 		
 		test_list = XMLHandler.buildListFromXML("List_1");
 		
@@ -34,12 +34,12 @@ public class XMLHandlingTest {
 	@Test
 	public void createFile() throws Exception {
 		
-		List test_list = new List("text", "animals");
+		ChuseList test_list = new ChuseList("text", "animals");
 		
-		test_list.addItem(new ListItem("Banana"));
-		test_list.addItem(new ListItem("Cake"));
-		test_list.addItem(new ListItem("Pancake"));
-		test_list.addItem(new ListItem("Tide Pods"));
+		test_list.addItem(new BasicItem("Banana"));
+		test_list.addItem(new BasicItem("Cake"));
+		test_list.addItem(new BasicItem("Pancake"));
+		test_list.addItem(new BasicItem("Tide Pods"));
 		
 		XMLHandler.buildXMLFromList(test_list, "test_file");
 		

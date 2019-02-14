@@ -15,23 +15,23 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import algorithms.TournamentAlgorithms;
-import listDataStructure.ListItem;
+import listDataStructure.BasicItem;
 
 public class TournamentAlgorithmsTest {
 	
 	@Test
 	public void sixItemList() throws Exception {
 		
-		ArrayList<ListItem> test_data = new ArrayList<ListItem>();
+		ArrayList<BasicItem> test_data = new ArrayList<BasicItem>();
 		
-		test_data.add(new ListItem("Cat"));
-		test_data.add(new ListItem("Mouse"));
-		test_data.add(new ListItem("Dog"));
-		test_data.add(new ListItem("Giraffe"));
-		test_data.add(new ListItem("Penguin"));
-		test_data.add(new ListItem("Octopus"));
+		test_data.add(new BasicItem("Cat"));
+		test_data.add(new BasicItem("Mouse"));
+		test_data.add(new BasicItem("Dog"));
+		test_data.add(new BasicItem("Giraffe"));
+		test_data.add(new BasicItem("Penguin"));
+		test_data.add(new BasicItem("Octopus"));
 
-		ArrayList<ListItem> output_value = new ArrayList<ListItem>();
+		ArrayList<BasicItem> output_value = new ArrayList<BasicItem>();
 		
 		output_value = TournamentAlgorithms.doubleBracketAlgorithm(test_data);
 		

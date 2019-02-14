@@ -21,7 +21,7 @@ public abstract class TournamentAlgorithms {
 	// the user
 	private static Scanner consoleInput;
 
-	public static ArrayList<ListItem> singleBracketAlgorithm(ArrayList<ListItem> data_list){
+	public static ArrayList<BasicItem> singleBracketAlgorithm(ArrayList<BasicItem> data_list){
 		/**
 		 *  Method to run singleBracket algorithm on set of data items passed into 
 		 *  the method by the user. This method calls other methods which compare
@@ -61,14 +61,14 @@ public abstract class TournamentAlgorithms {
 	 * @param data_list - the list of items to compare
 	 * @return data_list - a list containing the winner of the overall algorithm
 	 */
-	public static ArrayList<ListItem> doubleBracketAlgorithm(ArrayList<ListItem> data_list){
+	public static ArrayList<BasicItem> doubleBracketAlgorithm(ArrayList<BasicItem> data_list){
 		
 		int i;
 		
 		//the list of loser items starts as a copy of the original data list
 		//this is because the winning items are gradually removed from the list
 		//leaving only the losers
-		ArrayList<ListItem> loser_list = data_list;
+		ArrayList<BasicItem> loser_list = data_list;
 		
 		//checks that there are more than two items within the list
 		if(data_list.size() > 2) {
@@ -143,7 +143,7 @@ public abstract class TournamentAlgorithms {
 	 * @param data_list - the list of data to be compared
 	 * @return
 	 */
-	private static ArrayList<ListItem> evenPass(ArrayList<ListItem> data_list) {
+	private static ArrayList<BasicItem> evenPass(ArrayList<BasicItem> data_list) {
 		
 		int i;
 		
@@ -152,7 +152,7 @@ public abstract class TournamentAlgorithms {
 		consoleInput = new Scanner(System.in);
 		
 		//creates array list for the output
-		ArrayList<ListItem> new_data_list = new ArrayList<ListItem>();
+		ArrayList<BasicItem> new_data_list = new ArrayList<BasicItem>();
 		
 		//loops through half of the items in the list
 		//only needs to loop through half due to comparing two items in each loop
@@ -176,7 +176,7 @@ public abstract class TournamentAlgorithms {
 		
 	}
 	
-	private static ArrayList<ListItem> oddPass(ArrayList<ListItem> data_list) {
+	private static ArrayList<BasicItem> oddPass(ArrayList<BasicItem> data_list) {
 		
 		/*
 		 * Method to perform a pass comparing all objects in the list if
@@ -194,11 +194,11 @@ public abstract class TournamentAlgorithms {
 		consoleInput = new Scanner(System.in);
 		
 		// Remove last item and store it
-		ListItem last_data_item = data_list.get(data_list.size() - 1);
+		BasicItem last_data_item = data_list.get(data_list.size() - 1);
 		data_list.remove(data_list.size() - 1);
 		
 		// Use evenPass() to get new list
-		ArrayList<ListItem> new_data_list = evenPass(data_list);
+		ArrayList<BasicItem> new_data_list = evenPass(data_list);
 		
 		// Compare first item in new list with removed item from old list. 
 		System.out.println("Press 1 for object " + new_data_list.get(0).getName() + " or 2 for object " + last_data_item.getName());

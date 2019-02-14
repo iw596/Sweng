@@ -6,17 +6,17 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 import apiHandlers.YouTubeAPIHandler;
-import listDataStructure.ListItem;
+import listDataStructure.BasicItem;
 
 public class YouTubeAPIHandlerTest {
 	
 	@Test
 	public void loadPlaylist() throws Exception {
 		
-		listDataStructure.List playlist = YouTubeAPIHandler.getPlaylistData("https://www.youtube.com/watch?v=q6EoRBvdVPQ&list=PLFsQleAWXsj_4yDeebiIADdH5FMayBiJo");
+		listDataStructure.ChuseList playlist = YouTubeAPIHandler.getPlaylistData("https://www.youtube.com/watch?v=q6EoRBvdVPQ&list=PLFsQleAWXsj_4yDeebiIADdH5FMayBiJo");
 		playlist.printList();
 		
-		ArrayList<ListItem> for_algorithm = new ArrayList<ListItem>();
+		ArrayList<BasicItem> for_algorithm = new ArrayList<BasicItem>();
 		
 		int i;
 		

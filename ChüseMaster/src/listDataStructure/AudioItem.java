@@ -1,6 +1,6 @@
 package listDataStructure;
 
-public class AudioItem extends ListItem implements ListInterface {
+public class AudioItem extends BasicItem implements ListInterface {
 
 	private String url;
 	
@@ -14,7 +14,5 @@ public class AudioItem extends ListItem implements ListInterface {
 		return this.url;
 		
 	}
-	
-	
 
 }

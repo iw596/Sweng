@@ -102,7 +102,7 @@ public static final int max_playlist_length = 10;
             .build();
     }
 
-    public static listDataStructure.List getPlaylistData(String playlist_url) throws IOException{
+    public static listDataStructure.ChuseList getPlaylistData(String playlist_url) throws IOException{
     	
         YouTube youtube = getYouTubeService();
         
@@ -110,7 +110,7 @@ public static final int max_playlist_length = 10;
         
         //ArrayList<ArrayList<String>> playlist_property_container = new ArrayList<ArrayList<String>>();
         
-        listDataStructure.List video_list = new listDataStructure.List("video", "Test");
+        listDataStructure.ChuseList video_list = new listDataStructure.ChuseList("video", "Test");
         
         try {
             HashMap<String, String> parameters = new HashMap<>();

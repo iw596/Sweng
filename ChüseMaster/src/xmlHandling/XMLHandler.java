@@ -22,16 +22,16 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import listDataStructure.List;
-import listDataStructure.ListItem;
+import listDataStructure.ChuseList;
+import listDataStructure.BasicItem;
 
 public abstract class XMLHandler {
 
-	public static List buildListFromXML(String filename){
+	public static ChuseList buildListFromXML(String filename){
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
-		ArrayList<ListItem> list_array = new ArrayList<ListItem>();
+		ArrayList<BasicItem> list_array = new ArrayList<BasicItem>();
 		String list_type = null;
 		
 		try {
@@ -56,7 +56,7 @@ public abstract class XMLHandler {
 				// take this node vales and place it in to the list array of the list
 				//this.addItem(new Item(element.getChildNodes().item(1).getTextContent()));
 				
-				ListItem item = new ListItem(element.getChildNodes().item(1).getTextContent());
+				BasicItem item = new BasicItem(element.getChildNodes().item(1).getTextContent());
 				
 				list_array.add(item);
 				
@@ -73,11 +73,11 @@ public abstract class XMLHandler {
 			e.printStackTrace();
 		}
 		
-		if(list_array.get(0).getClass() == ListItem.class) {
+		if(list_array.get(0).getClass() == BasicItem.class) {
 			list_type = "ListItem";
 		}
 		
-		List list = new List(list_type, filename);
+		ChuseList list = new ChuseList(list_type, filename);
 		list.addItemArray(list_array);
 		
 		return list;
@@ -86,7 +86,7 @@ public abstract class XMLHandler {
 	
 	
 	//TODO fix errors relating to changed data structure input
-	public static void buildXMLFromList(List list, String filename){
+	public static void buildXMLFromList(ChuseList list, String filename){
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		

@@ -7,23 +7,23 @@ package test;
  */
 
 import org.junit.Test;
-import listDataStructure.List;
-import listDataStructure.ListItem;
+import listDataStructure.ChuseList;
+import listDataStructure.BasicItem;
 
 import static org.junit.Assert.*;
 public class ListTest {
 	
 	@Test
 	public void fourItemList() throws Exception{
-		List test_list = new List("Video","funnyVideoList");
+		ChuseList test_list = new ChuseList("Video","funnyVideoList");
 		
 		assertEquals("Video", test_list.getType());
 		assertEquals("funnyVideoList", test_list.getName());
 		
-		test_list.addItem(new ListItem("funny1"));
-		test_list.addItem(new ListItem("funny2"));
-		test_list.addItem(new ListItem("funny3"));
-		test_list.addItem(new ListItem("funny4"));
+		test_list.addItem(new BasicItem("funny1"));
+		test_list.addItem(new BasicItem("funny2"));
+		test_list.addItem(new BasicItem("funny3"));
+		test_list.addItem(new BasicItem("funny4"));
 		
 		assertEquals("funny1",test_list.getNameAtIndex(0));
 		assertEquals("funny2",test_list.getNameAtIndex(1));

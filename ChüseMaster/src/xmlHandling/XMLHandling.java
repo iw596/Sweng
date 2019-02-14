@@ -1,4 +1,4 @@
-package xmlHandling;
+/*package xmlHandling;
 
 import java.io.File;
 import java.io.IOException;
@@ -119,19 +119,19 @@ public abstract class XMLHandling {
 	        // write to file in given location
 	        StreamResult file = new StreamResult(myFile);
 	        
-	        /*try {
+	        try {
 				transf.transform(source, console);
 			} catch (TransformerException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}*/
+			}
 	        
-/*	        try {
+	        try {
 				transf.transform(source, file);
 			} catch (TransformerException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/
+			}
 
 			
 		} catch (ParserConfigurationException e) {
@@ -166,3 +166,4 @@ public abstract class XMLHandling {
 	 }
 	
 }
+*/

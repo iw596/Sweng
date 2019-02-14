@@ -1,6 +1,6 @@
 package listDataStructure;
 
-public class VideoItem extends ListItem implements ListInterface {
+public class VideoItem extends BasicItem implements ListInterface {
 	
 	private String videoId;
 	private String description;

@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
  * @author Isaac Watson & Dan Jackson
  *
  */
-public class ImageItem extends ListItem implements ListInterface {
+public class ImageItem extends BasicItem implements ListInterface {
 
 	private Image image;
 	
