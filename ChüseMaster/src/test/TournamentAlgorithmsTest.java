@@ -16,26 +16,27 @@ import org.junit.Test;
 
 import algorithms.TournamentAlgorithms;
 import listDataStructure.BasicItem;
+import listDataStructure.ChuseList;
 
 public class TournamentAlgorithmsTest {
 	
 	@Test
 	public void sixItemList() throws Exception {
 		
-		ArrayList<BasicItem> test_data = new ArrayList<BasicItem>();
+		ChuseList test_data = new ChuseList("ChuseList","Test");
 		
-		test_data.add(new BasicItem("Cat"));
-		test_data.add(new BasicItem("Mouse"));
-		test_data.add(new BasicItem("Dog"));
-		test_data.add(new BasicItem("Giraffe"));
-		test_data.add(new BasicItem("Penguin"));
-		test_data.add(new BasicItem("Octopus"));
+		test_data.addItem(new BasicItem("Cat"));
+		test_data.addItem(new BasicItem("Mouse"));
+		test_data.addItem(new BasicItem("Dog"));
+		test_data.addItem(new BasicItem("Giraffe"));
+		test_data.addItem(new BasicItem("Penguin"));
+		test_data.addItem(new BasicItem("Octopus"));
 
-		ArrayList<BasicItem> output_value = new ArrayList<BasicItem>();
+		ChuseList output_value = new ChuseList("ChuseList","OutputTest");
 		
 		output_value = TournamentAlgorithms.doubleBracketAlgorithm(test_data);
 		
-		assertEquals(1, output_value.size());
+		assertEquals(1, output_value.getSize());
 		assertEquals("Dog", output_value.get(0).getName());
 	}
 

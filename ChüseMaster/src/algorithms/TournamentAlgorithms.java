@@ -21,7 +21,7 @@ public abstract class TournamentAlgorithms {
 	// the user
 	private static Scanner consoleInput;
 
-	public static ArrayList<BasicItem> singleBracketAlgorithm(ArrayList<BasicItem> data_list){
+	public static ChuseList singleBracketAlgorithm(ChuseList data_list){
 		/**
 		 *  Method to run singleBracket algorithm on set of data items passed into 
 		 *  the method by the user. This method calls other methods which compare
@@ -34,11 +34,11 @@ public abstract class TournamentAlgorithms {
 		
 		// While loop calls methods which compare list items until there
 		// is only one item left in the list
-		while(data_list.size() > 1) {
+		while(data_list.getSize() > 1) {
 			
 			// If list has even number of elements then call evenCheck method
 			// else call the odd check method
-			if(evenCheck(data_list.size())){
+			if(evenCheck(data_list.getSize())){
 				data_list = evenPass(data_list);
 			} else {
 				data_list = oddPass(data_list);
@@ -61,29 +61,29 @@ public abstract class TournamentAlgorithms {
 	 * @param data_list - the list of items to compare
 	 * @return data_list - a list containing the winner of the overall algorithm
 	 */
-	public static ArrayList<BasicItem> doubleBracketAlgorithm(ArrayList<BasicItem> data_list){
+	public static ChuseList doubleBracketAlgorithm(ChuseList data_list){
 		
 		int i;
 		
 		//the list of loser items starts as a copy of the original data list
 		//this is because the winning items are gradually removed from the list
 		//leaving only the losers
-		ArrayList<BasicItem> loser_list = data_list;
+		ChuseList loser_list = data_list;
 		
 		//checks that there are more than two items within the list
-		if(data_list.size() > 2) {
+		if(data_list.getSize() > 2) {
 			
 			//loop while there is more than one item within the list
-			while(data_list.size() > 1) {
+			while(data_list.getSize() > 1) {
 				
 				//if the number of items in the list is even, perform an
 				//even pass
-				if(evenCheck(data_list.size())){
+				if(evenCheck(data_list.getSize())){
 					data_list = evenPass(data_list);
 					//loops for every item in the loser list,
 					//removing the winning items
-					for(i=0; i < data_list.size(); i++) {
-						loser_list.remove(data_list.get(i));
+					for(i=0; i < data_list.getSize(); i++) {
+						loser_list.removeItem(data_list.get(i));
 					}
 				//if the number of items in the list is odd, perform an
 				//odd pass	
@@ -91,8 +91,8 @@ public abstract class TournamentAlgorithms {
 					data_list = oddPass(data_list);
 					//loops for every item in the loser list,
 					//removing the winning items
-					for(i=0; i < data_list.size(); i++) {
-						loser_list.remove(data_list.get(i));
+					for(i=0; i < data_list.getSize(); i++) {
+						loser_list.removeItem(data_list.get(i));
 					}
 				}
 			}
@@ -104,7 +104,7 @@ public abstract class TournamentAlgorithms {
 			//adds the winner of the losing bracket to the data list
 			//at this point list contains:winner of first bracket, winner of 
 			//losing bracket
-			data_list.add(loser_list.get(0));
+			data_list.addItem(loser_list.get(0));
 			
 		}
 	
@@ -120,7 +120,7 @@ public abstract class TournamentAlgorithms {
 		/*
 		 * Method to determine if the length of a list is even or odd. This is done
 		 * by seeing if the remainder when divided by two is zero. If list is
-		 * of even length then true is returned. If list is off odd lenght then
+		 * of even length then true is returned. If list is off odd length then
 		 * False is returned.
 		 * 
 		 *  @param value - length of data list
@@ -143,7 +143,7 @@ public abstract class TournamentAlgorithms {
 	 * @param data_list - the list of data to be compared
 	 * @return
 	 */
-	private static ArrayList<BasicItem> evenPass(ArrayList<BasicItem> data_list) {
+	private static ChuseList evenPass(ChuseList data_list) {
 		
 		int i;
 		
@@ -152,11 +152,11 @@ public abstract class TournamentAlgorithms {
 		consoleInput = new Scanner(System.in);
 		
 		//creates array list for the output
-		ArrayList<BasicItem> new_data_list = new ArrayList<BasicItem>();
+		ChuseList new_data_list = new ChuseList("ChuseList","new_data_list");
 		
 		//loops through half of the items in the list
 		//only needs to loop through half due to comparing two items in each loop
-		for(i = 0;i < data_list.size() / 2;i++) {
+		for(i = 0;i < data_list.getSize() / 2;i++) {
 			
 			//asks the user which item they prefer within the console
 			//TODO remove the need for console input - integrate with UI
@@ -165,10 +165,10 @@ public abstract class TournamentAlgorithms {
 			
 			//if the console input is 1, adds first item to output list
 			if(input.equals("1")) {
-				new_data_list.add(data_list.get(i*2));
+				new_data_list.addItem(data_list.get(i*2));
 			//if the console input is 2, adds second item to output list
 			} else {
-				new_data_list.add(data_list.get((i * 2) + 1));
+				new_data_list.addItem(data_list.get((i * 2) + 1));
 			}
 		}
 		
@@ -176,7 +176,7 @@ public abstract class TournamentAlgorithms {
 		
 	}
 	
-	private static ArrayList<BasicItem> oddPass(ArrayList<BasicItem> data_list) {
+	private static ChuseList oddPass(ChuseList data_list) {
 		
 		/*
 		 * Method to perform a pass comparing all objects in the list if
@@ -194,11 +194,11 @@ public abstract class TournamentAlgorithms {
 		consoleInput = new Scanner(System.in);
 		
 		// Remove last item and store it
-		BasicItem last_data_item = data_list.get(data_list.size() - 1);
-		data_list.remove(data_list.size() - 1);
+		BasicItem last_data_item = data_list.get(data_list.getSize() - 1);
+		data_list.removeItem(data_list.get(data_list.getSize() - 1));
 		
 		// Use evenPass() to get new list
-		ArrayList<BasicItem> new_data_list = evenPass(data_list);
+		ChuseList new_data_list = evenPass(data_list);
 		
 		// Compare first item in new list with removed item from old list. 
 		System.out.println("Press 1 for object " + new_data_list.get(0).getName() + " or 2 for object " + last_data_item.getName());

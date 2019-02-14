@@ -2,31 +2,23 @@ package listDataStructure;
 
 import java.util.ArrayList;
 
-public class ChuseList {
+public class List {
 	
-	ArrayList<BasicItem> list = new ArrayList<BasicItem>();
+	ArrayList<ListItem> list = new ArrayList<ListItem>();
 	
 	private String list_type;
 	private String list_name;
 	
-	public ChuseList(String list_type, String list_name) {
+	public List(String list_type, String list_name) {
 		this.list_type = list_type;
 		this.list_name = list_name;
 	}
 	
-	public void addItem(BasicItem item) {
+	public void addItem(ListItem item) {
 		this.list.add(item);
 	}
 	
-	public void removeItem(BasicItem item) {
-		this.list.remove(item);
-	}
-	
-	public void set(int index, BasicItem item) {
-		this.list.set(index, item);
-	}
-	
-	public void addItemArray(ArrayList<BasicItem> list_array) {
+	public void addItemArray(ArrayList<ListItem> list_array) {
 		
 		int i;
 		
@@ -53,7 +45,7 @@ public class ChuseList {
 		return list.get(index).getName();
 	}
 	
-	public BasicItem get(int index) {
+	public ListItem get(int index) {
 		return list.get(index);
 	}
 	
