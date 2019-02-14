@@ -1,8 +1,8 @@
 package algorithms;
 
-import java.util.ArrayList;
 import listDataStructure.*;
 import java.util.Scanner;
+
 /**
  * TournamentAlgorithms is the abstract class in the algorithms package. This class handles the
  * handles the comparisons between items in a user generated list. It contains two algorithms
@@ -45,7 +45,7 @@ public abstract class TournamentAlgorithms {
 			}
 		}
 		
-		System.out.println(data_list.get(0).getName());
+		System.out.println(data_list.get(0).getTitle());
 		// Return array containing final item
 		return data_list;
 		
@@ -152,7 +152,7 @@ public abstract class TournamentAlgorithms {
 		consoleInput = new Scanner(System.in);
 		
 		//creates array list for the output
-		ChuseList new_data_list = new ChuseList("ChuseList","new_data_list");
+		ChuseList new_data_list = new ChuseList("new_data_list");
 		
 		//loops through half of the items in the list
 		//only needs to loop through half due to comparing two items in each loop
@@ -160,7 +160,7 @@ public abstract class TournamentAlgorithms {
 			
 			//asks the user which item they prefer within the console
 			//TODO remove the need for console input - integrate with UI
-			System.out.println("Press 1 for object " + data_list.get(i * 2).getName() + " or 2 for object " + data_list.get((i * 2) + 1).getName());
+			System.out.println("Press 1 for object " + data_list.get(i * 2).getTitle() + " or 2 for object " + data_list.get((i * 2) + 1).getTitle());
 			String input = consoleInput.next();
 			
 			//if the console input is 1, adds first item to output list
@@ -201,7 +201,7 @@ public abstract class TournamentAlgorithms {
 		ChuseList new_data_list = evenPass(data_list);
 		
 		// Compare first item in new list with removed item from old list. 
-		System.out.println("Press 1 for object " + new_data_list.get(0).getName() + " or 2 for object " + last_data_item.getName());
+		System.out.println("Press 1 for object " + new_data_list.get(0).getTitle() + " or 2 for object " + last_data_item.getTitle());
 		String input = consoleInput.next();
 		
 		if(input.equals("2")) {

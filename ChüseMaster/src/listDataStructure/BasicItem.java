@@ -15,27 +15,32 @@ package listDataStructure;
 public class BasicItem implements ListInterface {
 	
 	//the name of the item
-	private String name;
-	protected String item_type = "ListItem";
+	private String title;
+	protected String type;
 	
 	/**
 	 * Constructor function for a generic list item.
 	 * @param name - the name of the item
 	 */
 	public BasicItem(String name) {
-		this.name = name;
+		this.title = name;
+		this.type = "BasicItem";
 	}
 	
 	/**
 	 * Function to get the name of the list item.
 	 * @return this.name - the name of the item
 	 */
-	public String getName() {
-		return this.name;
+	public String getTitle() {
+		return this.title;
+	}
+	
+	public String getType() {
+		return this.type;
 	}
 	
 	public void print() {
-		System.out.println("Name: " + name + "; Item Type: " + item_type);
+		System.out.println("Name: " + title);
 	}
 	
 }

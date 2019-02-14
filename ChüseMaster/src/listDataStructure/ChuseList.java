@@ -6,11 +6,9 @@ public class ChuseList {
 	
 	ArrayList<BasicItem> list = new ArrayList<BasicItem>();
 	
-	private String list_type;
 	private String list_name;
 	
-	public ChuseList(String list_type, String list_name) {
-		this.list_type = list_type;
+	public ChuseList(String list_name) {
 		this.list_name = list_name;
 	}
 	
@@ -35,10 +33,6 @@ public class ChuseList {
 		}
 			
 	}
-	
-	public String getType() {
-		return list_type;
-	}
 
 	public String getName() {
 		return list_name;
@@ -49,8 +43,8 @@ public class ChuseList {
 	}
 	
 	// Test method to return item at given index
-	public String getNameAtIndex(int index){
-		return list.get(index).getName();
+	public String getTitleAtIndex(int index){
+		return list.get(index).getTitle();
 	}
 	
 	public BasicItem get(int index) {

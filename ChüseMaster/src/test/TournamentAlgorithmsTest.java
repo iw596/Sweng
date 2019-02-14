@@ -10,8 +10,6 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
 
 import algorithms.TournamentAlgorithms;
@@ -23,7 +21,7 @@ public class TournamentAlgorithmsTest {
 	@Test
 	public void sixItemList() throws Exception {
 		
-		ChuseList test_data = new ChuseList("ChuseList","Test");
+		ChuseList test_data = new ChuseList("test");
 		
 		test_data.addItem(new BasicItem("Cat"));
 		test_data.addItem(new BasicItem("Mouse"));
@@ -31,13 +29,11 @@ public class TournamentAlgorithmsTest {
 		test_data.addItem(new BasicItem("Giraffe"));
 		test_data.addItem(new BasicItem("Penguin"));
 		test_data.addItem(new BasicItem("Octopus"));
-
-		ChuseList output_value = new ChuseList("ChuseList","OutputTest");
 		
-		output_value = TournamentAlgorithms.doubleBracketAlgorithm(test_data);
+		test_data = TournamentAlgorithms.doubleBracketAlgorithm(test_data);
 		
-		assertEquals(1, output_value.getSize());
-		assertEquals("Dog", output_value.get(0).getName());
+		assertEquals(1, test_data.getSize());
+		assertEquals("Dog", test_data.getTitleAtIndex(0));
 	}
 
 }

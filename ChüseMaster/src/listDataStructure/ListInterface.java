@@ -1,6 +1,6 @@
 package listDataStructure;
 
-import java.awt.Image;
+import java.util.ArrayList;
 
 /**
  * ListInterface is an interface for items within the data structure.
@@ -14,15 +14,10 @@ import java.awt.Image;
  */
 public interface ListInterface {
 	
-	/**
-	 * Implementable function getImage to return the image of
-	 * an item. Implements a default return of null.
-	 * 
-	 * @return null
-	 */
-	public default Image getImage() {
+	
+	public default String getTitle() {
 		return null;
-	};
+	}
 	
 	/**
 	 * Implementable function getURL to return the url of
@@ -30,9 +25,17 @@ public interface ListInterface {
 	 * 
 	 * @return null
 	 */
-	public default String getURL() {
+	public default String getPath() {
 		return null;
 	};
+	
+	public default String getType() {
+		return null;
+	}
+	
+	public default ArrayList<String> getMetadata() {
+		return null;
+	}
 	
 	public default void print() {
 		System.out.println("No print implementation present.");

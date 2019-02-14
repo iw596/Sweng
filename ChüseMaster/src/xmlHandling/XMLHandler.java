@@ -32,7 +32,6 @@ public abstract class XMLHandler {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
 		ArrayList<BasicItem> list_array = new ArrayList<BasicItem>();
-		String list_type = null;
 		
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
@@ -59,7 +58,6 @@ public abstract class XMLHandler {
 				BasicItem item = new BasicItem(element.getChildNodes().item(1).getTextContent());
 				
 				list_array.add(item);
-				
 			}
 			
 		} catch (ParserConfigurationException e) {
@@ -73,17 +71,12 @@ public abstract class XMLHandler {
 			e.printStackTrace();
 		}
 		
-		if(list_array.get(0).getClass() == BasicItem.class) {
-			list_type = "ListItem";
-		}
-		
-		ChuseList list = new ChuseList(list_type, filename);
+		ChuseList list = new ChuseList(filename);
 		list.addItemArray(list_array);
 		
 		return list;
 		
 	}
-	
 	
 	//TODO fix errors relating to changed data structure input
 	public static void buildXMLFromList(ChuseList list, String filename){
@@ -99,7 +92,7 @@ public abstract class XMLHandler {
 			document.appendChild(root);
 			
 			for(int i = 0; i < list.getSize(); i++) {
-				root.appendChild(createItem(document, list.getNameAtIndex(i)));
+				root.appendChild(createItem(document, list.getTitleAtIndex(i)));
 			}
 			
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -110,7 +103,6 @@ public abstract class XMLHandler {
 	        transf.setOutputProperty(OutputKeys.STANDALONE, "yes");
 	        transf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 	        
-	        //TODO remove in final - console only
 	        DOMSource source = new DOMSource(document);
 	        
 	        // file path to where its being stored
@@ -120,13 +112,6 @@ public abstract class XMLHandler {
 	        ///StreamResult console = new StreamResult(System.out);
 	        // write to file in given location
 	        StreamResult file = new StreamResult(myFile);
-	        
-/*	        try {
-				transf.transform(source, console);
-			} catch (TransformerException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}*/
 	        
 	        try {
 				transf.transform(source, file);
@@ -162,9 +147,6 @@ public abstract class XMLHandler {
 	        node.appendChild(document.createTextNode(value));
 
 	        return node;
-
-
-
 	 }
 	
 }

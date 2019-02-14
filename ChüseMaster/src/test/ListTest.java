@@ -15,9 +15,8 @@ public class ListTest {
 	
 	@Test
 	public void fourItemList() throws Exception{
-		ChuseList test_list = new ChuseList("Video","funnyVideoList");
+		ChuseList test_list = new ChuseList("funnyVideoList");
 		
-		assertEquals("Video", test_list.getType());
 		assertEquals("funnyVideoList", test_list.getName());
 		
 		test_list.addItem(new BasicItem("funny1"));
@@ -25,10 +24,10 @@ public class ListTest {
 		test_list.addItem(new BasicItem("funny3"));
 		test_list.addItem(new BasicItem("funny4"));
 		
-		assertEquals("funny1",test_list.getNameAtIndex(0));
-		assertEquals("funny2",test_list.getNameAtIndex(1));
-		assertEquals("funny3",test_list.getNameAtIndex(2));
-		assertEquals("funny4",test_list.getNameAtIndex(3));
+		assertEquals("funny1",test_list.getTitleAtIndex(0));
+		assertEquals("funny2",test_list.getTitleAtIndex(1));
+		assertEquals("funny3",test_list.getTitleAtIndex(2));
+		assertEquals("funny4",test_list.getTitleAtIndex(3));
 		
 	}
 

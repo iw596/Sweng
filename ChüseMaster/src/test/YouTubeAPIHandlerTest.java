@@ -2,11 +2,11 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 
 import org.junit.Test;
+
+import algorithms.TournamentAlgorithms;
 import apiHandlers.YouTubeAPIHandler;
-import listDataStructure.BasicItem;
 
 public class YouTubeAPIHandlerTest {
 	
@@ -15,6 +15,21 @@ public class YouTubeAPIHandlerTest {
 		
 		listDataStructure.ChuseList playlist = YouTubeAPIHandler.getPlaylistData("https://www.youtube.com/watch?v=q6EoRBvdVPQ&list=PLFsQleAWXsj_4yDeebiIADdH5FMayBiJo");
 		playlist.printList();
+		
+		playlist = TournamentAlgorithms.singleBracketAlgorithm(playlist);
+		
+		assertEquals("How It Feels To Chew 5 Gum", playlist.get(0).getTitle());
+		
+	}
+	
+	
+/*	@Test 
+	public void mixedDataTypeLoading() throws Exception {
+		
+		listDataStructure.ChuseList playlist = YouTubeAPIHandler.getPlaylistData("https://www.youtube.com/watch?v=q6EoRBvdVPQ&list=PLFsQleAWXsj_4yDeebiIADdH5FMayBiJo");
+		
+		playlist.addItem(new BasicItem("Dog"));
+		playlist.addItem(new BasicItem("Cat"));
 		
 		ArrayList<BasicItem> for_algorithm = new ArrayList<BasicItem>();
 		
@@ -25,9 +40,8 @@ public class YouTubeAPIHandlerTest {
 		}
 		
 		for_algorithm = algorithms.TournamentAlgorithms.singleBracketAlgorithm(for_algorithm);
+		assertEquals("Dog", for_algorithm.get(0).getName());
 		
-		assertEquals("How It Feels To Chew 5 Gum", for_algorithm.get(0).getName());
-		
-	}
+	}*/
 
 }

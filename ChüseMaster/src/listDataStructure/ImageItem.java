@@ -1,11 +1,5 @@
 package listDataStructure;
 
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 /**
  * ImageItem is class within the listDataStructurePackage. This class holds
  * an image item within the list. This class extends the generic ListItem 
@@ -19,8 +13,8 @@ import javax.imageio.ImageIO;
  *
  */
 public class ImageItem extends BasicItem implements ListInterface {
-
-	private Image image;
+	
+	private String file_location;
 	
 	/**
 	 * Constructor function for the image item class. Sets the items
@@ -28,19 +22,14 @@ public class ImageItem extends BasicItem implements ListInterface {
 	 * 
 	 * @param image_url - the location reference of the image's storage location
 	 */
-	public ImageItem(String image_url) {
-		super(image_url);
-		
-		//tries to open an image file and save it within the item
-		try {
-			this.image = ImageIO.read(new File(this.getName()));
-		//if the image is not found, prints the stack trace and exits the
-		//program
-		} catch(IOException ioe) {
-			ioe.printStackTrace();
-			System.exit(0);
-		}
-
+	public ImageItem(String file_location) {
+		super(file_location.split(".")[0]);
+		this.file_location = file_location;
+		this.type = "ImageItem";
+	}
+	
+	public String getPath() {
+		return this.file_location;
 	}
 
 }

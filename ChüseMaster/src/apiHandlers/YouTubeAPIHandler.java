@@ -3,7 +3,6 @@ package apiHandlers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +23,6 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTubeScopes;
 import com.google.api.services.youtube.model.PlaylistItemListResponse;
-
-import listDataStructure.*;
 
 public class YouTubeAPIHandler {
 
@@ -110,7 +107,7 @@ public static final int max_playlist_length = 10;
         
         //ArrayList<ArrayList<String>> playlist_property_container = new ArrayList<ArrayList<String>>();
         
-        listDataStructure.ChuseList video_list = new listDataStructure.ChuseList("video", "Test");
+        listDataStructure.ChuseList video_list = new listDataStructure.ChuseList("Test");
         
         try {
             HashMap<String, String> parameters = new HashMap<>();

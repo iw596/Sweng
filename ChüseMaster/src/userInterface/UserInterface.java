@@ -1,8 +1,5 @@
 package userInterface;
 
-import java.io.File;
-import java.util.List;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,10 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import mediaFileImportHandling.ImageImportHandler;
+import mediaFileImportHandling.AudioFileHandler;
 
 public class UserInterface extends Application {
 
@@ -24,15 +19,15 @@ public class UserInterface extends Application {
 		
         stage.setTitle("File Chooser Sample");
  
-        final Button openButton = new Button("Open a Picture...");
-        final Button openMultipleButton = new Button("Open Pictures...");
+        final Button openButton = new Button("Open a file...");
+        final Button openMultipleButton = new Button("Open files...");
  
         openButton.setOnAction(
             new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(final ActionEvent e) {
                 	
-                	ImageImportHandler.openFile(stage);
+                	AudioFileHandler.openAudioFile(stage);
                 	
                 }
             });
@@ -41,7 +36,7 @@ public class UserInterface extends Application {
             new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(final ActionEvent e) {
-                	ImageImportHandler.openMultipleFiles(stage);
+                	AudioFileHandler.openMultipleAudioFiles(stage);
                 }
             });
  
