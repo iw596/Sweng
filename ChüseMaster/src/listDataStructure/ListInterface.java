@@ -40,5 +40,9 @@ public interface ListInterface {
 	public default void print() {
 		System.out.println("No print implementation present.");
 	}
+	
+	public default ArrayList<String> getObjectValue() {
+		return null;
+	}
 
 }

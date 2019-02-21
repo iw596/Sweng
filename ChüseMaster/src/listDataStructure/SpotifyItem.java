@@ -29,4 +29,20 @@ public class SpotifyItem extends BasicItem implements ListInterface {
 		System.out.println("Genre: " + this.metadata.get(4));
 	}
 	
+	public ArrayList<String> getObjectValue() {
+
+		ArrayList<String> object_params = new ArrayList<String>();
+		
+		object_params.add(this.getTitle());
+		object_params.add(this.getType());
+		object_params.add(this.getPath());
+		
+		for(String content : this.getMetadata()) {
+			object_params.add(content);
+		}
+		
+		return object_params;
+
+	}
+	
 }

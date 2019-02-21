@@ -32,7 +32,7 @@ public abstract class TextFileHandler extends FileImportHandler{
 		
 	}
 	
-	public static void openMultipleTextFiles(Stage stage) {
+	public static ArrayList<BasicItem> openMultipleTextFiles(Stage stage) {
 		
 		ArrayList<String> file_paths = openMultipleFiles(stage, "text");
 		
@@ -56,6 +56,7 @@ public abstract class TextFileHandler extends FileImportHandler{
 		for(BasicItem item : output_items) {
 			item.print();
 		}
+		return output_items;
 		
 	}
 	

@@ -1,5 +1,7 @@
 package listDataStructure;
 
+import java.util.ArrayList;
+
 /**
  * ImageItem is class within the listDataStructurePackage. This class holds
  * an image item within the list. This class extends the generic ListItem 
@@ -23,7 +25,8 @@ public class ImageItem extends BasicItem implements ListInterface {
 	 * @param image_url - the location reference of the image's storage location
 	 */
 	public ImageItem(String file_location) {
-		super(file_location.split(".")[0]);
+/*		super(file_location.split(".")[0]);*/
+		super(file_location);
 		this.file_location = file_location;
 		this.type = "ImageItem";
 	}
@@ -32,4 +35,21 @@ public class ImageItem extends BasicItem implements ListInterface {
 		return this.file_location;
 	}
 
+	
+	public ArrayList<String> getObjectValue() {
+
+		ArrayList<String> object_params = new ArrayList<String>();
+		
+		object_params.add(this.getTitle());
+		object_params.add(this.getType());
+		object_params.add(this.getPath());
+		
+		return object_params;
+
+	}
+	
+	public void print() {
+		System.out.println("File Location: " + this.file_location);
+	}
+	
 }

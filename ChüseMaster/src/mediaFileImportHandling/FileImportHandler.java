@@ -80,5 +80,9 @@ public abstract class FileImportHandler {
 		return file_locations;
 		
 	}
+	
+	public static ArrayList<String> openMultipleFiles(Stage stage) {
+		return openMultipleFiles(stage, null);
+	}
 
 }

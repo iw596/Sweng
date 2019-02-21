@@ -10,11 +10,14 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 import algorithms.TournamentAlgorithms;
 import listDataStructure.BasicItem;
 import listDataStructure.ChuseList;
+import listDataStructure.RankingList;
 
 public class TournamentAlgorithmsTest {
 	
@@ -29,13 +32,36 @@ public class TournamentAlgorithmsTest {
 		test_data.addItem(new BasicItem("Giraffe"));
 		test_data.addItem(new BasicItem("Penguin"));
 		test_data.addItem(new BasicItem("Octopus"));
+		test_data.addItem(new BasicItem("Rat"));
+		test_data.addItem(new BasicItem("Bird"));
+/*		test_data.addItem(new BasicItem("Cow"));
+		test_data.addItem(new BasicItem("Pig"));
+		test_data.addItem(new BasicItem("Monkey"));
+		test_data.addItem(new BasicItem("Gorilla"));
+		test_data.addItem(new BasicItem("Human"));
+		test_data.addItem(new BasicItem("Snake"));
+		test_data.addItem(new BasicItem("Insect"));
+		test_data.addItem(new BasicItem("Bee"));*/
 		
-		test_data = TournamentAlgorithms.doubleBracketAlgorithm(test_data);
 		
-		test_data.printList();
+/*		test_data = TournamentAlgorithms.doubleBracketAlgorithm(test_data);*/
 		
-		assertEquals(1, test_data.getSize());
-		assertEquals("Dog", test_data.getTitleAtIndex(0));
+		ArrayList<ChuseList> results = TournamentAlgorithms.singleBracketAlgorithm(test_data);
+		
+		RankingList ranks = new RankingList(results);
+		ranks.print();
+		
+		for(int i = 0; i < 3; i++) {
+			test_data = TournamentAlgorithms.findLosers(results);
+			results = TournamentAlgorithms.singleBracketAlgorithm(test_data);
+			ranks.addRankedResults(results);
+			ranks.print();
+		}
+		
+		
+		
+/*		assertEquals(1, test_data.getSize());
+		assertEquals("Dog", test_data.getTitleAtIndex(0));*/
 	}
 
 }
