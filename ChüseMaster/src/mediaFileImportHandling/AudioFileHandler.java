@@ -43,7 +43,7 @@ public abstract class AudioFileHandler extends FileImportHandler{
 	
 	public static ArrayList<BasicItem> openMultipleAudioFiles(Stage stage) {
 		
-		ArrayList<String> file_paths = openMultipleFiles(stage);
+		ArrayList<String> file_paths = openMultipleFiles(stage, "audio");
 		
 		ArrayList<BasicItem> multi_metadata = new ArrayList<BasicItem>();
 		

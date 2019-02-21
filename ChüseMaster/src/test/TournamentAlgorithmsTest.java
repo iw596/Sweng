@@ -32,6 +32,8 @@ public class TournamentAlgorithmsTest {
 		
 		test_data = TournamentAlgorithms.doubleBracketAlgorithm(test_data);
 		
+		test_data.printList();
+		
 		assertEquals(1, test_data.getSize());
 		assertEquals("Dog", test_data.getTitleAtIndex(0));
 	}

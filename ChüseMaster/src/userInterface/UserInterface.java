@@ -11,6 +11,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import mediaFileImportHandling.AudioFileHandler;
+import mediaFileImportHandling.ImageFileHandler;
+import mediaFileImportHandling.TextFileHandler;
 
 public class UserInterface extends Application {
 
@@ -27,7 +29,8 @@ public class UserInterface extends Application {
                 @Override
                 public void handle(final ActionEvent e) {
                 	
-                	AudioFileHandler.openAudioFile(stage);
+                	//AudioFileHandler.openAudioFile(stage);
+                	//TextFileHandler.openTextFile(stage);
                 	
                 }
             });
@@ -36,7 +39,11 @@ public class UserInterface extends Application {
             new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(final ActionEvent e) {
-                	AudioFileHandler.openMultipleAudioFiles(stage);
+                	
+                	//AudioFileHandler.openMultipleAudioFiles(stage);
+                	TextFileHandler.openMultipleTextFiles(stage);
+                	//ImageFileHandler.openMultipleImageFiles(stage);
+                	
                 }
             });
  

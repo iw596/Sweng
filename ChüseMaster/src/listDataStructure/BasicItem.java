@@ -1,5 +1,8 @@
 package listDataStructure;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+
 /**
  * ListItem is class within the listDataStructurePackage. This class holds
  * a generic list item with a name. This class also implements the ListInterface
@@ -41,6 +44,17 @@ public class BasicItem implements ListInterface {
 	
 	public void print() {
 		System.out.println("Name: " + title);
+	}
+	
+	public ArrayList<String> getObjectValue() {
+
+		ArrayList<String> object_params = new ArrayList<String>();
+		
+		object_params.add(title);
+		object_params.add(type);
+		
+		return object_params;
+
 	}
 	
 }
