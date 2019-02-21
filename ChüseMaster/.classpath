@@ -49,5 +49,7 @@
 	<classpathentry kind="lib" path="dependencies/junit-4.12.jar"/>
 	<classpathentry kind="lib" path="dependencies/servlet-api-2.5-20081211-sources.jar"/>
 	<classpathentry kind="lib" path="dependencies/servlet-api-2.5-20081211.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/VLC-Java"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
