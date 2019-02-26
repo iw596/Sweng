@@ -21,8 +21,8 @@ import videoviewer.YoutubePlayer;
  * user interaction with the application.
  * 
  * Date created: 21/02/2019
- * Date last edited: 21/02/2019
- * Last edited by: Isaac Watson
+ * Date last edited: 26/02/2019
+ * Last edited by: Isaac Watson and Harry Ogden
  *
  *@author Isaac Watson
  */
@@ -80,6 +80,7 @@ public class Main extends Application {
 			
 			Scene scene = new Scene(vid_view, 720, 535, Color.BLACK);
 			vid_view.setSize(); // Call method to enable vid_view to be resizable
+			//vid_view.pressedScreen(scene);
 			stage.setScene(scene); // Setting the scene to stage 
 			stage.show(); // Showing the stage 
 	

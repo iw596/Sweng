@@ -3,6 +3,7 @@ package videoviewer;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -12,8 +13,8 @@ import javafx.scene.web.WebView;
  * video and plays it
  * 
  * Date created: 21/02/2019
- * Date last edited: 21/02/2019
- * Last edited by: Isaac Watson
+ * Date last edited: 26/02/2019
+ * Last edited by: Isaac Watson and Harry Ogden
  *
  *@author Isaac Watson
  */
@@ -22,7 +23,7 @@ public class YoutubePlayer extends BorderPane {
 	private WebView web_view;
 	private WebEngine web_engine;
 	private String path = "https://www.youtube.com/embed/RcP5jDFd0aY";
-	private Pane mpane;
+	private StackPane SP;
 	
 
 	/** Youtube player constructor which generates the webviewer which displays
@@ -35,13 +36,15 @@ public class YoutubePlayer extends BorderPane {
 		this.web_view = new WebView();
 		this.web_engine = web_view.getEngine();
 		// Create new pane and add webviewer to it
-		mpane = new Pane(); 
-		mpane.getChildren().add(web_view);
-		setCenter(mpane); 
+		SP = new StackPane(); 
+		SP.getChildren().add(web_view);
+		setCenter(SP); 
 		
 		// Set the size of the web view window
 		// Note need to make this resizeable at some point
 		web_view.setPrefSize(640, 390);
+		//web_view.fitWidthProperty().bind(.widthProperty());
+		//media_view.fitHeightProperty().bind(mpane.heightProperty());
 		
 	}
 	

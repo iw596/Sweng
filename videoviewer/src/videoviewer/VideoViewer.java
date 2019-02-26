@@ -1,10 +1,15 @@
 package videoviewer;
 
 import java.io.File;
+
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
 
 
@@ -12,8 +17,8 @@ import javafx.scene.media.MediaView;
  * a object which is capable of displaying a video to a user. The video is dynamically resizable.  
  * 
  * Date created: 21/02/2019
- * Date last edited: 21/02/2019
- * Last edited by: Isaac Watson
+ * Date last edited: 26/02/2019
+ * Last edited by: Isaac Watson and Harry Ogden
  * @author isaac
  *
  */
@@ -32,6 +37,7 @@ public class VideoViewer extends BorderPane  {
 	
 	private Pane mpane;
 	MediaBar bar;
+	
 	
 	/** This is the constructor for the videoViewer class. It takes a string which
 	 *  is the file path of the video that is going to be played . The constructor then
@@ -57,6 +63,8 @@ public class VideoViewer extends BorderPane  {
 		setBottom(bar); // Setting the MediaBar at bottom
 		setStyle("-fx-background-color:#bfc2c7");
 		media_player.setAutoPlay(true);	
+		// Call method to create listener which listens for screen press
+		pressedScreen(); 
 	
 	}
 	/** This is a getter for the media_view
@@ -88,6 +96,29 @@ public class VideoViewer extends BorderPane  {
 		media_view.fitHeightProperty().bind(mpane.heightProperty());
 		
 	} 
+	
+	/** Method to detect if user has pressed on the screen, doing so
+	 *  will pause the video. Works by creating action listener which
+	 *  listens for mouse click on media_player
+	 */
+	public void pressedScreen(){
+		// Create the listener
+		media_view.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+		    @Override
+		    // If mouse is pressed check if player is currently paused or running
+		    public void handle(MouseEvent mouseEvent) {
+		    	// If playing then pause
+		    	if (media_player.getStatus().equals(Status.PLAYING)){
+		    		media_player.pause();	
+		    	}
+		    	// If paused then play
+		    	else{
+		    		media_player.play();
+		    	}
+		    }
+		});
+	}
+	
 	
 	
 	
