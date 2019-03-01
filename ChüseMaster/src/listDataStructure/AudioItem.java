@@ -4,6 +4,19 @@ import java.util.ArrayList;
 
 import mediaFileImportHandling.AudioFileHandler;
 
+/**
+ * AudioItem is a class within the listDataStructure package. This class holds
+ * an audio item with a title, type, file location and a collection of metadata.
+ * The metadata includes: title; artist; album; date; genre. This item extends
+ * the BasicItem superclass. This class also implements the ListInterface interface.
+ * 
+ * Date created: 30/01/2019
+ * Date last edited: 28/02/2019
+ * Last edited by: Dan Jackson
+ * 
+ * @author Isaac Watson and Dan Jackson
+ *
+ */
 public class AudioItem extends BasicItem implements ListInterface {
 
 	private String file_location;
