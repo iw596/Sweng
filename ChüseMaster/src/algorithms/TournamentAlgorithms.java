@@ -12,8 +12,8 @@ import java.util.Scanner;
  * algorithm to find a users favourite item as well as 2nd favourite 3rd favourite etc.
  * 
  * Date created: 24/01/2019
- * Date last edited 31/01/2019
- * Last edited by: Isaac Watson and Dan Jackson
+ * Date last edited 01/03/2019
+ * Last edited by: Isaac Watson
  *
  * @author Isaac Watson and Dan Jackson 
  */
@@ -23,7 +23,7 @@ public abstract class TournamentAlgorithms {
 	// the user
 	private static Scanner consoleInput;
 
-	public static ArrayList<ChuseList> singleBracketAlgorithm(ChuseList data_list){
+	public static ArrayList<ChuseList> rankingAlgorithm(ChuseList data_list){
 		/**
 		 *  Method to run singleBracket algorithm on set of data items passed into 
 		 *  the method by the user. This method calls other methods which compare
