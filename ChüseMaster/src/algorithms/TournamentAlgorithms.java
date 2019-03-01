@@ -28,8 +28,6 @@ public abstract class TournamentAlgorithms {
 	 * sets of data as well as even. This will give a winner, as well as a ranking of runners 
 	 * ups, all returned as an array list of lists.
 	 * 
-	 * TODO fix overflow bug
-	 * 
 	 * @param data_list - list of items the user wants to compare
 	 * @return result_list - the list of result lists
 	 */
@@ -91,15 +89,16 @@ public abstract class TournamentAlgorithms {
 			//performs an even pass and stores the result
 			result = evenPass(odd_fix);
 			
-			//if item 0 was chosen then add this to the results
+			//if item 0 was chosen then add the odd item to the 2nd place list
 			if(result.get(0).getObjectValue().equals(result_list.get(result_list.size() - 1).get(0).getObjectValue())) {
-				result_list.get(1).addItem(odd_item);
-			//if item 1 was chosen then add this to the results
+				result_list.get(result_list.size() - 2).addItem(odd_item);
+			//if item 1 was chosen then remove the previous winner from 1st place list
+			//and add the odd item to 1st place list
 			} else {
-				result_list.get(2).removeItem(result_list.get(result_list.size() - 1).get(0));
-				result_list.get(2).addItem(odd_item);
+				result_list.get(result_list.size() - 1).removeItem(result_list.get(result_list.size() - 1).get(0));
+				result_list.get(result_list.size() - 1).addItem(odd_item);
 			}
-			
+						
 		}
 		
 		//if the list of results contains less than three lists
