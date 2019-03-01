@@ -7,44 +7,51 @@ import java.util.Scanner;
 
 /**
  * TournamentAlgorithms is the abstract class in the algorithms package. This class handles the
- * handles the comparisons between items in a user generated list. It contains two algorithms
- * ,a single bracket algorithm to find the users favourite item and a double bracket
- * algorithm to find a users favourite item as well as 2nd favourite 3rd favourite etc.
+ * handles the comparisons between items in a user generated list. It contains the tournament 
+ * algorithm method, as well as a method to find the losing items from a set of results.
  * 
  * Date created: 24/01/2019
  * Date last edited 01/03/2019
- * Last edited by: Isaac Watson
+ * Last edited by: Dan Jackson
  *
  * @author Isaac Watson and Dan Jackson 
  */
 public abstract class TournamentAlgorithms {
-    // This abstract class handles running the tournament algorithms on a set of
-	// data passed into one of the sorting algorithms (single or double) by 
-	// the user
+	
+	//scanner for getting user input
+	//TODO remove once GUI implementation working
 	private static Scanner consoleInput;
 
+	/**
+	 * Method to perform one full round of the tournament algorithm on a list of data. This
+	 * tournament algorithm works as any tournament algorithm, and is adapted to work with odd
+	 * sets of data as well as even. This will give a winner, as well as a ranking of runners 
+	 * ups, all returned as an array list of lists.
+	 * 
+	 * TODO fix overflow bug
+	 * 
+	 * @param data_list - list of items the user wants to compare
+	 * @return result_list - the list of result lists
+	 */
 	public static ArrayList<ChuseList> rankingAlgorithm(ChuseList data_list){
-		/**
-		 *  Method to run singleBracket algorithm on set of data items passed into 
-		 *  the method by the user. This method calls other methods which compare
-		 *  data items in the list, this is done until there is a single item
-		 *  remaining in the list. Once there is a single item remaining the
-		 *  array containing this single item is returned. 
-		 * 
-		 *  @param data_list - list of items the user wants to compare
-		 */
-		
+
+		//counter varirables
 		int i = 0;
 		int k;
 		int j;
 		
+		//the list of lists for storing the results
 		ArrayList<ChuseList> result_list = new ArrayList<ChuseList>();
 		
+		//creates a new list to contain the result of each pass
 		ChuseList result = new ChuseList("result");
+		//sets the result equal to the original input list
 		result = data_list;
 		
+		//creates an odd item variable but sets it to null
 		BasicItem odd_item = null;
 		
+		//adds the results to the result list
 		result_list.add(result);
 		
 		// While loop calls methods which compare list items until there
@@ -52,37 +59,42 @@ public abstract class TournamentAlgorithms {
 		while(result.getSize() > 1) {
 			
 			// If list has even number of elements then call evenCheck method
-			// else call the odd check method
 			if(evenCheck(data_list.getSize())){
+				//stores the even pass results
 				result = evenPass(result_list.get(i));
-/*				System.out.println("RESULT:");
-				result.printList();
-				System.out.println("LIST " + i + ": ");
-				result_list.get(i).printList();*/
+			//otherwise remove the last item from the list and store it in the odd item variable,
+			//then perform an even pass on the rest of the list
 			} else {
 				odd_item = result_list.get(i).get(result_list.get(i).getSize() - 1);
 				result_list.get(i).removeItem(result_list.get(i).get(result_list.get(i).getSize() - 1));
 				result = evenPass(result_list.get(i));
 			}
 			
+			//adds this pass's results to the result list
 			result_list.add(result);
 			
+			//increments counter
 			i++;
 			
 		}
 		
+		//if the odd item has a value
 		if(odd_item != null) {
 			
+			//creates a new list
 			ChuseList odd_fix = new ChuseList("odd_fix");
+			//adds the first item from the last result list
 			odd_fix.addItem(result_list.get(result_list.size() - 1).get(0));
+			//adds the odd item
 			odd_fix.addItem(odd_item);
 			
+			//performs an even pass and stores the result
 			result = evenPass(odd_fix);
 			
-			//result.equals(result_list.get(result_list.size() - 1))
-			
+			//if item 0 was chosen then add this to the results
 			if(result.get(0).getObjectValue().equals(result_list.get(result_list.size() - 1).get(0).getObjectValue())) {
 				result_list.get(1).addItem(odd_item);
+			//if item 1 was chosen then add this to the results
 			} else {
 				result_list.get(2).removeItem(result_list.get(result_list.size() - 1).get(0));
 				result_list.get(2).addItem(odd_item);
@@ -90,21 +102,24 @@ public abstract class TournamentAlgorithms {
 			
 		}
 		
-		//result_list.get(2).printList();
-		
-		//result.printList();
-		
+		//if the list of results contains less than three lists
 		if(result_list.size() < 3) {
 
+			//loops through every item in the result list 1 and removes them
+			//from results list two
 			for(k=0; k < result_list.get(1).getSize(); k++) {
+				//removes duplicate items in higher index list from lower index list
 				result_list.get(0).removeItem(result_list.get(1).get(k));
 			}
-
+		//if the list of results contains three or more lists
 		} else {
 			
+			//loops through every result list
 			for(i=0; i < result_list.size() - 1; i++) {
 				
+				//loops through every item in the current list
 				for(j=0; j < result_list.get(i+1).getSize(); j++) {
+					//removes duplicate items in higher index list from lower index list
 					result_list.get(i).removeItem(result_list.get(i+1).get(j));
 				}
 
@@ -112,8 +127,8 @@ public abstract class TournamentAlgorithms {
 
 		}
 		
-		System.out.println("Number of lists: " + result_list.size());
-		
+		//loops through result list and prints the results
+		//TODO remove soon - currently just here for easy, visible testing
 		for(i=0; i < result_list.size(); i++) {
 			System.out.println("List " + i + ": ");
 			result_list.get(i).printList();
@@ -123,17 +138,16 @@ public abstract class TournamentAlgorithms {
 		
 	}
 	
+	/**
+	 * Method to determine if the length of a list is even or odd. This is done
+	 * by seeing if the remainder when divided by two is zero. If list is
+	 * of even length then true is returned. If list is off odd length then
+	 * False is returned.
+	 * 
+	 *  @param value - length of data list
+	 */
 	private static Boolean evenCheck(int value) {
-		/*
-		 * Method to determine if the length of a list is even or odd. This is done
-		 * by seeing if the remainder when divided by two is zero. If list is
-		 * of even length then true is returned. If list is off odd length then
-		 * False is returned.
-		 * 
-		 *  @param value - length of data list
-		 */
-		
-		
+
 		// Modulo operator % checks remainder
 		if(value % 2 == 0) {
 			return true;
@@ -183,17 +197,27 @@ public abstract class TournamentAlgorithms {
 		
 	}
 	
+	/**
+	 * Method to find all of the non-winning items from an array list or result lists.
+	 * @param unranked_results - the result list
+	 * @return losers - the non-winning items
+	 */
 	public static ChuseList findLosers(ArrayList<ChuseList> unranked_results) {
 		
+		//creates and initialises a new list called losers
 		ChuseList losers = new ChuseList("losers");
 		
 		int i;
 		int j;
 		
+		//checks if the result lists exist
 		if(unranked_results != null) {
-
+			
+			//if they do, loops through all result lists
 			for(i=0; i < unranked_results.size() - 1; i++) {
+				//loops through every item in the current result list
 				for(j=0; j < unranked_results.get(i).getSize(); j++) {
+					//adds the items to the list of losers
 					losers.addItem(unranked_results.get(i).get(j));
 				}
 			}

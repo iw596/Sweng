@@ -24,16 +24,35 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTubeScopes;
 import com.google.api.services.youtube.model.PlaylistItemListResponse;
 
+/**
+ * Abstract class used for handling the YouTube data API
+ * 
+ * Date created: 12/02/2019
+ * Date last edited: 01/03/2019
+ * Last edited by: Dan Jackson
+ * 
+ * @author Harry Ogden
+ *
+ */
 public class YouTubeAPIHandler {
 
-public static final int max_playlist_length = 10;
+	public static final int max_playlist_length = 10;
+	
+	/** 
+	 * ALL CODE FROM THIS LINE (41) TO LINE 180 HAS BEEN ADAPTED FROM EXAMPLE CODE
+	 * TAKEN FROM THE GOOGLE YOUTUBE DATA API EXAMPLES AND PARTS ARE VERY SIMILAR.
+	 * The source of this can be found at: 
+	 * https://developers.google.com/youtube/v3/docs/playlists/list
+	 * 
+	 **/
+	
 	
     /** Application name. */
-    private static final String APPLICATION_NAME = "API Sample";
+    private static final String APPLICATION_NAME = "Chuse";
 
     /** Directory to store user credentials for this application. */
     private static final java.io.File DATA_STORE_DIR = new java.io.File(
-    System.getProperty("user.home"), ".credentials/java-youtube-api-tests");
+    System.getProperty("user.home"), ".credentials/ChuseCredentials");
 
     /** Global instance of the {@link FileDataStoreFactory}. */
     private static FileDataStoreFactory DATA_STORE_FACTORY;
@@ -99,56 +118,72 @@ public static final int max_playlist_length = 10;
             .build();
     }
 
+    /**
+     * Method to get YouTube video data from a YouTube playlist when given a playlist URL.
+     * 
+     * @param playlist_url - the URL of the video playlist
+     * @return video_list - the list of video items with associated metadata
+     * @throws IOException
+     */
     public static listDataStructure.ChuseList getPlaylistData(String playlist_url) throws IOException{
     	
+    	//gets a youtube service
         YouTube youtube = getYouTubeService();
         
+        //gets the playlist ID from the URL
         String playlist_id = getPlaylistIdFromUrl(playlist_url);
         
-        //ArrayList<ArrayList<String>> playlist_property_container = new ArrayList<ArrayList<String>>();
-        
-        listDataStructure.ChuseList video_list = new listDataStructure.ChuseList("Test");
+        //creates a new initialised list to contain videos
+        listDataStructure.ChuseList video_list = new listDataStructure.ChuseList("YouTube List");
         
         try {
+        	//creates a hap mash for storing the different metadata from 
+        	//the YouTube videos in the playlist
             HashMap<String, String> parameters = new HashMap<>();
             parameters.put("part", "snippet");
             parameters.put("maxResults","" + max_playlist_length + "");
             parameters.put("playlistId", playlist_id);
 
+            //gets the playlist data
             YouTube.PlaylistItems.List playlistItemsListByPlaylistIdRequest = youtube.playlistItems().list(parameters.get("part").toString());
+            
+            //if the parameters contains the max number of results, finds the max 
+            //number of results
             if (parameters.containsKey("maxResults")) {
                 playlistItemsListByPlaylistIdRequest.setMaxResults(Long.parseLong(parameters.get("maxResults").toString()));
             }
-
+            
+            //if the parameters contain the playlist ID and this isn't blank
+            //then sets the playlist ID equal to the found playlist ID
             if (parameters.containsKey("playlistId") && parameters.get("playlistId") != "") {
                 playlistItemsListByPlaylistIdRequest.setPlaylistId(parameters.get("playlistId").toString());
             }
+            
+            //sets the data fields to pull from the playlist
             playlistItemsListByPlaylistIdRequest.setFields("items(snippet)");
 
+            //gets the data
             PlaylistItemListResponse response = playlistItemsListByPlaylistIdRequest.execute();
             
+            //stores the response in a JSON Object
             JSONObject jsonObject = new JSONObject(response);
 
             int i;
             
+            //loops through every item in the JSON object (every video in the playlist)
             for(i=0;i < jsonObject.getJSONArray("items").length(); i++) {
             	
+            	//creates a JSON object containing just the snippet tagged items from the response
             	JSONObject snippet = jsonObject.getJSONArray("items").getJSONObject(i).getJSONObject("snippet");
-
-            	//ArrayList<String> video_properties = new ArrayList<String>();
             	
+            	//adds a new video item to the array list, with the relevant information being
+            	//pulled from the JSON object and added to the video item
             	video_list.addItem(new listDataStructure.VideoItem(
             			snippet.getString("title"), snippet.getJSONObject("resourceId").getString("videoId"), snippet.getString("description"), snippet.getString("channelTitle")));
             	
-/*            	video_properties.add(snippet.getString("title"));
-                video_properties.add(snippet.getString("channelTitle"));
-                video_properties.add(snippet.getString("description"));
-                video_properties.add(snippet.getJSONObject("resourceId").getString("videoId"));*/
-                
-                //playlist_property_container.add(video_properties);
-            	
             }
 
+        //exception catching
         } catch (GoogleJsonResponseException e) {
             e.printStackTrace();
             System.err.println("There was a service error: " + e.getDetails().getCode() + " : " + e.getDetails().getMessage());
@@ -160,26 +195,20 @@ public static final int max_playlist_length = 10;
     	
     }
     
+    /**
+     * Method for getting the playlist ID from a given YouTube playlist URL.
+     * 
+     * @param playlist_url - the YouTube playlist url
+     * @return url_parts[2] - the ID of the YouTube playlist
+     */
     private static String getPlaylistIdFromUrl(String playlist_url) {
     	
+    	//splits the string into separate parts everytime there is a "=" character
     	String[] url_parts = playlist_url.split("=");
     	
+    	//returns the playlist ID
     	return url_parts[2];
     	
     }
-    
-    
-/*    public static void main(String[] args) throws IOException {
 
-    	ArrayList<ArrayList<String>> output = getPlaylistData("https://www.youtube.com/watch?v=gZBbICLk_tM&list=PL11pFjJATdhmvAtI_76hy5Mwb9qTOpk1J");
-    	
-    	int i;
-    	
-    	for(i=0; i < output.size(); i++) {
-    		System.out.println("Item: " + i);
-    		System.out.println(output.get(i));
-    		System.out.println("");
-    	}
-        
-    }*/
 }
