@@ -5,7 +5,7 @@ package test;
  * 
  * Date created: 01/03/2019
  * Date last edited 01/03/2019
- * Last edited by: Isaac Watson and Harry Ogden 
+ * Last edited by: Isaac Watson 
  *
  * @author Isaac Watson and Harry Ogden 
  */
@@ -23,8 +23,8 @@ import listDataStructure.RankingList;
 import listDataStructure.VideoItem;
 
 public class TournamentAlgorithmsTest {
-	/** This method tests that the ranking algortithm produces the
-	 * right ranking for a list of 4 text items, the algoirthm is called
+	/** This method tests that the ranking algorithm produces the
+	 * right ranking for a list of 4 text items, the algorithm is called
 	 * once and the overall winner is checked then the algorithm is called
 	 * again and the ranking checked
 	 * @throws Exception
@@ -49,20 +49,32 @@ public class TournamentAlgorithmsTest {
 		//Store the ranking
 		RankingList ranks = new RankingList(results);
 		
-		// Assert that we want the winner to be cat
-		assertEquals("Cat",ranks.get(0).getWrappedItem().getTitle());
+		
+		
 		
 		test_list = TournamentAlgorithms.findLosers(results);
 		results = TournamentAlgorithms.rankingAlgorithm(test_list);
 		ranks.addRankedResults(results);
+		test_list = TournamentAlgorithms.findLosers(results);
+		results = TournamentAlgorithms.rankingAlgorithm(test_list);
+		ranks.addRankedResults(results);
 		
-
+		
+		// Assert that we want the winner to be cat
 		// Check second and last
+		assertEquals("Cat",ranks.get(0).getWrappedItem().getTitle());
 		assertEquals("Dog",ranks.get(1).getWrappedItem().getTitle());
-		//assertEquals("Mouse",ranks.get(2).getWrappedItem().getTitle());
+		assertEquals("Mouse",ranks.get(2).getWrappedItem().getTitle());
 		assertEquals("Giraffe",ranks.get(3).getWrappedItem().getTitle());
 	}
 	
+	/** This method tests that the ranking algorithm produces the
+	 * right ranking for a list of 3 text items. This also tests that the overflow
+	 * error fix works as we want the winner to be the third item and doing this previously
+	 * resulted in a buffer overflow.
+	 */
+	
+	@Test
 	public void threeTextItemTest() throws Exception {
 		
 		// Create list to store items
@@ -80,9 +92,14 @@ public class TournamentAlgorithmsTest {
 		//Store the ranking
 		RankingList ranks = new RankingList(results);
 		// Assert that we want the winner to be cat
-		assertEquals("Mouse",ranks.get(0).getWrappedItem().getTitle());
+		assertEquals("Dog",ranks.get(0).getWrappedItem().getTitle());
 	}
 	
+	/** This method tests that the ranking algorithm produces the
+	 * right ranking for a list of 5 image items.
+	 * @throws Exception
+	 */
+	@Test
 	public void fiveImageItemTest() throws Exception {
 		
 		// Create list to store items
@@ -105,14 +122,18 @@ public class TournamentAlgorithmsTest {
 		assertEquals("Image1",ranks.get(0).getWrappedItem().getTitle());
 	}
 	
-	
+	/** This method tests that the ranking algorithm produces the
+	 * right ranking for a list of 6 video items.
+	 * @throws Exception
+	 */
+	@Test
 	public void sixVideoItemTest() throws Exception {
 		
 		// Create list to store items
 		ChuseList test_list = new ChuseList("test");
 		
 		// Generate list of test items
-		test_list.addItem(new VideoItem("title01","Id01","Desc01","pewdiepie"));
+		test_list.addItem(new VideoItem("title01","Id01","Desc01","Channel01"));
 		test_list.addItem(new VideoItem("title02","Id02","Desc02","Channel02"));
 		test_list.addItem(new VideoItem("title03","Id03","Desc03","Channel03"));
 		test_list.addItem(new VideoItem("title04","Id04","Desc04","Channel04"));
@@ -125,9 +146,14 @@ public class TournamentAlgorithmsTest {
 		//Store the ranking
 		RankingList ranks = new RankingList(results);
 		// Assert that we want the winner to be title03
-		assertEquals("title01",ranks.get(0).getWrappedItem().getTitle());
+		assertEquals("title03",ranks.get(0).getWrappedItem().getTitle());
 	}
 	
+	/** This method tests that the ranking algorithm produces the
+	 * right ranking for a list of 3 video items. 
+	 * @throws Exception
+	 */
+	@Test
 	public void threeVideoItemTest() throws Exception {
 		
 		// Create list to store items
