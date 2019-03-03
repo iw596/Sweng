@@ -36,7 +36,7 @@ import com.google.api.services.youtube.model.PlaylistItemListResponse;
  */
 public class YouTubeAPIHandler {
 
-	public static final int max_playlist_length = 10;
+	public static final int max_playlist_length = 50;
 	
 	/** 
 	 * ALL CODE FROM THIS LINE (41) TO LINE 180 HAS BEEN ADAPTED FROM EXAMPLE CODE
