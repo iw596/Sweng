@@ -27,70 +27,35 @@ public class UserInterface extends Application {
     public void start(final Stage stage) {
 		
         stage.setTitle("File Chooser Sample");
- 
-        final Button openButton = new Button("Open a file...");
+        
         final Button openMultipleButton = new Button("Open files...");
- 
-        openButton.setOnAction(
-            new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(final ActionEvent e) {
-                	
-                	//AudioFileHandler.openAudioFile(stage);
-                	//TextFileHandler.openTextFile(stage);
-                	
-                }
-            });
  
         openMultipleButton.setOnAction(
             new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(final ActionEvent e) {
                 	
-                	//AudioFileHandler.openMultipleAudioFiles(stage);
-                	//TextFileHandler.openMultipleTextFiles(stage);
-                	ArrayList<BasicItem> songs = AudioFileHandler.openMultipleAudioFiles(stage);
-                	ArrayList<BasicItem> pictures = ImageFileHandler.openMultipleImageFiles(stage);
-                	ArrayList<BasicItem> text = TextFileHandler.openMultipleTextFiles(stage);
-                	ChuseList videos = null;
-					try {
-						videos = YouTubeAPIHandler.getPlaylistData("https://www.youtube.com/watch?v=q6EoRBvdVPQ&list=PLFsQleAWXsj_4yDeebiIADdH5FMayBiJo");
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+                	ChuseList test_list = new ChuseList("test list");
                 	
-                	ArrayList<BasicItem> video_array = new ArrayList<BasicItem>();
+                	/** ONLY UNCOMMENT ONE FILE GETTER AT A TIME **/
                 	
-                	for(int i = 0; i < videos.getSize(); i++) {
-                		video_array.add(videos.get(i));
-                	}
-                			
-                	ChuseList list = new ChuseList("name");
+						
+                	//test_list.addItemArray(ImageFileHandler.openMultipleImageFiles(stage));
+                	//test_list.addItemArray(AudioFileHandler.openMultipleAudioFiles(stage));
+						 
                 	
-                	list.addItemArray(songs);
-                	list.addItemArray(pictures);
-                	list.addItemArray(text);
-                	list.addItemArray(video_array);
-                	
-                	XMLHandler.buildXMLFromList(list, "new new xml mixed file");
-                	
-                	list = XMLHandler.buildListFromXML("new new xml audio file");
-                	
-                	list.printList();
-                	
-                	//ImageFileHandler.openMultipleImageFiles(stage);
+                	test_list.addItemArray(TextFileHandler.openMultipleTextFiles(stage));
+                	test_list.printList();
                 	
                 }
             });
  
         final GridPane inputGridPane = new GridPane();
  
-        GridPane.setConstraints(openButton, 0, 0);
         GridPane.setConstraints(openMultipleButton, 1, 0);
         inputGridPane.setHgap(6);
         inputGridPane.setVgap(6);
-        inputGridPane.getChildren().addAll(openButton, openMultipleButton);
+        inputGridPane.getChildren().addAll(openMultipleButton);
         
         final Pane rootGroup = new VBox(12);
         rootGroup.getChildren().addAll(inputGridPane);
