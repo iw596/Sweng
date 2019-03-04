@@ -10,12 +10,13 @@ import javafx.stage.Stage;
 import listDataStructure.BasicItem;
 
 /**
- * Method for opening multiple local audio files and returning an array list of audio items
+ * Method for opening multiple local test files and returning an array list of basic items
  * containing the local audio file path and metadata.
  * @param stage - the JavaFX stage the files are opened from
  * @return audio_items - the array list of audio items
  */
 public abstract class TextFileHandler extends FileImportHandler{
+	
 	
 	/**
 	 * Method for opening multiple text files from a local file system.
@@ -82,5 +83,55 @@ public abstract class TextFileHandler extends FileImportHandler{
 		
 		return output;
 	}
+
+public static ArrayList<BasicItem> openTextFile(Stage stage) {
+	
+	//opens a JavaFX file chooser dialogue to open multiple text files
+	ArrayList<String> file_paths = openMultipleFiles(stage, "text");
+	
+	//initialises the output array list
+	ArrayList<BasicItem> output_items = new ArrayList<BasicItem>();
+	
+	//loops through every file path in the array list
+	for(String file_path : file_paths) {
+		
+		try {
+			// read from the file given by the file path and place content into a string
+			convertAllItems(file_path, output_items);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	return output_items;
+}
+
+private static ArrayList<BasicItem> convertAllItems (String file_path, ArrayList<BasicItem> output_list) throws FileNotFoundException{
+	
+	// get file content and place in BufferedReader class
+	BufferedReader br = new BufferedReader(new FileReader(file_path));
+	
+	// local variables
+	// the string of the current line
+	String line;
+	// the whole content of the file in a string with \n to separate each line
+	String output = "";
+	
+	try {
+		// read while there is still something there
+		while((line = br.readLine()) != null) {
+			// add the read line to the whole string with \n to separate each line in the string
+			output = output + line + "\n"; 
+			output_list.add(new BasicItem(line));
+		}
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	return output_list;
+}
 
 }
