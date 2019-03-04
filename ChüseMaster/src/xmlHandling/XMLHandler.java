@@ -69,45 +69,64 @@ public class XMLHandler {
 			// this line is need for XML handling (don't know why :) )
 			Document document = builder.parse(file);
 			
-			// set nodes in XML file in to array by the node tag name
-			NodeList element_list = document.getElementsByTagName("multimedia");
+			NodeList id_check = document.getElementsByTagName("id");
+
+			if(id_check.getLength() != 1) {
+				return null;
+			}
 			
-			// loop through all nodes in the node list that was copied from the XML file
-			for(int i = 0; i < element_list.getLength(); i++){
-				// get node i from node array that came from XML file
-				Node element = element_list.item(i);
+			for(int j=1; j < id_check.item(0).getChildNodes().getLength(); j += 2) {
 				
-				//System.out.println(element.getChildNodes().item(1).getTextContent());
+				//System.out.println("j value:" + j);
 				
-				// take this node vales and place it in to the list array of the list
-				//this.addItem(new Item(element.getChildNodes().item(1).getTextContent()));
-				
-				//item 1 is type
-				//item 3 is title
-				//item 5 is location
-				
-				// Temp variable for getting the item from the node 
-				BasicItem item = null;
-				
-				// Checks if node is of class BasicItem, if not it cycles through all available 
-				// class types until the right one is found. At that point it builds the item of that class.
-				if(element.getChildNodes().item(1).getTextContent().equals("BasicItem")) {
-					item = new BasicItem(element.getChildNodes().item(3).getTextContent());
-				} else if(element.getChildNodes().item(1).getTextContent().equals("ImageItem")) {
-					item = new ImageItem(element.getChildNodes().item(5).getTextContent());
-				} else if(element.getChildNodes().item(1).getTextContent().equals("AudioItem")) {
-					item = new AudioItem(element.getChildNodes().item(5).getTextContent());
-				} else if(element.getChildNodes().item(1).getTextContent().equals("VideoItem")) {
-					item = new VideoItem(element.getChildNodes().item(3).getTextContent(),
-							// The XML goes through all available information of node.
-							// For some reason XML counts up in odd numbers :( 
-							element.getChildNodes().item(5).getTextContent(),
-							element.getChildNodes().item(7).getTextContent(),
-							element.getChildNodes().item(9).getTextContent());
+				if(!id_check.item(0).getChildNodes().item(j).getNodeName().equals("page")){
+					continue;
 				}
+
+				// set nodes in XML file in to array by the node tag name
+				//NodeList element_list = document.getElementsByTagName("multimedia");
+
+				NodeList element_list = id_check.item(0).getChildNodes().item(j).getChildNodes();
 				
-				// dumps the newly made item into the list array
-				list_array.add(item);
+				// loop through all nodes in the node list that was copied from the XML file
+				for(int i = 0; i < element_list.getLength(); i++){
+					// get node i from node array that came from XML file
+					Node element = element_list.item(i);
+					
+					if(!element.getNodeName().equals("multimedia")) {
+						continue;
+					}
+					
+					//item 1 is type
+					//item 3 is title
+					//item 5 is location
+					
+					// Temp variable for getting the item from the node 
+					BasicItem item = null;
+					
+					// Checks if node is of class BasicItem, if not it cycles through all available 
+					// class types until the right one is found. At that point it builds the item of that class.
+					if(element.getChildNodes().item(1).getTextContent().equals("BasicItem")) {
+						item = new BasicItem(element.getChildNodes().item(3).getTextContent());
+					} else if(element.getChildNodes().item(1).getTextContent().equals("ImageItem")) {
+						item = new ImageItem(element.getChildNodes().item(5).getTextContent());
+					} else if(element.getChildNodes().item(1).getTextContent().equals("AudioItem")) {
+						item = new AudioItem(element.getChildNodes().item(5).getTextContent());
+					} else if(element.getChildNodes().item(1).getTextContent().equals("VideoItem")) {
+						item = new VideoItem(element.getChildNodes().item(3).getTextContent(),
+								// The XML goes through all available information of node.
+								// For some reason XML counts up in odd numbers :( 
+								element.getChildNodes().item(5).getTextContent(),
+								element.getChildNodes().item(7).getTextContent(),
+								element.getChildNodes().item(9).getTextContent());
+					} else {
+						continue;
+					}
+					
+					// dumps the newly made item into the list array
+					list_array.add(item);
+				}
+		
 			}
 			
 		} catch (ParserConfigurationException e) {
@@ -121,17 +140,20 @@ public class XMLHandler {
 			e.printStackTrace();
 		}
 		
-		// Creates a new "ChuseList" to store the previously created list, 
-		// with the file name of the XML file the list came from.
-		ChuseList list = new ChuseList(filename);
-		list.addItemArray(list_array);
+		//Creates a new "ChuseList" and sets it equal to null
+		ChuseList list = null;
 		
+		if(list_array.size() > 0){
+			//Stores array of items in a "ChuseList" with the file name of the XML file
+			list = new ChuseList(filename);
+			list.addItemArray(list_array);
+		}
+
 		// return the list made 
 		return list;
 		
 	}
 	
-	//TODO fix errors relating to changed data structure input
 	/**
 	 * buildXMLFromList(ChuseList, String, ChuseList)
 	 *  
@@ -144,7 +166,7 @@ public class XMLHandler {
 	 * @param filename - the filename to write the XML file to
 	 * @param results - the results to add to the XML file
 	 */
-	public static void buildXMLFromList(ChuseList list, String filename, ChuseList results){
+	public static void buildXMLFromList(ChuseList list, ChuseList results){
 		
 		// this line is need for XML handling (don't know why :) )
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -184,7 +206,7 @@ public class XMLHandler {
 	        DOMSource source = new DOMSource(document);
 	        
 	        // file path to where its being stored
-	        File myFile = new File(System.getProperty("user.dir") + "\\" +  filename + ".xml");
+	        File myFile = new File(System.getProperty("user.dir") + "\\" +  list.getName() + ".xml");
 	        
 	        // print list with tags in console
 	        ///StreamResult console = new StreamResult(System.out);
@@ -217,8 +239,8 @@ public class XMLHandler {
 	 * @param list - the list to build the XML file from
 	 * @param filename - the filename to write the XML file to
 	 */
-	public static void buildXMLFromList(ChuseList list, String filename) {
-		buildXMLFromList(list, filename, null);
+	public static void buildXMLFromList(ChuseList list) {
+		buildXMLFromList(list, null);
 	}
 	
 	
@@ -260,8 +282,7 @@ public class XMLHandler {
 	public static void addResultsToXML(ChuseList results, String filename) {
 		
 		ChuseList page_1 = buildListFromXML(filename);
-		
-		XMLHandler.buildXMLFromList(page_1, filename, results);
+		XMLHandler.buildXMLFromList(page_1, results);
 		
 	}
 	
