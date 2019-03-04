@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id>
+  <page>
+    <multimedia>
+      <type>ImageItem</type>
+      <title>//userfs//js2401//w2k//My Pictures//ffff.PNG</title>
+      <path>//userfs//js2401//w2k//My Pictures//ffff.PNG</path>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Tide Pods</title>
+      <path>n/a</path>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>//userfs//js2401//w2k//Downloads//SampleAudio_0.4mb.mp3</title>
+      <path>//userfs//js2401//w2k//Downloads//SampleAudio_0.4mb.mp3</path>
+    </multimedia>
+    <multimedia>
+      <type>VideoItem</type>
+      <title>to</title>
+      <path>many</path>
+      <description>strings</description>
+      <channel>DAN!!!!!</channel>
+    </multimedia>
+  </page>
+</id>

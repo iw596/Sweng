@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<id>
+  <dogs>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Tide Pods</title>
+      <path>n/a</path>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Big sausage</title>
+      <path>n/a</path>
+    </multimedia>
+    <dunno>
+      <type>BasicItem</type>
+      <title>Big sausage</title>
+      <path>n/a</path>
+    </dunno>
+  </dogs>>
+  <woof>
+	<multimedia>
+      <type>BasicItem</type>
+      <title>C is life C is love</title>
+      <path>n/a</path>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>fluffy kitten</title>
+      <path>n/a</path>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Humoungus Catman</title>
+      <path>n/a</path>
+    </multimedia>
+  </woof>
+</id>

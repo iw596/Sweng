@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<id>
+  <page>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Tide Pods</title>
+      <path>n/a</path>
+    </multimedia>
+    <multimedia>
+      <type>Got Rope?</type>
+      <title>No, tide pods.</title>
+      <path>so long space cowboy</path>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Big sausage</title>
+      <path>n/a</path>
+    </multimedia>
+  </page>
+</id>
