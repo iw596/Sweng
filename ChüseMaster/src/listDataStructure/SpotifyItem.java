@@ -28,6 +28,7 @@ public class SpotifyItem extends BasicItem implements ListInterface {
 	 */
 	public SpotifyItem(String spotify_url, ArrayList<String> track_metadata) {
 		super(track_metadata.get(0));
+		this.metadata = track_metadata;
 		this.song_url= spotify_url;
 		this.type = "SpotifyItem";
 	}
