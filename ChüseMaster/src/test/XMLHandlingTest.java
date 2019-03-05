@@ -14,7 +14,7 @@ import xmlHandling.*;
  * 
  * Date created: 03/03/2019
  * Date last edited: 04/03/2019
- * Last edited by:
+ * Last edited by: Jack and Dan
  * @author Jack
  *
  */
