@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="application.SampleController">
+   <right>
+      <AnchorPane prefHeight="900.0" prefWidth="1414.0" style="-fx-background-color: #CBCBCB;" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane prefHeight="900.0" prefWidth="80.0" style="-fx-background-color: #3D4956;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="85.0" fitWidth="63.0" layoutX="8.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../aperture.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="10.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="299.0">
+                     <image>
+                        <Image url="@../../settings.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="10.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../home.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="10.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../users.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="558.0" layoutY="296.0" prefHeight="900.0" prefWidth="1334.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="820.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="1260.0" layoutY="5.0" onMouseClicked="#user_icon" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../user.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="106.0" layoutY="130.0" prefHeight="70.0" prefWidth="1346.0" style="-fx-border-color: #D7D7D7; -fx-background-color: #FFFFFF; -fx-border-width: 5;" AnchorPane.bottomAnchor="760.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <Bloom />
+               </effect>
+               <children>
+                  <Text layoutX="501.0" layoutY="54.84765625" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a list and compare!" textAlignment="CENTER" AnchorPane.bottomAnchor="5.96484375" AnchorPane.leftAnchor="491.0" AnchorPane.rightAnchor="403.490234375" AnchorPane.topAnchor="11.0">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="880.0" layoutY="240.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-width: 3; -fx-border-color: #D7D7D7;" AnchorPane.bottomAnchor="426.5" AnchorPane.leftAnchor="1080.5" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="140.0">
+               <children>
+                  <ImageView fitHeight="262.0" fitWidth="262.0" layoutX="70.0" layoutY="40.0" onMouseClicked="#Video_icon" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../vid.PNG" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="701.0" layoutY="240.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #D7D7D7; -fx-border-width: 3;" AnchorPane.bottomAnchor="426.5" AnchorPane.leftAnchor="747.0" AnchorPane.rightAnchor="333.5" AnchorPane.topAnchor="140.0">
+               <children>
+                  <ImageView fitHeight="276.0" fitWidth="216.0" layoutX="60.0" layoutY="40.0" onMouseClicked="#Music_icon" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../mus.PNG" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="447.0" layoutY="240.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #D7D7D7; -fx-border-width: 3;" AnchorPane.bottomAnchor="426.5" AnchorPane.leftAnchor="413.5" AnchorPane.rightAnchor="667.0" AnchorPane.topAnchor="140.0">
+               <children>
+                  <ImageView fitHeight="276.0" fitWidth="207.0" layoutX="60.0" layoutY="40.0" onMouseClicked="#Image_icon" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img.PNG" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="114.0" layoutY="240.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #D7D7D7; -fx-border-width: 3;" AnchorPane.bottomAnchor="426.5" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="1000.5" AnchorPane.topAnchor="140.0">
+               <children>
+                  <ImageView fitHeight="274.0" fitWidth="169.0" layoutX="80.0" layoutY="40.0" onMouseClicked="#Text_icon" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../txtx.PNG" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="314.0" layoutY="574.0" prefHeight="116.0" prefWidth="972.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #D7D7D7; -fx-border-width: 3;" AnchorPane.bottomAnchor="366.5" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="473.5">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#hello" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="1267.0" AnchorPane.topAnchor="3.0">
+                     <image>
+                        <Image url="@../../clock.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <ScrollPane layoutX="534.0" layoutY="634.0" onMouseClicked="#Text_icon" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #D7D7D7; -fx-border-width: 3;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="533.5">
+               <content>
+                  <ScrollBar layoutX="1334.0" layoutY="366.5" maxHeight="366.5" nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefHeight="359.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>
