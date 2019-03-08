@@ -6,43 +6,42 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane fx:id="RootPane01" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<AnchorPane fx:id="RootPane01" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <children>
-      <ImageView fx:id="Image1" fitHeight="150.0" fitWidth="200.0" layoutX="71.0" layoutY="165.0" onMouseClicked="#ImagePress01" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="Image1" fitHeight="150.0" fitWidth="156.0" layoutX="71.0" layoutY="124.0" onMouseClicked="#ManualInput" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../TextImage01.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="Image2" fitHeight="150.0" fitWidth="200.0" layoutX="245.0" layoutY="165.0" onMouseClicked="#ImagePress02" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="Image2" fitHeight="150.0" fitWidth="200.0" layoutX="245.0" layoutY="124.0" onMouseClicked="#FileImport" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../TextImage02.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="Image3" fitHeight="150.0" fitWidth="200.0" layoutX="438.0" layoutY="165.0" onMouseClicked="#ImagePress03" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="Image3" fitHeight="150.0" fitWidth="150.0" layoutX="438.0" layoutY="124.0" onMouseClicked="#FilesImport" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../TextImage03.png" />
          </image>
       </ImageView>
-      <Text layoutX="71.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manual Input" wrappingWidth="112.13671875">
+      <Text layoutX="71.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manual Input" wrappingWidth="112.13671875">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="247.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Import from a file" wrappingWidth="146.13671875">
+      <Text layoutX="247.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Import from a file" wrappingWidth="146.13671875">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="440.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Import from files*" wrappingWidth="146.13671875">
+      <Text layoutX="440.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Import from files*" wrappingWidth="146.13671875">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="37.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter each item into your list here in the app by manually typing them out." wrappingWidth="179.078125" />
-      <Text layoutX="423.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Use the contents of multiple files in the list." wrappingWidth="179.078125" />
-      <Text layoutX="230.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Use the contents of a file in the list (only .txt is accepted at the moment)" wrappingWidth="179.078125" />
-      <Text layoutX="423.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*please note that the entire contents of one file will be made into one item in the list." wrappingWidth="179.078125" />
+      <Text layoutX="37.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter each item into your list here in the app by manually typing them out." wrappingWidth="179.078125" />
+      <Text layoutX="423.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Use the contents of multiple files in the list." wrappingWidth="179.078125" />
+      <Text layoutX="230.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Use the contents of a file in the list (only .txt is accepted at the moment)" wrappingWidth="179.078125" />
+      <Text layoutX="423.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*please note that the entire contents of one file will be made into one item in the list." wrappingWidth="179.078125" />
       <Text layoutX="116.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="How would you like to input data into the list?" wrappingWidth="384.13671875">
          <font>
             <Font size="18.0" />

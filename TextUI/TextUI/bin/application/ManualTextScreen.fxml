@@ -8,19 +8,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="RootPane02" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<AnchorPane fx:id="RootPane02" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <children>
-      <JFXButton fx:id="BackButton" layoutX="48.0" layoutY="76.0" onMouseClicked="#BackScreen" text="Back" />
-      <Text layoutX="139.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add items to the list">
+      <JFXButton fx:id="BackButton" layoutX="46.0" layoutY="72.0" onMouseClicked="#BackScreen" prefHeight="32.0" prefWidth="82.0" text="Back" />
+      <Text layoutX="213.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add items to the list">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Button fx:id="AddNewItem" layoutX="461.0" layoutY="124.0" mnemonicParsing="false" onAction="#NewItem" text="Add a new item" />
-      <Button fx:id="CompareButton" layoutX="454.0" layoutY="305.0" mnemonicParsing="false" onMouseClicked="#CompareItems" text="Ready to Compare" />
-      <ScrollPane fx:id="ScrollPane" layoutX="89.0" layoutY="149.0" prefHeight="200.0" prefWidth="200.0">
+      <Button fx:id="AddNewItem" layoutX="419.0" layoutY="171.0" mnemonicParsing="false" onAction="#NewItem" prefHeight="69.0" prefWidth="150.0" text="Add a new item" />
+      <Button fx:id="CompareButton" layoutX="419.0" layoutY="288.0" mnemonicParsing="false" onMouseClicked="#CompareItems" prefHeight="69.0" prefWidth="150.0" text="Ready to Compare" />
+      <ScrollPane fx:id="ScrollPane" layoutX="39.0" layoutY="124.0" prefHeight="327.0" prefWidth="333.0">
          <content>
-            <VBox fx:id="TextFieldPane" prefHeight="200.0" prefWidth="184.0" />
+            <VBox fx:id="TextFieldPane" prefHeight="331.0" prefWidth="317.0" />
          </content>
       </ScrollPane>
    </children>
