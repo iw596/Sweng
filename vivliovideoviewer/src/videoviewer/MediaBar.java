@@ -3,20 +3,15 @@ package videoviewer;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaPlayer.Status;
 
 /** MediaBar is a class in the videoviewer package, this is a back end class which
- * adds a volume slider, time slider and play/pause button to a media player. The code
+ * adds time slider to a media player. The code
  * for this class was adapted from https://www.geeksforgeeks.org/javafx-building-a-media-player/
  * 
  * Date created: 21/02/2019
@@ -27,15 +22,14 @@ import javafx.scene.media.MediaPlayer.Status;
  *
  */
 public class MediaBar extends HBox {
-	// Initalise sliders button and a label
+	// Initalise slider
 	Slider time = new Slider(); 
 
-	
 	// Create the player 
 	MediaPlayer player; 
 	
 	/** This is the constructor for the MediaBar class. This class takes a media player
-	 * and adds buttons and sliders to the player which allow it to be controlled. This
+	 * and adds buttons/sliders to the player which allow it to be controlled. This
 	 * class also sets up the listeners which listen for the user input.
 	 * 
 	 * @param  player- MediapPlayer object which we want to add controls to 
@@ -44,19 +38,13 @@ public class MediaBar extends HBox {
 		this.player = player;
         setAlignment(Pos.CENTER); // setting the HBox to center 
         setPadding(new Insets(5, 10, 5, 10));  // Add some padding between bar and video
-        // Settih the preference for volume bar 
 
         HBox.setHgrow(time, Priority.ALWAYS); // Make box grow if slider is long
 
-
-        // Adding the components to the bottom 
-
+        // Adding the components to the bottom
         getChildren().add(time); // time slider 
 
-        
-
-        
-     // Providing functionality to time slider 
+        // Providing functionality to time slider 
         player.currentTimeProperty().addListener(new InvalidationListener() { 
             public void invalidated(Observable ov) 
             { 
@@ -73,10 +61,7 @@ public class MediaBar extends HBox {
                     player.seek(player.getMedia().getDuration().multiply(time.getValue() / 100)); 
                 } 
             } 
-        });
- 
-        
-        
+        });   
 	}
 	
 	/**
@@ -90,10 +75,7 @@ public class MediaBar extends HBox {
             { 
                 // Updating to the new time value 
                 // This will move the slider while running your video 
-            	 time.setValue(player.getCurrentTime().toMillis()/                                      player.getTotalDuration() 
-                         .toMillis()*100);
-            	
-            	
+            	 time.setValue(player.getCurrentTime().toMillis()/player.getTotalDuration().toMillis()*100);
             } 
         }); 
     }

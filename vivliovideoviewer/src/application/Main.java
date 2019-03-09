@@ -1,17 +1,8 @@
 package application;
 
-import javafx.scene.web.WebView;
-
-import java.util.Scanner;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuBar;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.web.WebEngine;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import videoviewer.VideoViewer;
 
@@ -29,13 +20,9 @@ import videoviewer.VideoViewer;
 
 
 public class Main extends Application {
-
-	// File choose allows user to pick a file to watch
-	FileChooser file_chooser;
 	
 	/**
-	 * Constructor function for Main class.Lets user pick a file to watch then launches the media player or youtube
-	 * player which allows user to see what is being played.
+	 * Constructor function for Main class. Lets user pick a file to watch then launches the media player.
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -43,32 +30,20 @@ public class Main extends Application {
 	}
 	
 	/**
-	 * Method to determine what type of media the user wants to play either Yotube
-	 * videos or videos located in the local file system.
+	 * Method to instantiate the media player and determine what local files should be loaded.
 	 * 
 	 * @param stage - the stage the loaded media will be shown on.
 	 */
 	public  void start(Stage stage) throws Exception {
 		
-		
-		
-		// If user wants to watch a youtube video then create a 
-		// youtube player and attach the player to the scene.
-
 		VideoViewer vid_view = new VideoViewer("1280.mp4");
 			
 		Scene scene = new Scene(vid_view, 720, 535, Color.BLACK);
 			 
-		//vid_view.pressedScreen(scene);
 		stage.setScene(scene); // Setting the scene to stage 
 		
 		vid_view.setFullscreen(stage);
 		stage.show(); // Showing the stage
-	
-
-			
-
-
 	}
 
 }

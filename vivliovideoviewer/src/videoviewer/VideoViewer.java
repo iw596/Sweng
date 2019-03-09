@@ -1,9 +1,7 @@
 package videoviewer;
 
 import java.io.File;
-
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,21 +14,19 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
 
-/*** VideoViewer is a public class which exteneds the BorderPane class. This class creates 
+/*** VideoViewer is a public class which extends the BorderPane class. This class creates 
  * a object which is capable of displaying a video to a user. The video is dynamically resizable.  
  * 
  * Date created: 21/02/2019
  * Date last edited: 26/02/2019
  * Last edited by: Isaac Watson and Harry Ogden
- * @author isaac
+ * @author Isaac
  *
  */
 public class VideoViewer extends BorderPane  {
 	
 	// String to store filepath
 	private String path;
-	
-
 	
 	// Create media player
 	private MediaPlayer media_player;// = new MediaPlayer(media);
@@ -42,7 +38,6 @@ public class VideoViewer extends BorderPane  {
 	private Image error_image;
 	private ImageView error_viewer;
 	MediaBar bar;
-	
 	
 	/** This is the constructor for the videoViewer class. It takes a string which
 	 *  is the file path of the video that is going to be played . The constructor then
@@ -56,6 +51,7 @@ public class VideoViewer extends BorderPane  {
 		// Create a pane and add the viewer to the pain
 		mpane = new Pane(); 
 		
+		// Image to be displayed to the user if a file error occurs
 		this.error_image = new Image(new File("ErrorTest.jpg").toURI().toString());
 		this.error_viewer = new ImageView(error_image);
 		
@@ -72,7 +68,6 @@ public class VideoViewer extends BorderPane  {
 			this.media_player = new MediaPlayer(media);
 			this.media_view= new MediaView(media_player);
 			
-
 			mpane.getChildren().add(media_view);
 			bar = new MediaBar(media_player);
 			setBottom(bar); // Setting the MediaBar at bottom
@@ -81,28 +76,22 @@ public class VideoViewer extends BorderPane  {
 			// Call method to create listener which listens for screen press
 			pressedScreen();
 			setSize();
-	
 		}
-		
+		// Display error
 		else{
 			mpane.getChildren().add(error_viewer);
 			setErrorImageSize();
-	
+			System.out.println("Error: Movie not Found");
 		}
 		
-
-		
 		setCenter(mpane); 
-
-
-	
 	}
+	
 	/** This is a getter for the media_view
 	 *  
 	 * @return media_view - returns the media viewer
 	 */
 	public MediaView getMediaView() {
-
 		return this.media_view;
 	}
 	
@@ -124,9 +113,6 @@ public class VideoViewer extends BorderPane  {
 		media_view.setPreserveRatio(false);
 		media_view.fitWidthProperty().bind(mpane.widthProperty());
 		media_view.fitHeightProperty().bind(mpane.heightProperty());
-		
-
-		
 	} 
 	
 	
@@ -134,7 +120,6 @@ public class VideoViewer extends BorderPane  {
 		error_viewer.setPreserveRatio(false);
 		error_viewer.fitWidthProperty().bind(mpane.widthProperty());
 		error_viewer.fitHeightProperty().bind(mpane.heightProperty());
-		
 	}
 	
 	/** Method to detect if user has pressed on the screen, doing so
@@ -166,12 +151,4 @@ public class VideoViewer extends BorderPane  {
 	public void setFullscreen(Stage stage){
 		stage.setFullScreen(true);
 	}
-	
-	
-	
-	
-	
-	
-	
-
 }
