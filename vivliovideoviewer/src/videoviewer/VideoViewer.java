@@ -153,7 +153,7 @@ public class VideoViewer extends BorderPane  {
 		    	
 				if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
 					// Do not pause when onScreen time slider is pressed
-				    if (!mouseEvent.getPickResult().getIntersectedNode().toString().equals("StackPane@640e9eff[styleClass=track]")) {
+				    if (!mouseEvent.getPickResult().getIntersectedNode().toString().contains("StackPane")) {
 				    	if(mouseEvent.getClickCount() == 2) {
 		    				setFullscreen();
 		    			}
