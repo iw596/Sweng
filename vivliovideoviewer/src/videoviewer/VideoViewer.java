@@ -134,9 +134,9 @@ public class VideoViewer extends BorderPane  {
 	} 
 	
 	private void setErrorImageSize(){
-		error_viewer.setPreserveRatio(false);
-		error_viewer.fitWidthProperty().bind(pane.widthProperty());
-		error_viewer.fitHeightProperty().bind(pane.heightProperty());
+		error_viewer.setPreserveRatio(true);
+		error_viewer.fitWidthProperty().bind(Bindings.selectDouble(error_viewer.sceneProperty(), "width"));
+		error_viewer.fitHeightProperty().bind(Bindings.selectDouble(error_viewer.sceneProperty(), "height"));
 	}
 	
 	/** Method to detect if user has pressed on the screen, doing so
