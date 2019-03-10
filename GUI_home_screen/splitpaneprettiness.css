@@ -1,0 +1,17 @@
+
+	
+	
+	.split-pane > . split-pane-divider {
+		
+		
+		-fx-background-color: #FFFFFF;
+		
+	}
+	
+	
+	.text-area *.text {
+		-fx-text-alignment: left;
+		-fx-text-max-height: 100;
+		-fx-text-max-width: 100;
+		
+	}
