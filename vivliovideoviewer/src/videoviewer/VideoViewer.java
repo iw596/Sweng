@@ -152,19 +152,22 @@ public class VideoViewer extends BorderPane  {
 		    public void handle(MouseEvent mouseEvent) {
 		    	
 				if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-		    		if(mouseEvent.getClickCount() == 2) {
-		    			setFullscreen();
-		    		} 
-				    // If playing then pause
-				    if (media_player.getStatus().equals(Status.PLAYING)){
-				    	media_player.pause();	
-				    }
-				    // If paused then play
-				    else {
-				    	media_player.play();
+					// Do not pause when onScreen time slider is pressed
+				    if (!mouseEvent.getPickResult().getIntersectedNode().toString().equals("StackPane@640e9eff[styleClass=track]")) {
+				    	if(mouseEvent.getClickCount() == 2) {
+		    				setFullscreen();
+		    			}
+				    	// If playing then pause
+				    	if (media_player.getStatus().equals(Status.PLAYING)){
+				    		media_player.pause();	
 				    	}
-		    		}
-				}
+				    	// If paused then play
+				    	else {
+				    		media_player.play();
+				    	}
+					}
+		    	}
+			}
 		});
 	}
 	
