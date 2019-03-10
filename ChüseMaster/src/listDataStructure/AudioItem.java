@@ -23,6 +23,12 @@ public class AudioItem extends BasicItem implements ListInterface {
 	
 	private ArrayList<String> metadata = new ArrayList<String>();
 	
+	/**
+	 * Constructor function for the audio item class. Sets the items
+	 * name and opens an audio file with the given name.
+	 * 
+	 * @param file_path - the file path reference of the file's storage location
+	 */
 	public AudioItem(String file_path) {
 		super(AudioFileHandler.getMetadata(file_path).get(0));
 		this.file_location = file_path;
@@ -30,15 +36,28 @@ public class AudioItem extends BasicItem implements ListInterface {
 		this.type = "AudioItem";
 	}
 	
-	
+	/**
+	 * Method to return the full file path of the image.
+	 * 
+	 * @return this.file_location - the location of the audio file
+	 */
 	public String getPath() {
 		return this.file_location;
 	}
 
+	/**
+	 * Method to return the metadata of the file.
+	 * 
+	 * @return this.metadata - the corresponding metadata of the audio file
+	 */
 	public ArrayList<String> getMetadata() {
 		return this.metadata;
 	}
 	
+	/**
+	 * A method for printing the audio item's metadata in the console.
+	 * TODO remove in final release - only useful for testing
+	 */
 	public void print() {
 		System.out.println("Title: " + this.getTitle());
 		System.out.println("Artist: " + this.metadata.get(1));
@@ -47,6 +66,11 @@ public class AudioItem extends BasicItem implements ListInterface {
 		System.out.println("Genre: " + this.metadata.get(4));
 	}
 	
+	/**
+	 * Function to return the object's real value. This function is designed to be used
+	 * when checking if two items are equal, as it checks that the item content is
+	 * equivalent, rather than that they have the same memory address.
+	 */
 	public ArrayList<String> getObjectValue() {
 
 		ArrayList<String> object_params = new ArrayList<String>();
