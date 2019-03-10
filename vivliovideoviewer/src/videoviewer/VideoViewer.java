@@ -1,12 +1,16 @@
 package videoviewer;
 
 import java.io.File;
+
+import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
@@ -28,13 +32,16 @@ public class VideoViewer extends BorderPane  {
 	// String to store filepath
 	private String path;
 	
+	private Stage stage;
+	
 	// Create media player
 	private MediaPlayer media_player;// = new MediaPlayer(media);
 	
 	// Create media view class
 	private MediaView media_view; //= new MediaView(media_player);
 	
-	private Pane mpane;
+	private StackPane pane;
+
 	private Image error_image;
 	private ImageView error_viewer;
 	MediaBar bar;
@@ -46,10 +53,11 @@ public class VideoViewer extends BorderPane  {
 	 *  @param filePath - String which indicates where a file is located
 	 * 
 	 */
-	public  VideoViewer(String filePath) {
+	public  VideoViewer(String filePath, Stage stage) {
 		
 		// Create a pane and add the viewer to the pain
-		mpane = new Pane(); 
+		pane = new StackPane();
+		this.stage = stage;
 		
 		// Image to be displayed to the user if a file error occurs
 		this.error_image = new Image(new File("ErrorTest.jpg").toURI().toString());
@@ -57,6 +65,8 @@ public class VideoViewer extends BorderPane  {
 		
 		// Store path and load file into media
 		this.path = filePath;
+		
+		this.centerProperty();
 		
 		// Create a file from file path
 		File file = new File(path);
@@ -68,10 +78,17 @@ public class VideoViewer extends BorderPane  {
 			this.media_player = new MediaPlayer(media);
 			this.media_view= new MediaView(media_player);
 			
-			mpane.getChildren().add(media_view);
+			media_view.setManaged(true);
+			
 			bar = new MediaBar(media_player);
-			setBottom(bar); // Setting the MediaBar at bottom
-			//setStyle("-fx-background-color:#bfc2c7");
+			
+			pane.getChildren().add(media_view);
+			pane.getChildren().add(bar);
+			
+			StackPane.setAlignment(media_view, Pos.CENTER);
+
+			setStyle("-fx-background-color:BLACK");
+			
 			media_player.setAutoPlay(true);	
 			// Call method to create listener which listens for screen press
 			pressedScreen();
@@ -79,12 +96,12 @@ public class VideoViewer extends BorderPane  {
 		}
 		// Display error
 		else{
-			mpane.getChildren().add(error_viewer);
+			pane.getChildren().add(error_viewer);
 			setErrorImageSize();
 			System.out.println("Error: Movie not Found");
 		}
 		
-		setCenter(mpane); 
+		setCenter(pane); 
 	}
 	
 	/** This is a getter for the media_view
@@ -109,38 +126,45 @@ public class VideoViewer extends BorderPane  {
 	 * to watch always fits the size of the window.
 	 * 
 	 */
-	public void setSize() {
-		media_view.setPreserveRatio(false);
-		media_view.fitWidthProperty().bind(mpane.widthProperty());
-		media_view.fitHeightProperty().bind(mpane.heightProperty());
+	private void setSize() {
+		media_view.setPreserveRatio(true);
+		media_view.fitWidthProperty().bind(Bindings.selectDouble(media_view.sceneProperty(), "width"));
+		media_view.fitHeightProperty().bind(Bindings.selectDouble(media_view.sceneProperty(), "height"));
+		
 	} 
 	
-	
-	public void setErrorImageSize(){
+	private void setErrorImageSize(){
 		error_viewer.setPreserveRatio(false);
-		error_viewer.fitWidthProperty().bind(mpane.widthProperty());
-		error_viewer.fitHeightProperty().bind(mpane.heightProperty());
+		error_viewer.fitWidthProperty().bind(pane.widthProperty());
+		error_viewer.fitHeightProperty().bind(pane.heightProperty());
 	}
 	
 	/** Method to detect if user has pressed on the screen, doing so
 	 *  will pause the video. Works by creating action listener which
 	 *  listens for mouse click on media_player
 	 */
-	public void pressedScreen(){
+	private void pressedScreen(){
 		// Create the listener
-		media_view.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+		pane.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+			
 		    @Override
 		    // If mouse is pressed check if player is currently paused or running
 		    public void handle(MouseEvent mouseEvent) {
-		    	// If playing then pause
-		    	if (media_player.getStatus().equals(Status.PLAYING)){
-		    		media_player.pause();	
-		    	}
-		    	// If paused then play
-		    	else{
-		    		media_player.play();
-		    	}
-		    }
+		    	
+				if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+		    		if(mouseEvent.getClickCount() == 2) {
+		    			setFullscreen();
+		    		} 
+				    // If playing then pause
+				    if (media_player.getStatus().equals(Status.PLAYING)){
+				    	media_player.pause();	
+				    }
+				    // If paused then play
+				    else {
+				    	media_player.play();
+				    	}
+		    		}
+				}
 		});
 	}
 	
@@ -148,7 +172,7 @@ public class VideoViewer extends BorderPane  {
 	 * 
 	 * @param stage- stage video is being displayed on
 	 */
-	public void setFullscreen(Stage stage){
-		stage.setFullScreen(true);
+	public void setFullscreen(){
+		this.stage.setFullScreen(true);
 	}
 }

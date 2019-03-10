@@ -9,6 +9,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 
 /** MediaBar is a class in the videoviewer package, this is a back end class which
  * adds time slider to a media player. The code
@@ -36,11 +37,11 @@ public class MediaBar extends HBox {
 	 */
 	public MediaBar(MediaPlayer player) {
 		this.player = player;
-        setAlignment(Pos.CENTER); // setting the HBox to center 
+        setAlignment(Pos.BOTTOM_CENTER); // setting the HBox to the bottom 
         setPadding(new Insets(5, 10, 5, 10));  // Add some padding between bar and video
 
         HBox.setHgrow(time, Priority.ALWAYS); // Make box grow if slider is long
-
+        
         // Adding the components to the bottom
         getChildren().add(time); // time slider 
 
@@ -59,6 +60,7 @@ public class MediaBar extends HBox {
                 if (time.isPressed()) { // It would set the time 
                     // as specified by user by pressing 
                     player.seek(player.getMedia().getDuration().multiply(time.getValue() / 100)); 
+                    
                 } 
             } 
         });   
@@ -79,8 +81,4 @@ public class MediaBar extends HBox {
             } 
         }); 
     }
-    
-
-	
-
 }

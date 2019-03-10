@@ -36,13 +36,15 @@ public class Main extends Application {
 	 */
 	public  void start(Stage stage) throws Exception {
 		
-		VideoViewer vid_view = new VideoViewer("1280.mp4");
+		VideoViewer vid_view = new VideoViewer("1280.mp4", stage);
 			
 		Scene scene = new Scene(vid_view, 720, 535, Color.BLACK);
 			 
 		stage.setScene(scene); // Setting the scene to stage 
 		
-		vid_view.setFullscreen(stage);
+		
+		vid_view.setFullscreen();
+		
 		stage.show(); // Showing the stage
 	}
 
