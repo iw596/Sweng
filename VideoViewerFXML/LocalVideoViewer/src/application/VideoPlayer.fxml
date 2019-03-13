@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.media.MediaView?>
+
+<BorderPane fx:id="root_pane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.VideoController">
+   <center>
+      <StackPane fx:id="media_pane" onMouseClicked="#ScreenPressed" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <MediaView fx:id="media_view" fitHeight="200.0" fitWidth="200.0" />
+         </children>
+      </StackPane>
+   </center>
+   <bottom>
+      <HBox fx:id="bar_box" alignment="CENTER" prefHeight="42.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton fx:id="play_button" onMouseClicked="#PlayPressed" text="||" />
+            <Slider fx:id="time_slider" prefHeight="14.0" prefWidth="127.0" />
+            <Label fx:id="volume_label" text="Volume:" />
+            <Slider fx:id="volume_slider" prefHeight="14.0" prefWidth="64.0" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
