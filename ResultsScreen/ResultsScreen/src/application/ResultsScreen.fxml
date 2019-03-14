@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="root_pane" prefHeight="400.0" prefWidth="568.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ResultsScreenController">
+   <top>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="148.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Results" underline="true">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: white; -fx-spacing: 70;" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton fx:id="define_button" alignment="CENTER" buttonType="RAISED" onMouseClicked="#DefineList" prefHeight="50.0" prefWidth="128.0" ripplerFill="#003cff" style="-fx-background-color: #87cefa;" text="Further Define List" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="save_button" buttonType="RAISED" onMouseClicked="#SaveList" prefHeight="50.0" prefWidth="83.0" style="-fx-background-color: #90ee90;" text="Save List" textAlignment="CENTER" textFill="WHITE" />
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <ScrollPane fx:id="scroll_pane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <content>
+            <VBox fx:id="results_pane" alignment="CENTER" prefHeight="200.0" prefWidth="558.0" style="-fx-fill-width: true; -fx-background-color: white;" />
+         </content>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ScrollPane>
+   </center>
+</BorderPane>
