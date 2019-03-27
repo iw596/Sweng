@@ -1,5 +1,6 @@
 package player;
 
+import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 
 import com.sun.media.jfxmedia.MediaPlayer;
@@ -16,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.binding.internal.libvlc_state_t;
@@ -36,6 +38,11 @@ public class Controls extends HBox {
 	Label volume_label = new Label("Volume: "); 
 	Label time_label = new Label("Time: "); 
 	
+	// Text to show current time
+	Text current_time_text = new Text("0.00");
+	
+	DecimalFormat format = new DecimalFormat("#.##"); // To format time
+	
 	DirectMediaPlayerComponent media_player_component;
 	boolean updateScrubber = true;
 	
@@ -48,6 +55,8 @@ public class Controls extends HBox {
 	
 	
 	public Controls (Player player) {
+		//HBox.setHgrow(time_scrubber, null);
+		
 		this.player = player;
 		this.media_player_component = player.getMediaPlayerComponent();
 		//Create buttons
@@ -77,6 +86,7 @@ public class Controls extends HBox {
         getChildren().add(volume);
         getChildren().add(time_label);
         getChildren().add(time_scrubber);
+        getChildren().add(current_time_text);
         
         
         // Add Listener for play/pause button
@@ -111,6 +121,48 @@ public class Controls extends HBox {
             } 
         });
         
+        next.setOnAction(new EventHandler<ActionEvent>() { 
+            public void handle(ActionEvent e) {
+            	
+            	if (player.getCurrentIndex() < player.sizePaths() -1) {
+            		Platform.runLater(new Runnable(){
+						@Override
+						public void run() {
+							int nextIndex = player.getCurrentIndex() + 1;
+							// If more videos to be loaded then load
+							player.loadVideo(nextIndex);
+							player.setCurrentIndex(nextIndex);
+						}
+            		});
+									
+            	}
+            	
+            	
+            }
+        
+        });
+        
+        previous.setOnAction(new EventHandler<ActionEvent>() { 
+            public void handle(ActionEvent e) {
+            	
+            	if (player.getCurrentIndex() > 0) {
+            		Platform.runLater(new Runnable(){
+						@Override
+						public void run() {
+							int nextIndex = player.getCurrentIndex() - 1;
+							// If more videos to be loaded then load
+							player.loadVideo(nextIndex);
+							player.setCurrentIndex(nextIndex);
+						}
+            		});
+									
+            	}
+            	
+            	
+            }
+        
+        });
+        
         
         
         media_player_component.getMediaPlayer().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
@@ -126,14 +178,7 @@ public class Controls extends HBox {
 				// Update the scrubber, providing a fractional value of (current time / length)
 				updatesValues(time/length);
 			}
-			
-			public void mediaStateChanged(uk.co.caprica.vlcj.player.MediaPlayer mediaPlayer, int newState) {
-				System.out.println("new state is: " + newState);
-				
-			}
-			
-			
-			
+
 			
 			/** Method to listen for end of video. If video ends load next video in
 			 *  the path array. If no more videos to load then disable next buton
@@ -244,14 +289,14 @@ public class Controls extends HBox {
   
         // Updating to the new time value 
                 // This will move the slider while running your video 
-    	System.out.println("Function called. Fraction is: " + fraction);
+    	//System.out.println("Function called. Fraction is: " + fraction);
     	if (updateScrubber) {
     		time_scrubber.setValue(fraction * 100);	
     		
     	}
-    	
-        
-        System.out.println("The scrubber value is: " + time_scrubber.getValue());
+    	System.out.println("The time is: " + Long.toString((media_player_component.getMediaPlayer().getTime())));
+    	current_time_text.setText(Long.toString((media_player_component.getMediaPlayer().getTime()/1000)/60));
+    //	System.out.println("The scrubber value is: " + time_scrubber.getValue());
     }
     
 	public void seek(Float fraction) {
@@ -260,7 +305,7 @@ public class Controls extends HBox {
 		// Convert fraction into actual time
 		float time = media_player_component.getMediaPlayer().getLength() * fraction/100;
 		media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
-
+		
 		/*
 		// If the media player is not stopped, set its playback position
 		if (media_player_component.getMediaPlayer().isPlaying()) {

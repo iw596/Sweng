@@ -25,10 +25,11 @@ public class Main extends Application {
 		Canvas canvas = new Canvas(1000,600);
 		Player vidplayer  = new Player(canvas);
 		String [] paths = {
+		         "C:\\Users\\isaac\\Downloads\\Sweng-master (1)\\Sweng-master\\videoviewer\\1280.mp4",
 				"https://www.youtube.com/watch?v=tc8CyxdLGaA",
 				"https://www.youtube.com/watch?v=Ta4o3VDi5vs",
 		         "C:\\Users\\isaac\\Downloads\\Sweng-master (1)\\Sweng-master\\videoviewer\\1280.mp4",
-		         "https://www.youtube.com/watch?v=s9NeZJCZlp4",
+		         "https://www.youtube.com/watch?v=Ta4o3VDi5vs",
 		};
 		vidplayer.loadPaths(paths);
 		

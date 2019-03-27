@@ -1,6 +1,7 @@
 package player;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.sun.jna.NativeLibrary;
@@ -18,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
+import uk.co.caprica.vlcj.player.AudioOutput;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 /**
@@ -70,7 +72,7 @@ public class Player extends BorderPane {
 	        // Add controls to player
 	        Controls controls = new Controls(this);
 			setBottom(controls); // Setting the MediaBar at bottom
-			//setStyle("-fx-background-color:#bfc2c7");
+			setStyle("-fx-background-color:#bfc2c7");
 	        
 	        //media_player_component.getMediaPlayer().prepareMedia("https://www.youtube.com/watch?v=FzLPQNMSWZA");
 	        // Play media
@@ -160,6 +162,15 @@ public class Player extends BorderPane {
 	    	
 	    	System.out.println(this.paths[index_video]);
 	    	this.media_player_component.getMediaPlayer().pause();
+	    	try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	List<AudioOutput> audioOutputs = media_player_component.getMediaPlayerFactory().getAudioOutputs();
+	    	media_player_component.getMediaPlayer().setAudioOutput(audioOutputs.get(4).getName());
+	    	System.out.println(audioOutputs.get(4).getDescription());
 	    	media_player_component.getMediaPlayer().prepareMedia(this.paths[index_video]);
 
 	    	media_player_component.getMediaPlayer().play();
