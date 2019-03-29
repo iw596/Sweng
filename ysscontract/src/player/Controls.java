@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
@@ -43,6 +44,9 @@ public class Controls extends HBox {
 	
 	DecimalFormat format = new DecimalFormat("#.##"); // To format time
 	
+	// Boolean to stop blank end screen being played.
+	boolean over = false;
+	
 	DirectMediaPlayerComponent media_player_component;
 	boolean updateScrubber = true;
 	
@@ -56,7 +60,7 @@ public class Controls extends HBox {
 	
 	public Controls (Player player) {
 		//HBox.setHgrow(time_scrubber, null);
-		
+		setFillHeight(true);
 		this.player = player;
 		this.media_player_component = player.getMediaPlayerComponent();
 		//Create buttons
@@ -73,20 +77,29 @@ public class Controls extends HBox {
         volume.setPrefWidth(70); 
         volume.setMinWidth(30); 
         volume.setValue(100);  // Set volume to be max
-		
-        setAlignment(Pos.CENTER); // setting the HBox to center 
-        //setPadding(new Insets(5, 10, 5, 10));  // Add some padding between bar and video
-		
-        
-        // Adding the components to the bottom 
-        getChildren().add(play_pause); 
-        getChildren().add(next); 
-        getChildren().add(previous); 
-        getChildren().add(volume_label);
-        getChildren().add(volume);
-        getChildren().add(time_label);
-        getChildren().add(time_scrubber);
-        getChildren().add(current_time_text);
+        Platform.runLater(new Runnable() {
+            @Override
+                public void run() {
+                setAlignment(Pos.CENTER); // setting the HBox to center 
+                //setPadding(new Insets(5, 10, 5, 10));  // Add some padding between bar and video
+        		
+                
+                // Adding the components to the bottom 
+                getChildren().add(play_pause); 
+                getChildren().add(next); 
+                getChildren().add(previous); 
+                getChildren().add(volume_label);
+                getChildren().add(volume);
+                getChildren().add(time_label);
+                getChildren().add(time_scrubber);
+                HBox.setHgrow(time_scrubber, Priority.ALWAYS);
+                getChildren().add(current_time_text);
+                HBox.setHgrow(current_time_text, Priority.ALWAYS);
+                    // draw stuff
+                }
+            });
+
+      
         
         
         // Add Listener for play/pause button
@@ -101,7 +114,7 @@ public class Controls extends HBox {
                 
                 } 
                 // If the video paused then play 
-                else {
+                else if (media_player_component.getMediaPlayer().getMediaPlayerState() == libvlc_state_t.libvlc_Paused && over == false) { 
                 	media_player_component.getMediaPlayer().play();
                 	play_pause.setText("||"); 
                 	
@@ -145,7 +158,7 @@ public class Controls extends HBox {
         previous.setOnAction(new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) {
             	
-            	if (player.getCurrentIndex() > 0) {
+            	if (player.getCurrentIndex() > 0 && over == false)  {
             		Platform.runLater(new Runnable(){
 						@Override
 						public void run() {
@@ -156,6 +169,22 @@ public class Controls extends HBox {
 						}
             		});
 									
+            	}
+            	
+            	else if (over == true) {
+            		Platform.runLater(new Runnable(){
+						@Override
+						public void run() {
+							int nextIndex = player.getCurrentIndex() ;
+							// If more videos to be loaded then load
+							player.loadVideo(nextIndex);
+							player.setCurrentIndex(nextIndex);
+							over = false;
+							updateScrubber = true;
+							
+						}
+            		});
+            		
             	}
             	
             	
@@ -186,61 +215,55 @@ public class Controls extends HBox {
 			 * 
 			 */
 			
-		 /*@Override
-			public void finished(uk.co.caprica.vlcj.player.MediaPlayer mediaPlayer) {
-				// Prevent a JavaFX thread error by calling runLater
-				Platform.runLater(new Runnable(){
-					@Override
-					public void run() {
-						int nextIndex = player.getCurrentIndex() + 1;
-						// If more videos to be loaded then load
-						if (nextIndex < player.sizePaths()) {
-							player.loadVideo(nextIndex);
-							player.setCurrentIndex(nextIndex);
-							
-							
-						}
-						// Else display a black screen
-						else {
-							// Code to load in black screen image
-						}
-						
-						
-						
-					}
-				});
-			}	*/
 			 @Override
 				public void finished(uk.co.caprica.vlcj.player.MediaPlayer mediaPlayer) {
 					// Prevent a JavaFX thread error by calling runLater
-					Platform.runLater(new Runnable(){
-						@Override
-						public void run() {
-							if (mediaPlayer.getTime() < 50) {
-								System.out.println("False trigger");
-							}
-							else {
-								int nextIndex = player.getCurrentIndex() + 1;
-								// If more videos to be loaded then load
-								if (nextIndex < player.sizePaths()) {
-									player.loadVideo(nextIndex);
-									player.setCurrentIndex(nextIndex);
-									
-									
+				 	if (over == false) {
+						Platform.runLater(new Runnable(){
+							@Override
+							public void run() {
+								// Youtube videos and error screen initially start with zero time, so need to check time
+								// before confirming that video is actually over
+								if (mediaPlayer.getTime() < 50 && player.in_error == false) {
+									// Set in_error to true as we want to be able to play next video eventually
+									if (player.in_error == false) {
+										player.in_error = true;
+									}
+									System.out.println("False trigger");
 								}
-								// Else display a black screen
 								else {
-									// Code to load in black screen image
+									int nextIndex = player.getCurrentIndex() + 1;
+									// If more videos to be loaded then load
+									if (nextIndex < player.sizePaths()) {
+										player.loadVideo(nextIndex);
+										player.setCurrentIndex(nextIndex);
+										player.in_error = false;
+										
+										
+									}
+									// Else display a black screen and alert user no videos left
+									else {
+										player.loadEndScreen();
+									
+										mediaPlayer.pause();
+										
+										
+										
+										
+										
+									}
+									
 								}
+	
+								
+								
 								
 							}
-
-							
-							
-							
-						}
-					});
+						});
+			 		}
 				}
+			 			 
+			 
 	
 		});
         
@@ -291,35 +314,90 @@ public class Controls extends HBox {
                 // This will move the slider while running your video 
     	//System.out.println("Function called. Fraction is: " + fraction);
     	if (updateScrubber) {
-    		time_scrubber.setValue(fraction * 100);	
+    		// Place everything in a runlater runnable in order to prevent Javafx rendering error when
+    		// screen is resized
+    	     Platform.runLater(new Runnable() {
+    	    	 @Override
+    	         public void run() {
+		    		time_scrubber.setValue(fraction * 100);	
+		    		// Get current time of video and the length of the video, convert to seconds and minutes
+		        	long lenght_millis = media_player_component.getMediaPlayer().getLength();
+		        	long lenght_minutes = (lenght_millis / 1000)  / 60;
+		        	int lenght_seconds = (int)((lenght_millis / 1000) % 60);
+		        	
+		        	long current_millis = media_player_component.getMediaPlayer().getTime();
+		        	long current_minutes = (current_millis / 1000)  / 60;
+		        	int current_seconds = (int)((current_millis / 1000) % 60);
+		        	
+		        	String current_minutes_text = new String();
+		        	String current_seconds_text = new String();
+		        	
+		        	String length_video_minutes_text = new String();
+		        	String length_video_seconds_text = new String();
+		        	
+		        	// Prefix a zero to minutes and seconds if necessary to ensure mm:ss format 
+		        	if (current_minutes < 10) {
+		        		current_minutes_text = "0" + Long.toString(current_minutes);
+		        	}
+		        	else {
+		        		current_minutes_text = Long.toString(current_minutes);
+		        	}
+		        	if (current_seconds< 10) {
+		        		current_seconds_text = "0" + Long.toString(current_seconds);
+		        	}
+		        	else {
+		        		current_seconds_text = Long.toString(current_seconds);
+		        		
+		        	}
+		        	
+		        	// Repeat this for the string storing length of video
+		        	if (lenght_minutes < 10) {
+		        		length_video_minutes_text = "0" + Long.toString(lenght_minutes);
+		        	}
+		        	else {
+		        		length_video_minutes_text = Long.toString(lenght_minutes);
+		        	}
+		        	
+		        	if (lenght_seconds< 10) {
+		        		length_video_seconds_text = "0" + Long.toString(lenght_seconds);
+		        	}
+		        	else {
+		        		length_video_seconds_text = Long.toString(lenght_seconds);
+		        	}
+		        		
+		        	
+		        	
+		        	current_time_text.setText(current_minutes_text + ":" + current_seconds_text + "/" + length_video_minutes_text + ":" + length_video_seconds_text);
+		    	            }
+		    	     });
     		
     	}
-    	System.out.println("The time is: " + Long.toString((media_player_component.getMediaPlayer().getTime())));
-    	current_time_text.setText(Long.toString((media_player_component.getMediaPlayer().getTime()/1000)/60));
+
     //	System.out.println("The scrubber value is: " + time_scrubber.getValue());
     }
     
 	public void seek(Float fraction) {
-		System.out.println("The fraction is: " + fraction);
+	//	System.out.println("The fraction is: " + fraction);
+		if (fraction > 99.9) {
+			fraction = (float) 99.9;
+		}
 		
 		// Convert fraction into actual time
 		float time = media_player_component.getMediaPlayer().getLength() * fraction/100;
 		media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
 		
-		/*
-		// If the media player is not stopped, set its playback position
-		if (media_player_component.getMediaPlayer().isPlaying()) {
-			media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
-			System.out.println("In if statement, time of video is: " + media_player_component.getMediaPlayer().getTime());
-			//media_player_component.getMediaPlayer().play();
-		}
-		else {
-			// If the media player is stopped, setting its playback position won't work
-			// Instead we must store the value until the player is restarted
-			System.out.println("In else");
-			nextPlayPosition = time;
-		}*/
+
 	}
+	
+	
+	protected void loadingText() {
+		this.current_time_text.setText("Loading next video.");
+	}
+	protected void endText() {
+		this.current_time_text.setText("No more videos to play.");
+	}
+	
+
     
     
 }

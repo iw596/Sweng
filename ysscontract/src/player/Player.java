@@ -1,10 +1,15 @@
 package player;
 
+import java.awt.Color;
+import java.awt.Toolkit;
+import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.sun.jna.NativeLibrary;
+import com.sun.media.jfxmedia.Media;
+
 
 import javafx.application.Platform;
 import javafx.beans.property.FloatProperty;
@@ -16,10 +21,13 @@ import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.scene.image.WritablePixelFormat;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
+import uk.co.caprica.vlcj.binding.internal.libvlc_marquee_position_e;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.AudioOutput;
+import uk.co.caprica.vlcj.player.Marquee;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 /**
@@ -34,46 +42,87 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
  * @author Isaac Watson 
  */
 public class Player extends BorderPane {
+	
 
 		private String[] paths; 
 		private ImageView image_view;
 	    private DirectMediaPlayerComponent media_player_component;
 	    private WritableImage writable_image;
 	    private Pane player_holder;
+	    private Pane loading_pane;
 	    private WritablePixelFormat<ByteBuffer> pixel_format;
 	    private FloatProperty video_source_ratio_property;
-	    // Store height and width
-	    private int height;
-	    private int width;
+	    // Store height and width of screen
+	    private int screen_height;
+	    private int screen_width;
 	    private int current_video_index = 0;
-	    // Store coordinates where 
+	    // Store loading image path
+	    private String loading_image_path = "C:\\Users\\isaac\\Documents\\SWeng\\ysscontract\\loading.jpg";
+	    private String audio_output_name =  new String();
 	    
-	    public Player(Canvas canvas) {
+	    private Controls controls;
+	    
+	    // Store coordinates where screen will be displayer
+	    private int x_screen_position;
+	    private int y_screen_position;
+	    
+	    // Store window width and height
+	    private int window_width;
+	    private int window_height;
+	    
+	    //Stores if media player is in error screen
+	    boolean in_error = false;
+	    
+	    public Player(Canvas canvas, int x_screen_position, int y_screen_position) {
 	    	// Add location of VLC, this may need to be changed depending on where VLC is installed
 	    	NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "c:/program files (x86)/videolan/vlc");
+	    	
+	    	// Find and store the actual dimensions of the user screen
+	    	this.screen_height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	    	this.screen_width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	   
+	    	// Store the window height and window width
+	    	this.window_width = (int) canvas.getWidth(); 
+	    	this.window_height = (int) canvas.getHeight();
+	    	
+	    	// Store the coordinates where the window will be opened
+	        this.x_screen_position = x_screen_position;
+	        this.y_screen_position = y_screen_position;
 
-	    	this.height = (int) canvas.getHeight();
-	    	this.width = (int) canvas.getWidth();
-	    	System.out.println("The height is: " + height + " The width is: " + width);
+	    	
 	    	
 	    	// Create pane to add player on
 	    	player_holder = new Pane();
+	    	
+	    	loading_pane = new Pane();
 	    	// Define source ratio of video
 	        video_source_ratio_property = new SimpleFloatProperty(0.4f);
 	        // Define layout of pixels and initalise the players display
 	        pixel_format = PixelFormat.getByteBgraPreInstance();
-
 	        initializeImageView();
-	    	media_player_component = new CanvasComponent(video_source_ratio_property, writable_image, pixel_format, width, height);
-	    	setCenter(player_holder); 
-	        // Needs to be true to play Youtube videos, do not set to False!!
-	        media_player_component.getMediaPlayer().setPlaySubItems(true);
-	        
+	        // Create the actual VLC player
+	    	media_player_component = new CanvasComponent(video_source_ratio_property, writable_image, pixel_format, screen_width, screen_height);
 	        // Add controls to player
-	        Controls controls = new Controls(this);
-			setBottom(controls); // Setting the MediaBar at bottom
-			setStyle("-fx-background-color:#bfc2c7");
+	        this.controls = new Controls(this);
+	       // Enable this so Youtube videos can be played
+	        media_player_component.getMediaPlayer().setPlaySubItems(true);
+	        Platform.runLater(new Runnable() {
+	            @Override
+	                public void run() {
+	                    // draw stuff
+	    				setBottom(controls); // Setting the MediaBar at bottom
+	    				setStyle("-fx-background-color:#bfc2c7");
+	    		    	setCenter(player_holder); 
+	    		        // Needs to be true to play Youtube videos, do not set to False!!
+	    		       
+	                }
+	            });
+
+
 	        
+	    	List<AudioOutput> audioOutputs = media_player_component.getMediaPlayerFactory().getAudioOutputs();
+	    	this.audio_output_name = audioOutputs.get(4).getName();
+	    	
 	        //media_player_component.getMediaPlayer().prepareMedia("https://www.youtube.com/watch?v=FzLPQNMSWZA");
 	        // Play media
 	        //media_player_component.getMediaPlayer().start();
@@ -87,23 +136,58 @@ public class Player extends BorderPane {
 	     * 
 	     */
 	    private void initializeImageView() {
-	        writable_image = new WritableImage(width, height);
+	        writable_image = new WritableImage(screen_width, screen_height);
 
 	        image_view = new ImageView(writable_image);
 	        player_holder.getChildren().add(image_view);
+	        
 
 	        player_holder.widthProperty().addListener((observable, oldValue, newValue) -> {
-	            fitImageViewSize(newValue.floatValue(), (float) player_holder.getHeight());
-	            //this.width =  (int) newValue;
+	        	   Platform.runLater(new Runnable() {
+	        		    @Override
+	        		        public void run() {
+	        		            // draw stuff
+	        		    	fitImageViewSize(newValue.floatValue(), (float) player_holder.getHeight());	            
+	        		        }
+	        		    });
+	            
+		    	try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 	        });
 
 	        player_holder.heightProperty().addListener((observable, oldValue, newValue) -> {
-	            fitImageViewSize((float) player_holder.getWidth(), newValue.floatValue());
-	           // this.height =  (int) newValue;
+	        	   Platform.runLater(new Runnable() {
+	        		    @Override
+	        		        public void run() {
+	        		            // draw stuff
+	        		    		fitImageViewSize((float) player_holder.getWidth(), newValue.floatValue());
+
+	        		        }
+	        		    });
+	            
+		    	try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            
 	        });
 
 	        video_source_ratio_property.addListener((observable, oldValue, newValue) -> {
-	            fitImageViewSize((float) player_holder.getWidth(), (float) player_holder.getHeight());
+	        	   Platform.runLater(new Runnable() {
+	        		    @Override
+	        		        public void run() {
+	        		            // draw stuff
+	        		    	fitImageViewSize((float) player_holder.getWidth(), (float) player_holder.getHeight());
+	        		        }
+	        		    });
+	           
 	        });
 	    }
 	    
@@ -114,21 +198,49 @@ public class Player extends BorderPane {
 	     */
 	    
 	    private void fitImageViewSize(float width, float height) {
-	        Platform.runLater(() -> {
+     	   Platform.runLater(new Runnable() {
+   		    @Override
+   		        public void run() {
 	            float fitHeight = video_source_ratio_property.get() * width;
 	            if (fitHeight > height) {
 	                image_view.setFitHeight(height);
+			    	try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	                double fitWidth = height / video_source_ratio_property.get();
 	                image_view.setFitWidth(fitWidth);
 	                image_view.setX((width - fitWidth) / 2);
+			    	try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	                image_view.setY(0);
+	               
 	            }
 	            else {
 	                image_view.setFitWidth(width);
+			    	try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	                image_view.setFitHeight(fitHeight);
 	                image_view.setY((height - fitHeight) / 2);
+			    	try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	                image_view.setX(0);
 	            }
+   		    }
 	        });
 	    }
 	    
@@ -143,7 +255,6 @@ public class Player extends BorderPane {
 	    	this.paths = paths;
 	    	System.out.println("Size of paths array is:" + paths.length);
 	    	System.out.println("Current index is:" + this.current_video_index);
-	    	checkVideo();
 	    	// Load first video
 	    	loadVideo(this.current_video_index);
 	    	
@@ -160,34 +271,92 @@ public class Player extends BorderPane {
 	     */
 	    protected void  loadVideo (int index_video) {
 	    	
-	    	System.out.println(this.paths[index_video]);
 	    	this.media_player_component.getMediaPlayer().pause();
+
+	   
+	    	if (this.current_video_index < paths.length - 1) {
+	    		this.controls.loadingText();
+
+	    	}
+	  
+
 	    	try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    	List<AudioOutput> audioOutputs = media_player_component.getMediaPlayerFactory().getAudioOutputs();
-	    	media_player_component.getMediaPlayer().setAudioOutput(audioOutputs.get(4).getName());
-	    	System.out.println(audioOutputs.get(4).getDescription());
-	    	media_player_component.getMediaPlayer().prepareMedia(this.paths[index_video]);
-
-	    	media_player_component.getMediaPlayer().play();
+	    	media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
 	    	
-	    	System.out.println("New video time: " + media_player_component.getMediaPlayer().getTime());
+	    	if (checkVideo(index_video)) {
+	    		// Need to reset marquee text due to VLCJ bug where disable marquee request is ignored
+				 Marquee.marquee()
+			    	.text("")
+			    	.size(20)
+			    	.opacity(0.7f)
+			    	.position(libvlc_marquee_position_e.centre)
+			    	 .colour(Color.WHITE)
+			    	.location(5,5)
+			    	.timeout(9000)
+			    	.enable()
+			    	.apply(media_player_component.getMediaPlayer()); 
+	    		//media_player_component.getMediaPlayer().enableMarquee(false);
+	    		media_player_component.getMediaPlayer().prepareMedia(this.paths[index_video]);
+	    		media_player_component.getMediaPlayer().play();
+	    		
+	    	}
+	    	else {
+	    		loadInvalidcreen();
+	    		
+	    	}
+	    	
+
+
+	    	//System.out.println(audioOutputs.get(4).getDescription());
+	    	
+
+
+	    	
+	    	
+	    
 	  
 	    }
 	    
-	    /** This method checks through all
+	    /** This method checks that the string in the paths array is either a Yotube watch link or a valid path to an 
+	     *  .mp4 file. If the link or path is valid then true is returned. Otherwise false is returned.
+	     *  
+	     * @param index_video - the index of the path array that is being checked
 	     * 
 	     */
-	    private void checkVideo() {
+	    private boolean checkVideo(int index_video) {
 	    	// First check if youtube or local
-	    	
-	    	//if (paths[this.current_video_index].substring(0, 3).str) {
+	    	System.out.println(paths[index_video].substring(0, 3));
+	    	// Check that it is a Youtube watch link
+	    	if (paths[index_video].contains("www.youtube.com/watch?v=")) {
 	    		
-	    	//}
+	    		System.out.println("Youtube link");
+	    		in_error = false;
+	    		return true;
+	    	}
+	    	else {
+	    		// If local then check if .mp4 and if the file actually exists
+	    		// First check that file exits
+	    		if (new File(paths[index_video]).exists()) {
+	    			// Then check if a .mp4 file
+	    			if (paths[index_video].substring(paths[index_video].lastIndexOf(".")).equals(".mp4")) {
+	    				// If local file exists and correct file type return true
+	    	    		in_error = false;
+
+	    				return true;
+	    			}
+	    			
+	    			
+	    		}
+	    		else {
+	    			return false;
+	    		}
+	    	}
+	    	return false;
 	    }
 	    
 	    /** This getter returns the DirectMediaPlayerComponent used by the
@@ -221,6 +390,84 @@ public class Player extends BorderPane {
 			// TODO Auto-generated method stub
 			this.current_video_index = nextIndex;
 			
+		}
+		
+		protected void loadEndScreen() {
+	    	try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
+	    	
+	    	//System.out.println(audioOutputs.get(4).getDescription());
+	    	media_player_component.getMediaPlayer().prepareMedia("C:\\Users\\isaac\\Documents\\SWeng\\ysscontract\\endscreen.jpg", "image-duration=5");
+	    	media_player_component.getMediaPlayer().play();
+	    	media_player_component.getMediaPlayer().pause();
+	    	
+	   	
+	    	this.controls.over = true;
+	    	this.controls.updateScrubber = false;
+	    	this.controls.endText();
+			
+			
+		}
+		
+		/** Method to load a error screen if an invalid 
+		 * 
+		 */
+
+		
+		private void loadInvalidcreen() {
+			in_error = true;
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	     	Platform.runLater(new Runnable() {
+	     		@Override
+	      		 public void run() {
+	     			System.out.println("Called");
+	     			// Set error message to be displayed
+					 Marquee.marquee()
+			    	.text("Playback error: " + paths[current_video_index] + " is not a valid path")
+			    	.size(20)
+			    	.opacity(0.7f)
+			    	.position(libvlc_marquee_position_e.centre)
+			    	 .colour(Color.WHITE)
+			    	.location(5,5)
+			    	.timeout(9000)
+			    	.enable()
+			    	.apply(media_player_component.getMediaPlayer()); 
+			    	// media_player_component.getMediaPlayer().enableMarquee(true)
+					
+			    	media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
+			    	media_player_component.getMediaPlayer().prepareMedia("C:\\Users\\isaac\\Documents\\SWeng\\ysscontract\\endscreen.jpg");
+			    	media_player_component.getMediaPlayer().play();
+			    	media_player_component.getMediaPlayer().enableMarquee(false);
+	     		}
+	     	});
+		     	
+		}
+		
+		public int getXScreenPosition() {
+			return this.x_screen_position;
+		}
+		
+		public int getYScreenPosition() {
+			return this.y_screen_position;
+		}
+		
+		public int getWindowHeight() {
+			return this.window_height;
+		}
+		
+		public int getWindowWidth() {
+			return this.window_width;
 		}
 	    
 

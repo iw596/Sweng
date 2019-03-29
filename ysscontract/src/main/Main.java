@@ -12,6 +12,7 @@ import player.Player;
 
 public class Main extends Application {
 	
+	
 	public static void main(String[] args) {
 		// Notify the program of where to find VLCJ
 		//NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
@@ -21,23 +22,31 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		//System.setProperty("prism.order", "sw");
 		// TODO Auto-generated method stub
-		Canvas canvas = new Canvas(1000,600);
-		Player vidplayer  = new Player(canvas);
+		Canvas canvas = new Canvas(500,500);
+		Player vidplayer  = new Player(canvas,0,0);
 		String [] paths = {
 		         "C:\\Users\\isaac\\Downloads\\Sweng-master (1)\\Sweng-master\\videoviewer\\1280.mp4",
+		         "a error",
 				"https://www.youtube.com/watch?v=tc8CyxdLGaA",
 				"https://www.youtube.com/watch?v=Ta4o3VDi5vs",
 		         "C:\\Users\\isaac\\Downloads\\Sweng-master (1)\\Sweng-master\\videoviewer\\1280.mp4",
-		         "https://www.youtube.com/watch?v=Ta4o3VDi5vs",
+		         "https://www.youtube.com/watch?v=Ta4o3VDi5vs", 
 		};
 		vidplayer.loadPaths(paths);
+		//vidplayer.setPre
+
 		
 				
-				
-		Scene scene = new Scene(vidplayer);
+		// Open player using given width and height and in specified x and y position
+		Scene scene = new Scene(vidplayer,vidplayer.getWindowWidth(),vidplayer.getWindowHeight());
+		stage.setX(vidplayer.getXScreenPosition());
+		stage.setY(vidplayer.getYScreenPosition());
+		//stage.setFullScreen(false);	
 		stage.setScene(scene);
 		stage.show();
+		
 		
 		// Stops playing audio when screen is closed.
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
