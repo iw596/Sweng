@@ -1,6 +1,8 @@
 package main;
 
 
+import com.sun.jna.NativeLibrary;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -15,7 +17,7 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		// Notify the program of where to find VLCJ
-		//NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
+		NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
 		
         launch(args);
     }
@@ -24,21 +26,23 @@ public class Main extends Application {
 	public void start(Stage stage) throws Exception {
 		//System.setProperty("prism.order", "sw");
 		// TODO Auto-generated method stub
+		
 		Canvas canvas = new Canvas(750,500);
+		
 		Player vidplayer  = new Player(canvas,0,0);
+		
 		String [] paths = {
-		         "C:\\Users\\isaac\\Downloads\\Sweng-master (1)\\Sweng-master\\videoviewer\\1280.mp4",
+				"C:\\Users\\Dan\\eclipse-workspace\\Sweng\\ysscontract\\1280.mp4",
 		         "a error",
 				"https://www.youtube.com/watch?v=tc8CyxdLGaA",
 				"https://www.youtube.com/watch?v=Ta4o3VDi5vs",
-		         "C:\\Users\\isaac\\Downloads\\Sweng-master (1)\\Sweng-master\\videoviewer\\1280.mp4",
-		         "https://www.youtube.com/watch?v=Ta4o3VDi5vs", 
+		         "C:\\Users\\Dan\\eclipse-workspace\\Sweng\\ysscontract\\1280.mp4",
+		         "https://www.youtube.com/watch?v=Ta4o3VDi5vs",
+		         "D:/nonexistent/test/no_file.mp4"
 		};
-		vidplayer.loadPaths(paths);
-		//vidplayer.setPre
-
 		
-				
+		vidplayer.loadPaths(paths);
+	
 		// Open player using given width and height and in specified x and y position
 		Scene scene = new Scene(vidplayer,vidplayer.getWindowWidth(),vidplayer.getWindowHeight());
 		stage.setX(vidplayer.getXScreenPosition());
@@ -46,8 +50,7 @@ public class Main extends Application {
 		//stage.setFullScreen(false);	
 		stage.setScene(scene);
 		stage.show();
-		
-		
+
 		// Stops playing audio when screen is closed.
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
         	

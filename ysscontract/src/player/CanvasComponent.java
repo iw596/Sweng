@@ -13,8 +13,14 @@ import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.direct.BufferFormat;
 import uk.co.caprica.vlcj.player.direct.DirectMediaPlayer;
 
-/** The CanvasComponent class extends the DirectMediaPlayerComponent class, it adds functionality
+/**
+ * The CanvasComponent class extends the DirectMediaPlayerComponent class, it adds functionality
  * to make the player compatible with JavaFx 
+ * 
+ * Date created: 18/03/2019
+ * Date last edited 18/03/2019
+ * Last edited by: Isaac Watson
+ * 
  * @author Isaac Watson
  *
  */
@@ -37,8 +43,6 @@ public class CanvasComponent extends DirectMediaPlayerComponent{
 
     }
 
-   
-
     private PixelWriter getPW() {
         if (pixel_writer == null) {
             pixel_writer = writable_image.getPixelWriter();
@@ -46,7 +50,8 @@ public class CanvasComponent extends DirectMediaPlayerComponent{
         return pixel_writer;
     }
    
-    /** This method was taken from: It controls how the player displays each frame.
+    /** This method was taken from: 
+     * It controls how the player displays each frame.
      */
     @Override
     public void display(DirectMediaPlayer mediaPlayer, Memory[] nativeBuffers, BufferFormat bufferFormat) {

@@ -1,16 +1,12 @@
 package player;
 
 import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
-
-import com.sun.media.jfxmedia.MediaPlayer;
 
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,10 +15,21 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
+import uk.co.caprica.vlcj.binding.internal.libvlc_state_t;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
-import uk.co.caprica.vlcj.binding.internal.libvlc_state_t;
 
+/**
+ * Controls is the  class in the player package. This class handles the generation
+ * of a resizable transport control used to control a video player object. This object
+ * extends a HBox.
+ * 
+ * Date created: 18/03/2019
+ * Date last edited 30/03/2019
+ * Last edited by: Dan Jackson
+ *
+ * @author Isaac Watson 
+ */
 public class Controls extends HBox {
 	
 	//Instantiate Buttons
@@ -49,19 +56,14 @@ public class Controls extends HBox {
 	
 	DirectMediaPlayerComponent media_player_component;
 	boolean updateScrubber = true;
-	
-	// Variable used to allow seeking while the media player is stopped
-	// It stores the value of where the the media player should begin its next playback
-	private Float nextPlayPosition = (float) 0;
-	
-	// Store Player obect
-	private Player player;
-	
-	
+
+	/**
+	 * Constructor for a video player's controls.
+	 * @param player the video player the controls are for.
+	 */
 	public Controls (Player player) {
 		//HBox.setHgrow(time_scrubber, null);
 		setFillHeight(true);
-		this.player = player;
 		this.media_player_component = player.getMediaPlayerComponent();
 		//Create buttons
 		play_pause = new Button("||");  
@@ -77,6 +79,7 @@ public class Controls extends HBox {
         volume.setPrefWidth(70); 
         volume.setMinWidth(30); 
         volume.setValue(100);  // Set volume to be max
+        
         Platform.runLater(new Runnable() {
             @Override
                 public void run() {
@@ -99,15 +102,12 @@ public class Controls extends HBox {
                 }
             });
 
-      
-        
-        
         // Add Listener for play/pause button
         // Set up event handler to enable button press to pause video
         play_pause.setOnAction(new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) 
             { 
-            	// If playin then pause
+            	// If playing then pause
                 if (media_player_component.getMediaPlayer().getMediaPlayerState() == libvlc_state_t.libvlc_Playing) { 
                 	media_player_component.getMediaPlayer().pause(); 
                 	play_pause.setText(">"); 
@@ -134,6 +134,7 @@ public class Controls extends HBox {
             } 
         });
         
+        //button listener for the next video button
         next.setOnAction(new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) {
             	
@@ -155,6 +156,7 @@ public class Controls extends HBox {
         
         });
         
+        //button listener for the previous video button
         previous.setOnAction(new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) {
             	
@@ -192,8 +194,7 @@ public class Controls extends HBox {
         
         });
         
-        
-        
+        //adds event listener for when the video's time changes
         media_player_component.getMediaPlayer().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
             /**
             *
@@ -214,7 +215,6 @@ public class Controls extends HBox {
 			 *  and display black screen.
 			 * 
 			 */
-			
 			 @Override
 				public void finished(uk.co.caprica.vlcj.player.MediaPlayer mediaPlayer) {
 					// Prevent a JavaFX thread error by calling runLater
@@ -234,7 +234,7 @@ public class Controls extends HBox {
 								else {
 									int nextIndex = player.getCurrentIndex() + 1;
 									// If more videos to be loaded then load
-									if (nextIndex < player.sizePaths()) {
+									if (nextIndex < player.sizePaths() - 1) {
 										player.loadVideo(nextIndex);
 										player.setCurrentIndex(nextIndex);
 										player.in_error = false;
@@ -246,33 +246,19 @@ public class Controls extends HBox {
 										player.loadEndScreen();
 									
 										mediaPlayer.pause();
-										
-										
-										
-										
-										
+
 									}
 									
 								}
-	
-								
-								
-								
+
 							}
 						});
 			 		}
 				}
-			 			 
-			 
-	
+
 		});
         
-        
 
-        
-        
-
-        
 		// This event happens when the user begins a mouse click on the scrubber
         time_scrubber.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
@@ -294,19 +280,11 @@ public class Controls extends HBox {
 			}
 		});
         
-
-        
-        
-        
-		
-		
-		
-		
 	}
 	
 	/**
 	 * This protected method is used to update the timer slider of the video as
-	 * the time changes
+	 * the time changes.
 	 */
     protected void updatesValues(Float fraction) { 
   
@@ -351,9 +329,7 @@ public class Controls extends HBox {
 		        		current_seconds_text = Long.toString(current_seconds);
 		        		
 		        	}
-		        	
-		        	
-		        	
+
 		        	// Repeat the string manipulation for the string storing length of video
 		        	if (length_minutes < 10) {
 		        		length_video_minutes_text = "0" + Long.toString(length_minutes);
@@ -368,9 +344,7 @@ public class Controls extends HBox {
 		        	else {
 		        		length_video_seconds_text = Long.toString(length_seconds);
 		        	}
-		        		
-		        	
-		        	
+
 		        	current_time_text.setText(current_minutes_text + ":" + current_seconds_text + "/" + length_video_minutes_text + ":" + length_video_seconds_text);
 		    	            }
 		    	     });
@@ -380,6 +354,10 @@ public class Controls extends HBox {
     //	System.out.println("The scrubber value is: " + time_scrubber.getValue());
     }
     
+    /** 
+     * Method for seeking to a different time in the video.
+     * @param fraction
+     */
 	public void seek(Float fraction) {
 	//	System.out.println("The fraction is: " + fraction);
 		if (fraction > 99.9) {
@@ -389,14 +367,19 @@ public class Controls extends HBox {
 		// Convert fraction into actual time
 		float time = media_player_component.getMediaPlayer().getLength() * fraction/100;
 		media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
-		
 
 	}
 	
-	
+	/**
+	 * Method to display the loading text on the controls.
+	 */
 	protected void loadingText() {
-		this.current_time_text.setText("Loading next video.");
+		this.current_time_text.setText("Loading next video...");
 	}
+	
+	/**
+	 * Method to display the finished text once all of the videos have been played.
+	 */
 	protected void endText() {
 		this.current_time_text.setText("No more videos to play.");
 	}

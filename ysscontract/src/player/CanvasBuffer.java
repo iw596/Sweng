@@ -2,8 +2,6 @@ package player;
 
 import javafx.application.Platform;
 import javafx.beans.property.FloatProperty;
-import javafx.geometry.Rectangle2D;
-import javafx.stage.Screen;
 import uk.co.caprica.vlcj.player.direct.BufferFormat;
 import uk.co.caprica.vlcj.player.direct.BufferFormatCallback;
 import uk.co.caprica.vlcj.player.direct.format.RV32BufferFormat;
