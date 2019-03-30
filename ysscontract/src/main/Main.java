@@ -24,7 +24,7 @@ public class Main extends Application {
 	public void start(Stage stage) throws Exception {
 		//System.setProperty("prism.order", "sw");
 		// TODO Auto-generated method stub
-		Canvas canvas = new Canvas(500,500);
+		Canvas canvas = new Canvas(750,500);
 		Player vidplayer  = new Player(canvas,0,0);
 		String [] paths = {
 		         "C:\\Users\\isaac\\Downloads\\Sweng-master (1)\\Sweng-master\\videoviewer\\1280.mp4",

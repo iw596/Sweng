@@ -119,7 +119,7 @@ public class Player extends BorderPane {
 	            });
 
 
-	        
+	        // Get directX audio output driver name
 	    	List<AudioOutput> audioOutputs = media_player_component.getMediaPlayerFactory().getAudioOutputs();
 	    	this.audio_output_name = audioOutputs.get(4).getName();
 	    	
@@ -279,13 +279,7 @@ public class Player extends BorderPane {
 
 	    	}
 	  
-
-	    	try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	    	// Reinitalise drivers to prevent VLCJ codec error 
 	    	media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
 	    	
 	    	if (checkVideo(index_video)) {
@@ -392,13 +386,14 @@ public class Player extends BorderPane {
 			
 		}
 		
+		/** This method loads a black screen when all videos have been played and 
+		 *  updates the time text field on the control panel to indicate all videos
+		 *  have been played.
+		 */
+		
 		protected void loadEndScreen() {
-	    	try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			// Sho
+
 	    	media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
 	    	
 	    	//System.out.println(audioOutputs.get(4).getDescription());

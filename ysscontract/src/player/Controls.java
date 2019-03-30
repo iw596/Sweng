@@ -321,9 +321,11 @@ public class Controls extends HBox {
     	         public void run() {
 		    		time_scrubber.setValue(fraction * 100);	
 		    		// Get current time of video and the length of the video, convert to seconds and minutes
-		        	long lenght_millis = media_player_component.getMediaPlayer().getLength();
-		        	long lenght_minutes = (lenght_millis / 1000)  / 60;
-		        	int lenght_seconds = (int)((lenght_millis / 1000) % 60);
+		        	long lengtht_millis = media_player_component.getMediaPlayer().getLength();
+		        	long length_minutes = (lengtht_millis / 1000)  / 60;
+		        	// Subtract one off the length in seconds otherwise timer will usually be one second longer than
+		        	// length of video due to rounding error
+		        	int length_seconds = (int)((lengtht_millis / 1000) % 60);
 		        	
 		        	long current_millis = media_player_component.getMediaPlayer().getTime();
 		        	long current_minutes = (current_millis / 1000)  / 60;
@@ -350,19 +352,21 @@ public class Controls extends HBox {
 		        		
 		        	}
 		        	
-		        	// Repeat this for the string storing length of video
-		        	if (lenght_minutes < 10) {
-		        		length_video_minutes_text = "0" + Long.toString(lenght_minutes);
+		        	
+		        	
+		        	// Repeat the string manipulation for the string storing length of video
+		        	if (length_minutes < 10) {
+		        		length_video_minutes_text = "0" + Long.toString(length_minutes);
 		        	}
 		        	else {
-		        		length_video_minutes_text = Long.toString(lenght_minutes);
+		        		length_video_minutes_text = Long.toString(length_minutes);
 		        	}
 		        	
-		        	if (lenght_seconds< 10) {
-		        		length_video_seconds_text = "0" + Long.toString(lenght_seconds);
+		        	if (length_seconds< 10) {
+		        		length_video_seconds_text = "0" + Long.toString(length_seconds);
 		        	}
 		        	else {
-		        		length_video_seconds_text = Long.toString(lenght_seconds);
+		        		length_video_seconds_text = Long.toString(length_seconds);
 		        	}
 		        		
 		        	
