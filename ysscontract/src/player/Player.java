@@ -75,7 +75,7 @@ public class Player extends BorderPane {
 	     */
 	    public Player(Canvas canvas, int x_screen_position, int y_screen_position) {
 	    	// Add location of VLC, this may need to be changed depending on where VLC is installed
-	    	NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files/VideoLAN/VLC");
+	    	//NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:\\Program Files\\VideoLAN\\VLC");
 	    	NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files (x86)/VideoLAN/VLC");
 	    	
 	    	// Find and store the actual dimensions of the user screen
@@ -302,7 +302,13 @@ public class Player extends BorderPane {
 	     * 
 	     */
 	    private boolean checkVideo(int index_video) {
-	    	// First check if youtube or local
+	    	// If name of filepath is less than three characters then must be an errorneous filepath so disregard straight away
+	    	// to prevent buffer overflow in rest of checks
+	    	if (paths[index_video].length() < 3) {
+	    		return false;
+	    		
+	    	}
+	    	// Check if youtube or local
 	    	System.out.println(paths[index_video].substring(0, 3));
 	    	// Check that it is a Youtube watch link
 	    	if (paths[index_video].contains("www.youtube.com/watch?v=")) {
@@ -367,13 +373,41 @@ public class Player extends BorderPane {
 		 *  have been played.
 		 */
 		protected void loadEndScreen() {
-
-	    	media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
-	    	
-	    	//System.out.println(audioOutputs.get(4).getDescription());
-	    	media_player_component.getMediaPlayer().prepareMedia("C:\\Users\\isaac\\Documents\\SWeng\\ysscontract\\endscreen.jpg", "image-duration=5");
-	    	media_player_component.getMediaPlayer().play();
-	    	media_player_component.getMediaPlayer().pause();
+	    	try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+	     	Platform.runLater(new Runnable() {
+	     		@Override
+	      		 public void run() {
+					// Add message to marquee
+					 Marquee.marquee()
+				    	.text("All videos played")
+				    	.size(20)
+				    	.opacity(0.7f)
+				    	.position(libvlc_marquee_position_e.centre)
+				    	 .colour(Color.WHITE)
+				    	.location(5,5)
+				    	.enable()
+				    	.apply(media_player_component.getMediaPlayer()); 
+					
+				    	try {
+							Thread.sleep(10);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			    	media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
+			    	
+			    	//System.out.println(audioOutputs.get(4).getDescription());
+			    	media_player_component.getMediaPlayer().prepareMedia("C:\\Users\\isaac\\Documents\\SWeng\\ysscontract\\endscreen.jpg");
+			    	media_player_component.getMediaPlayer().play();
+			    	media_player_component.getMediaPlayer().pause();
+	     		}
+	     	});
 	    	
 	   	
 	    	this.controls.over = true;
@@ -391,7 +425,7 @@ public class Player extends BorderPane {
 			in_error = true;
 			
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -401,10 +435,11 @@ public class Player extends BorderPane {
 	     		@Override
 	      		 public void run() {
 	     			System.out.println("Called");
+	     			media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
 	     			// Set error message to be displayed
 					 Marquee.marquee()
 			    	.text("Playback error: " + "\"" + paths[current_video_index] + "\"" +" is not a valid path")
-			    	.size(40)
+			    	.size(30)
 			    	.opacity(0.7f)
 			    	.position(libvlc_marquee_position_e.centre)
 			    	 .colour(Color.WHITE)
@@ -412,14 +447,25 @@ public class Player extends BorderPane {
 			    	.timeout(12000)
 			    	.enable()
 			    	.apply(media_player_component.getMediaPlayer()); 
+				    	try {
+							Thread.sleep(10);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 			    	media_player_component.getMediaPlayer().enableMarquee(true);
+			    	media_player_component.getMediaPlayer().prepareMedia("C:\\Users\\isaac\\Documents\\SWeng\\ysscontract\\endscreen.jpg");
+			    	media_player_component.getMediaPlayer().play();
 					
 			    	//checks whether or not there is another video path currently queued
-			    	if(current_video_index < paths.length - 1) {
+			    	/*if(current_video_index < paths.length - 1) {
 			    		//if there is, plays the next video
 			    		current_video_index++;
 				    	loadVideo(current_video_index);
 			    	}
+			    	else {
+			    		loadEndScreen();
+			    	} */
 	     		}
 	     	});
 		     	

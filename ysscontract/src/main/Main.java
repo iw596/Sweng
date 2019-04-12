@@ -16,9 +16,7 @@ public class Main extends Application {
 	
 	
 	public static void main(String[] args) {
-		// Notify the program of where to find VLCJ
-		NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
-		
+		// Notify the program of where to find VLCJ	
         launch(args);
     }
 
@@ -32,14 +30,19 @@ public class Main extends Application {
 		Player vidplayer  = new Player(canvas,0,0);
 		
 		String [] paths = {
+				"a"
+		};
+		
+		/*String [] paths = {
+				"https://www.youtube.com/watch?v=tc8CyxdLGaA",
 				"C:\\Users\\Dan\\eclipse-workspace\\Sweng\\ysscontract\\1280.mp4",
 		         "a error",
 				"https://www.youtube.com/watch?v=tc8CyxdLGaA",
 				"https://www.youtube.com/watch?v=Ta4o3VDi5vs",
 		         "C:\\Users\\Dan\\eclipse-workspace\\Sweng\\ysscontract\\1280.mp4",
 		         "https://www.youtube.com/watch?v=Ta4o3VDi5vs",
-		         "D:/nonexistent/test/no_file.mp4"
-		};
+		         "D:\\Users\\Dan\\eclipse-workspace\\Sweng\\ysscontract\\1280.mp4"
+		};*/
 		
 		vidplayer.loadPaths(paths);
 	

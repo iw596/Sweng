@@ -108,7 +108,7 @@ public class Controls extends HBox {
             public void handle(ActionEvent e) 
             { 
             	// If playing then pause
-                if (media_player_component.getMediaPlayer().getMediaPlayerState() == libvlc_state_t.libvlc_Playing) { 
+                if (media_player_component.getMediaPlayer().getMediaPlayerState() == libvlc_state_t.libvlc_Playing && over == false) { 
                 	media_player_component.getMediaPlayer().pause(); 
                 	play_pause.setText(">"); 
                 
@@ -275,8 +275,14 @@ public class Controls extends HBox {
         time_scrubber.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				System.out.println("The fraction when released is: " + time_scrubber.getValue());
-				seek((float) time_scrubber.getValue()); // Set the play position to the new scrubber position
-				updateScrubber = true; // Allow the scrubber position to be updated by any playing audio
+				if (over == false) {
+					seek((float) time_scrubber.getValue()); // Set the play position to the new scrubber position
+					updateScrubber = true; // Allow the scrubber position to be updated by any playing audio
+					
+				}
+				
+			
+				
 			}
 		});
         
@@ -360,13 +366,18 @@ public class Controls extends HBox {
      */
 	public void seek(Float fraction) {
 	//	System.out.println("The fraction is: " + fraction);
+		// If slider has been moved to the end then set to value just below 100, this prevents a VLC glitch where end of video is not 
+		// recognised
 		if (fraction > 99.9) {
 			fraction = (float) 99.9;
 		}
-		
 		// Convert fraction into actual time
-		float time = media_player_component.getMediaPlayer().getLength() * fraction/100;
-		media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
+		if (over == false) {
+			float time = media_player_component.getMediaPlayer().getLength() * fraction/100;
+			media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
+			
+		}
+
 
 	}
 	
@@ -379,9 +390,12 @@ public class Controls extends HBox {
 	
 	/**
 	 * Method to display the finished text once all of the videos have been played.
+	 * Method also resets position of scrubber
 	 */
 	protected void endText() {
 		this.current_time_text.setText("No more videos to play.");
+		
+		//updatesValues((float) 0);
 	}
 	
 
