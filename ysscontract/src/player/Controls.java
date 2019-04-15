@@ -277,7 +277,7 @@ public class Controls extends HBox {
 										
 										int nextIndex = player.getCurrentIndex() + 1;
 										// If more videos to be loaded then load
-										if (nextIndex < player.sizePaths() - 1) {
+										if (nextIndex < player.sizePaths()) {
 											player.loadVideo(nextIndex);
 											player.setCurrentIndex(nextIndex);
 											player.in_error = false;
