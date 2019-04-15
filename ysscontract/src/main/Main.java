@@ -27,13 +27,13 @@ public class Main extends Application {
 		
 		Canvas canvas = new Canvas(750,500);
 		
-		Player vidplayer  = new Player(canvas,0,0);
+		Player vidplayer  = new Player(canvas,0,0, stage);
+		
+		/* String [] paths = {
+				"a"
+		}; */
 		
 		String [] paths = {
-				"a"
-		};
-		
-		/*String [] paths = {
 				"https://www.youtube.com/watch?v=tc8CyxdLGaA",
 				"C:\\Users\\Dan\\eclipse-workspace\\Sweng\\ysscontract\\1280.mp4",
 		         "a error",
@@ -42,7 +42,7 @@ public class Main extends Application {
 		         "C:\\Users\\Dan\\eclipse-workspace\\Sweng\\ysscontract\\1280.mp4",
 		         "https://www.youtube.com/watch?v=Ta4o3VDi5vs",
 		         "D:\\Users\\Dan\\eclipse-workspace\\Sweng\\ysscontract\\1280.mp4"
-		};*/
+		};
 		
 		vidplayer.loadPaths(paths);
 	
@@ -53,19 +53,13 @@ public class Main extends Application {
 		//stage.setFullScreen(false);	
 		stage.setScene(scene);
 		stage.show();
+		
 
-		// Stops playing audio when screen is closed.
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-        	
-            @Override
-            public void handle(WindowEvent event) {
-            	System.out.println("Closed request");
-                Platform.exit();
-                System.exit(0);
-            }
-        });
+
 		
 	}
+	
+	
 	
 	
 

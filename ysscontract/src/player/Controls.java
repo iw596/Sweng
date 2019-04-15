@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -36,7 +37,7 @@ public class Controls extends HBox {
 	Button play_pause;
 	Button next;
 	Button previous;
-	Button Stop;
+	Button stop;
 
 	//Instantiate sliders
 	Slider time_scrubber;
@@ -69,6 +70,7 @@ public class Controls extends HBox {
 		play_pause = new Button("||");  
 		next = new Button(">>");
 		previous = new Button("<<");
+		stop = new Button("X");
 		//Create sliders
 		time_scrubber = new Slider();
 		time_scrubber.setValue(0);
@@ -91,6 +93,7 @@ public class Controls extends HBox {
                 getChildren().add(play_pause); 
                 getChildren().add(next); 
                 getChildren().add(previous); 
+                getChildren().add(stop); 
                 getChildren().add(volume_label);
                 getChildren().add(volume);
                 getChildren().add(time_label);
@@ -122,6 +125,34 @@ public class Controls extends HBox {
             } 
            });
         
+        // Add listner for mouse click
+		player.getPlayer_holder().addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+			
+		    @Override
+		    // If mouse is pressed check if player is currently paused or running
+		    public void handle(MouseEvent mouseEvent) {
+		    	
+				if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+					// Do not pause when onScreen time slider is pressed
+				    if (!mouseEvent.getPickResult().getIntersectedNode().toString().contains("HBox")) {
+				    	System.out.println("Click");
+		            	// If playing then pause
+		                if (media_player_component.getMediaPlayer().getMediaPlayerState() == libvlc_state_t.libvlc_Playing && over == false) { 
+		                	media_player_component.getMediaPlayer().pause(); 
+		                	play_pause.setText(">"); 
+		                
+		                } 
+		                // If the video paused then play 
+		                else if (media_player_component.getMediaPlayer().getMediaPlayerState() == libvlc_state_t.libvlc_Paused && over == false) { 
+		                	media_player_component.getMediaPlayer().play();
+		                	play_pause.setText("||"); 
+		                	
+		                } 
+					}
+		    	}
+			}
+		});
+        
         // Add Listener for volume slider
         volume.valueProperty().addListener(new InvalidationListener() { 
             public void invalidated(Observable ov) 
@@ -146,6 +177,7 @@ public class Controls extends HBox {
 							// If more videos to be loaded then load
 							player.loadVideo(nextIndex);
 							player.setCurrentIndex(nextIndex);
+							
 						}
             		});
 									
@@ -193,6 +225,15 @@ public class Controls extends HBox {
             }
         
         });
+        // Event listener for close request
+        //button listener for the previous video button
+        stop.setOnAction(new EventHandler<ActionEvent>() { 
+            public void handle(ActionEvent e) {
+            	player.closeWindow();
+            	
+           
+            }
+        });
         
         //adds event listener for when the video's time changes
         media_player_component.getMediaPlayer().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
@@ -238,7 +279,6 @@ public class Controls extends HBox {
 										player.loadVideo(nextIndex);
 										player.setCurrentIndex(nextIndex);
 										player.in_error = false;
-										
 										
 									}
 									// Else display a black screen and alert user no videos left

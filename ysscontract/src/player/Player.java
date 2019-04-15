@@ -11,6 +11,7 @@ import com.sun.jna.NativeLibrary;
 import javafx.application.Platform;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleFloatProperty;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelFormat;
@@ -18,6 +19,8 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.image.WritablePixelFormat;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import uk.co.caprica.vlcj.binding.internal.libvlc_marquee_position_e;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.AudioOutput;
@@ -61,6 +64,7 @@ public class Player extends BorderPane {
 	    // Store window width and height
 	    private int window_width;
 	    private int window_height;
+	    private Stage stage;
 	    
 	    //Stores if media player is in error screen
 	    boolean in_error = false;
@@ -73,7 +77,7 @@ public class Player extends BorderPane {
 	     * @param x_screen_position
 	     * @param y_screen_position
 	     */
-	    public Player(Canvas canvas, int x_screen_position, int y_screen_position) {
+	    public Player(Canvas canvas, int x_screen_position, int y_screen_position,Stage stage) {
 	    	// Add location of VLC, this may need to be changed depending on where VLC is installed
 	    	//NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:\\Program Files\\VideoLAN\\VLC");
 	    	NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files (x86)/VideoLAN/VLC");
@@ -86,12 +90,17 @@ public class Player extends BorderPane {
 	    	this.window_width = (int) canvas.getWidth(); 
 	    	this.window_height = (int) canvas.getHeight();
 	    	
+	    	// Store stage 
+	    	this.stage = stage;
+	    	
+	    	
+	    	
 	    	// Store the coordinates where the window will be opened
 	        this.x_screen_position = x_screen_position;
 	        this.y_screen_position = y_screen_position;
 
 	    	// Create pane to add player on
-	    	player_holder = new Pane();
+	    	setPlayer_holder(new Pane());
 	    	
 	    	// Define source ratio of video
 	        video_source_ratio_property = new SimpleFloatProperty(0.4f);
@@ -103,6 +112,7 @@ public class Player extends BorderPane {
 	        // Add controls to player
 	        this.controls = new Controls(this);
 	       // Enable this so Youtube videos can be played
+	       
 	        media_player_component.getMediaPlayer().setPlaySubItems(true);
 	        Platform.runLater(new Runnable() {
 	            @Override
@@ -110,14 +120,26 @@ public class Player extends BorderPane {
 	                    // draw stuff
 	    				setBottom(controls); // Setting the MediaBar at bottom
 	    				setStyle("-fx-background-color:#bfc2c7");
-	    		    	setCenter(player_holder);
+	    		    	setCenter(getPlayer_holder());
 	                }
 	            });
+	        
+	
 
 
 	        // Get directX audio output driver name
 	    	List<AudioOutput> audioOutputs = media_player_component.getMediaPlayerFactory().getAudioOutputs();
 	    	this.audio_output_name = audioOutputs.get(4).getName();
+			// Stops playing audio when screen is closed.
+	        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	        	
+	            @Override
+	            public void handle(WindowEvent event) {
+	            	System.out.println("Closed request");
+	                Platform.exit();
+	                System.exit(0);
+	            }
+	        });
 
 	    }
 	    
@@ -130,15 +152,15 @@ public class Player extends BorderPane {
 	        writable_image = new WritableImage(screen_width, screen_height);
 
 	        image_view = new ImageView(writable_image);
-	        player_holder.getChildren().add(image_view);
+	        getPlayer_holder().getChildren().add(image_view);
 	        
 
-	        player_holder.widthProperty().addListener((observable, oldValue, newValue) -> {
+	        getPlayer_holder().widthProperty().addListener((observable, oldValue, newValue) -> {
 	        	   Platform.runLater(new Runnable() {
 	        		    @Override
 	        		        public void run() {
 	        		            // draw stuff
-	        		    	fitImageViewSize(newValue.floatValue(), (float) player_holder.getHeight());	            
+	        		    	fitImageViewSize(newValue.floatValue(), (float) getPlayer_holder().getHeight());	            
 	        		        }
 	        		    });
 	            
@@ -151,12 +173,12 @@ public class Player extends BorderPane {
 
 	        });
 
-	        player_holder.heightProperty().addListener((observable, oldValue, newValue) -> {
+	        getPlayer_holder().heightProperty().addListener((observable, oldValue, newValue) -> {
 	        	   Platform.runLater(new Runnable() {
 	        		    @Override
 	        		        public void run() {
 	        		            // draw stuff
-	        		    		fitImageViewSize((float) player_holder.getWidth(), newValue.floatValue());
+	        		    		fitImageViewSize((float) getPlayer_holder().getWidth(), newValue.floatValue());
 
 	        		        }
 	        		    });
@@ -175,7 +197,7 @@ public class Player extends BorderPane {
 	        		    @Override
 	        		        public void run() {
 	        		            // draw stuff
-	        		    	fitImageViewSize((float) player_holder.getWidth(), (float) player_holder.getHeight());
+	        		    	fitImageViewSize((float) getPlayer_holder().getWidth(), (float) getPlayer_holder().getHeight());
 	        		        }
 	        		    });
 	           
@@ -264,6 +286,7 @@ public class Player extends BorderPane {
 	    	
 	    	this.media_player_component.getMediaPlayer().pause();
 
+
 	   
 	    	if (this.current_video_index < paths.length - 1) {
 	    		this.controls.loadingText();
@@ -288,6 +311,7 @@ public class Player extends BorderPane {
 	    		//media_player_component.getMediaPlayer().enableMarquee(false);
 	    		media_player_component.getMediaPlayer().prepareMedia(this.paths[index_video]);
 	    		media_player_component.getMediaPlayer().play();
+		    	//System.out.println("The height of the player is: " + media_player_component.getMediaPlayer().getVideoDimension().getHeight());
 	    		
 	    	} else {
 	    		loadInvalidcreen();
@@ -373,6 +397,10 @@ public class Player extends BorderPane {
 		 *  have been played.
 		 */
 		protected void loadEndScreen() {
+			
+			if (in_error = false) {
+				in_error = true;
+			}
 	    	try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -505,6 +533,27 @@ public class Player extends BorderPane {
 		 */
 		public int getWindowWidth() {
 			return this.window_width;
+		}
+		
+		protected void closeWindow () {
+			// Close the windows and exit the program
+			stage.close();
+			// Comment out if you don't want program to exit
+			System.exit(0);
+		}
+
+		/**
+		 * @return the player_holder
+		 */
+		public Pane getPlayer_holder() {
+			return player_holder;
+		}
+
+		/**
+		 * @param player_holder the player_holder to set
+		 */
+		public void setPlayer_holder(Pane player_holder) {
+			this.player_holder = player_holder;
 		}
 	    
 
