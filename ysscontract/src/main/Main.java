@@ -34,6 +34,8 @@ public class Main extends Application {
 		}; */
 		
 		String [] paths = {
+				"1280.mp4",
+				"1280.mp4",
 				"https://www.youtube.com/watch?v=tc8CyxdLGaA",
 				"C:\\Users\\Dan\\eclipse-workspace\\Sweng\\ysscontract\\1280.mp4",
 		         "a error",

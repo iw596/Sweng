@@ -431,7 +431,7 @@ public class Player extends BorderPane {
 			    	media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
 			    	
 			    	//System.out.println(audioOutputs.get(4).getDescription());
-			    	media_player_component.getMediaPlayer().prepareMedia("C:\\Users\\isaac\\Documents\\SWeng\\ysscontract\\endscreen.jpg");
+			    	media_player_component.getMediaPlayer().prepareMedia("endscreen.jpg");
 			    	media_player_component.getMediaPlayer().play();
 			    	media_player_component.getMediaPlayer().pause();
 	     		}
@@ -482,7 +482,7 @@ public class Player extends BorderPane {
 							e.printStackTrace();
 						}
 			    	media_player_component.getMediaPlayer().enableMarquee(true);
-			    	media_player_component.getMediaPlayer().prepareMedia("C:\\Users\\isaac\\Documents\\SWeng\\ysscontract\\endscreen.jpg");
+			    	media_player_component.getMediaPlayer().prepareMedia("endscreen.jpg");
 			    	media_player_component.getMediaPlayer().play();
 					
 			    	//checks whether or not there is another video path currently queued

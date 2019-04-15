@@ -191,7 +191,6 @@ public class Controls extends HBox {
         //button listener for the previous video button
         previous.setOnAction(new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) {
-            	
             	if (player.getCurrentIndex() > 0 && over == false)  {
             		Platform.runLater(new Runnable(){
 						@Override
@@ -273,20 +272,40 @@ public class Controls extends HBox {
 									System.out.println("False trigger");
 								}
 								else {
-									int nextIndex = player.getCurrentIndex() + 1;
-									// If more videos to be loaded then load
-									if (nextIndex < player.sizePaths() - 1) {
-										player.loadVideo(nextIndex);
-										player.setCurrentIndex(nextIndex);
-										player.in_error = false;
+									if (player.getCurrentIndex() != 0) { 
+										System.out.println("In the if");
 										
+										int nextIndex = player.getCurrentIndex() + 1;
+										// If more videos to be loaded then load
+										if (nextIndex < player.sizePaths() - 1) {
+											player.loadVideo(nextIndex);
+											player.setCurrentIndex(nextIndex);
+											player.in_error = false;
+											
+										}
+										// Else display a black screen and alert user no videos left
+										else {
+											player.loadEndScreen();
+										
+											mediaPlayer.pause();
+	
+										}
 									}
-									// Else display a black screen and alert user no videos left
 									else {
-										player.loadEndScreen();
-									
-										mediaPlayer.pause();
-
+										System.out.println("In the else");
+										Platform.runLater(new Runnable(){
+											@Override
+											public void run() {
+												int nextIndex = player.getCurrentIndex() + 1;
+												// If more videos to be loaded then load
+												player.loadVideo(nextIndex);
+												player.setCurrentIndex(nextIndex);
+												player.in_error = false;
+											}
+												
+											
+										});
+										
 									}
 									
 								}
@@ -408,8 +427,18 @@ public class Controls extends HBox {
 	//	System.out.println("The fraction is: " + fraction);
 		// If slider has been moved to the end then set to value just below 100, this prevents a VLC glitch where end of video is not 
 		// recognised
-		if (fraction > 99.9) {
-			fraction = (float) 99.9;
+
+		if (fraction > 99.99) {
+			fraction = (float) 99.99;
+			
+		}
+
+
+    	try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		// Convert fraction into actual time
 		if (over == false) {
