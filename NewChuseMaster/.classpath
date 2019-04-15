@@ -10,6 +10,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Google Cloud Platform"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/VLCj"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/YouTube API"/>
-	<classpathentry kind="lib" path="D:/Documents/Eclipse Workspace/TextUI/jfoenix-8.0.8.jar"/>
+	<classpathentry kind="lib" path="//userfs/dtj503/w2k/Year 3/SWEng/Java/jfoenix-8.0.8.jar"/>
+	<classpathentry kind="lib" path="jna-3.5.2.jar"/>
+	<classpathentry kind="lib" path="platform-3.5.2.jar"/>
+	<classpathentry kind="lib" path="vlcj-3.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
