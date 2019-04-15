@@ -2,17 +2,24 @@ package comparisonScreenGUI;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+import com.sun.jna.NativeLibrary;
 
+import audioPlayback.AppController;
+import audioPlayback.AudioController;
 import backEnd.BackEndContainer;
+import imageDisplay.ImageDisplayController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import listDataStructure.BasicItem;
@@ -24,8 +31,8 @@ import videoPlayback.YoutubeController;
  * and holds a reference to the back-end code of the program for communication.
  * 
  * Date created: 13/03/2019
- * Date last edited: 15/03/2019
- * Last edited by: Dan Jackson
+ * Date last edited: 15/04/2019
+ * Last edited by: Dan Jackson and Isaac Watson
  * 
  * @author Dan Jackson
  *
@@ -47,6 +54,8 @@ public class ComparisonScreenController implements Initializable {
     @FXML
     private JFXButton right_button;
     
+    private ArrayList<AppController> audio_controllers;
+    
     private BackEndContainer back_end;
     
     /**
@@ -56,6 +65,7 @@ public class ComparisonScreenController implements Initializable {
     public ComparisonScreenController(BackEndContainer back_end) {
     	this.back_end = back_end;
     	back_end.startComparison();
+    	audio_controllers = new ArrayList<AppController>();
     }
     
     @FXML
@@ -66,6 +76,12 @@ public class ComparisonScreenController implements Initializable {
     void leftItemSelected(ActionEvent event) {
     	
     	System.out.println("Left Item Selected");
+    	
+    	if(audio_controllers.size() > 0) {
+    		for(int i = 0; i < audio_controllers.size(); i++) {
+    			audio_controllers.get(i).exit();
+    		}
+    	}
     	
     	oddCheck();
     	
@@ -83,6 +99,12 @@ public class ComparisonScreenController implements Initializable {
      */
     void rightItemSelected(ActionEvent event) {
     	System.out.println("Right Item Selected");
+    	
+    	if(audio_controllers.size() > 0) {
+    		for(int i = 0; i < audio_controllers.size(); i++) {
+    			audio_controllers.get(i).exit();
+    		}
+    	}
     	
     	oddCheck();
     	
@@ -197,6 +219,8 @@ public class ComparisonScreenController implements Initializable {
 	 */
 	private void checkObjectType() {
 		
+		audio_controllers = new ArrayList<AppController>();
+		
 		BasicItem left_object = back_end.getComparison().getCurrentPair().get(0);
 		BasicItem right_object = back_end.getComparison().getCurrentPair().get(1);
 		
@@ -206,11 +230,19 @@ public class ComparisonScreenController implements Initializable {
 		//if the left object is a video item, instantiate the video player
 		if(left_object.getType().equals("VideoItem")) {
 			instantiateYouTubePlayer(left_object, left_content);
-		} 
+		} else if(left_object.getType().equals("ImageItem")) {
+			instantiateImageViewer(left_object, left_content);
+		} else if(left_object.getType().equals("AudioItem")) {
+			instantiateAudioPlayer(left_object, left_content);
+		}
 		
 		//if the right object is a video item, instantiate the video player
 		if(right_object.getType().equals("VideoItem")) {
 			instantiateYouTubePlayer(right_object, right_content);
+		} else if(right_object.getType().equals("ImageItem")) {
+			instantiateImageViewer(right_object, right_content);
+		} else if(right_object.getType().equals("AudioItem")) {
+			instantiateAudioPlayer(right_object, right_content);
 		}
 		
 	}
@@ -238,11 +270,76 @@ public class ComparisonScreenController implements Initializable {
 			youtube_root.minHeightProperty().bind(pane.minHeightProperty());
 			youtube_root.maxWidthProperty().bind(pane.maxWidthProperty());
 			youtube_root.maxHeightProperty().bind(pane.maxHeightProperty());
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		
+	}
+	
+	/** Method to instantiate the image viewer. This method takes an image and a pane
+	 * 	where the image will be displayed.
+	 * @param item - Image item to be displayed
+	 * @param pane - Pane where image will be displayed
+	 */
+	private void instantiateImageViewer(BasicItem item, Pane pane) {
+		
+		try {
+			// Instantiate the loader and controller
+			FXMLLoader loader = new FXMLLoader(imageDisplay.ImageDisplayController.class.getResource("ImageDisplay.fxml"));
+			ImageDisplayController controller = new ImageDisplayController(item.getPath());
+			loader.setController(controller);
+			// Load the panes and add the image pane
+			BorderPane image_root = loader.load();
+			StackPane.setAlignment(image_root, Pos.CENTER);
+			pane.getChildren().add(image_root);
+			// Set width and height preferences
+			image_root.prefWidthProperty().bind(pane.widthProperty());
+			image_root.prefHeightProperty().bind(pane.heightProperty());
+			image_root.minWidthProperty().bind(pane.minWidthProperty());
+			image_root.minHeightProperty().bind(pane.minHeightProperty());
+			image_root.maxWidthProperty().bind(pane.maxWidthProperty());
+			image_root.maxHeightProperty().bind(pane.maxHeightProperty());
+
+			
+		} catch (IOException e) {
+			
+		}
+		
+	}
+	
+	/** Method to instantiate the audio player. This method takes an an audio track and a pane
+	 * 	where the image will be displayed.
+	 * @param item - Audio item to be played
+	 * @param pane - Pane where audio player control will be displayed
+	 */
+	private void instantiateAudioPlayer(BasicItem item, Pane pane) {
+		
+		try {
+			
+			NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
+			// Instantiate the loader and controller
+			FXMLLoader loader = new FXMLLoader(audioPlayback.AppController.class.getResource("App.fxml"));
+			AppController controller = new AppController(item.getPath());
+			audio_controllers.add(controller);
+			loader.setController(controller);
+			// Load the panes and add the image pane
+			GridPane audio_root = loader.load();
+			StackPane.setAlignment(audio_root, Pos.CENTER);
+			pane.getChildren().add(audio_root);
+			// Set width and height preferences
+			audio_root.prefWidthProperty().bind(pane.widthProperty());
+			audio_root.prefHeightProperty().bind(pane.heightProperty());
+			audio_root.minWidthProperty().bind(pane.minWidthProperty());
+			audio_root.minHeightProperty().bind(pane.minHeightProperty());
+			audio_root.maxWidthProperty().bind(pane.maxWidthProperty());
+			audio_root.maxHeightProperty().bind(pane.maxHeightProperty());
+
+			
+		} catch (IOException e) {
+			
+		}
 		
 	}
 	
