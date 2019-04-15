@@ -27,7 +27,7 @@ public class Main extends Application {
 		
 		Canvas canvas = new Canvas(750,500);
 		
-		Player vidplayer  = new Player(canvas,0,0, stage);
+		Player vidplayer  = new Player(canvas,20,50, stage);
 		
 		/* String [] paths = {
 				"a"

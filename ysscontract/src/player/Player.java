@@ -40,7 +40,7 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
  */
 public class Player extends BorderPane {
 	
-
+	
 		private String[] paths; 
 		private ImageView image_view;
 	    private DirectMediaPlayerComponent media_player_component;
@@ -80,7 +80,7 @@ public class Player extends BorderPane {
 	    public Player(Canvas canvas, int x_screen_position, int y_screen_position,Stage stage) {
 	    	// Add location of VLC, this may need to be changed depending on where VLC is installed
 	    	//NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:\\Program Files\\VideoLAN\\VLC");
-	    	NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files (x86)/VideoLAN/VLC");
+	    	NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files (x86)/VideoLAN/VLC"); // This is one used on uni Machines
 	    	
 	    	// Find and store the actual dimensions of the user screen
 	    	this.screen_height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -92,9 +92,7 @@ public class Player extends BorderPane {
 	    	
 	    	// Store stage 
 	    	this.stage = stage;
-	    	
-	    	
-	    	
+	    
 	    	// Store the coordinates where the window will be opened
 	        this.x_screen_position = x_screen_position;
 	        this.y_screen_position = y_screen_position;
@@ -112,30 +110,24 @@ public class Player extends BorderPane {
 	        // Add controls to player
 	        this.controls = new Controls(this);
 	       // Enable this so Youtube videos can be played
-	       
 	        media_player_component.getMediaPlayer().setPlaySubItems(true);
+	       // Add controls
 	        Platform.runLater(new Runnable() {
 	            @Override
-	                public void run() {
-	                    // draw stuff
-	    				setBottom(controls); // Setting the MediaBar at bottom
-	    				setStyle("-fx-background-color:#bfc2c7");
-	    		    	setCenter(getPlayer_holder());
-	                }
-	            });
-	        
-	
-
+	            public void run() {
+	            	setBottom(controls); // Setting the MediaBar at bottom
+	            	setStyle("-fx-background-color:#bfc2c7");
+	    		    setCenter(getPlayer_holder());
+	           }
+	        });
 
 	        // Get directX audio output driver name
 	    	List<AudioOutput> audioOutputs = media_player_component.getMediaPlayerFactory().getAudioOutputs();
 	    	this.audio_output_name = audioOutputs.get(4).getName();
 			// Stops playing audio when screen is closed.
 	        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-	        	
 	            @Override
 	            public void handle(WindowEvent event) {
-	            	System.out.println("Closed request");
 	                Platform.exit();
 	                System.exit(0);
 	            }
@@ -154,7 +146,7 @@ public class Player extends BorderPane {
 	        image_view = new ImageView(writable_image);
 	        getPlayer_holder().getChildren().add(image_view);
 	        
-
+	        // Add listners for size of screen changing
 	        getPlayer_holder().widthProperty().addListener((observable, oldValue, newValue) -> {
 	        	   Platform.runLater(new Runnable() {
 	        		    @Override
@@ -191,12 +183,11 @@ public class Player extends BorderPane {
 				}
 	            
 	        });
-
+	        // Add listner for video ratio changing
 	        video_source_ratio_property.addListener((observable, oldValue, newValue) -> {
 	        	   Platform.runLater(new Runnable() {
 	        		    @Override
 	        		        public void run() {
-	        		            // draw stuff
 	        		    	fitImageViewSize((float) getPlayer_holder().getWidth(), (float) getPlayer_holder().getHeight());
 	        		        }
 	        		    });
@@ -211,9 +202,11 @@ public class Player extends BorderPane {
 	     * @param height - the height of the canvas
 	     */
 	    private void fitImageViewSize(float width, float height) {
+	    	// Place in run later to avoid crashes
      	   Platform.runLater(new Runnable() {
    		    @Override
    		        public void run() {
+   		    	// Change height of window
 	            float fitHeight = video_source_ratio_property.get() * width;
 	            if (fitHeight > height) {
 	                image_view.setFitHeight(height);
@@ -235,12 +228,12 @@ public class Player extends BorderPane {
 	                image_view.setY(0);
 	               
 	            }
+	            // Change height of width
 	            else {
 	                image_view.setFitWidth(width);
 			    	try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 	                image_view.setFitHeight(fitHeight);
@@ -292,44 +285,58 @@ public class Player extends BorderPane {
 	    		this.controls.loadingText();
 
 	    	}
-	  
-	    	// Reinitalise drivers to prevent VLCJ codec error 
-	    	media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
-	    	
-	    	if (checkVideo(index_video)) {
-	    		// Need to reset marquee text due to VLCJ bug where disable marquee request is ignored
-				 Marquee.marquee()
-			    	.text("")
-			    	.size(20)
-			    	.opacity(0.7f)
-			    	.position(libvlc_marquee_position_e.centre)
-			    	 .colour(Color.WHITE)
-			    	.location(5,5)
-			    	.timeout(9000)
-			    	.enable()
-			    	.apply(media_player_component.getMediaPlayer()); 
-	    		//media_player_component.getMediaPlayer().enableMarquee(false);
-	    		media_player_component.getMediaPlayer().prepareMedia(this.paths[index_video]);
-	    		media_player_component.getMediaPlayer().play();
-		    	//System.out.println("The height of the player is: " + media_player_component.getMediaPlayer().getVideoDimension().getHeight());
-	    		
-	    	} else {
-	    		loadInvalidcreen();
-	    	}
+	        Platform.runLater(new Runnable() {
+	            @Override
+	            public void run() {
+			    	// Reinitalise drivers to prevent VLCJ codec error 
+			    	media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
+			    	int video_check_result = checkVideo(index_video);
+			    	if (video_check_result == 1) {
+			    		// Need to reset marquee text due to VLCJ bug where disable marquee request is ignored
+						 Marquee.marquee()
+					    	.text("")
+					    	.size(20)
+					    	.opacity(0.7f)
+					    	.position(libvlc_marquee_position_e.centre)
+					    	 .colour(Color.WHITE)
+					    	.location(5,5)
+					    	.timeout(9000)
+					    	.enable()
+					    	.apply(media_player_component.getMediaPlayer()); 
+			    		//media_player_component.getMediaPlayer().enableMarquee(false);
+			    		media_player_component.getMediaPlayer().prepareMedia(paths[index_video]);
+			    		media_player_component.getMediaPlayer().play();
+				    	//System.out.println("The height of the player is: " + media_player_component.getMediaPlayer().getVideoDimension().getHeight());
+			    		
+			    	} 
+			    	// Load invalid video screen
+			    	else if (video_check_result == 2){
+			    		loadInvalidFileScreen();
+			    	}
+			    	// Load file too large screen
+			    	else{
+			    		loadFileSizeScreen();
+			    	}
+	            }
+	        });
 	    	
 	    }
 	    
-	    /** This method checks that the string in the paths array is either a Yotube watch link or a valid path to an 
-	     *  .mp4 file. If the link or path is valid then true is returned. Otherwise false is returned.
+
+
+		/** This method checks that the string in the paths array is either a Yotube watch link or a valid path to an 
+	     *  .mp4 file. If the link or path is valid then 1 is returned. If the filepath
+	     *  or link is not valid then a 2 is returned. If the size of the video
+	     *  is over 20 Mb then 3 is returned
 	     *  
 	     * @param index_video - the index of the path array that is being checked
 	     * 
 	     */
-	    private boolean checkVideo(int index_video) {
+	    private int checkVideo(int index_video) {
 	    	// If name of filepath is less than three characters then must be an errorneous filepath so disregard straight away
 	    	// to prevent buffer overflow in rest of checks
 	    	if (paths[index_video].length() < 3) {
-	    		return false;
+	    		return 2;
 	    		
 	    	}
 	    	// Check if youtube or local
@@ -339,7 +346,7 @@ public class Player extends BorderPane {
 	    		
 	    		System.out.println("Youtube link");
 	    		in_error = false;
-	    		return true;
+	    		return 1;
 	    	} else {
 	    		// If local then check if .mp4 and if the file actually exists
 	    		// First check that file exits
@@ -348,16 +355,22 @@ public class Player extends BorderPane {
 	    			if (paths[index_video].substring(paths[index_video].lastIndexOf(".")).equals(".mp4")) {
 	    				// If local file exists and correct file type return true
 	    	    		in_error = false;
-
-	    				return true;
+	    	    		if (new File(paths[index_video]).length()/Math.pow(10,6) > 20){
+	    	    			System.out.print("File is too large");
+	    	    			return 3;
+	    	    			
+	    	    		}
+	    	    		// Everything fine so return 1
+	    				return 1;
 	    			}
 	    			
-	    		} else {
-	    			return false;
+	    		} 
+	    		else {
+	    			return 2;
 	    		}
 	    	}
 	    	
-	    	return false;
+	    	return 2;
 	    }
 	    
 	    /** This getter returns the DirectMediaPlayerComponent used by the
@@ -385,7 +398,11 @@ public class Player extends BorderPane {
 		protected int sizePaths() {
 			return this.paths.length;
 		}
-
+		
+		/** Method to set the index of the player
+		 * 
+		 * @param nextIndex- index that current index will be changed too
+		 */
 		public void setCurrentIndex(int nextIndex) {
 			// TODO Auto-generated method stub
 			this.current_video_index = nextIndex;
@@ -397,10 +414,11 @@ public class Player extends BorderPane {
 		 *  have been played.
 		 */
 		protected void loadEndScreen() {
-			
+			// Set the player to be in error so can use error code
 			if (in_error = false) {
 				in_error = true;
 			}
+			// Short sleep to prevent VLCJ crashing bug
 	    	try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -428,6 +446,7 @@ public class Player extends BorderPane {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+				    // Set audio output module
 			    	media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
 			    	
 			    	//System.out.println(audioOutputs.get(4).getDescription());
@@ -437,7 +456,7 @@ public class Player extends BorderPane {
 	     		}
 	     	});
 	    	
-	   	
+	     	// Update controls to handle end of video
 	    	this.controls.over = true;
 	    	this.controls.updateScrubber = false;
 	    	this.controls.endText();
@@ -449,9 +468,10 @@ public class Player extends BorderPane {
 		 *  Method to load an error screen if an invalid video path has been provided. If there is another valid video queued,
 		 *  then play this after displaying the error message.
 		 */
-		private void loadInvalidcreen() {
+		private void loadInvalidFileScreen() {
+			// Error so set in_error to be true
 			in_error = true;
-			
+			// Short sleep to prevent memory access error
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -462,7 +482,6 @@ public class Player extends BorderPane {
 	     	Platform.runLater(new Runnable() {
 	     		@Override
 	      		 public void run() {
-	     			System.out.println("Called");
 	     			media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
 	     			// Set error message to be displayed
 					 Marquee.marquee()
@@ -475,28 +494,63 @@ public class Player extends BorderPane {
 			    	.timeout(12000)
 			    	.enable()
 			    	.apply(media_player_component.getMediaPlayer()); 
-				    	try {
-							Thread.sleep(10);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+				    try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				    // Enable the error message and play the error screen
 			    	media_player_component.getMediaPlayer().enableMarquee(true);
 			    	media_player_component.getMediaPlayer().prepareMedia("endscreen.jpg");
 			    	media_player_component.getMediaPlayer().play();
 					
-			    	//checks whether or not there is another video path currently queued
-			    	/*if(current_video_index < paths.length - 1) {
-			    		//if there is, plays the next video
-			    		current_video_index++;
-				    	loadVideo(current_video_index);
-			    	}
-			    	else {
-			    		loadEndScreen();
-			    	} */
 	     		}
 	     	});
 		     	
+		}
+		/**
+		 *  Method to load an error screen if a file which is too large has been provided.
+		 *   If there is another valid video queued,
+		 *  then play this after displaying the error message.
+		 */
+	    private void loadFileSizeScreen() {
+			in_error = true;
+			// Short sleep to prevent memory access error
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+	     	Platform.runLater(new Runnable() {
+	     		@Override
+	      		 public void run() {
+	     			media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
+	     			// Set error message to be displayed
+					 Marquee.marquee()
+			    	.text("Playback error: " + "\"" + paths[current_video_index] + "\"" +" is too large")
+			    	.size(30)
+			    	.opacity(0.7f)
+			    	.position(libvlc_marquee_position_e.centre)
+			    	 .colour(Color.WHITE)
+			    	.location(5,5)
+			    	.timeout(12000)
+			    	.enable()
+			    	.apply(media_player_component.getMediaPlayer()); 
+				    try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				    // Enable the error message and play the error screen
+			    	media_player_component.getMediaPlayer().enableMarquee(true);
+			    	media_player_component.getMediaPlayer().prepareMedia("endscreen.jpg");
+			    	media_player_component.getMediaPlayer().play();
+					
+	     		}
+	     	});
+			
 		}
 		
 		/**
@@ -535,6 +589,9 @@ public class Player extends BorderPane {
 			return this.window_width;
 		}
 		
+		
+		/** This method closes the window when the stop button is pressed
+		 */
 		protected void closeWindow () {
 			// Close the windows and exit the program
 			stage.close();
@@ -542,14 +599,14 @@ public class Player extends BorderPane {
 			System.exit(0);
 		}
 
-		/**
+		/** Get the player holder
 		 * @return the player_holder
 		 */
 		public Pane getPlayer_holder() {
 			return player_holder;
 		}
 
-		/**
+		/** Set the holder where the video player will be displayed
 		 * @param player_holder the player_holder to set
 		 */
 		public void setPlayer_holder(Pane player_holder) {

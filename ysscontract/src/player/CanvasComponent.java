@@ -50,7 +50,7 @@ public class CanvasComponent extends DirectMediaPlayerComponent{
         return pixel_writer;
     }
    
-    /** This method was taken from: 
+    /** This method was taken from:  https://github.com/caprica/vlcj-javafx
      * It controls how the player displays each frame.
      */
     @Override

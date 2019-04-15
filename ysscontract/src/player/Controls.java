@@ -26,8 +26,8 @@ import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
  * extends a HBox.
  * 
  * Date created: 18/03/2019
- * Date last edited 30/03/2019
- * Last edited by: Dan Jackson
+ * Date last edited 15/04/2019
+ * Last edited by: Isaac Watson
  *
  * @author Isaac Watson 
  */
@@ -84,7 +84,7 @@ public class Controls extends HBox {
         
         Platform.runLater(new Runnable() {
             @Override
-                public void run() {
+            public void run() {
                 setAlignment(Pos.CENTER); // setting the HBox to center 
                 //setPadding(new Insets(5, 10, 5, 10));  // Add some padding between bar and video
         		
@@ -101,9 +101,8 @@ public class Controls extends HBox {
                 HBox.setHgrow(time_scrubber, Priority.ALWAYS);
                 getChildren().add(current_time_text);
                 HBox.setHgrow(current_time_text, Priority.ALWAYS);
-                    // draw stuff
-                }
-            });
+            }
+        });
 
         // Add Listener for play/pause button
         // Set up event handler to enable button press to pause video
@@ -123,7 +122,7 @@ public class Controls extends HBox {
                 	
                 } 
             } 
-           });
+        });
         
         // Add listner for mouse click
 		player.getPlayer_holder().addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
@@ -131,7 +130,7 @@ public class Controls extends HBox {
 		    @Override
 		    // If mouse is pressed check if player is currently paused or running
 		    public void handle(MouseEvent mouseEvent) {
-		    	
+		    	// Make sure its a left mouse click
 				if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
 					// Do not pause when onScreen time slider is pressed
 				    if (!mouseEvent.getPickResult().getIntersectedNode().toString().contains("HBox")) {
@@ -168,7 +167,6 @@ public class Controls extends HBox {
         //button listener for the next video button
         next.setOnAction(new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) {
-            	
             	if (player.getCurrentIndex() < player.sizePaths() -1) {
             		Platform.runLater(new Runnable(){
 						@Override
@@ -179,8 +177,7 @@ public class Controls extends HBox {
 							player.setCurrentIndex(nextIndex);
 							
 						}
-            		});
-									
+            		});					
             	}
             	
             	
@@ -269,12 +266,10 @@ public class Controls extends HBox {
 									if (player.in_error == false) {
 										player.in_error = true;
 									}
-									System.out.println("False trigger");
 								}
 								else {
 									if (player.getCurrentIndex() != 0) { 
-										System.out.println("In the if");
-										
+					
 										int nextIndex = player.getCurrentIndex() + 1;
 										// If more videos to be loaded then load
 										if (nextIndex < player.sizePaths()) {
@@ -416,7 +411,6 @@ public class Controls extends HBox {
     		
     	}
 
-    //	System.out.println("The scrubber value is: " + time_scrubber.getValue());
     }
     
     /** 
@@ -424,16 +418,12 @@ public class Controls extends HBox {
      * @param fraction
      */
 	public void seek(Float fraction) {
-	//	System.out.println("The fraction is: " + fraction);
 		// If slider has been moved to the end then set to value just below 100, this prevents a VLC glitch where end of video is not 
 		// recognised
-
 		if (fraction > 99.99) {
 			fraction = (float) 99.99;
 			
 		}
-
-
     	try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
@@ -446,8 +436,6 @@ public class Controls extends HBox {
 			media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
 			
 		}
-
-
 	}
 	
 	/**
@@ -463,8 +451,7 @@ public class Controls extends HBox {
 	 */
 	protected void endText() {
 		this.current_time_text.setText("No more videos to play.");
-		
-		//updatesValues((float) 0);
+
 	}
 	
 
