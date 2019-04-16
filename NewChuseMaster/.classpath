@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="platform-3.5.2.jar"/>
 	<classpathentry kind="lib" path="vlcj-3.0.1.jar"/>
 	<classpathentry kind="lib" path="/ChüseMaster/dependencies/jfoenix-8.0.8.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ApacheCommons"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
