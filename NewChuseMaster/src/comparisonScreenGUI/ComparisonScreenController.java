@@ -56,6 +56,8 @@ public class ComparisonScreenController implements Initializable {
     
     private ArrayList<AppController> audio_controllers;
     
+    private ArrayList<ImageDisplayController> image_controllers;
+    
     private BackEndContainer back_end;
     
     /**
@@ -66,6 +68,7 @@ public class ComparisonScreenController implements Initializable {
     	this.back_end = back_end;
     	back_end.startComparison();
     	audio_controllers = new ArrayList<AppController>();
+    	image_controllers = new ArrayList<ImageDisplayController>();
     }
     
     @FXML
@@ -80,6 +83,10 @@ public class ComparisonScreenController implements Initializable {
     	if(audio_controllers.size() > 0) {
     		for(int i = 0; i < audio_controllers.size(); i++) {
     			audio_controllers.get(i).exit();
+    		}
+    	} else if(image_controllers.size() > 0) {
+    		for(int i = 0; i < image_controllers.size(); i++) {
+    			image_controllers.get(i).exit();
     		}
     	}
     	
@@ -103,6 +110,10 @@ public class ComparisonScreenController implements Initializable {
     	if(audio_controllers.size() > 0) {
     		for(int i = 0; i < audio_controllers.size(); i++) {
     			audio_controllers.get(i).exit();
+    		}
+    	} else if(image_controllers.size() > 0) {
+    		for(int i = 0; i < image_controllers.size(); i++) {
+    			image_controllers.get(i).exit();
     		}
     	}
     	
@@ -220,6 +231,7 @@ public class ComparisonScreenController implements Initializable {
 	private void checkObjectType() {
 		
 		audio_controllers = new ArrayList<AppController>();
+		image_controllers = new ArrayList<ImageDisplayController>();
 		
 		BasicItem left_object = back_end.getComparison().getCurrentPair().get(0);
 		BasicItem right_object = back_end.getComparison().getCurrentPair().get(1);
@@ -289,6 +301,7 @@ public class ComparisonScreenController implements Initializable {
 			// Instantiate the loader and controller
 			FXMLLoader loader = new FXMLLoader(imageDisplay.ImageDisplayController.class.getResource("ImageDisplay.fxml"));
 			ImageDisplayController controller = new ImageDisplayController(item.getPath());
+			image_controllers.add(controller);
 			loader.setController(controller);
 			// Load the panes and add the image pane
 			BorderPane image_root = loader.load();

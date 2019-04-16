@@ -223,13 +223,12 @@ public class AppController {
 	
 	/**
 	 * ****ADDED BY Dan Jackson AND Isaac Watson OF COMPANY WeTech****
-	 * Method for when the 
+	 * Method for when the audio player is closed. Stops the audio, exits the audio player
+	 * and hides the old transport controls from the screen.
 	 */
 	public void exit() {
 		root.getChildren().removeAll();
-		this.scrubSld.setVisible(false);
-		this.playPauseBtn.setVisible(false);
-		this.stopBtn.setVisible(false);
+		root.setVisible(false);
 		audioController.stop();
 		audioController.exit();
 	}

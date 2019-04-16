@@ -5,15 +5,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+import com.sun.jna.Platform;
 
 import backEnd.BackEndContainer;
 import homeScreenGUI.HomeScreenController;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.WindowEvent;
 
 /**
  * Class for the sidebar container screen controller. This class handles all button listeners and interactivity
@@ -76,7 +79,7 @@ public class MasterScreenController implements Initializable {
     	bindSizeProperties(new_pane);
     	
     	back_end.setComparingLosers(false);
-    	
+
     }
 
     /**

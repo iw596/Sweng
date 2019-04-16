@@ -71,13 +71,17 @@ public class imageProfile {
 		
 		// Check if new x position is within the scene's width bounds
 
-		if (xPos > 0 && xPos < scene.getWidth()){
-			this.imageContainer.setLayoutX(xPos -(this.imageFit/2));
+		// && xPos < scene.getWidth()
+		
+		if (xPos > 0){
+			this.imageContainer.setLayoutX(xPos - (this.imageNode.getFitWidth()/2));
 		}
 
 		// Check if new y position is within the scene's width bounds
 
-		if (yPos > 0 && yPos < scene.getHeight()){
+		// && yPos < scene.getHeight()
+		
+		if (yPos > 0){
 			this.imageContainer.setLayoutY(yPos - (this.imageNodeHeight/2));
 		}
 		
@@ -110,6 +114,7 @@ public class imageProfile {
 
 	public void resizeImage(double newSize){
 		this.imageNode.setFitWidth(newSize);
+		this.imageFit = this.imageNode.getFitWidth();
 	}
 	
 	/**

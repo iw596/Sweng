@@ -87,7 +87,7 @@ public class ImageDisplayController  implements Initializable {
 		
 		// If file path and file type are valid, load the image file and return 0
 
-		image = new Image("file:"+imgFile.getAbsolutePath());
+		image = new Image("file:" + imgFile.getAbsolutePath());
 		return 0;
 	}
 	/** Initalise method adds image to pane and sets up listeners which monitor user input
@@ -117,35 +117,37 @@ public class ImageDisplayController  implements Initializable {
 					&&(e.getSceneY() > 0 && e.getSceneY() < root.getScene().getHeight())){
 				
 				// If cursor within width and height bounds, move image to cursor's position
-				
-				Platform.runLater(new Runnable() {
+				image_profile.setPosition(e.getX(), e.getY(), root.getScene());
 
-					@Override
-					public void run() {
-						
-						System.out.println(image_profile.getImageContainer().getWidth());
-						
-						image_profile.setPosition(e.getSceneX() - (root.getWidth() / 2), 
-								e.getSceneY() - (root.getHeight() / 2), root.getScene());
-					}
-				});
 			}
 		});
+		
+		
 		// Listener which listens for user scrolling the mouse wheel. This will zoom im/out on the image
 		image_profile.getImageContainer().setOnScroll(e->{
 
 			// Get the value of the scroll amount
 
 			double delta = e.getDeltaY();
-
+			
+			System.out.println(delta);
+			
 			// Call function to scale the image size
 
 			// Reduced delta value to improve scaling range
 			image_profile.scaleImage(delta);
 		});
 		
-		//image_profile.resizeImage(500);
 		
+	}
+	
+	/**
+	 * ****ADDED BY Dan Jackson OF COMPANY WeTech****
+	 * Method for when the image handler is closed. Removes all images from the screen.
+	 */
+	public void exit() {
+		root.getChildren().removeAll();
+		root.setVisible(false);
 	}
 	
 }
