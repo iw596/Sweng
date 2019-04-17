@@ -2,6 +2,7 @@ package cloudStorage;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -60,8 +62,8 @@ public class CloudInteractionHandler {
 	 */
 	public CloudInteractionHandler() {
 		try {
-			storage = authoriseCloudStorage(System.getProperty("user.dir") + "\\My First Project-29d37f5d03f4.json");
-			datastore = authoriseCloudDatastore(System.getProperty("user.dir") + "\\My First Project-29d37f5d03f4.json");
+			storage = authoriseCloudStorage(System.getProperty("user.dir") + "\\SWEng WeTech-a2830036f018.json");
+			datastore = authoriseCloudDatastore(System.getProperty("user.dir") + "\\SWEng WeTech-a2830036f018.json");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -258,16 +260,133 @@ public class CloudInteractionHandler {
 		paths.removeAll(Collections.singleton(null));
 
 		//uploads the XML list file to the user's area
-		uploadFileToBucket("staging.western-throne-231914.appspot.com", filepath, user.getId() + "/" + list_access_type + "/" + FilenameUtils.getBaseName(filepath) + "/" + FilenameUtils.getName(filepath));
+		uploadFileToBucket("we-tech-user-storage", filepath, user.getId() + "/" + list_access_type + "/" + FilenameUtils.getBaseName(filepath) + "/" + FilenameUtils.getName(filepath));
 		
 		//uploads every multimedia file contained within the XML file to the user's area
 		for(String path : paths) {
-			uploadMediaToBucket("staging.western-throne-231914.appspot.com", path, user.getId() + "/" + list_access_type + "/" + FilenameUtils.getBaseName(filepath) + "/" + FilenameUtils.getName(path));
+			uploadMediaToBucket("we-tech-user-storage", path, user.getId() + "/" + list_access_type + "/" + FilenameUtils.getBaseName(filepath) + "/" + FilenameUtils.getName(path));
 		}
 		
 		//resets the access type to private
 		setAccessType(0);
 
+	}
+	
+	/**
+	 * Method to download a list from a given path in the user's cloud storage area.
+	 * 
+	 * @param cloud_list_path	the path to the folder containing all the relevant files in the user's cloud storage area
+	 * @throws IOException
+	 */
+	public static void downloadList(String cloud_list_path) throws IOException {
+		
+		//checks that the user is logged in
+		if(!isLoggedIn()) {
+			System.out.println("Not logged in.");
+			return;
+		}
+		
+		//checks that the user is logged into the correct account for the access rights, or that the list is public
+		if(!Integer.toString(user.getId()).equals(cloud_list_path.split("/")[0]) && (user.getId() + "/" + cloud_list_path.split("/")[1] + "/").equals(user.getId() + "/private/")) {
+			System.out.println("Not logged in to correct account.");
+			return;
+		}
+		
+		//fetches the paths to all the files contained within the path folder
+		Page<Blob> blobs = storage.list("we-tech-user-storage", BlobListOption.prefix(cloud_list_path));
+		
+		//loops through all of the files
+		for(Blob blob : blobs.iterateAll()) {
+			
+			System.out.println("Downloading...");
+			
+			System.out.println(blob.getName());
+			
+			
+			//if it is an XML file then download and save as an XML file
+			if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {
+				//reads the XML file's byte content
+				byte[] list_xml = blob.getContent();
+				//writes the XML file's byte content to a local file
+				FileUtils.writeByteArrayToFile(new File(System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/" + FilenameUtils.getName(blob.getName())), list_xml);
+			//if it is not an XML file, it must be a media file, so download, decode from Base64 and then save
+			} else {
+				
+				//read the encoded media file's content
+				byte[] media_file_base64 = blob.getContent();
+				
+				//decode the encoded media file
+				byte[] media_file = Base64.getDecoder().decode(media_file_base64);
+				
+				//writes the decoded media file to a local file
+				FileUtils.writeByteArrayToFile(new File(System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/" + FilenameUtils.getName(blob.getName())), media_file);
+			}
+
+		}
+		
+		//rebuilds the list XML file with the paths changed to match the new media file locations
+		rebuildXML(System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/");
+		
+	}
+	
+	/**
+	 * Method to rebuild a list XML file with the multimedia paths changed to match the new media file locations.
+	 * 
+	 * @param list_download_folder	the folder where the media files are contained
+	 */
+	private static void rebuildXML(String list_download_folder) {
+		
+		System.out.println("Rebuilding XML...");
+		
+		//opens the folder
+    	File folder = new File(list_download_folder);
+    	
+    	
+    	File[] list_of_files;
+
+    	File[] xml_file = null;
+    	
+    	//open all files in directory
+    	list_of_files = folder.listFiles(new FilenameFilter() {
+    		@Override
+    		public boolean accept(File dir, String name) {
+    			return true;
+    		}
+    	});
+    	
+    	//open all files in directory with .xml file extension
+    	xml_file = folder.listFiles(new FilenameFilter() {
+    		@Override
+    		public boolean accept(File dir, String name) {
+    			return name.toLowerCase().endsWith(".xml");
+    		}
+    	});
+    	
+    	//creates a ChuseList from the XML file
+    	ChuseList list = XMLHandler.buildListFromXML(xml_file[0].getAbsolutePath()); 
+
+    	//loops through every file in the folder
+    	for(File file : list_of_files) {
+    		
+    		//if the file is the XML file, then skip an iteration of the loop
+    		if(file.getName().toLowerCase().endsWith(".xml")) {
+    			continue;
+    		}
+    		
+    		//loop through every item in the list
+    		for(int i = 0; i < list.getSize(); i++) {
+    			
+    			//if the path for the current item of the list contain the exact name of the media file but with a different path
+    			//then change the path of the current item to the new path of the media file
+    			if(list.get(i).getPath().contains(file.getName())) {
+    				list.get(i).changePath(file.getAbsolutePath());
+    			}
+    		}
+    	}
+    	
+    	//rebuild the XML using the updated list
+    	XMLHandler.buildXMLFromList(list, xml_file[0].getAbsolutePath());
+		
 	}
 	
 	/**
@@ -308,7 +427,7 @@ public class CloudInteractionHandler {
 
 		//search for the username in the database
 		QueryResults <Entity> results = queryUserAccountByProperty("username", username);
-
+		
 		//if no account has that email or username, then create the account
 		if(retrieved_account == null && results == null) {
 			
@@ -444,7 +563,7 @@ public class CloudInteractionHandler {
 			System.out.println(public_account.getKey().getId());
 			
 			//get all the files contained within the public profile
-			Page<Blob> blobs = storage.list("staging.western-throne-231914.appspot.com", BlobListOption.prefix(public_account.getKey().getId() + "/public/"));
+			Page<Blob> blobs = storage.list("we-tech-user-storage", BlobListOption.prefix(public_account.getKey().getId() + "/public/"));
 
 			System.out.println("Public Files: ");
 			for(Blob blob : blobs.iterateAll()) {
@@ -458,6 +577,7 @@ public class CloudInteractionHandler {
 					i++;
 					System.out.println("List " + i + ": ");
 					System.out.println(FilenameUtils.getBaseName(blob.getName()));
+					System.out.println(FilenameUtils.removeExtension(blob.getName()));
 				}
 			}
 
@@ -474,7 +594,7 @@ public class CloudInteractionHandler {
 	 * @param value
 	 * @return
 	 */
-	private static QueryResults<Entity> queryUserAccountByProperty(String property, String value) {
+	public static QueryResults<Entity> queryUserAccountByProperty(String property, String value) {
 		
 		//create a query for the database for the property and its value
 		Query<Entity> query = Query.newEntityQueryBuilder()

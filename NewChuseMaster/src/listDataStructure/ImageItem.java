@@ -68,4 +68,8 @@ public class ImageItem extends BasicItem implements ListInterface {
 		System.out.println("File Location: " + this.file_location);
 	}
 	
+	public void changePath(String new_path) {
+		this.file_location = new_path;
+	}
+	
 }

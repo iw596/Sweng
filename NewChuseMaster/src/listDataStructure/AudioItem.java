@@ -81,5 +81,9 @@ public class AudioItem extends BasicItem implements ListInterface {
 		return object_params;
 
 	} 
+	
+	public void changePath(String new_path) {
+		this.file_location = new_path;
+	}
 
 }

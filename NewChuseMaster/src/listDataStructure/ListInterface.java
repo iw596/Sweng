@@ -62,5 +62,9 @@ public interface ListInterface {
 	public default ArrayList<String> getObjectValue() {
 		return null;
 	}
+	
+	public default void changePath(String new_path) {
+		System.out.println("No change path implementation present.");
+	}
 
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id>
+  <page>
+    <multimedia>
+      <type>ImageItem</type>
+      <title>glyph-logo_May2016.png</title>
+      <path>C:\Users\Dan\Pictures\glyph-logo_May2016.png</path>
+    </multimedia>
+    <multimedia>
+      <type>ImageItem</type>
+      <title>Spotify_Logo_RGB_Green.png</title>
+      <path>C:\Users\Dan\Pictures\Spotify_Logo_RGB_Green.png</path>
+    </multimedia>
+    <multimedia>
+      <type>ImageItem</type>
+      <title>yt_icon_rgb.png</title>
+      <path>C:\Users\Dan\Pictures\yt_icon_rgb.png</path>
+    </multimedia>
+  </page>
+</id>
