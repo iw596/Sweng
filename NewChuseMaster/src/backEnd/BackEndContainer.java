@@ -267,6 +267,7 @@ public class BackEndContainer {
 		loggedIn = false;
 	}
 	
+	
 	/**
 	 * Method to return the locally stored account that is currently logged in.
 	 * @return	the account currently logged in, or null if not logged in

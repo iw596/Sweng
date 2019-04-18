@@ -160,29 +160,65 @@ public class CloudInteractionHandlerTest {
 		
 	}
 	
+//	@Test
+//	/**
+//	 * Method to test uploading & downloading a public list of audio items
+//	 */
+//	public void I_uploadPublicAudioList() {
+//		new CloudInteractionHandler();
+//		CloudInteractionHandler.logIn("test@gmail.com", "testing123");
+//		CloudInteractionHandler.setAccessType(1);
+//		CloudInteractionHandler.uploadList("C:\\Users\\Dan\\Sweng\\NewChuseMaster\\saves\\Cloud Testing\\AudioItem List.xml");
+//		CloudInteractionHandler.logOut();
+//		
+//		CloudInteractionHandler.logIn("AAtest@gmail.com", "testing123");
+//		
+//		try {
+//			CloudInteractionHandler.downloadList(Integer.toString("test@gmail.com".hashCode()) + "/public/AudioItem List/");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		ChuseList downloaded_list = XMLHandler.buildListFromXML(System.getProperty("user.dir") + "/saves/AudioItem List/AudioItem List.xml");
+//		
+//		assertEquals("Adult Diversion", downloaded_list.get(0).getTitle());
+//		
+//	}
+	
 	@Test
 	/**
 	 * Method to test uploading & downloading a public list of audio items
 	 */
-	public void I_uploadPublicAudioList() {
+	public void IA_uploadPublicAudioList() {
 		new CloudInteractionHandler();
 		CloudInteractionHandler.logIn("test@gmail.com", "testing123");
 		CloudInteractionHandler.setAccessType(1);
-		CloudInteractionHandler.uploadList("C:\\Users\\Dan\\Sweng\\NewChuseMaster\\saves\\Cloud Testing\\AudioItem List.xml");
+		CloudInteractionHandler.uploadList("C:\\Users\\Dan\\Sweng\\NewChuseMaster\\saves\\Cloud Testing\\ImageItem List.xml");
 		CloudInteractionHandler.logOut();
 		
 		CloudInteractionHandler.logIn("AAtest@gmail.com", "testing123");
 		
+		System.out.println("*********************************");
+		System.out.println("---------------------------------");
+		System.out.println("*********************************");
+		
+		CloudInteractionHandler.getPublicProfileContent("test_account");
+		
 		try {
-			CloudInteractionHandler.downloadList(Integer.toString("test@gmail.com".hashCode()) + "/public/AudioItem List/");
+			CloudInteractionHandler.downloadList(Integer.toString("test@gmail.com".hashCode()) + "/public/ImageItem List/");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		ChuseList downloaded_list = XMLHandler.buildListFromXML(System.getProperty("user.dir") + "/saves/AudioItem List/AudioItem List.xml");
+		ChuseList downloaded_list = XMLHandler.buildListFromXML(System.getProperty("user.dir") + "/saves/ImageItem List/ImageItem List.xml");
 		
-		assertEquals("Adult Diversion", downloaded_list.get(0).getTitle());
+		assertEquals("glyph-logo_May2016.png", downloaded_list.get(0).getTitle());
+		
+		System.out.println("*********************************");
+		System.out.println("---------------------------------");
+		System.out.println("*********************************");
 		
 	}
 	
@@ -213,8 +249,7 @@ public class CloudInteractionHandlerTest {
 	 */
 	public void K_uploadPrivateVideoList() {
 		new CloudInteractionHandler();
-		CloudInteractionHandler.logIn("test@gmail.com", "testing123");
-		CloudInteractionHandler.uploadList("C:\\Users\\Dan\\Sweng\\NewChuseMaster\\saves\\Cloud Testing\\VideoItem List.xml");
+ 		CloudInteractionHandler.uploadList("C:\\Users\\Dan\\Sweng\\NewChuseMaster\\saves\\Cloud Testing\\VideoItem List.xml");
 		
 		try {
 			CloudInteractionHandler.downloadList(Integer.toString("test@gmail.com".hashCode()) + "/private/VideoItem List/");

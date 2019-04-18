@@ -478,7 +478,7 @@ public class CloudInteractionHandler {
 			//checks if the password is valid
 			if(verifyAccountPassword(email, password)) {
 				//creates a new local user account object using the provided details
-				user = new UserAccount(email.hashCode(), retrieved_account.getString("username"), Long.toString(retrieved_account.getLong("age")), retrieved_account.getString("gender"));
+				user = new UserAccount(email.hashCode(), retrieved_account.getString("username"), retrieved_account.getString("age"), retrieved_account.getString("gender"));
 				loggedIn = true;
 				result = true;
 			}
@@ -558,11 +558,15 @@ public class CloudInteractionHandler {
 	 */
 	public static ArrayList<String> getPublicProfileContent(String username) {
 		
+		ArrayList<String> public_lists = null;
+		
 		//checks if there is an account with the username given
 		QueryResults<Entity> results = queryUserAccountByProperty("username", username);
 		
 		//if there is then perform actions
 		if(results != null) {
+			
+			public_lists = new ArrayList<String>();
 			
 			//read the account
 			Entity public_account = results.next();
@@ -579,22 +583,19 @@ public class CloudInteractionHandler {
 			for(Blob blob : blobs.iterateAll()) {
 				System.out.println(blob.getName());
 			}
-			
-			int i = 0;
+
 			
 			for(Blob blob : blobs.iterateAll()) {
-				if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {
-					i++;
-					System.out.println("List " + i + ": ");
-					System.out.println(FilenameUtils.getBaseName(blob.getName()));
-					System.out.println(FilenameUtils.removeExtension(blob.getName()));
+				if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {					
+					public_lists.add(FilenameUtils.removeExtension(blob.getName()));
 				}
 			}
 
 			
+			
 		}
 		
-		return null;
+		return public_lists;
 		
 	}
 	

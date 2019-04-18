@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.WindowEvent;
+import searchScreenGUI.UsernameSearchScreenController;
 
 /**
  * Class for the sidebar container screen controller. This class handles all button listeners and interactivity
@@ -128,8 +129,15 @@ public class MasterScreenController implements Initializable {
      * Method to show the social screen when the button is clicked.
      * @param event
      */
-    void showSocialScreen(ActionEvent event) {
+    void showSocialScreen(ActionEvent event) throws IOException {
     	System.out.println("Social Button Pressed");
+    	
+    	FXMLLoader loader = new FXMLLoader(searchScreenGUI.UsernameSearchScreenController.class.getResource("UsernameSearchScreen.fxml"));
+    	UsernameSearchScreenController controller = new UsernameSearchScreenController(back_end);
+    	loader.setController(controller);
+    	BorderPane new_pane = loader.load();
+    	bindSizeProperties(new_pane);
+    	
     }
     
     public void setUsernameText(String username) {
