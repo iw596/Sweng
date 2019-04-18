@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.UsernameSearchScreenController">
+<BorderPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.UsernameSearchScreenController">
    <center>
       <BorderPane prefHeight="480.0" prefWidth="640.0" BorderPane.alignment="CENTER">
          <top>
@@ -18,10 +19,13 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
                            <font>
-                              <Font size="20.0" />
+                              <Font size="21.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets left="24.0" top="6.0" />
+                           </VBox.margin>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="List Title" textAlignment="CENTER" wrappingWidth="639.13671875">
+                        <Text fx:id="list_title" strokeType="OUTSIDE" strokeWidth="0.0" text="List Title" textAlignment="CENTER" wrappingWidth="639.13671875">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -30,6 +34,9 @@
                            <font>
                               <Font size="14.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets left="24.0" top="12.0" />
+                           </VBox.margin>
                         </Text>
                      </children>
                   </VBox>
@@ -39,42 +46,16 @@
          <center>
             <ScrollPane fx:id="scroll_pane" prefHeight="138.0" prefWidth="640.0" BorderPane.alignment="CENTER">
                <content>
-                  <VBox fx:id="items_pane" alignment="CENTER" prefHeight="130.0" prefWidth="625.0" />
+                  <VBox fx:id="items_pane" alignment="CENTER" />
                </content>
             </ScrollPane>
-         </center>
-         <bottom>
-            <BorderPane prefHeight="237.0" prefWidth="640.0" BorderPane.alignment="CENTER">
-               <top>
-                  <HBox prefHeight="28.0" prefWidth="640.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <VBox prefHeight="47.0" prefWidth="630.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Most Recent Results:" underline="true">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-               </top>
-               <center>
-                  <ScrollPane prefHeight="108.0" prefWidth="640.0" BorderPane.alignment="CENTER">
-                     <content>
-                        <VBox prefHeight="120.0" prefWidth="624.0" />
-                     </content>
-                  </ScrollPane>
-               </center>
-               <bottom>
-                  <HBox alignment="CENTER" prefHeight="65.0" prefWidth="640.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <JFXButton fx:id="button" onMouseClicked="#button_pressed" text="Complete List" />
-                     </children>
-                  </HBox>
-               </bottom>
-            </BorderPane>
-         </bottom></BorderPane>
+         </center></BorderPane>
    </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="65.0" prefWidth="640.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton fx:id="start_button" onMouseClicked="#button_pressed" text="Complete List" />
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>

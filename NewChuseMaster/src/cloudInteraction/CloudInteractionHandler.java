@@ -484,7 +484,7 @@ public class CloudInteractionHandler {
 			}
 		}
 		
-		user.print();
+		//user.print();
 		
 		//returns true if logged in, false if not
 		return result;
@@ -571,18 +571,18 @@ public class CloudInteractionHandler {
 			//read the account
 			Entity public_account = results.next();
 
-			System.out.println("Username: ");
-			System.out.println(username);
-			System.out.println("User account ID: ");
-			System.out.println(public_account.getKey().getId());
+//			System.out.println("Username: ");
+//			System.out.println(username);
+//			System.out.println("User account ID: ");
+//			System.out.println(public_account.getKey().getId());
 			
 			//get all the files contained within the public profile
 			Page<Blob> blobs = storage.list("we-tech-user-storage", BlobListOption.prefix(public_account.getKey().getId() + "/public/"));
 
-			System.out.println("Public Files: ");
-			for(Blob blob : blobs.iterateAll()) {
-				System.out.println(blob.getName());
-			}
+//			System.out.println("Public Files: ");
+//			for(Blob blob : blobs.iterateAll()) {
+//				System.out.println(blob.getName());
+//			}
 
 			
 			for(Blob blob : blobs.iterateAll()) {

@@ -52,6 +52,8 @@ public class BackEndContainer {
 	
 	private static Boolean loggedIn = false;
 	
+	private ArrayList<String> public_lists;
+	
 	/**
 	 * Constructor function for the BackEndContainer object. Sets the current list and
 	 * current results equal to null.
@@ -275,6 +277,27 @@ public class BackEndContainer {
 	public UserAccount getLocalAccount() {
 		return CloudInteractionHandler.getUserAccount();
 	}
+	
+	/**
+	 * Method to store the name of the public lists from a specific account with a given
+	 * user name.
+	 * 
+	 * @param username	the account's username
+	 */
+	public void loadPublicListsFromUser(String username) {
+		public_lists = CloudInteractionHandler.getPublicProfileContent(username);
+	}
+	
+	/**
+	 * Method to get the currently stored names of the public lists.
+	 * 
+	 * @return	
+	 */
+	public ArrayList<String> getPublicLists() {
+		return public_lists;
+	}
+	
+
 	
 	
 }
