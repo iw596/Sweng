@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.sun.jna.Platform;
 
+import accountScreensGUI.LogInScreenController;
 import backEnd.BackEndContainer;
 import homeScreenGUI.HomeScreenController;
 import javafx.event.ActionEvent;
@@ -60,8 +61,17 @@ public class MasterScreenController implements Initializable {
      * Method to show the user account screen when the button is clicked.
      * @param event
      */
-    void showAccountScreen(ActionEvent event) {
+    void showAccountScreen(ActionEvent event) throws IOException {
     	System.out.println("Account Screen Button Pressed");
+    	
+    	FXMLLoader loader = new FXMLLoader(accountScreensGUI.LogInScreenController.class.getResource("LogInScreen.fxml"));
+    	LogInScreenController controller = new LogInScreenController(back_end, this);
+    	loader.setController(controller);
+    	BorderPane new_pane = loader.load();
+    	bindSizeProperties(new_pane);
+    	
+    	this.back_end.startCloudHandler();
+    	
     }
 
     @FXML
@@ -120,6 +130,10 @@ public class MasterScreenController implements Initializable {
      */
     void showSocialScreen(ActionEvent event) {
     	System.out.println("Social Button Pressed");
+    }
+    
+    public void setUsernameText(String username) {
+    	account_button.setText(username);
     }
 
 	@Override

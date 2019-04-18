@@ -1,4 +1,4 @@
-package cloudStorage;
+package cloudInteraction;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -420,7 +420,9 @@ public class CloudInteractionHandler {
 	 * @param username	the account's desired user name
 	 * @param password	the account's desired password
 	 */
-	public static void createAccount(String email, String username, String password) {
+	public static Boolean createAccount(String email, String username, String password, int age, String gender) {
+		
+		Boolean result = false;
 		
 		//get the user account object from the datastore
 		Entity retrieved_account = getUserAccountEntity(email);
@@ -438,8 +440,12 @@ public class CloudInteractionHandler {
 			Entity account = Entity.newBuilder(datastore.newKeyFactory().setKind("User Account").newKey(email.hashCode()))
 					.set("password", encrypted_pass)
 					.set("username", username)
+					.set("age", Integer.toString(age))
+					.set("gender", gender)
 					.build();
 			datastore.put(account);
+			
+			result = true;
 		
 		//otherwise print error statements
 		} else if(retrieved_account != null && results == null) {
@@ -449,6 +455,8 @@ public class CloudInteractionHandler {
 		} else {
 			System.out.println("Account with this email address and username already exists.");
 		}
+		
+		return result;
 		
 	}
 	
@@ -470,11 +478,13 @@ public class CloudInteractionHandler {
 			//checks if the password is valid
 			if(verifyAccountPassword(email, password)) {
 				//creates a new local user account object using the provided details
-				user = new UserAccount(email.hashCode(), retrieved_account.getString("username"));
+				user = new UserAccount(email.hashCode(), retrieved_account.getString("username"), Long.toString(retrieved_account.getLong("age")), retrieved_account.getString("gender"));
 				loggedIn = true;
 				result = true;
 			}
 		}
+		
+		user.print();
 		
 		//returns true if logged in, false if not
 		return result;

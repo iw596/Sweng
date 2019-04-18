@@ -8,7 +8,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import cloudStorage.CloudInteractionHandler;
+import cloudInteraction.CloudInteractionHandler;
 import listDataStructure.ChuseList;
 import xmlHandling.XMLHandler;
 
@@ -38,7 +38,7 @@ public class CloudInteractionHandlerTest {
 		
 		new CloudInteractionHandler();
 		
-		CloudInteractionHandler.createAccount("test@gmail.com", "test_account", "testing123");
+		CloudInteractionHandler.createAccount("test@gmail.com", "test_account", "testing123", 21, "Male");
 		
 		assertEquals(true, CloudInteractionHandler.verifyAccountId("test@gmail.com"));
 		
@@ -54,7 +54,7 @@ public class CloudInteractionHandlerTest {
 		
 		new CloudInteractionHandler();
 		
-		CloudInteractionHandler.createAccount("AAtest@gmail.com", "AAtest_account", "testing123");
+		CloudInteractionHandler.createAccount("AAtest@gmail.com", "AAtest_account", "testing123", 21, "Male");
 		
 		assertEquals(true, CloudInteractionHandler.verifyAccountId("AAtest@gmail.com"));
 		
@@ -68,7 +68,7 @@ public class CloudInteractionHandlerTest {
 		
 		new CloudInteractionHandler();
 		
-		CloudInteractionHandler.createAccount("test@gmail.com", "different_test_account", "testing123");
+		CloudInteractionHandler.createAccount("test@gmail.com", "different_test_account", "testing123", 21, "Male");
 
 		assertEquals(null, CloudInteractionHandler.queryUserAccountByProperty("username", "different_test_account"));
 		
@@ -82,7 +82,7 @@ public class CloudInteractionHandlerTest {
 		
 		new CloudInteractionHandler();
 		
-		CloudInteractionHandler.createAccount("another_test@gmail.com", "test_account", "testing123");
+		CloudInteractionHandler.createAccount("another_test@gmail.com", "test_account", "testing123", 21, "Male");
 		
 		assertEquals(false, CloudInteractionHandler.verifyAccountId("another_test@gmail.com"));
 		

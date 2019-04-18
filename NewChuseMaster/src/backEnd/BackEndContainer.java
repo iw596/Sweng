@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import algorithms.TournamentAlgorithms;
 import apiHandlers.YouTubeAPIHandler;
+import cloudInteraction.CloudInteractionHandler;
+import cloudInteraction.UserAccount;
 import javafx.stage.Stage;
 import listDataStructure.BasicItem;
 import listDataStructure.ChuseList;
@@ -45,6 +47,10 @@ public class BackEndContainer {
 	
 	//boolean check as to whether it is a fresh, uncompared list or whether losers are being compared to 
 	private Boolean comparingLosers;
+	
+	private CloudInteractionHandler cloud_handler;
+	
+	private static Boolean loggedIn = false;
 	
 	/**
 	 * Constructor function for the BackEndContainer object. Sets the current list and
@@ -211,4 +217,63 @@ public class BackEndContainer {
 	public int getCurrentListSize() {
 		return this.current_list.getSize();
 	}
+	
+	/**
+	 * Method to start the back-end Google Cloud Platform Interaction handler.
+	 */
+	public void startCloudHandler() {
+		this.cloud_handler = new CloudInteractionHandler();
+	}
+	
+	/**
+	 * Method to create an account with a given email, username and password.
+	 * 
+	 * @param email		the email address of the account
+	 * @param username	the username of the account
+	 * @param password	the password of the account
+	 */
+	public Boolean createAccount(String email, String username, String password, int age, String gender) {
+		if(CloudInteractionHandler.createAccount(email, username, password, age, gender)) {
+			System.out.println("Successfully created account!");
+			return true;
+		} else {
+			System.out.println("Account with this email or username already exists.");
+			return false;
+		}
+	}
+	
+	/**
+	 * Method to log into an account with a given email and password.
+	 * 
+	 * @param email		the email address of the account
+	 * @param password	the passsword of the account
+	 */
+	public Boolean logIn(String email, String password) {
+		if(CloudInteractionHandler.logIn(email, password)) {
+			System.out.println("Logged in!");
+			loggedIn = true;
+			return true;
+		} else {
+			System.out.println("Not logged in.");
+			return false;
+		}
+	}
+	
+	/**
+	 * Method to log out of the currently logged in account.
+	 */
+	public void logOut() {
+		CloudInteractionHandler.logOut();
+		loggedIn = false;
+	}
+	
+	/**
+	 * Method to return the locally stored account that is currently logged in.
+	 * @return	the account currently logged in, or null if not logged in
+	 */
+	public UserAccount getLocalAccount() {
+		return CloudInteractionHandler.getUserAccount();
+	}
+	
+	
 }
