@@ -6,7 +6,17 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
-
+/**
+ * Main is the main class in the SearchScreen project. This handles the basic required UI components
+ * for searching.
+ * 
+ * Date created: 17/04/2019
+ * Date last edited: 19/04/2019
+ * Last edited by: Harry Ogden
+ * 
+ * @author Harry Ogden & Luke Fisher
+ *
+ */
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
@@ -21,6 +31,10 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * Main Program Function
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

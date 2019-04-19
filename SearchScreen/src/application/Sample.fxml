@@ -16,7 +16,7 @@
          <top>
             <VBox prefHeight="100.0" prefWidth="640.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="92.0" prefWidth="640.0">
+                  <HBox alignment="CENTER" prefHeight="92.0" prefWidth="640.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search" wrappingWidth="101.13671875">
                            <font>
@@ -25,7 +25,7 @@
                         </Text>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <JFXTextField fx:id="search_bar" onKeyPressed="#enter" prefHeight="25.0" prefWidth="398.0" />
                         <JFXButton fx:id="search_button" onMouseClicked="#searchClicked" prefHeight="27.0" prefWidth="14.0" textFill="WHITE">

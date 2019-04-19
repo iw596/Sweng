@@ -10,8 +10,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Sample controller holding scenebuilder UI functions and action listeners
+ * 
+ * Date created: 17/04/2019
+ * Date last edited: 19/04/2019
+ * Last edited by: Harry Ogden
+ * 
+ * @author Harry Ogden & Luke Fisher
+ *
+ */
 public class SampleController {
 
+	// UI Components
     @FXML
     private JFXTextField search_bar;
     @FXML
@@ -19,8 +30,10 @@ public class SampleController {
     @FXML
     private JFXButton search_button;
     
+    // User entered text
     private String search_text;
     
+    // Search when ENTER key is pressed
     @FXML
     void enter(KeyEvent event) {
     	
@@ -32,6 +45,7 @@ public class SampleController {
     	
     }
     
+    // Search when search button is pressed
     @FXML
     void searchClicked(MouseEvent event) {
     	System.out.print(search_bar.getText());
