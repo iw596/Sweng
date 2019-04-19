@@ -14,7 +14,7 @@ import javafx.fxml.FXMLLoader;
  * Date last edited: 19/04/2019
  * Last edited by: Harry Ogden
  * 
- * @author Harry Ogden
+ * @author Harry Ogden & Luke Fisher
  *
  */
 public class Main extends Application {
