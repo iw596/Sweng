@@ -9,10 +9,8 @@ import com.jfoenix.controls.JFXButton;
 import com.sun.jna.NativeLibrary;
 
 import audioPlayback.AppController;
-import audioPlayback.AudioController;
 import backEnd.BackEndContainer;
 import imageDisplay.ImageDisplayController;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -78,8 +76,6 @@ public class ComparisonScreenController implements Initializable {
      */
     void leftItemSelected(ActionEvent event) {
     	
-    	System.out.println("Left Item Selected");
-    	
     	if(audio_controllers.size() > 0) {
     		for(int i = 0; i < audio_controllers.size(); i++) {
     			audio_controllers.get(i).exit();
@@ -105,7 +101,6 @@ public class ComparisonScreenController implements Initializable {
      * @param event
      */
     void rightItemSelected(ActionEvent event) {
-    	System.out.println("Right Item Selected");
     	
     	if(audio_controllers.size() > 0) {
     		for(int i = 0; i < audio_controllers.size(); i++) {

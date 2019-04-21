@@ -3,6 +3,11 @@ package backEnd;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.commons.io.FilenameUtils;
+
+import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.QueryResults;
+
 import algorithms.TournamentAlgorithms;
 import apiHandlers.YouTubeAPIHandler;
 import cloudInteraction.CloudInteractionHandler;
@@ -25,6 +30,9 @@ import xmlHandling.XMLHandler;
  * Date created: 13/03/2019
  * Date last edited: 15/03/2019
  * Last edited by: Dan Jackson
+ * 
+ * Date last edited: 19/04/2019
+ * Last edited by: Jack Small
  * 
  * @author Dan Jackson
  *
@@ -54,6 +62,10 @@ public class BackEndContainer {
 	
 	private ArrayList<String> public_lists;
 	
+	private String current_list_file_name;
+	
+	private String list_owner;
+	
 	/**
 	 * Constructor function for the BackEndContainer object. Sets the current list and
 	 * current results equal to null.
@@ -61,6 +73,8 @@ public class BackEndContainer {
 	public BackEndContainer() {
 		current_list = null;
 		current_results = null;
+		current_list_file_name = null;
+		list_owner = null;
 	}
 	
 	/**
@@ -69,6 +83,8 @@ public class BackEndContainer {
 	 * @param stage
 	 */
 	public void loadTextFiles(Stage stage) {
+		
+		this.current_list_file_name = null;
 		
 		current_list = new ChuseList();
 		original_list = new ChuseList();
@@ -86,6 +102,8 @@ public class BackEndContainer {
 	 */
 	public void loadImageFiles(Stage stage) {
 		
+		this.current_list_file_name = null;
+		
 		current_list = new ChuseList();
 		original_list = new ChuseList();
 		
@@ -101,6 +119,9 @@ public class BackEndContainer {
 	 * @param stage
 	 */
 	public void loadAudioFiles(Stage stage) {
+		
+		this.current_list_file_name = null;
+		
 		current_list = new ChuseList();
 		original_list = new ChuseList();
 		
@@ -124,6 +145,9 @@ public class BackEndContainer {
 	 * @param content
 	 */
 	public void createBasicItemList(ArrayList<String> content) {
+		
+		this.current_list_file_name = null;
+		
 		current_list = new ChuseList();
 		original_list = new ChuseList();
 		for(String item_title : content) {
@@ -160,12 +184,61 @@ public class BackEndContainer {
 	/**
 	 * Method to save the current list to an XML file.
 	 * @param file_path
+	 * 
+	 * Date Update: 19/04/2019 
+	 * Last edited by: Jack Small
+	 * 
 	 */
 	public void saveCurrentListToXML(String file_path) {
-		XMLHandler.buildXMLFromList(this.original_list, file_path);
+		
+		if(loggedIn == false) {
+			// save list with null for username on attribute 
+			XMLHandler.buildXMLFromList(this.original_list, file_path, this.current_results, null);
+		}else {
+			// save list with username on attribute 
+			XMLHandler.buildXMLFromList(this.original_list, file_path, this.current_results, CloudInteractionHandler.getUserAccount().getUsername());
+		}
+		
+		current_list_file_name = file_path;
+		
 	}
 	
+	/**
+	 * method to update the save of the file dependent on user and list being updated
+	 * @param file_path
+	 * 
+	 * Date created: 19/04/2019 
+	 * Date update: 19/04/2019 
+	 * Last edited by: Jack Small
+	 * 
+	 */
+	public void updateSaveListToXML(String file_path) {
+		if(loggedIn == true) {
+			// if its there list append results
+			if(CloudInteractionHandler.getUserAccount().getUsername().equals(this.original_list.getAuthor()) || this.list_owner == null) {
+				XMLHandler.appendResults(file_path, this.current_results);
+			} else if(this.list_owner != null){
+				// add there username to the file name before .xml
+				file_path = file_path.replace(".xml", "-" + CloudInteractionHandler.getUserAccount().getUsername() + ".xml");
+				// Build results xml 
+				XMLHandler.buildXMLFromListWithResults(file_path, this.current_results);
+				this.current_list_file_name = file_path;
+			}	
+		} else {
+			// append result as it must be there as its in the local and there not log on to search for a public list
+			XMLHandler.appendResults(file_path, this.current_results);
+		}
+		
+	}
+	
+	/**
+	 * Method to read an XML file into a list variable and then store this as the current and original
+	 * list within the back end.
+	 * 
+	 * @param file_path	the path to the XML file
+	 */
 	public void loadXMLForComparison(String file_path) {
+		this.current_list_file_name = file_path;
 		current_list = XMLHandler.buildListFromXML(file_path);
 		original_list = XMLHandler.buildListFromXML(file_path);
 	}
@@ -297,7 +370,117 @@ public class BackEndContainer {
 		return public_lists;
 	}
 	
+	//*******************************************************************
+	//--------------------------- NEW ----------------------------------
+	//*******************************************************************
+	/**
+	 * Method to download a list XML from the cloud and read it into the current and original list
+	 * variables.
+	 * @param cloud_path	the path to the list folder on the cloud
+	 * @return				true if downloads successfully, false if does not download successfully
+	 * @throws IOException
+	 */
+	public Boolean downloadList(String cloud_path) throws IOException {
+		
+		//downloads the list and gets the local file path
+		String local_path = CloudInteractionHandler.downloadList(cloud_path);
+		
+		//checks if the local file path exists
+		if(local_path == null) {
+			//if not returns false
+			return false;
+		} else {
+			//if it does, read the XML and save variables, then return true
+			loadXMLForComparison(local_path);
+			return true;
+		}
+	}
+	
+	/**
+	 * Method to upload a list to the user's cloud area, either public or private
+	 * depending on the access type selected.
+	 * 
+	 * @param filepath	the path to the local XML file
+	 * @return
+	 */
+	public Boolean uploadList(String filepath, Boolean shareListPublicly) {
+		
+		if(shareListPublicly) {
+			CloudInteractionHandler.setAccessType(1);
+		} else {
+			CloudInteractionHandler.setAccessType(0);
+		}
+		
+		return CloudInteractionHandler.uploadList(filepath);
+	}
+	
+	/**
+	 * Method to get the currently stored list's XML file. This will have a null value if
+	 * the list has not yet been saved.
+	 * @return
+	 */
+	public String getCurrentListFileName() {
+		return this.current_list_file_name;
+	}
+	
+	/**
+	 * Method to set the owner of the currently active list.
+	 * 
+	 * @param username
+	 */
+	public void setListOwner(String username) {
+		this.list_owner = username;
+	}
+	
+	public String getListOwner() {
+		return this.list_owner;
+	}
+	
+	/**
+	 * Method to get an user account's ID from their user name.
+	 * 
+	 * @param username	the user name of the account
+	 * @return
+	 */
+	public String getAccountId(String username) {
+		
+		QueryResults<Entity> results = CloudInteractionHandler.queryUserAccountByProperty("username", username);
+		
+		String account_id = null;
+		
+		if(results != null) {
+			Entity result = results.next();
+			
+			account_id = Long.toString(result.getKey().getId());
+			
+			System.out.println(result.toString());
+			
+			System.out.println(result.getKey().getId());
 
+			
+		}
+		
+		return account_id;
+		
+	}
 	
+	/**
+	 * Method to upload the currently logged in user's results to another user's public list.
+	 */
+	public void uploadResults() {
+		
+		String xml_file = getCurrentListFileName().replaceFirst("-" + getLocalAccount().getUsername() + ".xml", ".xml");
+		
+		String folder_name = FilenameUtils.getBaseName(xml_file);
+		
+		String account_id = getAccountId(getListOwner());
+		
+		CloudInteractionHandler.uploadResults(current_list_file_name, account_id + "/public/" + folder_name + "/" + FilenameUtils.getName(getCurrentListFileName()));
+
+	}
 	
+//	public void setCurrentListFileNameToNull() {
+//		this.current_list_file_name = null;
+//	}
+
 }

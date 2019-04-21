@@ -148,6 +148,10 @@ public class CloudInteractionHandler {
 		
 	}
 	
+	public static void uploadResults(String local_file_path, String upload_file_name) {
+		uploadFileToBucket("we-tech-user-storage", local_file_path, upload_file_name);
+	}
+	
 	/**
 	 * Method to upload a media file to a specific bucket on the Google Cloud Platform. Converts the file to base 64 and then
 	 * uploads it with a given file name.
@@ -241,13 +245,13 @@ public class CloudInteractionHandler {
 	 * Method to upload an entire list of multimedia items to the Google Cloud Platform.
 	 * @param filepath	the filepath to the local list XML file
 	 */
-	public static void uploadList(String filepath) {
+	public static Boolean uploadList(String filepath) {
 		
 		//checks if the user is logged in
 		if(!isLoggedIn()) {
 			//if not returns without uploading
 			System.out.println("Returning without upload.");
-			return;
+			return false;
 		}
 		
 		//builds a list from the XML file
@@ -269,31 +273,44 @@ public class CloudInteractionHandler {
 		
 		//resets the access type to private
 		setAccessType(0);
+		
+		return true;
 
 	}
+	
+//	public static Boolean uploadResults(String filepath, String author_username) {
+//		
+//	}
 	
 	/**
 	 * Method to download a list from a given path in the user's cloud storage area.
 	 * 
 	 * @param cloud_list_path	the path to the folder containing all the relevant files in the user's cloud storage area
+	 * @return local path		the path to the new XML file that is stored locally
 	 * @throws IOException
 	 */
-	public static void downloadList(String cloud_list_path) throws IOException {
+	public static String downloadList(String cloud_list_path) throws IOException {
+		
+		String downloaded_file_name = null;
 		
 		//checks that the user is logged in
 		if(!isLoggedIn()) {
 			System.out.println("Not logged in.");
-			return;
+			return downloaded_file_name;
 		}
 		
 		//checks that the user is logged into the correct account for the access rights, or that the list is public
 		if(!Integer.toString(user.getId()).equals(cloud_list_path.split("/")[0]) && (user.getId() + "/" + cloud_list_path.split("/")[1] + "/").equals(user.getId() + "/private/")) {
 			System.out.println("Not logged in to correct account.");
-			return;
+			return downloaded_file_name;
 		}
 		
 		//fetches the paths to all the files contained within the path folder
 		Page<Blob> blobs = storage.list("we-tech-user-storage", BlobListOption.prefix(cloud_list_path));
+		
+		if(blobs == null) {
+			return downloaded_file_name;
+		}
 		
 		//loops through all of the files
 		for(Blob blob : blobs.iterateAll()) {
@@ -308,7 +325,11 @@ public class CloudInteractionHandler {
 				//reads the XML file's byte content
 				byte[] list_xml = blob.getContent();
 				//writes the XML file's byte content to a local file
-				FileUtils.writeByteArrayToFile(new File(System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/" + FilenameUtils.getName(blob.getName())), list_xml);
+				downloaded_file_name = System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/" + FilenameUtils.getName(blob.getName());
+//				FileUtils.writeByteArrayToFile(new File(System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/" + FilenameUtils.getName(blob.getName())), list_xml);
+				FileUtils.writeByteArrayToFile(new File(downloaded_file_name), list_xml);
+				System.out.println("Downloaded file name is:");
+				System.out.println(downloaded_file_name);
 			//if it is not an XML file, it must be a media file, so download, decode from Base64 and then save
 			} else {
 				
@@ -327,6 +348,8 @@ public class CloudInteractionHandler {
 		//rebuilds the list XML file with the paths changed to match the new media file locations
 		rebuildXML(System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/");
 		
+		return downloaded_file_name;
+		
 	}
 	
 	/**
@@ -340,11 +363,12 @@ public class CloudInteractionHandler {
 		
 		//opens the folder
     	File folder = new File(list_download_folder);
-    	
-    	
+
     	File[] list_of_files;
 
-    	File[] xml_file = null;
+    	File[] xml_files = null;
+    	
+    	File output_xml_file = null;
     	
     	//open all files in directory
     	list_of_files = folder.listFiles(new FilenameFilter() {
@@ -355,16 +379,31 @@ public class CloudInteractionHandler {
     	});
     	
     	//open all files in directory with .xml file extension
-    	xml_file = folder.listFiles(new FilenameFilter() {
+    	xml_files = folder.listFiles(new FilenameFilter() {
     		@Override
     		public boolean accept(File dir, String name) {
     			return name.toLowerCase().endsWith(".xml");
     		}
     	});
-    	
-    	//creates a ChuseList from the XML file
-    	ChuseList list = XMLHandler.buildListFromXML(xml_file[0].getAbsolutePath()); 
 
+    	ChuseList list = null;
+    	
+    	//checks the XML files and ensures that they contain the list
+    	for(File xml_file : xml_files) {
+    		
+    		//builds a list from the XML file
+    		list = XMLHandler.buildListFromXML(xml_file.getAbsolutePath());
+    		
+    		//if they contain the list, break out of the for loop
+    		if(list != null) {
+    			output_xml_file = xml_file;
+    			break;
+    		}
+    		
+    	}
+    	
+    	System.out.println(list);
+    	
     	//loops through every file in the folder
     	for(File file : list_of_files) {
     		
@@ -385,7 +424,7 @@ public class CloudInteractionHandler {
     	}
     	
     	//rebuild the XML using the updated list
-    	XMLHandler.buildXMLFromList(list, xml_file[0].getAbsolutePath());
+    	XMLHandler.buildXMLFromList(list, output_xml_file.getAbsolutePath());
 		
 	}
 	
@@ -461,7 +500,6 @@ public class CloudInteractionHandler {
 	}
 	
 	/**
-	 * Method to log into an account with a given email address and password.
 	 * @param email		the email address associated with the account
 	 * @param password	the account's password
 	 * @return
@@ -478,7 +516,7 @@ public class CloudInteractionHandler {
 			//checks if the password is valid
 			if(verifyAccountPassword(email, password)) {
 				//creates a new local user account object using the provided details
-				user = new UserAccount(email.hashCode(), retrieved_account.getString("username"), retrieved_account.getString("age"), retrieved_account.getString("gender"));
+				user = new UserAccount(email, retrieved_account.getString("username"), retrieved_account.getString("age"), retrieved_account.getString("gender"));
 				loggedIn = true;
 				result = true;
 			}
@@ -629,7 +667,7 @@ public class CloudInteractionHandler {
 	 * @param email	the email address of the account
 	 * @return
 	 */
-	private static Entity getUserAccountEntity(String email) {
+	public static Entity getUserAccountEntity(String email) {
 		
 		//hash the email
 		int hashed_email = email.hashCode();

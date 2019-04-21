@@ -12,6 +12,9 @@ import java.util.ArrayList;
  * Date last edited: 28/02/2019
  * Last edited by: Dan Jackson
  * 
+ * Date last edited: 20/04/2019
+ * Last edited by: Jack Small
+ * 
  * @author Isaac Watson and Dan Jackson
  *
  */
@@ -22,6 +25,9 @@ public class ChuseList {
 	
 	//the name of the list
 	private String list_name;
+	
+	//Author NEW
+	private String Author;
 	
 	/**
 	 * Constructor for the list. Sets the name of the list.
@@ -125,6 +131,14 @@ public class ChuseList {
 		for(i = 0; i < list.size(); i++) {
 			list.get(i).print();
 		}
+	}
+
+	public String getAuthor() {
+		return Author;
+	}
+
+	public void setAuthor(String author) {
+		Author = author;
 	}
 
 }

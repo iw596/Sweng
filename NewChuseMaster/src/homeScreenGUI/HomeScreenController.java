@@ -216,6 +216,7 @@ public class HomeScreenController implements Initializable {
     		
     		//add a button with the text being the name of the file
     		file_buttons.add(new JFXButton(file.getName().replace(file.getName().substring(file.getName().lastIndexOf(".")), "") ));
+    		file_buttons.get(file_buttons.size() - 1).setMnemonicParsing(false);
     		//give the button an id
     		file_buttons.get(file_buttons.size() - 1).setId("button" + (file_buttons.size() - 1));
     		//set some padding for the button

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id User="">
+  <page>
+    <multimedia>
+      <type>ImageItem</type>
+      <title>geomform.PNG</title>
+      <path>C:\Users\Dan\Pictures\geomform.PNG</path>
+    </multimedia>
+    <multimedia>
+      <type>ImageItem</type>
+      <title>glyph-logo_May2016.png</title>
+      <path>C:\Users\Dan\Sweng\NewChuseMaster\saves\Full Test Image List\glyph-logo_May2016.png</path>
+    </multimedia>
+    <multimedia>
+      <type>ImageItem</type>
+      <title>insta_logo.png</title>
+      <path>C:\Users\Dan\Sweng\NewChuseMaster\saves\Full Test Image List\insta_logo.png</path>
+    </multimedia>
+    <multimedia>
+      <type>ImageItem</type>
+      <title>interestform.PNG</title>
+      <path>C:\Users\Dan\Pictures\interestform.PNG</path>
+    </multimedia>
+    <multimedia>
+      <type>ImageItem</type>
+      <title>internalWebError.PNG</title>
+      <path>C:\Users\Dan\Pictures\internalWebError.PNG</path>
+    </multimedia>
+    <multimedia>
+      <type>ImageItem</type>
+      <title>Spotify_Logo_RGB_Green.png</title>
+      <path>C:\Users\Dan\Sweng\NewChuseMaster\saves\Full Test Image List\Spotify_Logo_RGB_Green.png</path>
+    </multimedia>
+    <multimedia>
+      <type>ImageItem</type>
+      <title>yt_icon_rgb.jpg</title>
+      <path>C:\Users\Dan\Sweng\NewChuseMaster\saves\Full Test Image List\yt_icon_rgb.jpg</path>
+    </multimedia>
+    <multimedia>
+      <type>ImageItem</type>
+      <title>yt_icon_rgb.png</title>
+      <path>C:\Users\Dan\Sweng\NewChuseMaster\saves\Full Test Image List\yt_icon_rgb.png</path>
+    </multimedia>
+  </page>
+</id>

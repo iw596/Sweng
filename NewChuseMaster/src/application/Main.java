@@ -29,6 +29,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root,800, 600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setTitle("Chuse");
 			primaryStage.show();
 			
 			root.requestFocus();

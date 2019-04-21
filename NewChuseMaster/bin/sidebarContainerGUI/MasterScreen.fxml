@@ -15,7 +15,7 @@
          <top>
             <HBox alignment="CENTER_RIGHT" prefHeight="50.0" style="-fx-border-width: 0 0 1 0; -fx-border-color: GREY;" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton fx:id="account_button" mnemonicParsing="false" onAction="#showAccountScreen" text=" Username" wrapText="true">
+                  <JFXButton fx:id="account_button" graphicTextGap="8.0" mnemonicParsing="false" onAction="#showAccountScreen" text="Log In" wrapText="true">
                      <graphic>
                         <ImageView fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>

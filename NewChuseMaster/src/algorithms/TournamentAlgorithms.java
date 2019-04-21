@@ -200,13 +200,13 @@ public class TournamentAlgorithms {
 	 */
 	public void removeDuplicates() {
 		
-		int z = 0;
-		
-		for(ChuseList result : results_list) {
-			System.out.println("List " + z + " is: ");
-			result.printList();
-			z++;
-		}
+//		int z = 0;
+//		
+//		for(ChuseList result : results_list) {
+//			System.out.println("List " + z + " is: ");
+//			result.printList();
+//			z++;
+//		}
 		
 		if(results_list.size() >= 3) {
 			//loops through every result list

@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import publicListsScreenGUI.PublicListsScreenController;
 
 /**
@@ -38,9 +39,14 @@ public class UsernameSearchScreenController {
     
     @FXML
     private JFXButton search_button;
+    
+    @FXML
+    private Text search_comment;
 
     //container of the back end code
     private BackEndContainer back_end;
+    
+    private String search_text;
     
     /**
      * Constructor for the search screen controller. Passes the reference to the back
@@ -62,8 +68,8 @@ public class UsernameSearchScreenController {
     void enter(KeyEvent event) {
     	
     	if (event.getCode().toString() == "ENTER"){
-    		System.out.println(search_bar.getText());
-    		search(search_bar.getText());
+    		search_text = search_bar.getText();
+    		search(search_text);
     	}
 
     }
@@ -76,7 +82,8 @@ public class UsernameSearchScreenController {
      * @param event
      */
     void searchClicked(MouseEvent event) {
-    	search(search_bar.getText());
+    	search_text = search_bar.getText();
+    	search(search_text);
     }
     
     /**
@@ -91,8 +98,11 @@ public class UsernameSearchScreenController {
     	
     	//checks whether there are any public lists - if not, returns
     	if(this.back_end.getPublicLists() == null) {
+    		search_comment.setText("Sorry we could not find an account by the name \"" + username + "\"." );
     		return;
     	}
+    	
+    	back_end.setListOwner(username);
     	
     	//loads the public lists screen
     	try {
@@ -111,7 +121,7 @@ public class UsernameSearchScreenController {
     private void loadPublicListsScreen() throws IOException {
     	
     	FXMLLoader loader = new FXMLLoader(publicListsScreenGUI.PublicListsScreenController.class.getResource("PublicListsScreen.fxml"));
-    	PublicListsScreenController controller = new PublicListsScreenController(back_end);
+    	PublicListsScreenController controller = new PublicListsScreenController(back_end, search_text);
     	loader.setController(controller);
     	BorderPane new_pane = loader.load();
     	bindSizeProperties(new_pane);

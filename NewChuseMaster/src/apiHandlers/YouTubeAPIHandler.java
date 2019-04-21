@@ -207,11 +207,9 @@ public abstract class YouTubeAPIHandler {
     	
     	String[] url_parts = playlist_url.split("=");
     	
-    	int count = 0;
+    	int count;
     	
-    	for(String part : url_parts) {
-    		count++;
-    	}
+    	for(count=0; count < url_parts.length;count++);
     	
     	if(count == 2) {
     		return url_parts[1];

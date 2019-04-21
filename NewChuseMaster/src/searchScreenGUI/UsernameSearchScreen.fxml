@@ -45,6 +45,7 @@
                            </padding></JFXButton>
                      </children>
                   </HBox>
+                  <Text fx:id="search_comment" fill="#e80808" strokeType="OUTSIDE" strokeWidth="0.0" />
                </children>
             </VBox>
          </center>
