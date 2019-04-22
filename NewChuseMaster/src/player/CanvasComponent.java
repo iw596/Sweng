@@ -42,13 +42,13 @@ public class CanvasComponent extends DirectMediaPlayerComponent{
             return;
         }
         Platform.runLater(() -> {
-            Memory nativeBuffer = mediaPlayer.lock()[0];
+            //Memory nativeBuffer = mediaPlayer.lock()[0];
             try {
-                ByteBuffer byteBuffer = nativeBuffer.getByteBuffer(0, nativeBuffer.size());
-                getPW().setPixels(0, 0, bufferFormat.getWidth(), bufferFormat.getHeight(), pixel_format, byteBuffer, bufferFormat.getPitches()[0]);
+                //ByteBuffer byteBuffer = nativeBuffer.getByteBuffer(0, nativeBuffer.size());
+                //getPW().setPixels(0, 0, bufferFormat.getWidth(), bufferFormat.getHeight(), pixel_format, byteBuffer, bufferFormat.getPitches()[0]);
             }
             finally {
-                mediaPlayer.unlock();
+                //mediaPlayer.unlock();
             }
         });
     }

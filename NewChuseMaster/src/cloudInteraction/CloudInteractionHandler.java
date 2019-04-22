@@ -62,8 +62,8 @@ public class CloudInteractionHandler {
 	 */
 	public CloudInteractionHandler() {
 		try {
-			storage = authoriseCloudStorage(System.getProperty("user.dir") + "\\SWEng WeTech-a2830036f018.json");
-			datastore = authoriseCloudDatastore(System.getProperty("user.dir") + "\\SWEng WeTech-a2830036f018.json");
+			storage = authoriseCloudStorage(System.getProperty("user.dir") + "\\SWEng WeTech-9745fc9cfe28.json");
+			datastore = authoriseCloudDatastore(System.getProperty("user.dir") + "\\SWEng WeTech-9745fc9cfe28.json");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

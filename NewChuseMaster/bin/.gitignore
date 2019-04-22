@@ -15,6 +15,7 @@
 /mediaFileImportHandling/
 /org/
 /player/
+/previewListScreenGUI/
 /publicListsScreenGUI/
 /resultsScreenGUI/
 /searchScreenGUI/
@@ -22,4 +23,3 @@
 /test/
 /videoPlayback/
 /xmlHandling/
-/previewListScreenGUI/
