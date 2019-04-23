@@ -260,17 +260,6 @@ public class ResultsScreenController implements Initializable {
     			
     			back_end.uploadResults();
     			
-//    			System.out.println(back_end.getListOwner());
-//    			System.out.println(back_end.getCurrentListFileName());
-//    			
-//    			String xml_file = back_end.getCurrentListFileName().replaceFirst("-" + back_end.getLocalAccount().getUsername() + ".xml", ".xml");
-//    			
-//    			String folder_name = FilenameUtils.getBaseName(xml_file);
-//    			
-//    			String account_id = back_end.getAccountId(back_end.getListOwner());
-//    			
-//    			System.out.println(account_id + "/public/" + folder_name + "/" + FilenameUtils.getName(back_end.getCurrentListFileName()));
-    			
     		}
     		
     	} else {

@@ -155,51 +155,6 @@ public class HomeScreenController implements Initializable {
 	
     }
     
-    
-    //TODO work on developing this method for an "icon grid" - for now a list will be okay for 1st iteration
-//    /**
-//     * Method to add buttons to the grid pane in the recent tab pane.
-//     * @param button
-//     */
-//    public void addButtonToGrid(Button button) {
-//	    // add padding so buttons are not set to the left of cells
-//    	button_grid.setPadding(new Insets(30));
-//	    // set spacing between cells in the grid
-//    	button_grid.setHgap(10);
-//    	button_grid.setVgap(10);
-//    	
-//    	ArrayList<JFXButton> buttons = new ArrayList<JFXButton>();
-//    	
-//    	int j = 11;// number of buttons 
-//    	
-//    	int r;
-//    	// Checks whether j is divisible by 5 and ads one if the result has a decimal point in which case it ads one.
-//    	if(j % 5 == 0){
-//    		r = (j/5);
-//    	}
-//    	else
-//    	{
-//    		r = (j/5) + 1;
-//    	}
-//    	
-//    	// Ads a button starting from top left for j buttons, 5 in a row
-//    	for(int k = 0; k < r; k++){
-//		// add 5 buttons on the row
-//    		for(int i = 0; i < 5; i++){
-//    			buttons.add(new JFXButton("Text"));
-//    			button_grid.add(buttons.get(buttons.size() - 1), i, k);
-//    			buttons.get(buttons.size() - 1).prefWidthProperty().bind(button_grid.prefWidthProperty());
-//    			buttons.get(buttons.size() - 1).prefHeightProperty().bind(button_grid.prefHeightProperty());
-//			// decrement when button is displayed  
-//    			j = j - 1;
-//			// when no more buttons are need break from looping
-//    			if(j == 0){
-//    				break;
-//    			}
-//    		}
-//    	}
-//    }
-    
     /**
      * Method to locate files stored within the program's workspace directory.
      */

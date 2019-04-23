@@ -49,13 +49,5 @@ public class Controls extends HBox {
         getChildren().add(time_label);
         getChildren().add(time_scrubber);
 
-        
-       // getChildren().add(time); // time slider 
-        //getChildren().add(volume_label);
-        //getChildren().add(volume); // volume slider 
-		
-		
-		
-		
 	}
 }

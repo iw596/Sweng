@@ -478,9 +478,5 @@ public class BackEndContainer {
 		CloudInteractionHandler.uploadResults(current_list_file_name, account_id + "/public/" + folder_name + "/" + FilenameUtils.getName(getCurrentListFileName()));
 
 	}
-	
-//	public void setCurrentListFileNameToNull() {
-//		this.current_list_file_name = null;
-//	}
 
 }
