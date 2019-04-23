@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.QueryResults;
 
 import cloudInteraction.CloudInteractionHandler;
 import listDataStructure.ChuseList;
@@ -47,46 +48,65 @@ public class CloudInteractionHandlerTest {
 		CloudInteractionHandler.logIn("test@gmail.com", "testing123");
 		
 		ArrayList<String> public_lists = CloudInteractionHandler.getAllPublicLists();
-
-		Collections.shuffle(public_lists);
 		
-		for(String path : public_lists) {
-			//CloudInteractionHandler.downloadList(path);
-			//System.out.println(path.split("/")[0]);
-			System.out.println("-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-");
-			Entity account = CloudInteractionHandler.getUserAccountEntity(Integer.parseInt(path.split("/")[0]));
-			System.out.println("List Name: " + path.split("/")[2]);
-			System.out.println("List Owner: " + account.getString("username"));
-			System.out.println("Path: " + path);
+		for(String list : public_lists) {
+			
+			System.out.println(list);
+			
 		}
 		
-		System.out.println("-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-");
+//		QueryResults<Entity> results = CloudInteractionHandler.queryUserAccountByProperty("username", "test_account");
+//		
+//		if(results == null) {
+//			return;
+//		}
+//		
+//		Entity user = results.next();
+//		
+//		System.out.println(user.getString("gender"));
+//		System.out.println(user.getString("age"));
 		
-		ArrayList<String> account_lists = CloudInteractionHandler.getAllProfileContent("AAtest_account");
-		
-		if(account_lists != null) {
-			System.out.println("Successfully pulled account content.");
-			
-			for(String list : account_lists) {
-				System.out.println("List: " + list);
-			}
-			
-		} else {
-			System.out.println("Not logged into correct account, could not pull account content.");
-		}
-		
-		account_lists = CloudInteractionHandler.getAllProfileContent("test_account");
-		
-		if(account_lists != null) {
-			System.out.println("Successfully pulled account content.");
-			
-			for(String list : account_lists) {
-				System.out.println("List: " + list);
-			}
-			
-		} else {
-			System.out.println("Not logged into correct account, could not pull account content.");
-		}
+//		ArrayList<String> public_lists = CloudInteractionHandler.getAllPublicLists();
+//
+//		Collections.shuffle(public_lists);
+//		
+//		for(String path : public_lists) {
+//			//CloudInteractionHandler.downloadList(path);
+//			//System.out.println(path.split("/")[0]);
+//			System.out.println("-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-");
+//			Entity account = CloudInteractionHandler.getUserAccountEntity(Integer.parseInt(path.split("/")[0]));
+//			System.out.println("List Name: " + path.split("/")[2]);
+//			System.out.println("List Owner: " + account.getString("username"));
+//			System.out.println("Path: " + path);
+//		}
+//		
+//		System.out.println("-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-");
+//		
+//		ArrayList<String> account_lists = CloudInteractionHandler.getAllProfileContent("AAtest_account");
+//		
+//		if(account_lists != null) {
+//			System.out.println("Successfully pulled account content.");
+//			
+//			for(String list : account_lists) {
+//				System.out.println("List: " + list);
+//			}
+//			
+//		} else {
+//			System.out.println("Not logged into correct account, could not pull account content.");
+//		}
+//		
+//		account_lists = CloudInteractionHandler.getAllProfileContent("test_account");
+//		
+//		if(account_lists != null) {
+//			System.out.println("Successfully pulled account content.");
+//			
+//			for(String list : account_lists) {
+//				System.out.println("List: " + list);
+//			}
+//			
+//		} else {
+//			System.out.println("Not logged into correct account, could not pull account content.");
+//		}
 		
 		//assertEquals(true, CloudInteractionHandler.verifyAccountId("test@gmail.com"));
 		

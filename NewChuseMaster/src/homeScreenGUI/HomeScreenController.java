@@ -25,9 +25,13 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import searchScreenGUI.NotLoggedInScreenController;
 import xmlHandling.FileLocator;
 
 /**
@@ -59,9 +63,21 @@ public class HomeScreenController implements Initializable {
     
     @FXML
     private ScrollPane recent_scroll_pane;
+    
+    @FXML
+    private AnchorPane recent_anchor_pane;
+
+    @FXML
+    private ScrollPane cloud_scroll_pane;
+
+    @FXML
+    private VBox cloud_files_pane;
+    
+    @FXML
+    private AnchorPane cloud_anchor_pane;
 
     private BackEndContainer back_end;
-    
+
     /**
      * Constructor for the home screen controller. 
      * @param back_end
@@ -133,12 +149,21 @@ public class HomeScreenController implements Initializable {
     	showInSelf(new_pane);
     	
     }
+    
+
+    @FXML
+    void loadOnlineLists(ActionEvent event) {
+    	
+    	
+    	
+
+    }
 	
     /**
      * Method to display another .fxml file within the current screen.
      * @param new_pane
      */
-    private void showInSelf(BorderPane new_pane) {
+    public void showInSelf(BorderPane new_pane) {
     	
     	new_pane.prefWidthProperty().bind(root.widthProperty());
     	new_pane.prefHeightProperty().bind(root.heightProperty());
@@ -153,6 +178,42 @@ public class HomeScreenController implements Initializable {
     	
     	root.requestFocus();
 	
+    }
+    
+    private void showInCloudPane(ScrollPane new_pane) {
+    	
+    	new_pane.prefWidthProperty().bind(cloud_anchor_pane.widthProperty());
+    	new_pane.prefHeightProperty().bind(cloud_anchor_pane.heightProperty());
+    	new_pane.minWidthProperty().bind(cloud_anchor_pane.minWidthProperty());
+    	new_pane.minHeightProperty().bind(cloud_anchor_pane.minHeightProperty());
+    	new_pane.maxWidthProperty().bind(cloud_anchor_pane.maxWidthProperty());
+    	new_pane.maxHeightProperty().bind(cloud_anchor_pane.maxHeightProperty());
+    	
+    	new_pane.setManaged(true);
+    	
+    	cloud_anchor_pane.getChildren().clear();
+    	cloud_anchor_pane.getChildren().add(new_pane);
+    	
+    	//root.setCenter(new_pane);
+    	
+    }
+    
+    private void showInCloudPane(Pane new_pane) {
+    	
+    	new_pane.prefWidthProperty().bind(cloud_anchor_pane.widthProperty());
+    	new_pane.prefHeightProperty().bind(cloud_anchor_pane.heightProperty());
+    	new_pane.minWidthProperty().bind(cloud_anchor_pane.minWidthProperty());
+    	new_pane.minHeightProperty().bind(cloud_anchor_pane.minHeightProperty());
+    	new_pane.maxWidthProperty().bind(cloud_anchor_pane.maxWidthProperty());
+    	new_pane.maxHeightProperty().bind(cloud_anchor_pane.maxHeightProperty());
+    	
+    	new_pane.setManaged(true);
+    	
+    	cloud_anchor_pane.getChildren().clear();
+    	cloud_anchor_pane.getChildren().add(new_pane);
+    	
+    	//root.setCenter(new_pane);
+    	
     }
     
     /**
@@ -213,7 +274,7 @@ public class HomeScreenController implements Initializable {
   
     @Override
 	/**
-	 * Initialization function for the controller. Adds the buttons to the grid pane.
+	 * Initialization function for the controller. Adds the buttons to the scroll pane.
 	 */
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//this.addButtonToGrid(new Button());
@@ -221,6 +282,31 @@ public class HomeScreenController implements Initializable {
     	recent_scroll_pane.setFitToWidth(true);
     	
     	files_pane.setPadding(new Insets(5, 0, 0, 0));
+    	
+    	if(back_end.getLocalAccount() != null) {
+    		try {
+    	    	FXMLLoader loader = new FXMLLoader(CloudFileListController.class.getResource("CloudFileList.fxml"));
+    	    	CloudFileListController controller = new CloudFileListController(back_end, this);
+    	    	loader.setController(controller);
+    	    	ScrollPane new_pane = loader.load();
+    			showInCloudPane(new_pane);
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	} else {
+    		try {
+    	    	FXMLLoader loader = new FXMLLoader(NotLoggedInScreenController.class.getResource("NotLoggedInScreen.fxml"));
+    	    	NotLoggedInScreenController controller = new NotLoggedInScreenController(back_end, null);
+    	    	loader.setController(controller);
+    	    	Pane new_pane = loader.load();
+    			showInCloudPane(new_pane);
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+
+    	}
     	
 		locateFiles();
 		

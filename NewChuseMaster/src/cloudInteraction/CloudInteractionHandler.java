@@ -347,7 +347,9 @@ public class CloudInteractionHandler {
 		}
 		
 		//rebuilds the list XML file with the paths changed to match the new media file locations
-		rebuildXML(System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/");
+		if(!rebuildXML(System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/")) {
+			return null;
+		}
 		
 		return downloaded_file_name;
 		
@@ -358,7 +360,7 @@ public class CloudInteractionHandler {
 	 * 
 	 * @param list_download_folder	the folder where the media files are contained
 	 */
-	private static void rebuildXML(String list_download_folder) {
+	private static Boolean rebuildXML(String list_download_folder) {
 		
 		System.out.println("Rebuilding XML...");
 		
@@ -424,8 +426,15 @@ public class CloudInteractionHandler {
     		}
     	}
     	
+    	
+    	if(output_xml_file == null) {
+    		return false;
+    	}
+    	
     	//rebuild the XML using the updated list
     	XMLHandler.buildXMLFromList(list, output_xml_file.getAbsolutePath());
+    	
+    	return true;
 		
 	}
 	
@@ -627,6 +636,10 @@ public class CloudInteractionHandler {
 		
 		ArrayList<String> public_lists = null;
 		
+		//creates a linked hash set to add the paths to
+		//this does not allow duplicated entries and retains the order they were added in
+		LinkedHashSet<String> public_lists_set = new LinkedHashSet<String>();
+		
 		//checks if there is an account with the username given
 		QueryResults<Entity> results = queryUserAccountByProperty("username", username);
 		
@@ -642,12 +655,24 @@ public class CloudInteractionHandler {
 			Page<Blob> blobs = storage.list("we-tech-user-storage", BlobListOption.prefix(public_account.getKey().getId() + "/public/"));
 
 			for(Blob blob : blobs.iterateAll()) {
-				if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {					
-					public_lists.add(FilenameUtils.removeExtension(blob.getName()));
-				}
+				
+				//split the string at every instance of a "/"
+				String[] blob_name_parts = blob.getName().split("/");
+				
+				//concatenate string parts so only the folder path is present and not the file names 
+				String name = blob_name_parts[0] + "/" + blob_name_parts[1] + "/" + blob_name_parts[2] + "/";
+				
+				//adds the concatenated string to the linked hash set
+				public_lists_set.add(name);
+				
+//				if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {					
+//					public_lists.add(FilenameUtils.removeExtension(blob.getName()));
+//				}
 			}
 			
 		}
+		
+		public_lists.addAll(public_lists_set);
 		
 		return public_lists;
 		
@@ -662,6 +687,10 @@ public class CloudInteractionHandler {
 	public static ArrayList<String> getPrivateProfileContent(String username) {
 		
 		ArrayList<String> private_lists = null;
+		
+		//creates a linked hash set to add the paths to
+		//this does not allow duplicated entries and retains the order they were added in
+		LinkedHashSet<String> private_lists_set = new LinkedHashSet<String>();
 		
 		if(!loggedIn || !user.getUsername().equals(username)) {
 			return null;
@@ -683,10 +712,22 @@ public class CloudInteractionHandler {
 		Page<Blob> blobs = storage.list("we-tech-user-storage", BlobListOption.prefix(public_account.getKey().getId() + "/private/"));
 
 		for(Blob blob : blobs.iterateAll()) {
-			if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {					
-				private_lists.add(FilenameUtils.removeExtension(blob.getName()));
-			}
+			
+			//split the string at every instance of a "/"
+			String[] blob_name_parts = blob.getName().split("/");
+			
+			//concatenate string parts so only the folder path is present and not the file names 
+			String name = blob_name_parts[0] + "/" + blob_name_parts[1] + "/" + blob_name_parts[2] + "/";
+			
+			//adds the concatenated string to the linked hash set
+			private_lists_set.add(name);
+			
+//			if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {					
+//				private_lists.add(FilenameUtils.removeExtension(blob.getName()));
+//			}
 		}
+		
+		private_lists.addAll(private_lists_set);
 		
 		return private_lists;
 		

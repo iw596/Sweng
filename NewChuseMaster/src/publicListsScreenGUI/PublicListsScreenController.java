@@ -94,8 +94,10 @@ public class PublicListsScreenController implements Initializable{
 		//loops through every list
     	for(String list: titles) {
     		
+    		String list_name = list.split("/")[2];
+    		
     		//add a button with the text being the name of the file
-    		file_buttons.add(new JFXButton(FilenameUtils.getBaseName(list)));
+    		file_buttons.add(new JFXButton(list_name));
     		//give the button an id
     		file_buttons.get(file_buttons.size() - 1).setId("button" + (file_buttons.size() - 1));
     		//set some padding for the button

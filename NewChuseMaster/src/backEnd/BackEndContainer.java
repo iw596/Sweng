@@ -478,5 +478,11 @@ public class BackEndContainer {
 		CloudInteractionHandler.uploadResults(current_list_file_name, account_id + "/public/" + folder_name + "/" + FilenameUtils.getName(getCurrentListFileName()));
 
 	}
+	
+	public ArrayList<String> getLoggedInUsersLists(String username) {
+		
+		return CloudInteractionHandler.getAllProfileContent(username);
+		
+	}
 
 }
