@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.embed.swing.SwingNode?>
+<?import javax.swing.JPanel?>
+
+
+
+<GridPane fx:id="root" xmlns:fx="http://javafx.com/fmxl/1"
+alignment="center" hgap="10" vgap="10">
+
+<columnConstraints>
+    <ColumnConstraints halignment="CENTER" />
+</columnConstraints>
+
+<SwingNode fx:id="swingNode"
+	GridPane.columnIndex="0" GridPane.rowIndex="0">
+		<content>
+	    	<JPanel fx:id="panel"/>
+	    </content>
+	</SwingNode>
+
+<Slider fx:id="scrubSld"
+	minWidth="300"
+	min="0" max="1"
+	disable="true"
+	GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+
+<HBox spacing="10" alignment="center" GridPane.columnIndex="0" GridPane.rowIndex="2">
+<GridPane hgap="10">
+	<Button fx:id="playPauseBtn" text="Play"
+	    onAction="#playPauseBtnPressed"
+	    disable="true"
+	    GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+
+	<Button fx:id="stopBtn" text="Stop"
+	    onAction="#stopBtnPressed"
+	    disable="true"
+	    GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+</GridPane>
+</HBox>
+
+
+</GridPane>
