@@ -54,6 +54,8 @@ public class ComparisonScreenController implements Initializable {
     private JFXButton right_button;
     
     private ArrayList<AppController> audio_controllers;
+   
+    private ArrayList<Player> video_controllers;
     
     private ArrayList<ImageDisplayController> image_controllers;
     
@@ -68,6 +70,7 @@ public class ComparisonScreenController implements Initializable {
     	back_end.startComparison();
     	audio_controllers = new ArrayList<AppController>();
     	image_controllers = new ArrayList<ImageDisplayController>();
+    	video_controllers = new ArrayList<Player>();
     }
     
     @FXML
@@ -85,7 +88,15 @@ public class ComparisonScreenController implements Initializable {
     		for(int i = 0; i < image_controllers.size(); i++) {
     			image_controllers.get(i).exit();
     		}
-    	}
+    	}else if(video_controllers.size() > 0) {
+    		System.out.println(video_controllers.size());
+    		for(int i = 0; i < video_controllers.size(); i++) {
+    			video_controllers.get(i).exit();
+    		}
+    		video_controllers.remove(1);
+    		video_controllers.remove(0);
+
+    	} 
     	
     	oddCheck();
     	
@@ -111,7 +122,16 @@ public class ComparisonScreenController implements Initializable {
     		for(int i = 0; i < image_controllers.size(); i++) {
     			image_controllers.get(i).exit();
     		}
-    	}
+    	} else if(video_controllers.size() > 0) {
+    		System.out.println(video_controllers.size());
+    		for(int i = 0; i < video_controllers.size(); i++) {
+    			video_controllers.get(i).exit();
+    		}
+    		video_controllers.remove(1);
+    		video_controllers.remove(0);
+    	
+    	} 
+    	
     	
     	oddCheck();
     	
@@ -360,6 +380,7 @@ public class ComparisonScreenController implements Initializable {
 		String [] paths = {item.getPath()};
 		System.out.println(paths[0]);
 		Player player = new Player((int) pane.getWidth(),(int) pane.getHeight());
+		video_controllers.add(player);
 		StackPane.setAlignment(player, Pos.CENTER);
 		pane.getChildren().add(player);
 		player.loadPaths(paths);

@@ -271,11 +271,7 @@ public class Player extends BorderPane {
 	    	this.media_player_component.getMediaPlayer().pause();
 
 
-	   
-	    	if (this.current_video_index < paths.length - 1) {
-	    		this.controls.loadingText();
 
-	    	}
 	        Platform.runLater(new Runnable() {
 	            @Override
 	            public void run() {
@@ -446,7 +442,7 @@ public class Player extends BorderPane {
 	     	// Update controls to handle end of video
 	    	this.controls.over = true;
 	    	this.controls.updateScrubber = false;
-	    	this.controls.endText();
+	    	
 			
 			
 		}
@@ -598,6 +594,16 @@ public class Player extends BorderPane {
 		 */
 		public void setPlayer_holder(Pane player_holder) {
 			this.player_holder = player_holder;
+		}
+
+		public void exit() {
+			// TODO Auto-generated method stub
+			if (media_player_component.getMediaPlayer().isPlaying() == true){
+				this.media_player_component.getMediaPlayer().pause();;
+			}
+			//this.controls.media_player_component.getMediaPlayer().pause();
+			//media_player_component.getMediaPlayer().release();
+			
 		}
 	    
 

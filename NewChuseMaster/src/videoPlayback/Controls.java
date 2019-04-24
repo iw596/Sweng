@@ -35,16 +35,14 @@ public class Controls extends HBox {
 	
 	//Instantiate Buttons
 	Button play_pause;
-	Button next;
-	Button previous;
-	Button stop;
+
 
 	//Instantiate sliders
 	Slider time_scrubber;
-	Slider volume;
+	
 	
 	//Labels
-	Label volume_label = new Label("Volume: "); 
+
 	Label time_label = new Label("Time: "); 
 	
 	// Text to show current time
@@ -65,34 +63,29 @@ public class Controls extends HBox {
 	public Controls (Player player) {
 		setFillHeight(true);
 		this.media_player_component = player.getMediaPlayerComponent();
+		media_player_component.getMediaPlayer().setRepeat(true);
 		//Create buttons
 		play_pause = new Button("||");  
-		next = new Button(">>");
-		previous = new Button("<<");
-		stop = new Button("X");
+	
+	
 		//Create sliders
 		time_scrubber = new Slider();
 		time_scrubber.setValue(0);
 		time_scrubber.setPrefWidth(100);
-		volume = new Slider();
+		
         
-		// Setting the preference for volume bar 
-        volume.setPrefWidth(70); 
-        volume.setMinWidth(30); 
-        volume.setValue(100);  // Set volume to be max
+
         
         // Place graphical change in runnable to prevent javafx screen rendering error
         Platform.runLater(new Runnable() {
+        	
+        	
+ 
             @Override
             public void run() {
                 setAlignment(Pos.CENTER); // setting the HBox to center 
                 // Adding the components to the bottom 
                 getChildren().add(play_pause); 
-                getChildren().add(next); 
-                getChildren().add(previous); 
-                getChildren().add(stop); 
-                getChildren().add(volume_label);
-                getChildren().add(volume);
                 getChildren().add(time_label);
                 getChildren().add(time_scrubber);
                 HBox.setHgrow(time_scrubber, Priority.ALWAYS);
@@ -120,7 +113,8 @@ public class Controls extends HBox {
                 } 
             } 
         });
-        
+
+
         // Add listner for mouse click
 		player.getPlayer_holder().addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			
@@ -148,83 +142,8 @@ public class Controls extends HBox {
 			}
 		});
         
-        // Add Listener for volume slider
-        volume.valueProperty().addListener(new InvalidationListener() { 
-            public void invalidated(Observable ov) 
-            { 
-                if (volume.isPressed()) { 
-                	// Small multiply factor to ensure that at low levels there is still some sound
-                	media_player_component.getMediaPlayer().setVolume((int) (volume.getValue() * 1.25));  
-                } 
-            } 
-        });
+
         
-        //button listener for the next video button
-        next.setOnAction(new EventHandler<ActionEvent>() { 
-            public void handle(ActionEvent e) {
-            	if (player.getCurrentIndex() < player.sizePaths() -1) {
-            		Platform.runLater(new Runnable(){
-						@Override
-						public void run() {
-							int nextIndex = player.getCurrentIndex() + 1;
-							// If more videos to be loaded then load
-							player.loadVideo(nextIndex);
-							player.setCurrentIndex(nextIndex);
-							
-						}
-            		});					
-            	}
-            	
-            	
-            }
-        
-        });
-        
-        //button listener for the previous video button
-        previous.setOnAction(new EventHandler<ActionEvent>() { 
-            public void handle(ActionEvent e) {
-            	if (player.getCurrentIndex() > 0 && over == false)  {
-            		Platform.runLater(new Runnable(){
-						@Override
-						public void run() {
-							int nextIndex = player.getCurrentIndex() - 1;
-							// If more videos to be loaded then load
-							player.loadVideo(nextIndex);
-							player.setCurrentIndex(nextIndex);
-						}
-            		});
-									
-            	}
-            	
-            	else if (over == true) {
-            		Platform.runLater(new Runnable(){
-						@Override
-						public void run() {
-							int nextIndex = player.getCurrentIndex() ;
-							// If more videos to be loaded then load
-							player.loadVideo(nextIndex);
-							player.setCurrentIndex(nextIndex);
-							over = false;
-							updateScrubber = true;
-							
-						}
-            		});
-            		
-            	}
-            	
-            	
-            }
-        
-        });
-        // Event listener for close request
-        //button listener for the previous video button
-        stop.setOnAction(new EventHandler<ActionEvent>() { 
-            public void handle(ActionEvent e) {
-            	player.closeWindow();
-            	
-           
-            }
-        });
         
         //adds event listener for when the video's time changes
         media_player_component.getMediaPlayer().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
@@ -237,76 +156,17 @@ public class Controls extends HBox {
 			public void timeChanged (uk.co.caprica.vlcj.player.MediaPlayer mediaPlayer, long newTime) {
 				Float time = (float) newTime;
 				Float length = (float) ((uk.co.caprica.vlcj.player.MediaPlayer) mediaPlayer).getLength();
+
 				// Update the scrubber, providing a fractional value of (current time / length)
 				updatesValues(time/length);
+		
+
 			}
 
 			
-			/** Method to listen for end of video. If video ends load next video in
-			 *  the path array. If no more videos to load then disable next buton
-			 *  and display black screen.
-			 * 
-			 */
-			 @Override
-				public void finished(uk.co.caprica.vlcj.player.MediaPlayer mediaPlayer) {
-					// Prevent a JavaFX thread error by calling runLater
-				 	if (over == false) {
-						Platform.runLater(new Runnable(){
-							@Override
-							public void run() {
-								// Youtube videos and error screen initially start with zero time, so need to check time
-								// before confirming that video is actually over
-								if (mediaPlayer.getTime() < 50 && player.in_error == false) {
-									// Set in_error to true as we want to be able to play next video eventually
-									if (player.in_error == false) {
-										player.in_error = true;
-									}
-								}
-								else {
-									// If not first video then do not need to use runnable
-									if (player.getCurrentIndex() != 0) { 
-					
-										int nextIndex = player.getCurrentIndex() + 1;
-										// If more videos to be loaded then load
-										if (nextIndex < player.sizePaths()) {
-											player.loadVideo(nextIndex);
-											player.setCurrentIndex(nextIndex);
-											player.in_error = false;
-											
-										}
-										// Else display a black screen and alert user no videos left
-										else {
-											player.loadEndScreen();
-										
-											mediaPlayer.pause();
-	
-										}
-									}
-									// Need runnable for first video to avoid 64 bit vlc bug
-									else {
-										Platform.runLater(new Runnable(){
-											@Override
-											public void run() {
-												int nextIndex = player.getCurrentIndex() + 1;
-												// If more videos to be loaded then load
-												player.loadVideo(nextIndex);
-												player.setCurrentIndex(nextIndex);
-												player.in_error = false;
-											}
-												
-											
-										});
-										
-									}
-									
-								}
+		
 
-							}
-						});
-			 		}
-				}
-
-		});
+		}); 
         
 
 		// This event happens when the user begins a mouse click on the scrubber
@@ -324,11 +184,12 @@ public class Controls extends HBox {
 		// This event happens when the user releases a mouse click from the scrubber
         time_scrubber.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
-				if (over == false) {
-					seek((float) time_scrubber.getValue()); // Set the play position to the new scrubber position
-					updateScrubber = true; // Allow the scrubber position to be updated by any playing audio
+				System.out.println("Scrubber value: " + time_scrubber.getValue());
+				seek((float) time_scrubber.getValue()); // Set the play position to the new scrubber position
+				
+				updateScrubber = true; // Allow the scrubber position to be updated by any playing audio
 					
-				}
+		
 				
 			
 				
@@ -416,6 +277,7 @@ public class Controls extends HBox {
 		// If slider has been moved to the end then set to value just below 100, this prevents a VLC glitch where end of video is not 
 		// recognised
 		if (fraction > 99.99) {
+			System.out.println("In frac > 99 ");
 			fraction = (float) 99.99;
 			
 		}
@@ -426,28 +288,17 @@ public class Controls extends HBox {
 			e.printStackTrace();
 		}
 		// Convert fraction into actual time
-		if (over == false) {
-			float time = media_player_component.getMediaPlayer().getLength() * fraction/100;
-			media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
-			
+
+		float time = media_player_component.getMediaPlayer().getLength() * fraction/100;
+		System.out.println("Current time: " + media_player_component.getMediaPlayer().getTime());
+		media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
+		System.out.println(media_player_component.getMediaPlayer().getMediaPlayerState());
+		if (media_player_component.getMediaPlayer().getMediaPlayerState().equals("libvlc_Ended")){
+			//media_player_component.getMediaPlayer();
+			System.out.println(media_player_component.getMediaPlayer().getMediaPlayerState());
 		}
 	}
-	
-	/**
-	 * Method to display the loading text on the controls.
-	 */
-	protected void loadingText() {
-		this.current_time_text.setText("Loading next video...");
-	}
-	
-	/**
-	 * Method to display the finished text once all of the videos have been played.
-	 * Method also resets position of scrubber
-	 */
-	protected void endText() {
-		this.current_time_text.setText("No more videos to play.");
 
-	}
 	
 
     
