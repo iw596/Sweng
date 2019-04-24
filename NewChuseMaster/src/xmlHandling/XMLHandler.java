@@ -2,11 +2,7 @@ package xmlHandling;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,8 +25,6 @@ import listDataStructure.AudioItem;
 import listDataStructure.BasicItem;
 import listDataStructure.ChuseList;
 import listDataStructure.ImageItem;
-import listDataStructure.RankingItem;
-import listDataStructure.RankingList;
 import listDataStructure.VideoItem;
 
 /**
@@ -39,9 +33,6 @@ import listDataStructure.VideoItem;
  * Date created: 31/01/2019
  * Date last edited: 15/03/2019
  * Last edited by: Dan Jackson
- * 
- * Date last edited: 19/04/2019
- * Last edited by: Jack Small
  * 
  * @author Jack Small
  *
@@ -65,8 +56,6 @@ public abstract class XMLHandler {
 		// List of items that will be used to store the content from the XML file 
 		ArrayList<BasicItem> list_array = new ArrayList<BasicItem>();
 		
-		NodeList id_check = null;
-		
 		try {
 			// this line can cause an error there for a try is need
 			// this line is need for XML handling (don't know why :) )
@@ -80,14 +69,10 @@ public abstract class XMLHandler {
 			// this line is need for XML handling (don't know why :) )
 			Document document = builder.parse(file);
 			
-			id_check = document.getElementsByTagName("id");
+			NodeList id_check = document.getElementsByTagName("id");
 
 			if(id_check.getLength() != 1) {
 				return null;
-			}
-			
-			if(id_check.item(0).hasAttributes()) {
-				id_check.item(0).getAttributes().getNamedItem("User").getNodeValue();
 			}
 			
 			for(int j=1; j < id_check.item(0).getChildNodes().getLength(); j += 2) {
@@ -158,16 +143,10 @@ public abstract class XMLHandler {
 		//Creates a new "ChuseList" and sets it equal to null
 		ChuseList list = null;
 		
-		
-		
 		if(list_array.size() > 0){
 			//Stores array of items in a "ChuseList" with the file name of the XML file
 			list = new ChuseList();
 			list.addItemArray(list_array);
-			// set the author
-			if(id_check.item(0).hasAttributes()) {
-				list.setAuthor(id_check.item(0).getAttributes().getNamedItem("User").getNodeValue());
-			}
 		}
 
 		// return the list made 
@@ -175,98 +154,83 @@ public abstract class XMLHandler {
 		
 	}
 	
-	// EDIT ------------
 	/**
-	* buildXMLFromList(ChuseList, String, RankingList)
-	*  
-	* build XML file from list and name it the "filename" which is passed to it
-	* also will still results if the user has some to append
-	* 
-	* 
-	* note : it will be stored in the local directory 
-	* note : should only be used when saving new list for the first time
-	* 
-	* use : for storing the list in a ChuseList class to be accessed by "buildListFromXML" 
-	* 
-	* @param list - the list to build the XML file from
-	* @param filename - the filename to write the XML file to
-	* @param results - the results to add to the XML file
-	* 
-	* Date last edited: 17/04/2019
-	* Last edited by: Jack Small
-	* 
-	*/
-	public static void buildXMLFromList(ChuseList list, String file_path, RankingList results, String user){
+	 * buildXMLFromList(ChuseList, String, ChuseList)
+	 *  
+	 * build XML file from list and name it the "filename" which is passed to it  
+	 * note : it will be stored in the local directory 
+	 * 
+	 * use : for storing the list in a ChuseList class to be accessed by "buildListFromXML" 
+	 * 
+	 * @param list - the list to build the XML file from
+	 * @param filename - the filename to write the XML file to
+	 * @param results - the results to add to the XML file
+	 */
+	public static void buildXMLFromList(ChuseList list, String file_path, ChuseList results){
+		
+		// this line is need for XML handling (don't know why :) )
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		
+		try {
 			
 			// this line is need for XML handling (don't know why :) )
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.newDocument();
 			
-			try {
-				
-				// this line is need for XML handling (don't know why :) )
-				DocumentBuilder builder = factory.newDocumentBuilder();
-				Document document = builder.newDocument();
-				
-				// add node called "id" to the XML file
-				Element id = document.createElement("id");
-				
-				id.setAttribute("User", user);
-				
-				document.appendChild(id);
-				
-				// add the page tag with all "multimedia" tags 
-				// where each one hold the information of an item in the list that is being stored 
-				document = addPage(document, id, list);
-				
-				// store results if there are some
-				if(results != null) {
-					document = addResults(document, id, results);
-					
-				}
-				
-				// this line is need for XML handling (don't know why :) )
-				TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		        Transformer transf = transformerFactory.newTransformer();
-		        
-		        // top tags for the XML formating  
-		        transf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-		        transf.setOutputProperty(OutputKeys.INDENT, "yes");
-		        transf.setOutputProperty(OutputKeys.STANDALONE, "yes");
-		        transf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-		        
-		        // builds the XML with the document made
-		        DOMSource source = new DOMSource(document);
-		        
-		        // file path to where its being stored
-		        File myFile = new File(file_path);
-		        
-		        // print list with tags in console
-		        ///StreamResult console = new StreamResult(System.out);
-		        
-		        // write to file in given location
-		        StreamResult file = new StreamResult(myFile);
-		        
-		        try {
-					transf.transform(source, file);
-				} catch (TransformerException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				
-			} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (TransformerConfigurationException e) {
+			// add node called "id" to the XML file
+			Element id = document.createElement("id");
+			document.appendChild(id);
+			
+			// add the page tag with all "multimedia" tags 
+			// where each one hold the information of an item in the list that is being stored 
+			document = addPage(document, id, list);
+			
+			// working on it 
+			// check if the list has statistics from previous algorithm runs. 
+			if(results != null) {
+				// not today
+				document = addPage(document, id, results);
+			}
+			
+			// this line is need for XML handling (don't know why :) )
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	        Transformer transf = transformerFactory.newTransformer();
+	        
+	        // top tags for the XML formating  
+	        transf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+	        transf.setOutputProperty(OutputKeys.INDENT, "yes");
+	        transf.setOutputProperty(OutputKeys.STANDALONE, "yes");
+	        transf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+	        
+	        // builds the XML with the document made
+	        DOMSource source = new DOMSource(document);
+	        
+	        // file path to where its being stored
+	        File myFile = new File(file_path);
+	        
+	        // print list with tags in console
+	        ///StreamResult console = new StreamResult(System.out);
+	        
+	        // write to file in given location
+	        StreamResult file = new StreamResult(myFile);
+	        
+	        try {
+				transf.transform(source, file);
+			} catch (TransformerException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 			
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-			
-	// ----------------------
-			
-	
+		
+	}
 	
 	/**
 	 * Method to build an XML file from a list, but not add the results of the list to
@@ -276,7 +240,7 @@ public abstract class XMLHandler {
 	 * @param filename - the filename to write the XML file to
 	 */
 	public static void buildXMLFromList(ChuseList list, String file_path) {
-		buildXMLFromList(list, file_path, null, null);
+		buildXMLFromList(list, file_path, null);
 	}
 	
 	
@@ -308,86 +272,20 @@ public abstract class XMLHandler {
 		return document;
 	}
 	
-	// NEW ----------------------------------------
-	
-	private static Document addResults(Document document, Element id, RankingList list) {
-					
-		// add results tag
-		Element results = document.createElement("results");
-		id.appendChild(results);
+	/**
+	 * Work in progress.
+	 * TODO update later in development for statistics
+	 * 
+	 * @param results
+	 * @param filename
+	 */
+	public static void addResultsToXML(ChuseList results, String file_path) {
 		
-		// get date and time relative to UTC for time stamp
-		// could use google server import for data and time?
-		Date date = new Date();
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		df.setTimeZone(TimeZone.getTimeZone("UTC"));
-					
-		// add time stamp to attributes
-		results.setAttribute("Time", df.format(date));
-					
-						
-		// loop through all Ranked items and add them to the XML file under the page tag
-		for(int i = 0; i < list.getSize(); i++) {
-			// add the item 
-			Node multimediaForResults = createItem(document, list.get(i).getWrappedItem());
-			// append the ranking to the node
-			multimediaForResults.appendChild(createItemElement(document, "points", Integer.toString(list.get(i).getRanking())));
-			// append to the results tag
-			results.appendChild(multimediaForResults);
-		}
-					
-		// return the document which is being stored
-		return document;
-		}
-	
-	public static void appendResults(String file_path, RankingList results){
+		ChuseList page_1 = buildListFromXML(file_path);
+		XMLHandler.buildXMLFromList(page_1, file_path, results);
 		
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
-		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
-	    	
-	    	Document document = builder.parse(file_path);
-	    	
-	    	NodeList id = document.getElementsByTagName("id");
-	    	
-	    	document = addResults(document, (Element)id.item(0), results);
-	    	
-	    	// this line is need for XML handling (don't know why :) )
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	        Transformer transf = transformerFactory.newTransformer();
-	        
-	        // top tags for the XML formating  
-	        transf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-	        transf.setOutputProperty(OutputKeys.INDENT, "yes");
-	        transf.setOutputProperty(OutputKeys.STANDALONE, "yes");
-	        transf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-	        
-	        // builds the XML with the document made
-	        DOMSource source = new DOMSource(document);
-	        
-	        // file path to where its being stored
-	        File myFile = new File(file_path);
-	        
-	        // print list with tags in console
-	        ///StreamResult console = new StreamResult(System.out);
-	        
-	        // write to file in given location
-	        StreamResult file = new StreamResult(myFile);
-	        
-	        transf.transform(source, file);
-	    	
-		} catch (ParserConfigurationException | SAXException | IOException | TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
-
-	// ---------------------------------------------
-			
+	
 	/**
 	 * createItem(Document, BasicItem)
 	 * 
@@ -443,7 +341,7 @@ public abstract class XMLHandler {
 	 * @param value - the value of the node (String)
 	 * @return node - the new node
 	 */
-	private static Node createItemElement(Document document, String name, 
+	 private static Node createItemElement(Document document, String name, 
 	            String value) {
 		 	
 		 	// make new node with name "name"
@@ -455,176 +353,4 @@ public abstract class XMLHandler {
 	        return node;
 	 }
 
-	// NEW ---------------------------------
-	
-	public static RankingList buildResultsFromXML(NodeList element_list){
-		
-		
-		// List of items that will be used to store the content from the XML file 
-		RankingList list = new RankingList();
-
-		// loop through all nodes in the node list that was copied from the XML file
-		for(int i = 0; i < element_list.getLength(); i++){
-							
-			// get node i from node array that came from XML file
-			Node element = element_list.item(i);
-							
-			if(!element.getNodeName().equals("multimedia")) {
-				continue;
-			}
-			
-			
-							
-			//item 1 is type
-			//item 3 is title
-			//item 5 is location
-							
-			// Temp variable for getting the item from the node 
-			BasicItem item = null;
-			RankingItem item_2 = null; 
-							
-			// Checks if node is of class BasicItem, if not it cycles through all available 
-			// class types until the right one is found. At that point it builds the item of that class.
-			if(element.getChildNodes().item(1).getTextContent().equals("BasicItem")) {
-				item = new BasicItem(element.getChildNodes().item(3).getTextContent());
-				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(7).getTextContent()));
-			} else if(element.getChildNodes().item(1).getTextContent().equals("ImageItem")) {
-				item = new ImageItem(element.getChildNodes().item(5).getTextContent());
-				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(7).getTextContent()));
-			} else if(element.getChildNodes().item(1).getTextContent().equals("AudioItem")) {
-				/*item = new AudioItem(element.getChildNodes().item(5).getTextContent());
-				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(7).getTextContent()));*/
-			} else if(element.getChildNodes().item(1).getTextContent().equals("VideoItem")) {
-				item = new VideoItem(element.getChildNodes().item(3).getTextContent(),
-						// The XML goes through all available information of node.
-						// For some reason XML counts up in odd numbers :( 
-						element.getChildNodes().item(5).getTextContent(),
-						element.getChildNodes().item(7).getTextContent(),
-						element.getChildNodes().item(9).getTextContent());
-				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(11).getTextContent()));
-			} else {
-				continue;
-			}
-							
-			// dumps the newly made item into the list array
-			list.addItem(item_2);
-						
-		}
-		
-		
-		return list;
-		
-	}
-	
-	public static ArrayList<RankingList> buildResultsListFromXML(String filename){
-		
-		
-		// this line is need for XML handling (don't know why :) )
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
-		ArrayList<RankingList> results = new ArrayList<RankingList>();
-		
-			try {
-			// this line can cause an error there for a try is need
-			// this line is need for XML handling (don't know why :) )
-			
-			
-				DocumentBuilder builder = factory.newDocumentBuilder();
-				
-				// location of XML file - local to the project folder
-				File file = new File(filename);
-				
-				// build doc from XML file into java
-				// this line can cause an error there for a try is need
-				// this line is need for XML handling (don't know why :) )
-				Document document = builder.parse(file);
-				
-				NodeList id_check = document.getElementsByTagName("id");
-
-				if(id_check.getLength() != 1) {
-					return null;
-				}
-				
-				for(int j=1; j < id_check.item(0).getChildNodes().getLength(); j += 2) {
-					
-					if(!id_check.item(0).getChildNodes().item(j).getNodeName().equals("results")){
-						continue;
-					}
-
-					NodeList element_list = id_check.item(0).getChildNodes().item(j).getChildNodes();
-					
-					results.add(buildResultsFromXML(element_list));
-					
-					results.get(results.size()-1).setTime(id_check.item(0).getChildNodes().item(j).getAttributes().getNamedItem("Time").getNodeValue());
-				}
-				
-			} catch (ParserConfigurationException | SAXException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			return results;
-		}	
-	
-	public static void buildXMLFromListWithResults(String file_path, RankingList results) {
-		
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
-		try {
-			
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			
-			Document document = builder.newDocument();
-			
-			// add node called "id" to the XML file
-			Element id = document.createElement("id");
-			
-			document.appendChild(id);
-			
-			//document = addPage(document, id, null);
-			
-			if(results != null) {
-				document = addResults(document, id, results);	
-			}
-			
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	        Transformer transf = transformerFactory.newTransformer();
-	        
-	        // top tags for the XML formating  
-	        transf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-	        transf.setOutputProperty(OutputKeys.INDENT, "yes");
-	        transf.setOutputProperty(OutputKeys.STANDALONE, "yes");
-	        transf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-	        
-	        // builds the XML with the document made
-	        DOMSource source = new DOMSource(document);
-	        
-	        // file path to where its being stored
-	        File myFile = new File(file_path);
-	        
-	        // print list with tags in console
-	        ///StreamResult console = new StreamResult(System.out);
-	        
-	        // write to file in given location
-	        StreamResult file = new StreamResult(myFile);
-	        
-	        try {
-				transf.transform(source, file);
-			} catch (TransformerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-
-	// --------------------------------------
 }

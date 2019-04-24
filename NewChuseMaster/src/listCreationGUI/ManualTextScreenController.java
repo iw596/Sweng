@@ -1,5 +1,6 @@
 package listCreationGUI;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -15,6 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  * Sample controller holding SceneBuilder UI functions and action listeners
@@ -121,7 +124,9 @@ public class ManualTextScreenController {
 		}
 		
 	}
-
+	
+	
+	
     /**
      * Method to display another .fxml file within the current screen.
      * @param new_pane

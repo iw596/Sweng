@@ -55,7 +55,6 @@ public abstract class AudioFileHandler extends FileImportHandler{
 	 * @param file_path - the path to the audio file
 	 * @return track_metadata - an array list containing all of the file's relevant metadata
 	 */
-	@SuppressWarnings("all")
 	public static ArrayList<String> getMetadata(String file_path) {
 		
 		//needed for getting the metadata through VLCj

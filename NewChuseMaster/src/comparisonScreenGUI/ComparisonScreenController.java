@@ -9,8 +9,10 @@ import com.jfoenix.controls.JFXButton;
 import com.sun.jna.NativeLibrary;
 
 import audioPlayback.AppController;
+import audioPlayback.AudioController;
 import backEnd.BackEndContainer;
 import imageDisplay.ImageDisplayController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import listDataStructure.BasicItem;
 import resultsScreenGUI.ResultsScreenController;
+import videoPlayback.Player;
 import videoPlayback.YoutubeController;
 
 /**
@@ -76,6 +79,8 @@ public class ComparisonScreenController implements Initializable {
      */
     void leftItemSelected(ActionEvent event) {
     	
+    	System.out.println("Left Item Selected");
+    	
     	if(audio_controllers.size() > 0) {
     		for(int i = 0; i < audio_controllers.size(); i++) {
     			audio_controllers.get(i).exit();
@@ -101,6 +106,7 @@ public class ComparisonScreenController implements Initializable {
      * @param event
      */
     void rightItemSelected(ActionEvent event) {
+    	System.out.println("Right Item Selected");
     	
     	if(audio_controllers.size() > 0) {
     		for(int i = 0; i < audio_controllers.size(); i++) {
@@ -233,19 +239,20 @@ public class ComparisonScreenController implements Initializable {
 		
 		left_content.getChildren().removeAll();
 		right_content.getChildren().removeAll();
-		
+		System.out.println(left_object.getType());
+		System.out.println(right_object.getType());
+
 		//if the left object is a video item, instantiate the video player
 		if(left_object.getType().equals("VideoItem")) {
-			instantiateYouTubePlayer(left_object, left_content);
+			instantiateVideoPlayer(left_object, left_content);
 		} else if(left_object.getType().equals("ImageItem")) {
 			instantiateImageViewer(left_object, left_content);
 		} else if(left_object.getType().equals("AudioItem")) {
 			instantiateAudioPlayer(left_object, left_content);
-		}
-		
+		} 
 		//if the right object is a video item, instantiate the video player
 		if(right_object.getType().equals("VideoItem")) {
-			instantiateYouTubePlayer(right_object, right_content);
+			instantiateVideoPlayer(right_object, right_content);
 		} else if(right_object.getType().equals("ImageItem")) {
 			instantiateImageViewer(right_object, right_content);
 		} else if(right_object.getType().equals("AudioItem")) {
@@ -348,6 +355,26 @@ public class ComparisonScreenController implements Initializable {
 		} catch (IOException e) {
 			
 		}
+		
+	}
+	
+	private void instantiateVideoPlayer(BasicItem item, Pane pane) {
+		System.out.println("Called");
+		NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
+		System.out.println(item.getPath());
+		String [] paths = {item.getPath()};
+		System.out.println(paths[0]);
+		Player player = new Player((int) pane.getWidth(),(int) pane.getHeight());
+		StackPane.setAlignment(player, Pos.CENTER);
+		pane.getChildren().add(player);
+		player.loadPaths(paths);
+		// Set width and height preferences
+		player.prefWidthProperty().bind(pane.widthProperty());
+		player.prefHeightProperty().bind(pane.heightProperty());
+		player.minWidthProperty().bind(pane.minWidthProperty());
+		player.minHeightProperty().bind(pane.minHeightProperty());
+		player.maxWidthProperty().bind(pane.maxWidthProperty());
+		player.maxHeightProperty().bind(pane.maxHeightProperty());
 		
 	}
 	

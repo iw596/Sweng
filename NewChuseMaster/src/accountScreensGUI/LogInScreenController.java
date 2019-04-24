@@ -254,8 +254,6 @@ public class LogInScreenController implements Initializable{
 			
 		});
 		
-		this.back_end.startCloudHandler();
-		
 	}
 
 }

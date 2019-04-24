@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 
 /** Controller for the Image Display module. This class handles initalizing the viewer and adding listeners
  * 	which listen for user input.
@@ -70,14 +71,14 @@ public class ImageDisplayController  implements Initializable {
 	
 		// Check if file extension matches the chosen extensions 
 
-		}else if (!(fileExt.equals("jpg")||fileExt.equals("png")||fileExt.equals("gif")||fileExt.equals("jpeg")||fileExt.equals("JPG")||fileExt.equals("PNG")||fileExt.equals("GIF")||fileExt.equals("JPEG"))){
+		}else if (!(fileExt.equals("jpg")||fileExt.equals("png")||fileExt.equals("gif"))){
 			// If imgFile extension does not match chosen extensions
 			// Display error alert
 
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("Invalid File Extension");
-			alert.setContentText("Only .jpg .jpeg .png .gif file types.");
+			alert.setContentText("Only .jpg .png .gif file types.");
 			alert.showAndWait();
 
 			// Returns 1, meaning loading was unsuccessful
@@ -89,9 +90,8 @@ public class ImageDisplayController  implements Initializable {
 		image = new Image("file:" + imgFile.getAbsolutePath());
 		return 0;
 	}
-	
-	/** 
-	 * Initialise method adds image to pane and sets up listeners which monitor user input
+	/** Initalise method adds image to pane and sets up listeners which monitor user input
+	 * 
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -129,6 +129,8 @@ public class ImageDisplayController  implements Initializable {
 			// Get the value of the scroll amount
 
 			double delta = e.getDeltaY();
+			
+			System.out.println(delta);
 			
 			// Call function to scale the image size
 

@@ -21,16 +21,12 @@ public class RankingList{
 
 	ArrayList<RankingItem> items;
 	
-	private String Time;
-	
 	/**
 	 * Constructor method for a ranking list, initialising the array list of
 	 * ranking items.
 	 */
 	public RankingList() {
 		this.items = new ArrayList<RankingItem>();
-		this.Time = null;
-		
 	}
 	
 	/**
@@ -186,14 +182,6 @@ public class RankingList{
 	 */
 	public int getSize() {
 		return items.size();
-	}
-
-	public String getTime() {
-		return Time;
-	}
-
-	public void setTime(String time) {
-		Time = time;
 	}
 	
 }

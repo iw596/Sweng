@@ -1,27 +1,21 @@
 package resultsScreenGUI;
 
-import java.awt.Event;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import org.apache.commons.io.FilenameUtils;
-
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
 
 import backEnd.BackEndContainer;
 import comparisonScreenGUI.ComparisonScreenController;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -31,55 +25,19 @@ import javafx.stage.Stage;
  * Controller for the ResultsScreen.fxml file. Initialises results screen and UI components.
  * 
  * Date created: 14/03/2019
- * Date last edited: 21/04/2019
- * Last edited by: Dan Jackson
+ * Date last edited: 14/03/2019
+ * Last edited by: Harry Ogden
  * 
  * @author Harry Ogden & Aeri Olsson
  *
  */
 public class ResultsScreenController implements Initializable {
 	// UI Elements
-	@FXML 
-	BorderPane root;
-	
-	@FXML 
-	VBox results_pane;
-	
-	@FXML 
-	JFXButton define_button;
-	
-	@FXML 
-	JFXButton save_button;
-	
-	@FXML 
-	private JFXButton save_as_button;
-	
-	@FXML 
-	private ScrollPane scroll_pane;
-
-    @FXML
-    private HBox bottom_container;
-	
-    @FXML
-    private VBox results_box_container;
-    
-    @FXML
-    private VBox check_box_container;
-	
-    @FXML
-    private JFXCheckBox save_online_toggle;
-    
-    private Boolean saveListOnline = false;
-
-    @FXML
-    private JFXCheckBox make_public_toggle;
-    
-    @FXML
-    private JFXCheckBox share_results_toggle;
-    
-    private Boolean shareResults = false;
-    
-    private Boolean shareListPublicly = false;
+	@FXML BorderPane root;
+	@FXML VBox results_pane;
+	@FXML JFXButton define_button;
+	@FXML JFXButton save_button;
+	@FXML private ScrollPane scroll_pane;
 	
 	// Array list containing list items ranked in order
 	// All items from rankinglist are sorted into the ranked items arraylist.
@@ -90,74 +48,9 @@ public class ResultsScreenController implements Initializable {
 
 	private BackEndContainer back_end;
 	
-	/**
-	 * Constructor for the results screen controller.
-	 * 
-	 * @param back_end
-	 */
 	public ResultsScreenController(BackEndContainer back_end) {
 		this.back_end = back_end;
 	}
-	
-
-    @FXML
-    /**
-     * Method to toggle whether or not the list should be saved on the user's
-     * online account.
-     * 
-     * @param event
-     */
-    void toggleOnlineSaving(ActionEvent event) {
-    	
-    	//toggles a boolean variable
-    	if(saveListOnline) {
-    		saveListOnline = false;
-    		//disables the public sharing check box if unchecked as impossible to share
-    		//publicly if not stored online
-    		make_public_toggle.setDisable(true);
-    		make_public_toggle.selectedProperty().set(false);
-    		shareListPublicly = false;
-    	} else {
-    		saveListOnline = true;
-    		make_public_toggle.setDisable(false);
-    	}
-    	
-    }
-
-    @FXML
-    /**
-     * Method to toggle whether or not the list should be saved in a user's 
-     * public area using a check box.
-     * 
-     * @param event
-     */
-    void togglePublicSharing(ActionEvent event) {
-    	
-    	if(shareListPublicly) {
-    		shareListPublicly = false;
-    	} else {
-    		shareListPublicly = true;
-    	}
-    	
-    }
-    
-    @FXML
-    /**
-     * Method to toggle whether or not the results of a public list should be shared
-     * using a check box.
-     * 
-     * @param event
-     */
-    void toggleResultsSharing(ActionEvent event) {
-    	
-    	//toggles a boolean variable
-    	if(shareResults) {
-    		shareResults = false;
-    	} else {
-    		shareResults = true;
-    	}
-    	
-    }
 	
 	@Override
 	/**
@@ -197,27 +90,6 @@ public class ResultsScreenController implements Initializable {
 			}
 			
 		}
-		
-		//if logged in and the list is owned by the logged in account
-		if(back_end.getLocalAccount() != null && (back_end.getListOwner() == null || back_end.getLocalAccount().getUsername().equals(back_end.getListOwner()))) {
-			//display the check boxes for cloud storage and public sharing
-			save_online_toggle.setVisible(true);
-			make_public_toggle.setVisible(true);
-			make_public_toggle.setDisable(true);
-		} else {
-			//remove the check boxes for cloud storage and public sharing
-			bottom_container.getChildren().remove(check_box_container);
-		}
-
-		//if logged in and the list is owned by a different account to the one logged in
-		if(back_end.getLocalAccount() != null && back_end.getListOwner() != null && !back_end.getLocalAccount().getUsername().equals(back_end.getListOwner())) {
-			//show the share results check box
-			share_results_toggle.setVisible(true);
-		} else {
-			//remove the share results check box
-			bottom_container.getChildren().remove(results_box_container);
-		}
-		
 	}
 	
 	@FXML
@@ -242,6 +114,7 @@ public class ResultsScreenController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	
 	@FXML
@@ -250,31 +123,6 @@ public class ResultsScreenController implements Initializable {
 	 * @param action
 	 */
 	public void saveList(MouseEvent action){
-
-    	if(back_end.getCurrentListFileName() != null) {
-    		back_end.updateSaveListToXML(back_end.getCurrentListFileName());
-    		
-    		if(back_end.getLocalAccount() != null && saveListOnline) {
-    			back_end.uploadList(back_end.getCurrentListFileName(), shareListPublicly);
-    		} else if(back_end.getLocalAccount() != null && shareResults) {
-    			
-    			back_end.uploadResults();
-    			
-    		}
-    		
-    	} else {
-    		System.out.println("No file exists with same name.");
-    		save_as_button.fireEvent(action);
-    	}
-
-	}
-	
-	@FXML
-	/**
-	 * Action listener for "Save As List" button.
-	 * @param action
-	 */
-    void saveAsList(MouseEvent event) {
 		// Save current list
 		System.out.println("Save List Pressed");
 		
@@ -288,16 +136,11 @@ public class ResultsScreenController implements Initializable {
 
     	if(new_file != null) {
     		back_end.saveCurrentListToXML(new_file.getAbsolutePath());
-
-    		if(back_end.getLocalAccount() != null && saveListOnline) {
-    			back_end.uploadList(new_file.getAbsolutePath(), shareListPublicly);
-    		}
-    		
     	}
     	
     	root.requestFocus();
-    	
-    }
+		
+	}
 	
     /**
      * Method to display another .fxml file within the current screen.

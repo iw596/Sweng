@@ -120,27 +120,25 @@
                <children>
                   <JFXTabPane layoutX="166.0" layoutY="118.0" prefHeight="236.0" prefWidth="598.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../../tab_style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <tabs>
-                        <Tab fx:id="local_lists_tab" text="Local Lists">
+                        <Tab text="Recent">
                           <content>
-                            <AnchorPane fx:id="recent_anchor_pane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
                                     <ScrollPane fx:id="recent_scroll_pane" layoutX="30.0" layoutY="-44.0" prefHeight="156.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <content>
-                                          <VBox fx:id="files_pane" prefHeight="124.0" prefWidth="431.0" />
+                                          <VBox fx:id="files_pane" prefHeight="156.0" prefWidth="598.0" />
                                        </content></ScrollPane>
                                  </children></AnchorPane>
                           </content>
                         </Tab>
-                        <Tab style="-fx-background-color: #696969;" text="Online Lists">
+                        <Tab style="-fx-background-color: #696969;" text="Favourites">
                           <content>
-                            <AnchorPane fx:id="cloud_anchor_pane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <ScrollPane fx:id="cloud_scroll_pane" prefHeight="156.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <content>
-                                          <VBox fx:id="cloud_files_pane" prefHeight="200.0" prefWidth="100.0" />
-                                       </content>
-                                    </ScrollPane>
-                                 </children></AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                        <Tab style="-fx-background-color: #696969;" text="Text">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                           </content>
                         </Tab>
                      </tabs>

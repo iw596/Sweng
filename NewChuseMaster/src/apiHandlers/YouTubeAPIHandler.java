@@ -46,6 +46,7 @@ public abstract class YouTubeAPIHandler {
 	 * 
 	 **/
 	
+	
     /** Application name. */
     private static final String APPLICATION_NAME = "Chuse";
 
@@ -206,9 +207,11 @@ public abstract class YouTubeAPIHandler {
     	
     	String[] url_parts = playlist_url.split("=");
     	
-    	int count;
+    	int count = 0;
     	
-    	for(count=0; count < url_parts.length;count++);
+    	for(String part : url_parts) {
+    		count++;
+    	}
     	
     	if(count == 2) {
     		return url_parts[1];
