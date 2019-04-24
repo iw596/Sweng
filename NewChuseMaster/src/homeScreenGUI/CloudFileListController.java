@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 
 import backEnd.BackEndContainer;
+import cloudInteraction.DownloadingScreenController;
 import comparisonScreenGUI.ComparisonScreenController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -89,26 +90,38 @@ public class CloudFileListController implements Initializable {
 				@Override
 				public void handle(ActionEvent arg0) {
 					
-					try {
-						if(!back_end.downloadList(path)) {
-							return;
-						}
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-					try {
-						//load the comparison screen and start the tournament comparison algorithm
-						FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
-				    	ComparisonScreenController controller = new ComparisonScreenController(back_end);
-				    	loader.setController(controller);
-						BorderPane new_pane = loader.load();
-						home_controller.showInSelf(new_pane);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				try {
+					//load the comparison screen and start the tournament comparison algorithm
+					FXMLLoader loader = new FXMLLoader(cloudInteraction.DownloadingScreenController.class.getResource("DownloadingScreen.fxml"));
+					DownloadingScreenController controller = new DownloadingScreenController(back_end, path);
+			    	loader.setController(controller);
+					BorderPane new_pane = loader.load();
+					home_controller.showInSelf(new_pane);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+					
+//					try {
+//						if(!back_end.downloadList(path)) {
+//							return;
+//						}
+//					} catch (IOException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					}
+//
+//					try {
+//						//load the comparison screen and start the tournament comparison algorithm
+//						FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
+//				    	ComparisonScreenController controller = new ComparisonScreenController(back_end);
+//				    	loader.setController(controller);
+//						BorderPane new_pane = loader.load();
+//						home_controller.showInSelf(new_pane);
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 
 				}
     			

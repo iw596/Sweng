@@ -31,6 +31,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import previewListScreenGUI.PreviewListController;
 import searchScreenGUI.NotLoggedInScreenController;
 import xmlHandling.FileLocator;
 
@@ -250,12 +251,19 @@ public class HomeScreenController implements Initializable {
 					back_end.loadXMLForComparison(file.getAbsolutePath());
 
 					try {
-						//load the comparison screen and start the tournament comparison algorithm
-						FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
-				    	ComparisonScreenController controller = new ComparisonScreenController(back_end);
+						
+				    	FXMLLoader loader = new FXMLLoader(previewListScreenGUI.PreviewListController.class.getResource("PreviewList.fxml"));
+				    	PreviewListController controller = new PreviewListController(back_end, "Local (Not Logged In)");
 				    	loader.setController(controller);
-						BorderPane new_pane = loader.load();
-						showInSelf(new_pane);
+				    	BorderPane new_pane = loader.load();
+				    	showInSelf(new_pane);
+						
+//						//load the comparison screen and start the tournament comparison algorithm
+//						FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
+//				    	ComparisonScreenController controller = new ComparisonScreenController(back_end);
+//				    	loader.setController(controller);
+//						BorderPane new_pane = loader.load();
+//						showInSelf(new_pane);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

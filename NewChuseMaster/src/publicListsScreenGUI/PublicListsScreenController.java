@@ -10,6 +10,7 @@ import org.apache.commons.io.FilenameUtils;
 import com.jfoenix.controls.JFXButton;
 
 import backEnd.BackEndContainer;
+import cloudInteraction.DownloadingScreenController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -111,12 +112,23 @@ public class PublicListsScreenController implements Initializable{
 				public void handle(ActionEvent arg0) {
 					System.out.println(list);
 					System.out.println(FilenameUtils.getName(list));
+					//load the comparison screen and start the tournament comparison algorithm
 					try {
-						showPreviewListScreen(list);
+						FXMLLoader loader = new FXMLLoader(cloudInteraction.DownloadingScreenController.class.getResource("DownloadingScreen.fxml"));
+						DownloadingScreenController controller = new DownloadingScreenController(back_end, list);
+						loader.setController(controller);
+						BorderPane new_pane = loader.load();
+						showInSelf(new_pane);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+//					try {
+//						showPreviewListScreen(list);
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
     			
     		});
@@ -137,7 +149,7 @@ public class PublicListsScreenController implements Initializable{
 	private void showPreviewListScreen(String cloud_path) throws IOException {
 		
     	FXMLLoader loader = new FXMLLoader(previewListScreenGUI.PreviewListController.class.getResource("PreviewList.fxml"));
-    	PreviewListController controller = new PreviewListController(back_end, this.username, cloud_path);
+    	PreviewListController controller = new PreviewListController(back_end, this.username);
     	loader.setController(controller);
     	BorderPane new_pane = loader.load();
     	showInSelf(new_pane);
