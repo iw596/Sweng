@@ -37,7 +37,6 @@ public class InterImageController {
     public InterImageController(BackEndContainer back_end) {
     	this.back_end = back_end;
     }
-  
     
     @FXML
     /**
@@ -46,7 +45,6 @@ public class InterImageController {
      */
     void importFromAFileImage(ActionEvent event) throws IOException {
     	back_end.loadImageFiles((Stage) root.getScene().getWindow());
-    	//  back_end.loa
     	
     	if(back_end.getCurrentListSize() < 2) {
     		System.out.println("Nothing to compare - only one item in list.");

@@ -11,8 +11,8 @@ import listDataStructure.ImageItem;
  * extends the generic FileImportHandler.
  * 
  * Date created: 14/02/2018
- * Date last edited: 23/04/2019
- * Last edited by: Isaac Watson
+ * Date last edited: 01/03/2019
+ * Last edited by: Dan Jackson
  * 
  * @author Dan Jackson
  *
@@ -20,8 +20,8 @@ import listDataStructure.ImageItem;
 public abstract class ImageFileHandler extends FileImportHandler {
 	
 	/**
-	 * Method for opening multiple local audio files and returning an array list of video items
-	 * containing the local video file path .
+	 * Method for opening multiple local audio files and returning an array list of audio items
+	 * containing the local audio file path and metadata.
 	 * 
 	 * @param stage - the JavaFX stage the files are opened from
 	 * @return audio_items - the array list of image items

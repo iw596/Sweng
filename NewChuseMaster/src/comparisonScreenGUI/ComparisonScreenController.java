@@ -9,10 +9,8 @@ import com.jfoenix.controls.JFXButton;
 import com.sun.jna.NativeLibrary;
 
 import audioPlayback.AppController;
-import audioPlayback.AudioController;
 import backEnd.BackEndContainer;
 import imageDisplay.ImageDisplayController;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -79,8 +77,6 @@ public class ComparisonScreenController implements Initializable {
      */
     void leftItemSelected(ActionEvent event) {
     	
-    	System.out.println("Left Item Selected");
-    	
     	if(audio_controllers.size() > 0) {
     		for(int i = 0; i < audio_controllers.size(); i++) {
     			audio_controllers.get(i).exit();
@@ -106,7 +102,6 @@ public class ComparisonScreenController implements Initializable {
      * @param event
      */
     void rightItemSelected(ActionEvent event) {
-    	System.out.println("Right Item Selected");
     	
     	if(audio_controllers.size() > 0) {
     		for(int i = 0; i < audio_controllers.size(); i++) {
@@ -239,9 +234,7 @@ public class ComparisonScreenController implements Initializable {
 		
 		left_content.getChildren().removeAll();
 		right_content.getChildren().removeAll();
-		System.out.println(left_object.getType());
-		System.out.println(right_object.getType());
-
+		
 		//if the left object is a video item, instantiate the video player
 		if(left_object.getType().equals("VideoItem")) {
 			instantiateVideoPlayer(left_object, left_content);
@@ -249,7 +242,8 @@ public class ComparisonScreenController implements Initializable {
 			instantiateImageViewer(left_object, left_content);
 		} else if(left_object.getType().equals("AudioItem")) {
 			instantiateAudioPlayer(left_object, left_content);
-		} 
+		}
+		
 		//if the right object is a video item, instantiate the video player
 		if(right_object.getType().equals("VideoItem")) {
 			instantiateVideoPlayer(right_object, right_content);
@@ -361,6 +355,7 @@ public class ComparisonScreenController implements Initializable {
 	private void instantiateVideoPlayer(BasicItem item, Pane pane) {
 		System.out.println("Called");
 		NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
+		NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
 		System.out.println(item.getPath());
 		String [] paths = {item.getPath()};
 		System.out.println(paths[0]);

@@ -125,6 +125,8 @@ public class PreviewListController implements Initializable {
 		
 		}
 		
+		start_button.setLayoutX(-1);
+		
 		root.requestFocus();
 		
 	}

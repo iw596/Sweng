@@ -10,9 +10,9 @@ import javafx.stage.Stage;
 /**
  * Abstract class used for importing files from a local file path. 
  * 
- * Date created: 14/02/2019
- * Date last edited: 23/04/2019
- * Last edited by: Isaac Watson
+ * Date created: 14/02/2018
+ * Date last edited: 01/03/2019
+ * Last edited by: Dan Jackson
  * 
  * @author Dan Jackson
  *
@@ -67,18 +67,6 @@ public abstract class FileImportHandler {
 			//sets allowed file extensions
 			file_chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
 					"Image files", image_extensions));
-			
-			//if the media type is video, only allows opening .mp4	
-		} else if(type == "video") {
-			
-			List<String> video_extensions = new ArrayList<String>();
-			
-			//allowed file extensions
-			video_extensions.add("*.mp4");
-			
-			//sets allowed file extensions
-			file_chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
-					"Video files", video_extensions));
 			
 		}
 

@@ -65,8 +65,7 @@ public class InterVideoController {
         	BorderPane new_pane = loader.load();
         	
         	showInSelf(new_pane);
-    	}
-    	
+    	}	
     }
 
     @FXML
@@ -106,28 +105,6 @@ public class InterVideoController {
      * Method to start the tournament comparison for a list of YouTube items.
      */
     public void startYouTubeComparison() {
-    	
-    	FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
-    	
-    	ComparisonScreenController controller = new ComparisonScreenController(back_end);
-    	
-    	loader.setController(controller);
-    	
-    	BorderPane new_pane;
-		try {
-			new_pane = loader.load();
-	    	showInSelf(new_pane);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-    }
-    
-    /**
-     * Method to start the tournament comparison for a list of YouTube items.
-     */
-    public void startVideoComparison() {
     	
     	FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
     	
