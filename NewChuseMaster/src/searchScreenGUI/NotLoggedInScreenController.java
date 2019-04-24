@@ -63,6 +63,8 @@ public class NotLoggedInScreenController implements Initializable {
     	
     	root.setCenter(new_pane);
     	
+    	System.gc();
+    	
     }
 
 	@Override

@@ -37,9 +37,10 @@ public class VideoItem extends BasicItem implements ListInterface {
 		this.video_id = video_id;
 		this.description = description;
 		this.channel = channel;
-		this.type = "VideoItem";
+		this.type = "YouTubeItem";
 		this.file_path = "https://www.youtube.com/watch?v=" + video_id;
 	}
+	
 	/** Contructor for local videos where only file path string is needed. Creates the item and stores all of its
 	 * relevant properties.
 	 * 
@@ -49,6 +50,9 @@ public class VideoItem extends BasicItem implements ListInterface {
 		// TODO Auto-generated constructor stub
 		super(new File(file_path).getName());
 		this.file_path = file_path;
+		this.video_id = "";
+		this.description = "";
+		this.channel = "";
 		this.type = "VideoItem";
 	}
 

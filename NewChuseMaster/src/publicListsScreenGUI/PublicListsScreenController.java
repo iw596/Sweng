@@ -176,6 +176,8 @@ public class PublicListsScreenController implements Initializable{
     	root.setCenter(new_pane);
     	
     	root.requestFocus();
+    	
+    	System.gc();
 	
     }
 	

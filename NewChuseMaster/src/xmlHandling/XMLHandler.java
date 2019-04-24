@@ -127,13 +127,15 @@ public abstract class XMLHandler {
 						item = new ImageItem(element.getChildNodes().item(5).getTextContent());
 					} else if(element.getChildNodes().item(1).getTextContent().equals("AudioItem")) {
 						item = new AudioItem(element.getChildNodes().item(5).getTextContent());
-					} else if(element.getChildNodes().item(1).getTextContent().equals("VideoItem")) {
+					} else if(element.getChildNodes().item(1).getTextContent().equals("YouTubeItem")) {
 						item = new VideoItem(element.getChildNodes().item(3).getTextContent(),
 								// The XML goes through all available information of node.
 								// For some reason XML counts up in odd numbers :( 
 								element.getChildNodes().item(5).getTextContent(),
 								element.getChildNodes().item(7).getTextContent(),
 								element.getChildNodes().item(9).getTextContent());
+					} else if(element.getChildNodes().item(1).getTextContent().equals("VideoItem")) {
+						item = new VideoItem(element.getChildNodes().item(5).getTextContent());
 					} else {
 						continue;
 					}
@@ -245,6 +247,12 @@ public abstract class XMLHandler {
 		        
 		        // write to file in given location
 		        StreamResult file = new StreamResult(myFile);
+		        
+		        
+		        System.out.println(file_path);
+		        System.out.println(source);
+		        System.out.println(file);
+		        System.out.println(myFile.getName());
 		        
 		        try {
 					transf.transform(source, file);

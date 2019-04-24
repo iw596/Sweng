@@ -99,6 +99,8 @@ public class InterAudioController {
     	new_pane.setManaged(true);
     	root.setCenter(new_pane);
     	root.requestFocus();
+    	
+    	System.gc();
 	
     }
 

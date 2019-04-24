@@ -97,6 +97,7 @@ public class CloudFileListController implements Initializable {
 			    	loader.setController(controller);
 					BorderPane new_pane = loader.load();
 					home_controller.showInSelf(new_pane);
+					System.gc();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

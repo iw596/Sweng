@@ -32,7 +32,6 @@ import xmlHandling.XMLHandler;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CloudInteractionHandlerTest {
 	
-	
 	@Test
 	/**
 	 * Method to test creating a new account.

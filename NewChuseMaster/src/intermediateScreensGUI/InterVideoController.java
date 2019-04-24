@@ -139,6 +139,8 @@ public class InterVideoController {
     	root.setCenter(new_pane);
     	root.requestFocus();
 	
+    	System.gc();
+    	
     }
 
 }

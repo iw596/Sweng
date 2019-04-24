@@ -410,9 +410,17 @@ public class ComparisonScreenController implements Initializable {
     	
     	new_pane.setManaged(true);
     	
+    	root.getChildren().clear();
+    	
     	root.setCenter(new_pane);
     	
     	root.requestFocus();
+    	
+    	audio_controllers = null;
+    	image_controllers = null;
+    	video_controllers = null;
+    	
+    	System.gc();
 	
     }
 	

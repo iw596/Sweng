@@ -151,15 +151,6 @@ public class HomeScreenController implements Initializable {
     	
     }
     
-
-    @FXML
-    void loadOnlineLists(ActionEvent event) {
-    	
-    	
-    	
-
-    }
-	
     /**
      * Method to display another .fxml file within the current screen.
      * @param new_pane
@@ -178,6 +169,8 @@ public class HomeScreenController implements Initializable {
     	root.setCenter(new_pane);
     	
     	root.requestFocus();
+    	
+    	System.gc();
 	
     }
     

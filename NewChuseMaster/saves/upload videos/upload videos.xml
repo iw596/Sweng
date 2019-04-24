@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id User="">
+  <page>
+    <multimedia>
+      <type>VideoItem</type>
+      <title>testVid1.mp4</title>
+      <path>C:\Users\jacks\Sweng\testVid1.mp4</path>
+      <description/>
+      <channel/>
+    </multimedia>
+    <multimedia>
+      <type>VideoItem</type>
+      <title>testVid2.mp4</title>
+      <path>C:\Users\jacks\Sweng\testVid2.mp4</path>
+      <description/>
+      <channel/>
+    </multimedia>
+    <multimedia>
+      <type>VideoItem</type>
+      <title>testVid3.mp4</title>
+      <path>C:\Users\jacks\Sweng\testVid3.mp4</path>
+      <description/>
+      <channel/>
+    </multimedia>
+    <multimedia>
+      <type>VideoItem</type>
+      <title>testVid4.mp4</title>
+      <path>C:\Users\jacks\Sweng\testVid4.mp4</path>
+      <description/>
+      <channel/>
+    </multimedia>
+  </page>
+</id>

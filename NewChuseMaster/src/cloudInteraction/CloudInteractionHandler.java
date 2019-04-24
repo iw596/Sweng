@@ -226,7 +226,7 @@ public class CloudInteractionHandler {
 	private static String getMIMEType(String filepath) { 
 		
 		//gets the file extension of the file
-		String extension = FilenameUtils.getExtension(filepath);
+		String extension = FilenameUtils.getExtension(filepath).toLowerCase();
 		
 		String mime_type = null;
 		
@@ -235,6 +235,8 @@ public class CloudInteractionHandler {
 			mime_type = "image/" + extension;
 		} else if(extension.equals("mp3") || extension.equals("m4a") || extension.equals("flac") || extension.equals("wav")) {
 			mime_type = "audio/" + extension;
+		} else if(extension.equals("mp4") || extension.equals("mov")) {
+			mime_type = "video/" + extension;
 		}
 
 		//returns the mime type
@@ -456,6 +458,8 @@ public class CloudInteractionHandler {
 			paths.add(list.get(i).getPath());
 			
 		}
+		
+		System.out.println(paths);
 		
 		//returns the list of paths
 		return paths;
