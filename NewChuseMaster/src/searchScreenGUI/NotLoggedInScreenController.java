@@ -1,8 +1,6 @@
 package searchScreenGUI;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
@@ -11,11 +9,10 @@ import backEnd.BackEndContainer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
 import sidebarContainerGUI.MasterScreenController;
 
-public class NotLoggedInScreenController implements Initializable {
+public class NotLoggedInScreenController {
 	
 
     @FXML
@@ -63,19 +60,6 @@ public class NotLoggedInScreenController implements Initializable {
     	
     	root.setCenter(new_pane);
     	
-    	System.gc();
-    	
     }
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
-		if(master == null) {
-			login_button.setVisible(false);
-			login_button.setDisable(true);
-			login_button.setMouseTransparent(true);
-		}
-		
-	}
 
 }

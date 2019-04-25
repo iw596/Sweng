@@ -11,8 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 /**
@@ -78,10 +76,6 @@ public class InterAudioController {
      */
     void importFromSpotifyAudio(ActionEvent event) {
     	System.out.println("Import from spotify");
-    	WebView login_viewer = new WebView();
-    	WebEngine login_engine = new WebEngine();
-    	
-    	
     }
     
     /**
@@ -99,8 +93,6 @@ public class InterAudioController {
     	new_pane.setManaged(true);
     	root.setCenter(new_pane);
     	root.requestFocus();
-    	
-    	System.gc();
 	
     }
 

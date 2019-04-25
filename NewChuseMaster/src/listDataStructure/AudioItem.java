@@ -33,7 +33,6 @@ public class AudioItem extends BasicItem implements ListInterface {
 		this.file_location = file_path;
 		this.metadata = AudioFileHandler.getMetadata(file_path);
 		this.type = "AudioItem";
-		replaceNulls();
 	}
 	
 	/**
@@ -85,15 +84,6 @@ public class AudioItem extends BasicItem implements ListInterface {
 	
 	public void changePath(String new_path) {
 		this.file_location = new_path;
-	}
-	
-	private void replaceNulls() {
-		
-		for(int i = 0; i < metadata.size(); i++) {
-			if(metadata.get(i) == null) {
-				metadata.set(i, "");
-			}
-		}
 	}
 
 }

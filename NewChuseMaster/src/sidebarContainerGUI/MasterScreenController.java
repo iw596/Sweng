@@ -99,8 +99,6 @@ public class MasterScreenController implements Initializable {
     	bindSizeProperties(new_pane);
     	
     	back_end.setComparingLosers(false);
-    	
-    	//controller.initialize(null, null);
 
     }
 

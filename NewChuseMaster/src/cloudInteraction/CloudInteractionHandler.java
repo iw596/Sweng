@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
-import java.util.LinkedHashSet;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -226,7 +225,7 @@ public class CloudInteractionHandler {
 	private static String getMIMEType(String filepath) { 
 		
 		//gets the file extension of the file
-		String extension = FilenameUtils.getExtension(filepath).toLowerCase();
+		String extension = FilenameUtils.getExtension(filepath);
 		
 		String mime_type = null;
 		
@@ -235,8 +234,6 @@ public class CloudInteractionHandler {
 			mime_type = "image/" + extension;
 		} else if(extension.equals("mp3") || extension.equals("m4a") || extension.equals("flac") || extension.equals("wav")) {
 			mime_type = "audio/" + extension;
-		} else if(extension.equals("mp4") || extension.equals("mov")) {
-			mime_type = "video/" + extension;
 		}
 
 		//returns the mime type
@@ -280,6 +277,10 @@ public class CloudInteractionHandler {
 		return true;
 
 	}
+	
+//	public static Boolean uploadResults(String filepath, String author_username) {
+//		
+//	}
 	
 	/**
 	 * Method to download a list from a given path in the user's cloud storage area.
@@ -345,9 +346,7 @@ public class CloudInteractionHandler {
 		}
 		
 		//rebuilds the list XML file with the paths changed to match the new media file locations
-		if(!rebuildXML(System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/")) {
-			return null;
-		}
+		rebuildXML(System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/");
 		
 		return downloaded_file_name;
 		
@@ -358,7 +357,7 @@ public class CloudInteractionHandler {
 	 * 
 	 * @param list_download_folder	the folder where the media files are contained
 	 */
-	private static Boolean rebuildXML(String list_download_folder) {
+	private static void rebuildXML(String list_download_folder) {
 		
 		System.out.println("Rebuilding XML...");
 		
@@ -424,15 +423,8 @@ public class CloudInteractionHandler {
     		}
     	}
     	
-    	
-    	if(output_xml_file == null) {
-    		return false;
-    	}
-    	
     	//rebuild the XML using the updated list
     	XMLHandler.buildXMLFromList(list, output_xml_file.getAbsolutePath());
-    	
-    	return true;
 		
 	}
 	
@@ -454,8 +446,6 @@ public class CloudInteractionHandler {
 			paths.add(list.get(i).getPath());
 			
 		}
-		
-		System.out.println(paths);
 		
 		//returns the list of paths
 		return paths;
@@ -598,206 +588,51 @@ public class CloudInteractionHandler {
 	}
 	
 	/**
-	 * Method to get all the public and private list stored on a user's profile. Uses 
-	 * their user name to find the account to retrieve the lists from.
+	 * Method to get all public list stored on a user's profile. Uses their username to find their account.
 	 * 
-	 * @param username	the user name of the account to retrieve the lists from
-	 * @return	the list of paths to the cloud lists
-	 */
-	public static ArrayList<String> getAllProfileContent(String username) {
-		
-		ArrayList<String> lists = null;
-		
-		ArrayList<String> public_lists = getPublicProfileContent(username);
-		ArrayList<String> private_lists = getPrivateProfileContent(username);
-		
-		if(public_lists == null && private_lists == null) {
-			return null;
-		} else if(public_lists == null && private_lists != null) {
-			return private_lists;
-		} else if(public_lists != null && private_lists == null) {
-			return public_lists;
-		} else {
-			lists = public_lists;
-			lists.addAll(private_lists);
-		}
-		
-		return lists;
-		
-	}
-	
-	/**
-	 * Method to get all public list stored on a user's profile. Uses their user name to find their account.
-	 * 
-	 * @param username	the user name of the account
+	 * TODO COMPLETE METHOD - NEEDS TO ADD A RETURN FOR THE XML FILE NAMES
+	 * @param username	the username of the account
 	 * @return
 	 */
 	public static ArrayList<String> getPublicProfileContent(String username) {
 		
 		ArrayList<String> public_lists = null;
 		
-		//creates a linked hash set to add the paths to
-		//this does not allow duplicated entries and retains the order they were added in
-		LinkedHashSet<String> public_lists_set = new LinkedHashSet<String>();
-		
 		//checks if there is an account with the username given
 		QueryResults<Entity> results = queryUserAccountByProperty("username", username);
 		
-		//if there is a result then perform actions
+		//if there is then perform actions
 		if(results != null) {
 			
 			public_lists = new ArrayList<String>();
 			
 			//read the account
 			Entity public_account = results.next();
+
+//			System.out.println("Username: ");
+//			System.out.println(username);
+//			System.out.println("User account ID: ");
+//			System.out.println(public_account.getKey().getId());
 			
 			//get all the files contained within the public profile
 			Page<Blob> blobs = storage.list("we-tech-user-storage", BlobListOption.prefix(public_account.getKey().getId() + "/public/"));
 
-			for(Blob blob : blobs.iterateAll()) {
-				
-				//split the string at every instance of a "/"
-				String[] blob_name_parts = blob.getName().split("/");
-				
-				//concatenate string parts so only the folder path is present and not the file names 
-				String name = blob_name_parts[0] + "/" + blob_name_parts[1] + "/" + blob_name_parts[2] + "/";
-				
-				//adds the concatenated string to the linked hash set
-				public_lists_set.add(name);
-				
-//				if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {					
-//					public_lists.add(FilenameUtils.removeExtension(blob.getName()));
-//				}
-			}
-			
-		}
-		
-		public_lists.addAll(public_lists_set);
-		
-		return public_lists;
-		
-	}
-	
-	/**
-	 * Method to get all public list stored on a user's profile. Uses their user name to find their account.
-	 * 
-	 * @param username	the username of the account
-	 * @return
-	 */
-	public static ArrayList<String> getPrivateProfileContent(String username) {
-		
-		ArrayList<String> private_lists = null;
-		
-		//creates a linked hash set to add the paths to
-		//this does not allow duplicated entries and retains the order they were added in
-		LinkedHashSet<String> private_lists_set = new LinkedHashSet<String>();
-		
-		if(!loggedIn || !user.getUsername().equals(username)) {
-			return null;
-		}
-		
-		//checks if there is an account with the username given
-		QueryResults<Entity> results = queryUserAccountByProperty("username", username);
-		
-		if(results == null) {
-			return null;
-		}
-		
-		private_lists = new ArrayList<String>();
-		
-		//read the account
-		Entity public_account = results.next();
-		
-		//get all the files contained within the public profile
-		Page<Blob> blobs = storage.list("we-tech-user-storage", BlobListOption.prefix(public_account.getKey().getId() + "/private/"));
-
-		for(Blob blob : blobs.iterateAll()) {
-			
-			//split the string at every instance of a "/"
-			String[] blob_name_parts = blob.getName().split("/");
-			
-			//concatenate string parts so only the folder path is present and not the file names 
-			String name = blob_name_parts[0] + "/" + blob_name_parts[1] + "/" + blob_name_parts[2] + "/";
-			
-			//adds the concatenated string to the linked hash set
-			private_lists_set.add(name);
-			
-//			if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {					
-//				private_lists.add(FilenameUtils.removeExtension(blob.getName()));
+//			System.out.println("Public Files: ");
+//			for(Blob blob : blobs.iterateAll()) {
+//				System.out.println(blob.getName());
 //			}
-		}
-		
-		private_lists.addAll(private_lists_set);
-		
-		return private_lists;
-		
-	}
-	
-	/**
-	 * Method to get every public list stored on the cloud. Returns the cloud path to the folder
-	 * containing each of the public lists.
-	 * 
-	 * @return	null if not logged in or there are no public lists, an array list of the cloud paths
-	 * 			if user is logged in and their are public lists on the cloud
-	 */
-	public static ArrayList<String> getAllPublicLists() {
-		
-		ArrayList<String> public_lists = null;
-		
-		//creates a linked hash set to add the paths to
-		//this does not allow duplicated entries and retains the order they were added in
-		LinkedHashSet<String> public_lists_set = new LinkedHashSet<String>();
-		
-		//checks if logged in
-		if(!loggedIn) {
-			System.out.println("Not logged in.");
-			return null;
-		}
-		
-		//fetches all of the public lists
-		Page<Blob> blobs = storage.list("we-tech-user-storage");
-		
-		//returns if there are no public lists
-		if(blobs == null) {
-			return null;
-		}
-		
-		//creates a new array list
-		public_lists = new ArrayList<String>();
-		
-		
-		//loops through every list fetched from the cloud
-		for(Blob blob : blobs.iterateAll()) {
+
 			
-			//if the list contains "/public/" string, then perform some string manipulation and
-			//add it to the linked hash set
-			if(blob.getName().contains("/public/")) {
-				
-				//split the string at every instance of a "/"
-				String[] blob_name_parts = blob.getName().split("/");
-				
-				//concatenate string parts so only the folder path is present and not the file names 
-				String name = blob_name_parts[0] + "/" + blob_name_parts[1] + "/" + blob_name_parts[2] + "/";
-				
-				//adds the concatenated string to the linked hash set
-				public_lists_set.add(name);
-				
+			for(Blob blob : blobs.iterateAll()) {
+				if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {					
+					public_lists.add(FilenameUtils.removeExtension(blob.getName()));
+				}
 			}
+
+			
 			
 		}
 		
-		//moves the linked hash set into the array list
-		public_lists.addAll(public_lists_set);
-		
-		//prints all items in array list
-		//TODO remove in final
-//		for(String name : public_lists) {
-//			
-//			System.out.println(name);
-//			
-//		}
-		
-		//returns the array list
 		return public_lists;
 		
 	}
@@ -837,19 +672,8 @@ public class CloudInteractionHandler {
 		//hash the email
 		int hashed_email = email.hashCode();
 		
-		return getUserAccountEntity(hashed_email);
-		
-	}
-	
-	/**
-	 * Method to get a user account entity with a given email address.
-	 * @param user_id	the user ID of the account
-	 * @return
-	 */
-	public static Entity getUserAccountEntity(int user_id) {
-		
 		//search the database for the hashed email
-		Key user_key = datastore.newKeyFactory().setKind("User Account").newKey(user_id);
+		Key user_key = datastore.newKeyFactory().setKind("User Account").newKey(hashed_email);
 		
 		//retrieve the user account
 		Entity retrieved = datastore.get(user_key);

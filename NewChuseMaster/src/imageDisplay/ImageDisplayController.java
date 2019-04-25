@@ -146,7 +146,6 @@ public class ImageDisplayController  implements Initializable {
 	public void exit() {
 		root.getChildren().removeAll();
 		root.setVisible(false);
-		System.gc();
 	}
 	
 }

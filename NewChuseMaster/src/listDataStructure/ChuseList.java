@@ -140,5 +140,9 @@ public class ChuseList {
 	public void setAuthor(String author) {
 		Author = author;
 	}
+	
+	public void setListName(String name){
+		list_name = name;
+	}
 
 }

@@ -46,6 +46,7 @@ public abstract class YouTubeAPIHandler {
 	 * 
 	 **/
 	
+	
     /** Application name. */
     private static final String APPLICATION_NAME = "Chuse";
 

@@ -13,7 +13,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
 import backEnd.BackEndContainer;
-import cloudInteraction.UploadingScreenController;
 import comparisonScreenGUI.ComparisonScreenController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -219,9 +218,6 @@ public class ResultsScreenController implements Initializable {
 			bottom_container.getChildren().remove(results_box_container);
 		}
 		
-		this.save_as_button.setLayoutX(bottom_container.getWidth());
-		this.save_button.setLayoutX(bottom_container.getWidth());
-		
 	}
 	
 	@FXML
@@ -259,11 +255,21 @@ public class ResultsScreenController implements Initializable {
     		back_end.updateSaveListToXML(back_end.getCurrentListFileName());
     		
     		if(back_end.getLocalAccount() != null && saveListOnline) {
-    			showListUploadScreen();
-    			//back_end.uploadList(back_end.getCurrentListFileName(), shareListPublicly);
+    			back_end.uploadList(back_end.getCurrentListFileName(), shareListPublicly);
     		} else if(back_end.getLocalAccount() != null && shareResults) {
     			
     			back_end.uploadResults();
+    			
+//    			System.out.println(back_end.getListOwner());
+//    			System.out.println(back_end.getCurrentListFileName());
+//    			
+//    			String xml_file = back_end.getCurrentListFileName().replaceFirst("-" + back_end.getLocalAccount().getUsername() + ".xml", ".xml");
+//    			
+//    			String folder_name = FilenameUtils.getBaseName(xml_file);
+//    			
+//    			String account_id = back_end.getAccountId(back_end.getListOwner());
+//    			
+//    			System.out.println(account_id + "/public/" + folder_name + "/" + FilenameUtils.getName(back_end.getCurrentListFileName()));
     			
     		}
     		
@@ -272,19 +278,6 @@ public class ResultsScreenController implements Initializable {
     		save_as_button.fireEvent(action);
     	}
 
-	}
-	
-	private void showListUploadScreen() {
-		try {
-			FXMLLoader loader = new FXMLLoader(cloudInteraction.UploadingScreenController.class.getResource("UploadingScreen.fxml"));
-			UploadingScreenController controller = new UploadingScreenController(back_end, back_end.getCurrentListFileName(), shareListPublicly);
-			loader.setController(controller);
-			BorderPane new_pane = loader.load();
-			showInSelf(new_pane);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	@FXML
@@ -308,8 +301,7 @@ public class ResultsScreenController implements Initializable {
     		back_end.saveCurrentListToXML(new_file.getAbsolutePath());
 
     		if(back_end.getLocalAccount() != null && saveListOnline) {
-    			showListUploadScreen();
-    			//back_end.uploadList(new_file.getAbsolutePath(), shareListPublicly);
+    			back_end.uploadList(new_file.getAbsolutePath(), shareListPublicly);
     		}
     		
     	}
@@ -336,8 +328,6 @@ public class ResultsScreenController implements Initializable {
     	root.setCenter(new_pane);
     	
     	root.requestFocus();
-    	
-    	System.gc();
 	
     }
 	

@@ -138,8 +138,6 @@ public class ManualTextScreenController {
     	root.getChildren().removeAll();
     	root.getChildren().add(new_pane);
     	root.requestFocus();
-    	
-    	System.gc();
 	
     }
 	
