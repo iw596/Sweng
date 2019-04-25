@@ -78,6 +78,8 @@ public class InterImageController {
     	root.setCenter(new_pane);
     	root.requestFocus();
 	
+    	System.gc();
+    	
     }
 
 }

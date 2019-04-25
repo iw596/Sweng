@@ -19,6 +19,7 @@ import listDataStructure.RankingList;
 import mediaFileImportHandling.AudioFileHandler;
 import mediaFileImportHandling.ImageFileHandler;
 import mediaFileImportHandling.TextFileHandler;
+import mediaFileImportHandling.VideoFileHandler;
 import xmlHandling.XMLHandler;
 
 /**
@@ -65,6 +66,8 @@ public class BackEndContainer {
 	private String current_list_file_name;
 	
 	private String list_owner;
+	
+	private Boolean wasAccountCreated = false;
 	
 	/**
 	 * Constructor function for the BackEndContainer object. Sets the current list and
@@ -130,6 +133,21 @@ public class BackEndContainer {
 		current_list.addItemArray(audio_items);
 		original_list.addItemArray(audio_items);
 		
+	}
+	
+	/** Method to create a new list of video items by selecting a collection of video items from
+	 * a local file browser.
+	 * @param stage
+	 */
+	public void loadVideoFiles(Stage stage) {
+		
+		current_list = new ChuseList();
+		original_list = new ChuseList();
+		
+		ArrayList<BasicItem> video_items = VideoFileHandler.openMultipleVideoFiles(stage);
+		
+		current_list.addItemArray(video_items);
+		original_list.addItemArray(video_items);
 	}
 	
 	/**
@@ -308,8 +326,12 @@ public class BackEndContainer {
 	 * @param password	the password of the account
 	 */
 	public Boolean createAccount(String email, String username, String password, int age, String gender) {
+		
+		wasAccountCreated = false;
+		
 		if(CloudInteractionHandler.createAccount(email, username, password, age, gender)) {
 			System.out.println("Successfully created account!");
+			wasAccountCreated = true;
 			return true;
 		} else {
 			System.out.println("Account with this email or username already exists.");
@@ -347,7 +369,7 @@ public class BackEndContainer {
 	 * Method to return the locally stored account that is currently logged in.
 	 * @return	the account currently logged in, or null if not logged in
 	 */
-	public static UserAccount getLocalAccount() {
+	public UserAccount getLocalAccount() {
 		return CloudInteractionHandler.getUserAccount();
 	}
 	
@@ -479,8 +501,14 @@ public class BackEndContainer {
 
 	}
 	
-//	public void setCurrentListFileNameToNull() {
-//		this.current_list_file_name = null;
-//	}
+	public ArrayList<String> getLoggedInUsersLists(String username) {
+		
+		return CloudInteractionHandler.getAllProfileContent(username);
+		
+	}
+	
+	public Boolean wasAccountCreated() {
+		return wasAccountCreated;
+	}
 
 }

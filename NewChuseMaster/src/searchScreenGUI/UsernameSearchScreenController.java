@@ -150,6 +150,8 @@ public class UsernameSearchScreenController {
     	
     	root.setCenter(new_pane);
     	
+    	System.gc();
+    	
     }
 
 }

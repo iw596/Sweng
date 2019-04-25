@@ -50,16 +50,22 @@ public class InterVideoController {
     void importFromFilesVideo(ActionEvent event) throws IOException {
     	
     	System.out.println("Load video files.");
+    	back_end.loadVideoFiles((Stage) root.getScene().getWindow());
+    	//  back_end.loa
     	
-/*    	FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
-    	
-    	ComparisonScreenController controller = new ComparisonScreenController(back_end);
-    	
-    	loader.setController(controller);
-    	
-    	BorderPane new_pane = loader.load();
-    	showInSelf(new_pane);*/
-    	
+    	if(back_end.getCurrentListSize() < 2) {
+    		System.out.println("Nothing to compare - only one item in list.");
+    	} else {
+        	FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
+        	
+        	ComparisonScreenController controller = new ComparisonScreenController(back_end);
+        	
+        	loader.setController(controller);
+        	
+        	BorderPane new_pane = loader.load();
+        	
+        	showInSelf(new_pane);
+    	}	
     }
 
     @FXML
@@ -133,6 +139,8 @@ public class InterVideoController {
     	root.setCenter(new_pane);
     	root.requestFocus();
 	
+    	System.gc();
+    	
     }
 
 }

@@ -9,21 +9,17 @@ import static org.junit.Assert.*;
 
 import xmlHandling.*;
 
-
 /**
  * Class for testing the XML Handler's functionality.
  * 
  * Date created: 03/03/2019
  * Date last edited: 04/03/2019
  * Last edited by: Jack and Dan
- * 
- * 
  * @author Jack
  *
  */
 public class XMLHandlingTest {
 
-	
 	@Test
 	/**
 	 * The aim of this test is to see whether it can store and load with one type of class in a list.
@@ -32,7 +28,6 @@ public class XMLHandlingTest {
 	 * 
 	 * @throws Exception
 	 */
-	
 	public void createFileWithBasicItem() throws Exception {
 
 		ChuseList test_list = new ChuseList("Test_1_XML");
@@ -84,7 +79,6 @@ public class XMLHandlingTest {
 	 * The aim of this test is to see whether it can store and load with multiple types of classes in a list.
 	 * @throws Exception
 	 */
-	
 	public void createFileWithImageItem() throws Exception {
 		
 		ChuseList test_list = new ChuseList("Test_2_XML");
@@ -129,9 +123,8 @@ public class XMLHandlingTest {
 		System.out.println(test_list.getTitleAtIndex(3) + " : \t is class type " + test_list.get(3).getType());
 		System.out.println("\n");
 		*/
-		
 	}
-
+	
 	
 	
 	@Test

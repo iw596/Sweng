@@ -36,7 +36,7 @@
             </ScrollPane>
          </center>
          <bottom>
-            <HBox fx:id="bottom_container" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: white; -fx-spacing: 24;" BorderPane.alignment="CENTER">
+            <HBox fx:id="bottom_container" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: white; -fx-spacing: 12;" BorderPane.alignment="CENTER">
                <children>
                   <JFXButton fx:id="define_button" alignment="CENTER" buttonType="RAISED" onMouseClicked="#defineList" prefHeight="50.0" prefWidth="128.0" ripplerFill="#003cff" style="-fx-background-color: #87cefa;" text="Further Define List" textAlignment="CENTER" textFill="WHITE">
                      <font>
@@ -46,8 +46,8 @@
                         <Insets left="24.0" />
                      </HBox.margin>
                   </JFXButton>
-                  <JFXButton fx:id="save_button" buttonType="RAISED" onMouseClicked="#saveList" prefHeight="50.0" prefWidth="83.0" style="-fx-background-color: #90ee90;" text="Save List" textAlignment="CENTER" textFill="WHITE" />
-                  <JFXButton fx:id="save_as_button" buttonType="RAISED" onMouseClicked="#saveAsList" prefHeight="50.0" prefWidth="78.0" style="-fx-background-color: #90ee90;" text="Save As List" textAlignment="CENTER" textFill="WHITE" />
+                  <JFXButton fx:id="save_button" buttonType="RAISED" onMouseClicked="#saveList" prefHeight="50.0" prefWidth="83.0" style="-fx-background-color: #90ee90;" text="Save" textAlignment="CENTER" textFill="WHITE" />
+                  <JFXButton fx:id="save_as_button" buttonType="RAISED" onMouseClicked="#saveAsList" prefHeight="50.0" prefWidth="78.0" style="-fx-background-color: #90ee90;" text="Save As" textAlignment="CENTER" textFill="WHITE" />
                   <VBox fx:id="check_box_container" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="12.0">
                      <HBox.margin>
                         <Insets right="24.0" />

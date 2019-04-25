@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id User="">
+  <page>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>The Plan</title>
+      <path>C:\Users\Dan\Sweng\NewChuseMaster\saves\Built To Spill\The Plan.flac</path>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Center of the Universe</title>
+      <path>C:\Users\Dan\Sweng\NewChuseMaster\saves\Built To Spill\Center of the Universe.flac</path>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Carry the Zero</title>
+      <path>C:\Users\Dan\Sweng\NewChuseMaster\saves\Built To Spill\Carry the Zero.flac</path>
+    </multimedia>
+  </page>
+</id>

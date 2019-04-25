@@ -71,11 +71,10 @@ public class PreviewListController implements Initializable {
      * @param username		the user name of the user the list belongs to
      * @param cloud_path	the path to the list XML file on the cloud
      */
-    public PreviewListController(BackEndContainer back_end, String username, String cloud_path) {
+    public PreviewListController(BackEndContainer back_end, String username) {
     	this.back_end = back_end;
     	this.username = username;
-    	this.cloud_path = cloud_path;
-    	this.list_name = FilenameUtils.getName(cloud_path);
+    	this.list_name = FilenameUtils.getBaseName(back_end.getCurrentListFileName());
     }
     
     
@@ -107,24 +106,26 @@ public class PreviewListController implements Initializable {
 		username_label.setText(username);
 		list_title.setText(list_name);
 		
-		try {
-			
-			System.out.println(FilenameUtils.getPath(cloud_path));
-			
-			if(!back_end.downloadList(FilenameUtils.getPath(cloud_path))) {
-				failure_comment.setText("Failed to download list.");
-			}
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			
+//			System.out.println(FilenameUtils.getPath(cloud_path));
+//			
+//			if(!back_end.downloadList(FilenameUtils.getPath(cloud_path))) {
+//				failure_comment.setText("Failed to download list.");
+//			}
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		for (int i=0;i<back_end.getCurrentListSize();i++) {
 			PublicListItem item = new PublicListItem(back_end.getCurrentList().get(i).getTitle(),"");
 			items_pane.getChildren().add(item.getHBox());
 		
 		}
+		
+		start_button.setLayoutX(-1);
 		
 		root.requestFocus();
 		
@@ -148,6 +149,8 @@ public class PreviewListController implements Initializable {
     	root.setCenter(new_pane);
     	
     	root.requestFocus();
+    	
+    	System.gc();
 	
     }
 	

@@ -60,7 +60,10 @@
          <bottom>
             <HBox alignment="CENTER" prefHeight="65.0" prefWidth="640.0" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton fx:id="start_button" buttonType="RAISED" onAction="#startComparison" prefHeight="35.0" prefWidth="106.0" style="-fx-border-color: #828282; -fx-border-radius: 2;" text="Complete List" />
+                  <JFXButton fx:id="start_button" buttonType="RAISED" graphicTextGap="0.0" onAction="#startComparison" prefHeight="35.0" prefWidth="106.0" style="-fx-border-color: #828282; -fx-border-radius: 2;" text="Complete List">
+                     <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                     </padding></JFXButton>
                   <Text fx:id="failure_comment" fill="#e10808" strokeType="OUTSIDE" strokeWidth="0.0">
                      <HBox.margin>
                         <Insets left="12.0" />
