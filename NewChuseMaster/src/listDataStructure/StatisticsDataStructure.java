@@ -45,7 +45,9 @@ public class StatisticsDataStructure{
 		result_list = new ArrayList<Result>();
 		
 		// This is for testing purposes
-		addResult(new UserAccount("Jack@mail.com", "Jack", "22", "Male"), temp);
+		String gender = CloudInteractionHandler.queryUserAccountByProperty("username", list.getAuthor()).next().getString("gender");
+		String age = CloudInteractionHandler.queryUserAccountByProperty("username", list.getAuthor()).next().getString("age");
+		addResult(new UserAccount("null", list.getAuthor(), age, gender), temp);
 		// The actual code when in use with the application
 		// addResult(BackEndContainer.getLocalAccount(), temp);
 		
@@ -54,8 +56,8 @@ public class StatisticsDataStructure{
 		UserAccount temp_user;
 		
 		for (int j = 0; j < results_files.size(); j++){
-			String gender = CloudInteractionHandler.queryUserAccountByProperty("username", results_files.get(j)).next().getString("gender");
-			String age = CloudInteractionHandler.queryUserAccountByProperty("username", results_files.get(j)).next().getString("age");
+			gender = CloudInteractionHandler.queryUserAccountByProperty("username", results_files.get(j)).next().getString("gender");
+			age = CloudInteractionHandler.queryUserAccountByProperty("username", results_files.get(j)).next().getString("age");
 			
 			temp_user = new UserAccount("null", results_files.get(j), age, gender);
 			

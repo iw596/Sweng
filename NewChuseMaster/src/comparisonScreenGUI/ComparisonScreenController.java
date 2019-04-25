@@ -22,7 +22,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import listDataStructure.BasicItem;
 import resultsScreenGUI.ResultsScreenController;
-import videoPlayback.Player;
 import videoPlayback.YoutubeController;
 
 /**
@@ -30,8 +29,8 @@ import videoPlayback.YoutubeController;
  * and holds a reference to the back-end code of the program for communication.
  * 
  * Date created: 13/03/2019
- * Date last edited: 25/04/2019
- * Last edited by: Isaac Watson
+ * Date last edited: 15/04/2019
+ * Last edited by: Dan Jackson and Isaac Watson
  * 
  * @author Dan Jackson
  *
@@ -54,8 +53,6 @@ public class ComparisonScreenController implements Initializable {
     private JFXButton right_button;
     
     private ArrayList<AppController> audio_controllers;
-   
-    private ArrayList<Player> video_controllers;
     
     private ArrayList<ImageDisplayController> image_controllers;
     
@@ -70,7 +67,6 @@ public class ComparisonScreenController implements Initializable {
     	back_end.startComparison();
     	audio_controllers = new ArrayList<AppController>();
     	image_controllers = new ArrayList<ImageDisplayController>();
-    	video_controllers = new ArrayList<Player>();
     }
     
     @FXML
@@ -88,15 +84,7 @@ public class ComparisonScreenController implements Initializable {
     		for(int i = 0; i < image_controllers.size(); i++) {
     			image_controllers.get(i).exit();
     		}
-    	}/*else if(video_controllers.size() > 0) {
-    		System.out.println(video_controllers.size());
-    		for(int i = 0; i < video_controllers.size(); i++) {
-    			video_controllers.get(i).exit();
-    		}
-    		video_controllers.remove(1);
-    		video_controllers.remove(0);
-
-    	} */
+    	}
     	
     	oddCheck();
     	
@@ -122,17 +110,7 @@ public class ComparisonScreenController implements Initializable {
     		for(int i = 0; i < image_controllers.size(); i++) {
     			image_controllers.get(i).exit();
     		}
-    	} /*else if(video_controllers.size() > 0) {
-    		System.out.println(video_controllers.size());
-    		for(int i = 0; i < video_controllers.size(); i++) {
-    			video_controllers.get(i).exit();
- 
-    			
-    		}
-    		
-    	
-    	} */
-    	
+    	}
     	
     	oddCheck();
     	
@@ -181,14 +159,6 @@ public class ComparisonScreenController implements Initializable {
     		
     		//if the round is over, stores the results from the round
     		back_end.getComparison().storeResults();
-    		
-    		// If round over and uses video player then need to silence players
-    		if(video_controllers.size() > 0) {
-        		System.out.println(video_controllers.size());
-        		for(int i = 0; i < video_controllers.size(); i++) {
-        			video_controllers.get(i).exit();	
-        		}
-    		}
     		
     		//checks if the entire tournament is over
         	if(back_end.getComparison().isFinished()) {
@@ -260,34 +230,26 @@ public class ComparisonScreenController implements Initializable {
 		
 		BasicItem left_object = back_end.getComparison().getCurrentPair().get(0);
 		BasicItem right_object = back_end.getComparison().getCurrentPair().get(1);
-		System.out.println(left_object.getType());
-
+		
 		left_content.getChildren().removeAll();
 		right_content.getChildren().removeAll();
 		
 		//if the left object is a video item, instantiate the video player
-		if(left_object.getType().equals("VideoItem") ||left_object.getType().equals("YouTubeItem") && video_controllers.size() != 2) {
-			instantiateVideoPlayer(left_object, left_content);
+		if(left_object.getType().equals("VideoItem")) {
+			instantiateYouTubePlayer(left_object, left_content);
 		} else if(left_object.getType().equals("ImageItem")) {
 			instantiateImageViewer(left_object, left_content);
 		} else if(left_object.getType().equals("AudioItem")) {
 			instantiateAudioPlayer(left_object, left_content);
-		} else if (left_object.getType().equals("VideoItem")||left_object.getType().equals("YouTubeItem") && video_controllers.size() == 2){
-			System.out.println("Greater than two videos");
-			changeVideoPlayerVideo(left_object.getPath(),0);
-			
 		}
 		
 		//if the right object is a video item, instantiate the video player
-		if(right_object.getType().equals("VideoItem")||right_object.getType().equals("YouTubeItem") && video_controllers.size() != 2 ) {
-			instantiateVideoPlayer(right_object, right_content);
+		if(right_object.getType().equals("VideoItem")) {
+			instantiateYouTubePlayer(right_object, right_content);
 		} else if(right_object.getType().equals("ImageItem")) {
 			instantiateImageViewer(right_object, right_content);
 		} else if(right_object.getType().equals("AudioItem")) {
 			instantiateAudioPlayer(right_object, right_content);
-		} else if (right_object.getType().equals("VideoItem")||right_object.getType().equals("YouTubeItem") && video_controllers.size() == 2){
-			System.out.println("Greater than two videos");
-			changeVideoPlayerVideo(right_object.getPath(),1);
 		}
 		
 	}
@@ -389,55 +351,6 @@ public class ComparisonScreenController implements Initializable {
 		
 	}
 	
-	private void instantiateVideoPlayer(BasicItem item, Pane pane) {
-		System.out.println("Called");
-		NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
-		//NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
-		System.out.println(item.getPath());
-		String [] paths = {item.getPath()};
-		System.out.println(paths[0]);
-		Player player = new Player((int) pane.getWidth(),(int) pane.getHeight());
-		if (video_controllers.size() == 0){
-			System.out.println("Added first item");
-			System.out.println("Size is now: " + video_controllers.size());
-			video_controllers.add(player);
-			//video_controllers.add(player);
-			StackPane.setAlignment(player, Pos.CENTER);
-			pane.getChildren().add(player);
-			player.loadPaths(paths);
-			// Set width and height preferences
-			player.prefWidthProperty().bind(pane.widthProperty());
-			player.prefHeightProperty().bind(pane.heightProperty());
-			player.minWidthProperty().bind(pane.minWidthProperty());
-			player.minHeightProperty().bind(pane.minHeightProperty());
-			player.maxWidthProperty().bind(pane.maxWidthProperty());
-			player.maxHeightProperty().bind(pane.maxHeightProperty());
-			
-		}
-		else if (video_controllers.size() == 1){
-			System.out.println("Added first item");
-			System.out.println("Size is now: " + video_controllers.size());
-			video_controllers.add(player);
-			//video_controllers.add(player);
-			StackPane.setAlignment(player, Pos.CENTER);
-			pane.getChildren().add(player);
-			player.loadPaths(paths);
-			// Set width and height preferences
-			player.prefWidthProperty().bind(pane.widthProperty());
-			player.prefHeightProperty().bind(pane.heightProperty());
-			player.minWidthProperty().bind(pane.minWidthProperty());
-			player.minHeightProperty().bind(pane.minHeightProperty());
-			player.maxWidthProperty().bind(pane.maxWidthProperty());
-			player.maxHeightProperty().bind(pane.maxHeightProperty());
-			
-		} 
-
-	}
-	
-	private void changeVideoPlayerVideo (String file_path, int index_player){
-		video_controllers.get(index_player).changeVideo(file_path);	
-	}
-	
     /**
      * Method to display another .fxml file within the current screen and bind its resize properties to that of
      * the current screen.
@@ -454,17 +367,9 @@ public class ComparisonScreenController implements Initializable {
     	
     	new_pane.setManaged(true);
     	
-    	root.getChildren().clear();
-    	
     	root.setCenter(new_pane);
     	
     	root.requestFocus();
-    	
-    	audio_controllers = null;
-    	image_controllers = null;
-    	video_controllers = null;
-    	
-    	System.gc();
 	
     }
 	

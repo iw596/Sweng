@@ -27,8 +27,8 @@ public class Result{
 		this.user = user;
 	}
 
-	public RankingList getRankingList(int index) {
-		return results.get(index);
+	public ArrayList<RankingList> getRankingList() {
+		return results;
 	}
 
 	public void setResults(ArrayList<RankingList> results) {
