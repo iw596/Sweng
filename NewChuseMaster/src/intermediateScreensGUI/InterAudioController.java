@@ -11,7 +11,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import spotifyauth.AuthorisationURI;
 
 /**
  * Class for the intermediate audio screen controller. This class handles all button listeners and interactivity
@@ -74,8 +77,13 @@ public class InterAudioController {
      * Method to open the Spotify import window.
      * @param event
      */
-    void importFromSpotifyAudio(ActionEvent event) {
+    void importFromSpotifyAudio(ActionEvent event) throws Exception {
     	System.out.println("Import from spotify");
+    	
+    	FXMLLoader loader = new FXMLLoader(spotifyGUI.SpotifyAuthController.class.getResource("SpotifyAuthPage.fxml"));    	
+    	BorderPane new_pane = loader.load();
+    	showInSelf(new_pane);
+		
     }
     
     /**
