@@ -67,6 +67,8 @@ public class BackEndContainer {
 	
 	private String list_owner;
 	
+	private Boolean wasAccountCreated = false;
+	
 	/**
 	 * Constructor function for the BackEndContainer object. Sets the current list and
 	 * current results equal to null.
@@ -324,8 +326,12 @@ public class BackEndContainer {
 	 * @param password	the password of the account
 	 */
 	public Boolean createAccount(String email, String username, String password, int age, String gender) {
+		
+		wasAccountCreated = false;
+		
 		if(CloudInteractionHandler.createAccount(email, username, password, age, gender)) {
 			System.out.println("Successfully created account!");
+			wasAccountCreated = true;
 			return true;
 		} else {
 			System.out.println("Account with this email or username already exists.");
@@ -499,6 +505,10 @@ public class BackEndContainer {
 		
 		return CloudInteractionHandler.getAllProfileContent(username);
 		
+	}
+	
+	public Boolean wasAccountCreated() {
+		return wasAccountCreated;
 	}
 
 }

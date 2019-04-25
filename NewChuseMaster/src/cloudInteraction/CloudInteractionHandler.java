@@ -281,10 +281,6 @@ public class CloudInteractionHandler {
 
 	}
 	
-//	public static Boolean uploadResults(String filepath, String author_username) {
-//		
-//	}
-	
 	/**
 	 * Method to download a list from a given path in the user's cloud storage area.
 	 * 

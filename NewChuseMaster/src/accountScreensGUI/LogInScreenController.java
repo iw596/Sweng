@@ -6,6 +6,9 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 
 import backEnd.BackEndContainer;
+import cloudInteraction.RunnableLogIn;
+import cloudInteraction.RunnableSignUp;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,6 +20,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import multithreading.NotifyingThread;
+import multithreading.ThreadTerminationListener;
 import sidebarContainerGUI.MasterScreenController;
 
 /**
@@ -30,7 +35,7 @@ import sidebarContainerGUI.MasterScreenController;
  * @authors Aeri and Jack
  *
  */
-public class LogInScreenController implements Initializable{
+public class LogInScreenController implements Initializable, ThreadTerminationListener {
 	
 	//the list for the gender choice box
 	private ObservableList<String> gender_list = (ObservableList<String>)FXCollections.observableArrayList("Male", "Female", "Other", "Prefer not to say"); 
@@ -93,6 +98,10 @@ public class LogInScreenController implements Initializable{
     @FXML
     private Text login_comment;
     
+    private RunnableLogIn login = null;
+    
+    private RunnableSignUp sign_up = null;
+    
     /**
      * Constructor for the Log In Screen Controller, required to pass the back end and sidebar controller references
      * into the controller.
@@ -120,19 +129,27 @@ public class LogInScreenController implements Initializable{
     		return;
     	}
     	
-    	//logs in and checks that the account can be logged into successfully
-    	if(this.back_end.logIn(login_email.getText(), login_password.getText())){
-    		//if it can, removes all the entered text
-    		login_email.setText("");
-    		login_password.setText("");
-    		//sets the username text in the top right hand corner to the account's username
-    		sidebar.setUsernameText(back_end.getLocalAccount().getUsername());
-    		//sets the comment text to a success message
-    		login_comment.setText("Logged in successfully!");
-    	} else {
-    		//sets the comment text to a failure message
-    		login_comment.setText("Unable to log in. Email or password incorrect.");
-    	}
+    	login = new RunnableLogIn(back_end, login_email.getText(), login_password.getText());
+    	
+    	login.addTerminationListener(this);
+    	
+    	Thread thread = new Thread(login);
+    	
+    	thread.start();
+    	
+//    	//logs in and checks that the account can be logged into successfully
+//    	if(this.back_end.logIn(login_email.getText(), login_password.getText())){
+//    		//if it can, removes all the entered text
+//    		login_email.setText("");
+//    		login_password.setText("");
+//    		//sets the username text in the top right hand corner to the account's username
+//    		sidebar.setUsernameText(back_end.getLocalAccount().getUsername());
+//    		//sets the comment text to a success message
+//    		login_comment.setText("Logged in successfully!");
+//    	} else {
+//    		//sets the comment text to a failure message
+//    		login_comment.setText("Unable to log in. Email or password incorrect.");
+//    	}
     	
     }
 
@@ -159,21 +176,31 @@ public class LogInScreenController implements Initializable{
     		return;
     	}
 
-    	//creates an account and checks that the account can be created successfully
-    	if(this.back_end.createAccount(create_email.getText(), create_username.getText(), create_password.getText(), Integer.parseInt(age.getText()), gender.getSelectionModel().getSelectedItem())) {
-    		//displays success message
-    		sign_up_comment.setText("Account created successfully!");
-    		//removes all entered text and gender selection
-    		create_email.setText("");
-    		create_username.setText("");
-    		create_password.setText("");
-    		confirm_password.setText("");
-    		age.setText("");
-    		gender.getSelectionModel().clearSelection();
-    	} else {
-    		//displays an error message
-    		sign_up_comment.setText("Account with this username or email already in use.");
-    	}
+    	sign_up = new RunnableSignUp(back_end, create_email.getText(),
+    			create_password.getText(), create_username.getText(),
+    			gender.getSelectionModel().getSelectedItem(), Integer.parseInt(age.getText()));
+    	
+    	sign_up.addTerminationListener(this);
+    	
+    	Thread thread = new Thread(sign_up);
+    	
+    	thread.start();
+    	
+//    	//creates an account and checks that the account can be created successfully
+//    	if(this.back_end.createAccount(create_email.getText(), create_username.getText(), create_password.getText(), Integer.parseInt(age.getText()), gender.getSelectionModel().getSelectedItem())) {
+//    		//displays success message
+//    		sign_up_comment.setText("Account created successfully!");
+//    		//removes all entered text and gender selection
+//    		create_email.setText("");
+//    		create_username.setText("");
+//    		create_password.setText("");
+//    		confirm_password.setText("");
+//    		age.setText("");
+//    		gender.getSelectionModel().clearSelection();
+//    	} else {
+//    		//displays an error message
+//    		sign_up_comment.setText("Account with this username or email already in use.");
+//    	}
     	
     }
     
@@ -258,4 +285,96 @@ public class LogInScreenController implements Initializable{
 		
 	}
 
+	@Override
+	public void notifyOfThreadTermination(NotifyingThread thread) {
+		// TODO Auto-generated method stub
+
+		if(login != null && thread.toString().equals(login.toString())) {
+			logIn();
+		} else {
+			signUp();
+		}
+	}
+	
+	private void logIn() {
+		if(back_end.getLocalAccount() == null) {
+			//sets the comment text to a failure message
+			
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					login_comment.setText("Unable to log in. Email or password incorrect.");
+				}
+			});
+			
+			return;
+		}
+		
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				//if it can, removes all the entered text
+				login_email.setText("");
+				login_password.setText("");
+				//sets the username text in the top right hand corner to the account's username
+				sidebar.setUsernameText(back_end.getLocalAccount().getUsername());
+				//sets the comment text to a success message
+				login_comment.setText("Logged in successfully!");
+			}
+			
+		});
+	}
+
+	private void signUp() {
+		
+		if(!back_end.wasAccountCreated()) {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					//displays an error message
+		    		sign_up_comment.setText("Account with this username or email already in use.");
+				}
+			});
+			return;
+		}
+		
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+	    		//displays success message
+	    		sign_up_comment.setText("Account created successfully!");
+	    		//removes all entered text and gender selection
+	    		create_email.setText("");
+	    		create_username.setText("");
+	    		create_password.setText("");
+	    		confirm_password.setText("");
+	    		age.setText("");
+	    		gender.getSelectionModel().clearSelection();
+			}
+			
+		});
+		
+//    	//creates an account and checks that the account can be created successfully
+//    	if(this.back_end.createAccount(create_email.getText(), create_username.getText(), create_password.getText(), Integer.parseInt(age.getText()), gender.getSelectionModel().getSelectedItem())) {
+//    		//displays success message
+//    		sign_up_comment.setText("Account created successfully!");
+//    		//removes all entered text and gender selection
+//    		create_email.setText("");
+//    		create_username.setText("");
+//    		create_password.setText("");
+//    		confirm_password.setText("");
+//    		age.setText("");
+//    		gender.getSelectionModel().clearSelection();
+//    	} else {
+//    		//displays an error message
+//    		sign_up_comment.setText("Account with this username or email already in use.");
+//    	}
+		
+		
+	}
+	
 }

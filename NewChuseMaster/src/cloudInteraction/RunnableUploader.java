@@ -11,17 +11,17 @@ public class RunnableUploader extends NotifyingThread {
 	
 	private BackEndContainer back_end;
 	
-	private Boolean makePublic;
+	private Boolean makeListPublic;
 	
-	public RunnableUploader(BackEndContainer back_end, String local_path, Boolean makePublic) {
+	public RunnableUploader(BackEndContainer back_end, String local_path, Boolean makeListPublic) {
 		this.back_end = back_end;
 		this.local_path = local_path;
-		this.makePublic = makePublic;
+		this.makeListPublic = makeListPublic;
 	}
 	
 	@Override
 	public void doRun() {
-		back_end.uploadList(local_path, makePublic);
+		back_end.uploadList(local_path, makeListPublic);
 	}
 
 }
