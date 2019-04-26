@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<BorderPane fx:id="chrome_view" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController03">
+   <left>
+      <JFXButton onMouseClicked="#track01_selected" prefHeight="76.0" prefWidth="182.0" text="Track 01" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <JFXButton onMouseClicked="#track02_selected" prefHeight="80.0" prefWidth="175.0" text="Track 02" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <JFXButton onMouseClicked="#PlayPause" text="Play/Pause" BorderPane.alignment="CENTER" />
+   </center>
+   <top>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text fx:id="track_title" strokeType="OUTSIDE" strokeWidth="0.0" text="Title:" wrappingWidth="629.04296875">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="track_artist" strokeType="OUTSIDE" strokeWidth="0.0" text="Artist: ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="track_album" strokeType="OUTSIDE" strokeWidth="0.0" text="Album:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
+   </top>
+   <bottom>
+      <ImageView fx:id="IV" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>
