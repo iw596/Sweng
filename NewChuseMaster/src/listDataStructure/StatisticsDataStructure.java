@@ -1,7 +1,11 @@
 package listDataStructure;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 import cloudInteraction.CloudInteractionHandler;
 import cloudInteraction.UserAccount;
 import xmlHandling.XMLHandler;
@@ -11,6 +15,15 @@ public class StatisticsDataStructure{
 	private ChuseList list;
 	
 	private ArrayList<Result> result_list;
+	
+	/**
+	 * 
+	 */
+	public StatisticsDataStructure(){
+		this.list = new ChuseList();
+		this.result_list = new ArrayList<Result>();
+		
+	}
 	
 	/**
 	 * This constructs all data on list across multiple files for the statistics
@@ -115,4 +128,120 @@ public class StatisticsDataStructure{
 		return result_list;
 	}
 	
+	public StatisticsDataStructure getDataForGivenAgeRange(int low, int high){
+		
+		StatisticsDataStructure ageGroupResults = new StatisticsDataStructure();
+		ageGroupResults.list = this.list;
+		Result result;
+		
+		for(int i = 0; i < this.getResultList().size(); i++){
+			if((this.getResultList().get(i).getUser().getAge() >= low) 
+				&& (this.getResultList().get(i).getUser().getAge() <= high)){
+				
+				result = this.getResultList().get(i);
+				ageGroupResults.getResultList().add(result);
+			}
+		}
+		
+		return ageGroupResults;
+	}
+	
+	public StatisticsDataStructure getDataForGivenGender(String gender){
+		
+		StatisticsDataStructure genderGroupResults = new StatisticsDataStructure();
+		genderGroupResults.list = this.list;
+		
+		for(int i = 0; i < this.getResultList().size(); i++){
+			if(this.getResultList().get(i).getUser().getGender().equals(gender)){
+				genderGroupResults.getResultList().add(this.getResultList().get(i));
+			}
+		}
+		
+		return genderGroupResults;
+	}
+	
+	public StatisticsDataStructure getDataForGivenTimeRange(Date start, Date end){
+		
+		StatisticsDataStructure timeRangeResults = new StatisticsDataStructure();
+		timeRangeResults = this;
+		
+		
+		for(int i = 0; i < timeRangeResults.getResultList().size(); i++){
+			for(int j = 0; j < timeRangeResults.getResultList().get(i).getRankingList().size(); j++){
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				
+				Date temp;
+				
+				try {
+					temp = sdf.parse(timeRangeResults.getResultList().get(i).getRankingList().get(j).getTime().substring(0, 10));
+					if ((start.compareTo(temp) > 0) || (end.compareTo(temp) < 0)){
+						timeRangeResults.getResultList().get(i).getRankingList().remove(j);
+					}
+					
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+			}
+			if (timeRangeResults.getResultList().get(i).getRankingList().isEmpty()){
+				timeRangeResults.getResultList().remove(i);
+			}
+		}
+		
+		return timeRangeResults;
+	}
+	
+	public int getNumberOfWins(String item){
+		int wins = 0;
+		
+		for(int i = 0; i < this.getResultList().size(); i++){
+			for(int j = 0; j < this.getResultList().get(i).getRankingList().size(); j++){
+				if (this.getResultList().get(i).getRankingList().get(j).get(0).getWrappedItem().getTitle().equals(item)){
+					wins++;
+				}
+			}
+		}
+		
+		return wins;
+	}
+	
+	public int getNumberOfResults(){
+		int results = 0;
+		
+		for(int i = 0; i < this.getResultList().size(); i++){
+			for(int j = 0; j < this.getResultList().get(i).getRankingList().size(); j++){
+				results++;
+			}
+		}
+		
+		return results;
+	}
+	
+	public double getAverageScore(String item){
+		int number_of_results = this.getNumberOfResults();
+		double score = 0;
+		if(number_of_results != 0){
+		
+		int number_of_items = this.getList().getSize();
+		
+		for(int i = 0; i < this.getResultList().size(); i++){
+			for(int j = 0; j < this.getResultList().get(i).getRankingList().size(); j++){
+				for(int k = 0; k < this.getResultList().get(i).getRankingList().get(j).getSize(); k++){
+					if(this.getResultList().get(i).getRankingList().get(j).get(k).getWrappedItem().getTitle().equals(item)){
+						score += number_of_items - k;
+						continue;
+					}
+				}
+			}
+		}
+		
+		score = score/this.getNumberOfResults();
+		}
+		
+		return score;
+	}
+	
 }
+
