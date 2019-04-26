@@ -56,8 +56,7 @@ public class SpotifyItem extends BasicItem implements ListInterface {
 		System.out.println("Title: " + this.getTitle());
 		System.out.println("Artist: " + this.metadata.get(1));
 		System.out.println("Album: " + this.metadata.get(2));
-		System.out.println("Date: " + this.metadata.get(3));
-		System.out.println("Genre: " + this.metadata.get(4));
+		System.out.println("Length: " + this.metadata.get(3) + "minutes");
 	}
 	
 	/**
