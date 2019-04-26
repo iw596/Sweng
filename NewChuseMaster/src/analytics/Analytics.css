@@ -1,0 +1,31 @@
+
+
+
+
+.chart-title {
+  -fx-font-size: 1em;
+}
+
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+
+/* This part gives the line colour to the area chart (currently limited to 3) */
+.default-color0.chart-series-area-line { -fx-stroke: #F9CCAC; }
+.default-color1.chart-series-area-line { -fx-stroke: #E96A8E; }
+.default-color2.chart-series-area-line { -fx-stroke: #973490; }
+ 
+ 
+ /* Adds the same colour to the area underneath each line and setting its opacity to 50% */
+.default-color0.chart-series-area-fill { -fx-fill: #F9CCAC; }
+.default-color0.chart-series-area-fill { -fx-opacity: 0.5 }
+
+.default-color1.chart-series-area-fill { -fx-fill: #E96A8E; }
+.default-color1.chart-series-area-fill { -fx-opacity: 0.5 }
+
+.default-color2.chart-series-area-fill { -fx-fill: #973490; }
+.default-color2.chart-series-area-fill { -fx-opacity: 0.5 }
+
+
