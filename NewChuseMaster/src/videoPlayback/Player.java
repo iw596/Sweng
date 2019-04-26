@@ -599,11 +599,22 @@ public class Player extends BorderPane {
 		public void exit() {
 			// TODO Auto-generated method stub
 			if (media_player_component.getMediaPlayer().isPlaying() == true){
-				this.media_player_component.getMediaPlayer().pause();;
+				this.media_player_component.getMediaPlayer().pause();
 			}
 			//this.controls.media_player_component.getMediaPlayer().pause();
 			//media_player_component.getMediaPlayer().release();
 			
+		}
+		public void fullExit() {
+			if (media_player_component.getMediaPlayer().isPlaying() == true){
+				this.media_player_component.getMediaPlayer().pause();
+			}
+			//this.controls.media_player_component.getMediaPlayer().pause();
+			media_player_component.getMediaPlayer().release();
+		}
+		public void changeVideo(String file_path){
+			this.media_player_component.getMediaPlayer().prepareMedia(file_path);
+			this.media_player_component.getMediaPlayer().play();
 		}
 	    
 
