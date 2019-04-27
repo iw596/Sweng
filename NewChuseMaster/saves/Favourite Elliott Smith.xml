@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id User="">
+  <page>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Speed Trials</title>
+      <path>C:\Users\Dan\Music\Music\Elliott Smith\Either_Or\01 Speed Trials.m4a</path>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Alameda</title>
+      <path>C:\Users\Dan\Music\Music\Elliott Smith\Either_Or\02 Alameda.m4a</path>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Between The Bars</title>
+      <path>C:\Users\Dan\Music\Music\Elliott Smith\Either_Or\04 Between The Bars.m4a</path>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Rose Parade</title>
+      <path>C:\Users\Dan\Music\Music\Elliott Smith\Either_Or\07 Rose Parade.m4a</path>
+    </multimedia>
+  </page>
+  <results Time="2019-04-27 14:58:35">
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Between The Bars</title>
+      <path>C:\Users\Dan\Music\Music\Elliott Smith\Either_Or\04 Between The Bars.m4a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Speed Trials</title>
+      <path>C:\Users\Dan\Music\Music\Elliott Smith\Either_Or\01 Speed Trials.m4a</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Alameda</title>
+      <path>C:\Users\Dan\Music\Music\Elliott Smith\Either_Or\02 Alameda.m4a</path>
+      <points>3</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Rose Parade</title>
+      <path>C:\Users\Dan\Music\Music\Elliott Smith\Either_Or\07 Rose Parade.m4a</path>
+      <points>3</points>
+    </multimedia>
+  </results>
+<results Time="2019-04-27 16:07:48">
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Between The Bars</title>
+      <path>C:\Users\Dan\Music\Music\Elliott Smith\Either_Or\04 Between The Bars.m4a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Speed Trials</title>
+      <path>C:\Users\Dan\Music\Music\Elliott Smith\Either_Or\01 Speed Trials.m4a</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Alameda</title>
+      <path>C:\Users\Dan\Music\Music\Elliott Smith\Either_Or\02 Alameda.m4a</path>
+      <points>3</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Rose Parade</title>
+      <path>C:\Users\Dan\Music\Music\Elliott Smith\Either_Or\07 Rose Parade.m4a</path>
+      <points>3</points>
+    </multimedia>
+  </results>
+</id>

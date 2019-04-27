@@ -126,7 +126,10 @@ public class ComparisonScreenController implements Initializable {
     		for(int i = 0; i < video_controllers.size(); i++) {
     			video_controllers.get(i).exit();
     		}
+    		
+    		video_controllers.get(1).fullExit();    		
     		video_controllers.remove(1);
+    		video_controllers.get(0).fullExit();   
     		video_controllers.remove(0);
     	} 
     	

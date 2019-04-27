@@ -501,37 +501,39 @@ public class BackEndContainer {
 
 	}
 	
+	/**
+	 * Method to get all of the currently logged in user's lists.
+	 * 
+	 * @param username	the username of the user
+	 * @return
+	 */
 	public ArrayList<String> getLoggedInUsersLists(String username) {
 		
 		return CloudInteractionHandler.getAllProfileContent(username);
 		
 	}
 	
+	/**
+	 * Method to check whether or not an account was recently created successfully.
+	 * @return
+	 */
 	public Boolean wasAccountCreated() {
 		return wasAccountCreated;
 	}
 	
-//	public ArrayList<String> getRandomPublicAccountUsernames() {
-//		
-//		QueryResults<Entity> results = CloudInteractionHandler.getRandomPublicAccounts();
-//		
-//		if(results == null) {
-//			return null;
-//		}
-//		
-//		ArrayList<String> usernames = new ArrayList<String>();
-//		
-//		while(results.hasNext()) {
-//			usernames.add(results.next().getString("username"));
-//		}
-//
-//		return usernames;
-//	}
-	
+	/**
+	 * Method to get a random selection of public lists.
+	 * @return
+	 */
 	public ArrayList<String> getRandomPublicLists() {
 		return CloudInteractionHandler.getRandomPublicLists();
 	}
 	
+	/**
+	 * Method to get an account's user name from it's ID number.
+	 * @param Id
+	 * @return
+	 */
 	public String getAccountNameFromId(int Id) {
 		
 		Entity account = CloudInteractionHandler.getUserAccountEntity(Id);

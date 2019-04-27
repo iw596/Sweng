@@ -26,6 +26,8 @@ import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.ReadOption;
+import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
+import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
@@ -516,7 +518,7 @@ public class CloudInteractionHandler {
 					.set("username", username)
 					.set("age", Integer.toString(age))
 					.set("gender", gender)
-					.set("seed", ThreadLocalRandom.current().nextInt(1, 10))
+					.set("seed", ThreadLocalRandom.current().nextInt(1, 6))
 					.set("hasStorage", false)
 					.build();
 			datastore.put(account);
@@ -760,11 +762,52 @@ public class CloudInteractionHandler {
 		
 	}
 	
+	/**
+	 * Method to get a set of 8 or less pseudo-random accounts.
+	 * 
+	 * @return	a set of 8 or less account entities
+	 */
 	public static QueryResults<Entity> getRandomPublicAccounts() {
 		
-		Query<Entity> query = Query.newEntityQueryBuilder().setKind("User Account").setFilter(PropertyFilter.eq("hasStorage", true)).setFilter(PropertyFilter.lt("seed", ThreadLocalRandom.current().nextInt(5, 10))).setLimit(8).build();
+		//generate a random integer between 1 and 5
+		int seed = ThreadLocalRandom.current().nextInt(1, 6);
 		
+		System.out.println("New random value: " + seed);
+
+		//create a query which searches for entities in the database
+		//retrieves at most 8 entities and only retrieves entities that have a public
+		//storage area and have a seed value equal to the random integer generated above
+		Query<Entity> query = Query.newEntityQueryBuilder().
+				setKind("User Account")
+				.setFilter(CompositeFilter.and(PropertyFilter.eq("seed", seed), 
+						PropertyFilter.eq("hasStorage", true)))
+				.setLimit(8)
+				.build();
+		
+		//retrieve 2 copies of the list of account entities
 		QueryResults<Entity> results = datastore.run(query); 
+		QueryResults<Entity> results_copy = datastore.run(query);
+		
+		//cycle through every retrieved account
+		while(results_copy.hasNext()) {
+			
+			//read the next account entity
+			Entity current_user = results_copy.next();
+			
+			//rebuilds the account entity with a new pseudo-random seed
+			Entity account = Entity.newBuilder(datastore.newKeyFactory().setKind("User Account").newKey(current_user.getKey().getId()))
+					.set("password", current_user.getString("password"))
+					.set("username", current_user.getString("username"))
+					.set("age", current_user.getString("age"))
+					.set("gender", current_user.getString("gender"))
+					.set("seed", ThreadLocalRandom.current().nextInt(1, 6))
+					.set("hasStorage", true)
+					.build();
+			
+			//puts the rebuilt account onto the database
+			datastore.put(account);
+			
+		}
 		
 		return results;
 		
@@ -791,19 +834,35 @@ public class CloudInteractionHandler {
 			return null;
 		}
 		
+		//gets a list of random public accounts
 		QueryResults<Entity> results = getRandomPublicAccounts();
-		
+
 		ArrayList<Page<Blob>> all_lists = new ArrayList<Page<Blob>>();
 		
+		int counter = 0;
+		
+		//cycles through results of public accounts
 		while(results.hasNext()) {
-//			System.out.println(results.next());
 			
-			all_lists.add(storage.list("we-tech-user-storage", BlobListOption.prefix(results.next().getKey().getId() + "/public/")));
-
+			//get the id of an account
+			String blob_name = Long.toString(results.next().getKey().getId());
+			
+			System.out.println(blob_name);
+			
+			//add all public list files belonging to the account to array list
+			all_lists.add(storage.list("we-tech-user-storage", BlobListOption.prefix(blob_name + "/public/")));
+			
+			counter++;
 		}
 		
+		System.out.println("Size of results = " + counter);
+		
+		System.out.println("all_lists size =  " + all_lists.size());
+		
+		//cycle through every set of list files
 		for(Page<Blob> blobs : all_lists) {
 			
+			//cycles through every file in every set of list files
 			for(Blob blob : blobs.iterateAll()) {
 				
 //				System.out.println(blob.getName());
@@ -814,12 +873,16 @@ public class CloudInteractionHandler {
 				//concatenate string parts so only the folder path is present and not the file names 
 				String name = blob_name_parts[0] + "/" + blob_name_parts[1] + "/" + blob_name_parts[2] + "/";
 				
+				System.out.println("name = " + name);
+				
 				//adds the concatenated string to the linked hash set
 				public_lists_set.add(name);
 				
 			}
 			
 		}
+		
+		System.out.println("public lists set size = " + public_lists_set.size());
 		
 		public_lists = new ArrayList<String>();
 		

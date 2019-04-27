@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id User="">
+  <page>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Silence Kid</title>
+      <path>C:\Users\Dan\Music\Music\Pavement\Crooked Rain, Crooked Rain [Disc 1]\Silence Kid.flac</path>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Stop Breathin</title>
+      <path>C:\Users\Dan\Music\Music\Pavement\Crooked Rain, Crooked Rain [Disc 1]\Stop Breathin.flac</path>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Gold Soundz</title>
+      <path>C:\Users\Dan\Music\Music\Pavement\Crooked Rain, Crooked Rain [Disc 1]\Gold Soundz.flac</path>
+    </multimedia>
+  </page>
+  <results Time="2019-04-27 14:57:54">
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Gold Soundz</title>
+      <path>C:\Users\Dan\Music\Music\Pavement\Crooked Rain, Crooked Rain [Disc 1]\Gold Soundz.flac</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Stop Breathin</title>
+      <path>C:\Users\Dan\Music\Music\Pavement\Crooked Rain, Crooked Rain [Disc 1]\Stop Breathin.flac</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Silence Kid</title>
+      <path>C:\Users\Dan\Music\Music\Pavement\Crooked Rain, Crooked Rain [Disc 1]\Silence Kid.flac</path>
+      <points>3</points>
+    </multimedia>
+  </results>
+<results Time="2019-04-27 16:13:27">
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Gold Soundz</title>
+      <path>C:\Users\Dan\Music\Music\Pavement\Crooked Rain, Crooked Rain [Disc 1]\Gold Soundz.flac</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Silence Kid</title>
+      <path>C:\Users\Dan\Music\Music\Pavement\Crooked Rain, Crooked Rain [Disc 1]\Silence Kid.flac</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Stop Breathin</title>
+      <path>C:\Users\Dan\Music\Music\Pavement\Crooked Rain, Crooked Rain [Disc 1]\Stop Breathin.flac</path>
+      <points>3</points>
+    </multimedia>
+  </results>
+</id>

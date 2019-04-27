@@ -612,6 +612,7 @@ public class Player extends BorderPane {
 			}
 			//this.controls.media_player_component.getMediaPlayer().pause();
 			media_player_component.getMediaPlayer().release();
+			
 		}
 
 		public void changeVideo(String file_path){

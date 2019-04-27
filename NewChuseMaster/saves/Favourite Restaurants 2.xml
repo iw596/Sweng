@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id User="">
+  <page>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Roots York
+</title>
+      <path>n/a</path>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Source
+</title>
+      <path>n/a</path>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>The Whippet Inn
+</title>
+      <path>n/a</path>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Bengal Brasserie
+</title>
+      <path>n/a</path>
+    </multimedia>
+  </page>
+  <results Time="2019-04-27 15:55:19">
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Source
+</title>
+      <path>n/a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>The Whippet Inn
+</title>
+      <path>n/a</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Roots York
+</title>
+      <path>n/a</path>
+      <points>3</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Bengal Brasserie
+</title>
+      <path>n/a</path>
+      <points>3</points>
+    </multimedia>
+  </results>
+<results Time="2019-04-27 16:17:01">
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Source
+</title>
+      <path>n/a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Bengal Brasserie
+</title>
+      <path>n/a</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Roots York
+</title>
+      <path>n/a</path>
+      <points>3</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>The Whippet Inn
+</title>
+      <path>n/a</path>
+      <points>3</points>
+    </multimedia>
+  </results>
+</id>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id User="">
+  <page>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Re-Do</title>
+      <path>C:\Users\Dan\Music\Music\Modern Baseball\Sports\01 Re-Do.m4a</path>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Tears Over Beers</title>
+      <path>C:\Users\Dan\Music\Music\Modern Baseball\Sports\02 Tears Over Beers.m4a</path>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Re-Done</title>
+      <path>C:\Users\Dan\Music\Music\Modern Baseball\Sports\07 Re-Done.m4a</path>
+    </multimedia>
+  </page>
+  <results Time="2019-04-27 15:00:43">
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Re-Done</title>
+      <path>C:\Users\Dan\Music\Music\Modern Baseball\Sports\07 Re-Done.m4a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Tears Over Beers</title>
+      <path>C:\Users\Dan\Music\Music\Modern Baseball\Sports\02 Tears Over Beers.m4a</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Re-Do</title>
+      <path>C:\Users\Dan\Music\Music\Modern Baseball\Sports\01 Re-Do.m4a</path>
+      <points>3</points>
+    </multimedia>
+  </results>
+<results Time="2019-04-27 16:09:06">
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Re-Done</title>
+      <path>C:\Users\Dan\Music\Music\Modern Baseball\Sports\07 Re-Done.m4a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Tears Over Beers</title>
+      <path>C:\Users\Dan\Music\Music\Modern Baseball\Sports\02 Tears Over Beers.m4a</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Re-Do</title>
+      <path>C:\Users\Dan\Music\Music\Modern Baseball\Sports\01 Re-Do.m4a</path>
+      <points>3</points>
+    </multimedia>
+  </results>
+</id>

@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+<BorderPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <JFXTabPane nodeOrientation="LEFT_TO_RIGHT" stylesheets="@../../tab_style.css" BorderPane.alignment="CENTER">
          <tabs>
@@ -21,8 +20,8 @@
                            <content>
                               <HBox fx:id="grid_container" alignment="CENTER" prefHeight="248.0" prefWidth="464.0">
                                  <children>
-                                    <VBox fx:id="left_column" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" />
-                                    <VBox fx:id="right_column" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" />
+                                    <VBox fx:id="left_column" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="125.0" />
+                                    <VBox fx:id="right_column" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="125.0" />
                                  </children>
                               </HBox>
                            </content>

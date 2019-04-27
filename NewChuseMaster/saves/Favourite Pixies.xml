@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id User="">
+  <page>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Debaser</title>
+      <path>C:\Users\Dan\Music\Music\Pixies\Doolittle\Debaser.m4a</path>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Wave Of Mutilation</title>
+      <path>C:\Users\Dan\Music\Music\Pixies\Doolittle\Wave Of Mutilation.m4a</path>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Gouge Away</title>
+      <path>C:\Users\Dan\Music\Music\Pixies\Doolittle\Gouge Away.m4a</path>
+    </multimedia>
+  </page>
+  <results Time="2019-04-27 14:59:49">
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Gouge Away</title>
+      <path>C:\Users\Dan\Music\Music\Pixies\Doolittle\Gouge Away.m4a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Debaser</title>
+      <path>C:\Users\Dan\Music\Music\Pixies\Doolittle\Debaser.m4a</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Wave Of Mutilation</title>
+      <path>C:\Users\Dan\Music\Music\Pixies\Doolittle\Wave Of Mutilation.m4a</path>
+      <points>3</points>
+    </multimedia>
+  </results>
+<results Time="2019-04-27 16:15:49">
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Gouge Away</title>
+      <path>C:\Users\Dan\Music\Music\Pixies\Doolittle\Gouge Away.m4a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Debaser</title>
+      <path>C:\Users\Dan\Music\Music\Pixies\Doolittle\Debaser.m4a</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>AudioItem</type>
+      <title>Wave Of Mutilation</title>
+      <path>C:\Users\Dan\Music\Music\Pixies\Doolittle\Wave Of Mutilation.m4a</path>
+      <points>3</points>
+    </multimedia>
+  </results>
+</id>
