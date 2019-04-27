@@ -32,8 +32,8 @@ import xmlHandling.XMLHandler;
  * Date last edited: 15/03/2019
  * Last edited by: Dan Jackson
  * 
- * Date last edited: 19/04/2019
- * Last edited by: Jack Small
+ * Date last edited: 27/04/2019
+ * Last edited by: Harry Ogden and Isaac Watson
  * 
  * @author Dan Jackson
  *
