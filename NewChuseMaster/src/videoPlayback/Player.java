@@ -605,7 +605,10 @@ public class Player extends BorderPane {
 			//media_player_component.getMediaPlayer().release();
 			
 		}
+<<<<<<< HEAD
 		
+=======
+>>>>>>> af52654142585da8c725c8bcaf8d81c4b208bc85
 		public void fullExit() {
 			if (media_player_component.getMediaPlayer().isPlaying() == true){
 				this.media_player_component.getMediaPlayer().pause();
@@ -613,10 +616,18 @@ public class Player extends BorderPane {
 			//this.controls.media_player_component.getMediaPlayer().pause();
 			media_player_component.getMediaPlayer().release();
 		}
+<<<<<<< HEAD
 		
+=======
+>>>>>>> af52654142585da8c725c8bcaf8d81c4b208bc85
 		public void changeVideo(String file_path){
 			this.media_player_component.getMediaPlayer().prepareMedia(file_path);
 			this.media_player_component.getMediaPlayer().play();
 		}
+<<<<<<< HEAD
+=======
+	    
+
+>>>>>>> af52654142585da8c725c8bcaf8d81c4b208bc85
 
 }

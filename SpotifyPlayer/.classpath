@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry kind="lib" path="//userfs/iw596/w2k/Downloads/Chuse Dependencies/Chuse Dependencies/Spotify API/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="//userfs/iw596/w2k/Downloads/Chuse Dependencies/Chuse Dependencies/Spotify API/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="//userfs/iw596/w2k/Downloads/Chuse Dependencies/Chuse Dependencies/Spotify API/gson-2.8.5.jar"/>
+	<classpathentry kind="lib" path="//userfs/iw596/w2k/Downloads/Chuse Dependencies/Chuse Dependencies/Spotify API/httpclient-4.5.5.jar"/>
+	<classpathentry kind="lib" path="//userfs/iw596/w2k/Downloads/Chuse Dependencies/Chuse Dependencies/Spotify API/httpclient-cache-4.5.5.jar"/>
+	<classpathentry kind="lib" path="//userfs/iw596/w2k/Downloads/Chuse Dependencies/Chuse Dependencies/Spotify API/httpcore-4.4.9.jar"/>
+	<classpathentry kind="lib" path="//userfs/iw596/w2k/Downloads/Chuse Dependencies/Chuse Dependencies/Spotify API/nv-i18n-1.23.jar"/>
+	<classpathentry kind="lib" path="//userfs/iw596/w2k/Downloads/Chuse Dependencies/Chuse Dependencies/Spotify API/spotify-web-api-java-2.1.2.jar"/>
+	<classpathentry kind="lib" path="//userfs/iw596/w2k/Downloads/jfoenix-8.0.8.jar"/>
+	<classpathentry kind="lib" path="//userfs/iw596/w2k/Sweng/SpotifyPlayer/SpotifyPlayer/selenium-server-standalone-3.141.59.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
