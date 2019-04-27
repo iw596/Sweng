@@ -32,8 +32,8 @@ import videoPlayback.YoutubeController;
  * and holds a reference to the back-end code of the program for communication.
  * 
  * Date created: 13/03/2019
- * Date last edited: 25/04/2019
- * Last edited by: Isaac Watson
+ * Date last edited: 27/04/2019
+ * Last edited by: Harry Ogden and Isaac Watson
  * 
  * @author Dan Jackson
  *
