@@ -150,6 +150,18 @@ public class BackEndContainer {
 		original_list.addItemArray(video_items);
 	}
 	
+	public void loadSpotifyItems(Stage stage, ArrayList<BasicItem> spotify_items){
+		current_list = new ChuseList();
+		original_list = new ChuseList();
+		
+		current_list.addItemArray(spotify_items);
+		original_list.addItemArray(spotify_items);
+		
+		for(int i = 0; i < current_list.getSize();i++){
+		System.out.println(current_list.get(i).getTitle());
+		}
+	}
+	
 	/**
 	 * Method to return the current list.
 	 * @return current_list
