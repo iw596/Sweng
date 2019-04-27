@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.web.WebView?>
 
 <BorderPane fx:id="root_pane01" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spotifyGUI.SpotifyAuthController">
    <center>
-      <WebView fx:id="web_view" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <SplitPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <items>
+            <WebView fx:id="web_view" prefHeight="200.0" prefWidth="200.0" />
+         </items>
+      </SplitPane>
    </center>
 </BorderPane>
