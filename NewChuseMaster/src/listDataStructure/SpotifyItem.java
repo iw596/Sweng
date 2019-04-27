@@ -2,6 +2,8 @@ package listDataStructure;
 
 import java.util.ArrayList;
 
+import com.wrapper.spotify.model_objects.specification.Image;
+
 /**
  * SpotifyItem is a class within the listDataStructure package. This class holds
  * a song taken from Spotify by storing the song's URL, as well as it's metadata.
@@ -17,8 +19,11 @@ import java.util.ArrayList;
  */
 public class SpotifyItem extends BasicItem implements ListInterface {
 
+
 	private String song_url;
 	private ArrayList<String> metadata = new ArrayList<String>();
+	private String preview_url;
+	private Image artwork;
 	
 	/**
 	 * Constructor function for a Spotify song item. Sets the song's URL and the track
@@ -26,11 +31,13 @@ public class SpotifyItem extends BasicItem implements ListInterface {
 	 * @param spotify_url - the listen URL for the song
 	 * @param track_metadata - the metadata associated with the song
 	 */
-	public SpotifyItem(String spotify_url, ArrayList<String> track_metadata) {
+	public SpotifyItem(String spotify_url, ArrayList<String> track_metadata, String preview_url, Image album_art) {
 		super(track_metadata.get(0));
 		this.metadata = track_metadata;
 		this.song_url= spotify_url;
+		this.preview_url = preview_url;
 		this.type = "SpotifyItem";
+		this.artwork = album_art;
 	}
 	
 	/**
@@ -47,6 +54,14 @@ public class SpotifyItem extends BasicItem implements ListInterface {
 	 */
 	public ArrayList<String> getMetadata() {
 		return this.metadata;
+	}
+	
+	public Image getImage(){
+		return this.artwork;
+	}
+	
+	public String getPreview(){
+		return this.preview_url;
 	}
 	
 	/**
@@ -78,7 +93,8 @@ public class SpotifyItem extends BasicItem implements ListInterface {
 		}
 		
 		return object_params;
-
 	}
+
+
 	
 }
