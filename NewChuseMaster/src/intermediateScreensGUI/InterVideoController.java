@@ -51,32 +51,21 @@ public class InterVideoController {
     	
     	System.out.println("Load video files.");
     	
-//    	back_end.loadVideoFiles((Stage) root.getScene().getWindow());
-//    	//  back_end.loa
-//    	
-//    	if(back_end.getCurrentListSize() < 2) {
-//    		System.out.println("Nothing to compare - only one item in list.");
-//    	} else {
-//        	FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
-//        	
-//        	ComparisonScreenController controller = new ComparisonScreenController(back_end);
-//        	
-//        	loader.setController(controller);
-//        	
-//        	BorderPane new_pane = loader.load();
-//        	
-//        	showInSelf(new_pane);
-//    	}	
+    	back_end.loadVideoFiles((Stage) root.getScene().getWindow());
     	
-//    	FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
-//    	
-//    	ComparisonScreenController controller = new ComparisonScreenController(back_end);
-//    	
-//    	loader.setController(controller);
-//    	
-//    	BorderPane new_pane = loader.load();
-//    	showInSelf(new_pane);
-//    	
+    	if(back_end.getCurrentListSize() < 2) {
+    		System.out.println("Nothing to compare - only one item in list.");
+    	} else {
+        	FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
+        	
+        	ComparisonScreenController controller = new ComparisonScreenController(back_end);
+        	
+        	loader.setController(controller);
+        	
+        	BorderPane new_pane = loader.load();
+        	
+        	showInSelf(new_pane);
+    	}	
     }
 
     @FXML

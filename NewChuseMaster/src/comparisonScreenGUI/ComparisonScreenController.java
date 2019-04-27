@@ -88,15 +88,14 @@ public class ComparisonScreenController implements Initializable {
     		for(int i = 0; i < image_controllers.size(); i++) {
     			image_controllers.get(i).exit();
     		}
-    	}/*else if(video_controllers.size() > 0) {
+    	} else if(video_controllers.size() > 0) {
     		System.out.println(video_controllers.size());
     		for(int i = 0; i < video_controllers.size(); i++) {
     			video_controllers.get(i).exit();
     		}
     		video_controllers.remove(1);
     		video_controllers.remove(0);
-
-    	} */
+    	} 
     	
     	oddCheck();
     	
@@ -122,16 +121,14 @@ public class ComparisonScreenController implements Initializable {
     		for(int i = 0; i < image_controllers.size(); i++) {
     			image_controllers.get(i).exit();
     		}
-    	} /*else if(video_controllers.size() > 0) {
+    	} else if(video_controllers.size() > 0) {
     		System.out.println(video_controllers.size());
     		for(int i = 0; i < video_controllers.size(); i++) {
     			video_controllers.get(i).exit();
- 
-    			
     		}
-    		
-    	
-    	} */
+    		video_controllers.remove(1);
+    		video_controllers.remove(0);
+    	} 
     	
     	
     	oddCheck();
