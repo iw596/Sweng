@@ -43,15 +43,15 @@ public class StatisticsTest {
 					}
 					break;
 				case 1:
-					assertEquals(aa.getResultList().get(i).getUser().getUsername(), "AAtest_account");
-					assertEquals(aa.getResultList().get(i).getUser().getAge(), 21);
-					assertEquals(aa.getResultList().get(i).getUser().getGender(), "Male");
+					assertEquals(aa.getResultList().get(i).getUser().getUsername(), "fran23");
+					assertEquals(aa.getResultList().get(i).getUser().getAge(), 33);
+					assertEquals(aa.getResultList().get(i).getUser().getGender(), "Female");
 					assertEquals(aa.getResultList().get(i).getRankingList().get(0).getTime(), "2019-04-19 11:51:06");
 					break;
 				case 2:
-					assertEquals(aa.getResultList().get(i).getUser().getUsername(), "multithread");
-					assertEquals(aa.getResultList().get(i).getUser().getAge(), 100);
-					assertEquals(aa.getResultList().get(i).getUser().getGender(), "Female");
+					assertEquals(aa.getResultList().get(i).getUser().getUsername(), "mark3");
+					assertEquals(aa.getResultList().get(i).getUser().getAge(), 45);
+					assertEquals(aa.getResultList().get(i).getUser().getGender(), "Male");
 					assertEquals(aa.getResultList().get(i).getRankingList().get(0).getTime(), "2019-04-27 11:51:06");
 					break;
 			}
@@ -166,6 +166,51 @@ public class StatisticsTest {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+        
+        StatisticsDataStructure aa = bb.getDataForGivenGender("Male");
+        for (int i = 0; i < 2; i++){
+			System.out.println(aa.getList().getName());
+			System.out.println("******************");
+			System.out.println(aa.getResultList().get(i).getUser().getUsername());
+			System.out.println(aa.getResultList().get(i).getUser().getAge());
+			System.out.println(aa.getResultList().get(i).getUser().getGender());
+			for (int j = 0; j < aa.getResultList().get(i).getRankingList().size(); j++){
+				System.out.println("----------------------");
+				System.out.println(aa.getResultList().get(i).getRankingList().get(j).getTime());
+				System.out.println("----------------------");
+				for (int k = 0; k < 4; k++ ){
+					aa.getResultList().get(i).getRankingList().get(j).get(k).print();
+				}
+			}
+			System.out.println("********************");
+		}
+		System.out.println("Banana won: " + aa.getNumberOfWins("Banana") + " times");
+		System.out.println("Tide pods won: " + aa.getNumberOfWins("Tide pods") + " times");
+		System.out.println("Pancake won: " + aa.getNumberOfWins("Pancake") + " times");
+		System.out.println("Cake won: " + aa.getNumberOfWins("Cake") + " times");
+		
+		System.out.println("********************");
+		System.out.println("********************");
+		System.out.println("fuck_you_java_fuck_you_stuart_this_elec_cource_why_do_fucking_programing_read_the_fuck_departments_name_you_dip_shit;");
+		System.out.println("********************");
+		System.out.println("********************");
+		
+		for (int i = 0; i < 3; i++){
+			System.out.println(bb.getList().getName());
+			System.out.println("******************");
+			System.out.println(bb.getResultList().get(i).getUser().getUsername());
+			System.out.println(bb.getResultList().get(i).getUser().getAge());
+			System.out.println(bb.getResultList().get(i).getUser().getGender());
+			for (int j = 0; j < bb.getResultList().get(i).getRankingList().size(); j++){
+				System.out.println("----------------------");
+				System.out.println(bb.getResultList().get(i).getRankingList().get(j).getTime());
+				System.out.println("----------------------");
+				for (int k = 0; k < 4; k++ ){
+					bb.getResultList().get(i).getRankingList().get(j).get(k).print();
+				}
+			}
+			System.out.println("********************");
 		}
 
 	}

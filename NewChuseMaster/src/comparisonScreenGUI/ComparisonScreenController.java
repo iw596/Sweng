@@ -16,12 +16,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import listDataStructure.BasicItem;
 import resultsScreenGUI.ResultsScreenController;
+import spotifyplayer.SpotifyPlayer;
 import videoPlayback.Player;
 import videoPlayback.YoutubeController;
 
@@ -30,8 +32,8 @@ import videoPlayback.YoutubeController;
  * and holds a reference to the back-end code of the program for communication.
  * 
  * Date created: 13/03/2019
- * Date last edited: 25/04/2019
- * Last edited by: Isaac Watson
+ * Date last edited: 27/04/2019
+ * Last edited by: Harry Ogden and Isaac Watson
  * 
  * @author Dan Jackson
  *
@@ -60,6 +62,8 @@ public class ComparisonScreenController implements Initializable {
     private ArrayList<ImageDisplayController> image_controllers;
     
     private BackEndContainer back_end;
+
+	private ArrayList<SpotifyPlayer> spotify_controllers;
     
     /**
      * Constructor for the comparison screen controller. 
@@ -71,6 +75,7 @@ public class ComparisonScreenController implements Initializable {
     	audio_controllers = new ArrayList<AppController>();
     	image_controllers = new ArrayList<ImageDisplayController>();
     	video_controllers = new ArrayList<Player>();
+    	spotify_controllers = new ArrayList<SpotifyPlayer>();
     }
     
     @FXML
@@ -188,6 +193,11 @@ public class ComparisonScreenController implements Initializable {
         		for(int i = 0; i < video_controllers.size(); i++) {
         			video_controllers.get(i).exit();	
         		}
+    		}else if(spotify_controllers.size() > 0) {
+        		System.out.println(spotify_controllers.size());
+        		for(int i = 0; i < spotify_controllers.size(); i++) {
+        			spotify_controllers.get(i).exit();	
+        		}
     		}
     		
     		//checks if the entire tournament is over
@@ -244,7 +254,9 @@ public class ComparisonScreenController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
     	left_button.setText(back_end.getComparison().getCurrentPairTitles().get(0));
+    	System.out.println(left_button.getText());
     	right_button.setText(back_end.getComparison().getCurrentPairTitles().get(1));
+    	System.out.println(right_button.getText());
 		checkObjectType();
 	}
 	
@@ -275,6 +287,16 @@ public class ComparisonScreenController implements Initializable {
 		} else if (left_object.getType().equals("VideoItem")||left_object.getType().equals("YouTubeItem") && video_controllers.size() == 2){
 			System.out.println("Greater than two videos");
 			changeVideoPlayerVideo(left_object.getPath(),0);
+		} else if (left_object.getType().equals("SpotifyItem")&& spotify_controllers.size() != 2){
+			System.out.println("Is a SpotifyItem");
+			System.out.println("Left track name: " + left_object.getTitle());
+			instantiateSpotifyPlayer(left_object, left_content);
+		}else if (left_object.getType().equals("SpotifyItem") && spotify_controllers.size() == 2){
+			System.out.println("Change track");
+			System.out.println("Left track name: " + left_object.getTitle() );
+			changeSpotifyPlayerSong(left_object.getPreview(),0);
+			spotify_controllers.get(0).setMeta(left_object.getMetadata());
+			spotify_controllers.get(0).setArt(new Image(left_object.getImage().getUrl()));
 		}
 		
 		//if the right object is a video item, instantiate the video player
@@ -287,6 +309,16 @@ public class ComparisonScreenController implements Initializable {
 		} else if (right_object.getType().equals("VideoItem")||right_object.getType().equals("YouTubeItem") && video_controllers.size() == 2){
 			System.out.println("Greater than two videos");
 			changeVideoPlayerVideo(right_object.getPath(),1);
+		} else if (right_object.getType().equals("SpotifyItem") && spotify_controllers.size() != 2){
+			System.out.println("Is a SpotifyItem");
+			System.out.println("Right track name: " + right_object.getTitle() );
+			instantiateSpotifyPlayer(right_object, right_content);
+		} else if (right_object.getType().equals("SpotifyItem") && spotify_controllers.size() == 2){
+			System.out.println("Change track");
+			System.out.println("Right track name: " + right_object.getTitle() );
+			changeSpotifyPlayerSong(right_object.getPreview(),1);
+			spotify_controllers.get(1).setMeta(right_object.getMetadata());
+			spotify_controllers.get(1).setArt(new Image(right_object.getImage().getUrl()));
 		}
 		
 	}
@@ -411,6 +443,7 @@ public class ComparisonScreenController implements Initializable {
 			player.minHeightProperty().bind(pane.minHeightProperty());
 			player.maxWidthProperty().bind(pane.maxWidthProperty());
 			player.maxHeightProperty().bind(pane.maxHeightProperty());
+
 			
 		}
 		else if (video_controllers.size() == 1){
@@ -435,6 +468,59 @@ public class ComparisonScreenController implements Initializable {
 	
 	private void changeVideoPlayerVideo (String file_path, int index_player){
 		video_controllers.get(index_player).changeVideo(file_path);	
+	}
+	
+	private void instantiateSpotifyPlayer(BasicItem item, Pane pane) {
+		System.out.println("Called");
+		NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
+		NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
+		System.out.println(item.getPreview());
+		String [] paths = {item.getPreview()};
+		System.out.println(paths[0]);
+		SpotifyPlayer player = new SpotifyPlayer((int) pane.getWidth(),(int) pane.getHeight());
+		if (spotify_controllers.size() == 0){
+			System.out.println("Added first item");
+			System.out.println("Size is now: " + video_controllers.size());
+			spotify_controllers.add(player);
+			//video_controllers.add(player);
+			StackPane.setAlignment(player, Pos.CENTER);
+			pane.getChildren().add(player);
+			player.loadPaths(paths);
+			// Set width and height preferences
+			player.prefWidthProperty().bind(pane.widthProperty());
+			player.prefHeightProperty().bind(pane.heightProperty());
+			player.minWidthProperty().bind(pane.minWidthProperty());
+			player.minHeightProperty().bind(pane.minHeightProperty());
+			player.maxWidthProperty().bind(pane.maxWidthProperty());
+			player.maxHeightProperty().bind(pane.maxHeightProperty());
+			player.setMeta(item.getMetadata());
+			player.setArt(new Image(item.getImage().getUrl()));
+			
+		}
+		else if (spotify_controllers.size() == 1){
+			System.out.println("Added first item");
+			System.out.println("Size is now: " + video_controllers.size());
+			spotify_controllers.add(player);
+			//video_controllers.add(player);
+			StackPane.setAlignment(player, Pos.CENTER);
+			pane.getChildren().add(player);
+			player.loadPaths(paths);
+			// Set width and height preferences
+			player.prefWidthProperty().bind(pane.widthProperty());
+			player.prefHeightProperty().bind(pane.heightProperty());
+			player.minWidthProperty().bind(pane.minWidthProperty());
+			player.minHeightProperty().bind(pane.minHeightProperty());
+			player.maxWidthProperty().bind(pane.maxWidthProperty());
+			player.maxHeightProperty().bind(pane.maxHeightProperty());
+			player.setMeta(item.getMetadata());
+			player.setArt(new Image(item.getImage().getUrl()));
+			
+		} 
+
+	}
+	
+	private void changeSpotifyPlayerSong (String track_path, int index_player){
+		spotify_controllers.get(index_player).changeSong(track_path);	
 	}
 	
     /**

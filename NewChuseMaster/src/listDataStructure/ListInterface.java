@@ -2,6 +2,8 @@ package listDataStructure;
 
 import java.util.ArrayList;
 
+import com.wrapper.spotify.model_objects.specification.Image;
+
 /**
  * ListInterface is an interface for items within the data structure.
  * 
@@ -65,6 +67,12 @@ public interface ListInterface {
 	
 	public default void changePath(String new_path) {
 		System.out.println("No change path implementation present.");
+	}
+	public default String getPreview() {
+		return null;
+	}
+	public default Image getImage() {
+		return null;
 	}
 
 }

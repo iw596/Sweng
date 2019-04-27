@@ -32,8 +32,8 @@ import xmlHandling.XMLHandler;
  * Date last edited: 15/03/2019
  * Last edited by: Dan Jackson
  * 
- * Date last edited: 19/04/2019
- * Last edited by: Jack Small
+ * Date last edited: 27/04/2019
+ * Last edited by: Harry Ogden and Isaac Watson
  * 
  * @author Dan Jackson
  *
@@ -148,6 +148,18 @@ public class BackEndContainer {
 		
 		current_list.addItemArray(video_items);
 		original_list.addItemArray(video_items);
+	}
+	
+	public void loadSpotifyItems(Stage stage, ArrayList<BasicItem> spotify_items){
+		current_list = new ChuseList();
+		original_list = new ChuseList();
+		
+		current_list.addItemArray(spotify_items);
+		original_list.addItemArray(spotify_items);
+		
+		for(int i = 0; i < current_list.getSize();i++){
+		System.out.println(current_list.get(i).getTitle());
+		}
 	}
 	
 	/**

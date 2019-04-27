@@ -163,17 +163,23 @@ public class StatisticsDataStructure{
 	public StatisticsDataStructure getDataForGivenTimeRange(Date start, Date end){
 		
 		StatisticsDataStructure timeRangeResults = new StatisticsDataStructure();
-		timeRangeResults = this;
+		timeRangeResults.list = this.list;
+
+				
+		//fuck_you_java_fuck_you_stuart_this_elec_cource_why_do_fucking_programing_read_the_fuck_departments_name_you_dip_shit;
 		
+		/*for(int i = 0; i < this.getResultList().size(); i++){
+			timeRangeResults.getResultList().add(this.getResultList().get(i));
+		}
 		
-		for(int i = 0; i < timeRangeResults.getResultList().size(); i++){
-			for(int j = 0; j < timeRangeResults.getResultList().get(i).getRankingList().size(); j++){
+		for(int i = 0; i < this.getResultList().size(); i++){
+			for(int j = 0; j < this.getResultList().get(i).getRankingList().size(); j++){
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				
 				Date temp;
 				
 				try {
-					temp = sdf.parse(timeRangeResults.getResultList().get(i).getRankingList().get(j).getTime().substring(0, 10));
+					temp = sdf.parse(this.getResultList().get(i).getRankingList().get(j).getTime().substring(0, 10));
 					if ((start.compareTo(temp) > 0) || (end.compareTo(temp) < 0)){
 						timeRangeResults.getResultList().get(i).getRankingList().remove(j);
 					}
@@ -185,9 +191,34 @@ public class StatisticsDataStructure{
 				
 				
 			}
-			if (timeRangeResults.getResultList().get(i).getRankingList().isEmpty()){
-				timeRangeResults.getResultList().remove(i);
+		}*/
+		
+		Result temp;
+		
+		for(int i = 0; i < this.getResultList().size(); i++){
+			temp = new Result(this.getResultList().get(i).getUser(), new ArrayList<RankingList>());
+			for(int j = 0; j < this.getResultList().get(i).getRankingList().size(); j++){
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				
+				Date temp_date;
+				
+				try {
+					temp_date = sdf.parse(this.getResultList().get(i).getRankingList().get(j).getTime().substring(0, 10));
+					//if (!((start.compareTo(temp_date) > 0) || (end.compareTo(temp_date) < 0))){
+					if (((start.compareTo(temp_date) <= 0) && end.compareTo(temp_date) >= 0)){
+						temp.getRankingList().add(this.getResultList().get(i).getRankingList().get(j));
+					}
+					
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
+			if(temp.getRankingList().size() != 0){
+				timeRangeResults.getResultList().add(temp);
+			}
+			
 		}
 		
 		return timeRangeResults;

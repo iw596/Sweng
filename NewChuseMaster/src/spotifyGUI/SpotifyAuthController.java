@@ -5,6 +5,9 @@ import java.util.ResourceBundle;
 
 import com.wrapper.spotify.SpotifyApi;
 
+import backEnd.BackEndContainer;
+import intermediateScreensGUI.InterVideoController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,11 +29,13 @@ public class SpotifyAuthController implements Initializable {
 	String password;
 	
 	BorderPane pane01;
+	private BackEndContainer back_end;
 	
 	private static SpotifyApi spotifyApi;
 	
 	@Override
 	public void initialize(URL url01, ResourceBundle resources) {
+		Platform.runLater(() -> {
     	AuthorisationURI auth_uri = new AuthorisationURI();
 		WebEngine web_engine = web_view.getEngine();
 		web_engine.load(auth_uri.authorizationCodeUri_Sync().toString());
@@ -61,16 +66,46 @@ public class SpotifyAuthController implements Initializable {
 					PlaylistEntryController controller = fxmlLoader.getController();
 					// Pass clicked list filename to second sample controller
 					controller.setAPI(spotifyApi);
-					root_pane01.getChildren().setAll(pane01);
+					controller.setBackEnd(back_end);
+					showInSelf(pane01);
+					
+					/*FXMLLoader loader = new FXMLLoader(intermediateScreensGUI.InterVideoController.class.getResource("IntermediateVideoPage.fxml"));
+		        	InterVideoController controller = new InterVideoController(back_end);
+		        	loader.setController(controller);
+		        	BorderPane pane01;
+		        	pane01 = loader.load();
+		        	showInSelf(pane01);*/
 					} catch (Exception e) {
 						e.printStackTrace();
 				}
 			}
 		
+		});
+		
 	    });
+		
+
 		
 		
 		
 	}
+	
+	public void setBackEnd(BackEndContainer back_end) {
+		   this.back_end = back_end;
+	}
+	
+    private void showInSelf(Pane new_pane) {
+    	
+    	new_pane.prefWidthProperty().bind(root_pane01.widthProperty());
+    	new_pane.prefHeightProperty().bind(root_pane01.heightProperty());
+    	new_pane.minWidthProperty().bind(root_pane01.minWidthProperty());
+    	new_pane.minHeightProperty().bind(root_pane01.minHeightProperty());
+    	new_pane.maxWidthProperty().bind(root_pane01.maxWidthProperty());
+    	new_pane.maxHeightProperty().bind(root_pane01.maxHeightProperty());
+    	new_pane.setManaged(true);
+    	root_pane01.setCenter(new_pane);
+    	root_pane01.requestFocus();
+	
+    }
 	
 }
