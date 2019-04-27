@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -15,6 +17,35 @@
          <top>
             <HBox alignment="CENTER_RIGHT" prefHeight="50.0" style="-fx-border-width: 0 0 1 0; -fx-border-color: GREY;" BorderPane.alignment="CENTER">
                <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <JFXTextField fx:id="search_bar" onKeyPressed="#searchEntered">
+                           <HBox.margin>
+                              <Insets left="12.0" right="6.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXButton fx:id="search_button" graphicTextGap="0.0" onAction="#searchClicked" text=" ">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../searchIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="1.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="24.0" right="24.0" />
+                     </HBox.margin>
+                  </Region>
                   <JFXButton fx:id="account_button" graphicTextGap="8.0" mnemonicParsing="false" onAction="#showAccountScreen" text="Log In" wrapText="true">
                      <graphic>
                         <ImageView fitWidth="30.0" pickOnBounds="true" preserveRatio="true">

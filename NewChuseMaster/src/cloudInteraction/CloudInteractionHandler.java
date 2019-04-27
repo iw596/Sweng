@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -23,6 +25,7 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.ReadOption;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
@@ -274,9 +277,31 @@ public class CloudInteractionHandler {
 			uploadMediaToBucket("we-tech-user-storage", path, user.getId() + "/" + list_access_type + "/" + FilenameUtils.getBaseName(filepath) + "/" + FilenameUtils.getName(path));
 		}
 		
-		//resets the access type to private
+		Entity current_user = getUserAccountEntity(user.getId());
+		
+		if(!list_access_type.equals("public")) {
+			return true;
+		}
+		
 		setAccessType(0);
 		
+		if(current_user.getBoolean("hasStorage")) {
+			return true;
+		}
+		
+		Entity account = Entity.newBuilder(datastore.newKeyFactory().setKind("User Account").newKey(user.getId()))
+				.set("password", current_user.getString("password"))
+				.set("username", user.getUsername())
+				.set("age", current_user.getString("age"))
+				.set("gender", user.getGender())
+				.set("seed", current_user.getLong("seed"))
+				.set("hasStorage", true)
+				.build();
+		
+		datastore.put(account);
+		
+		//resets the access type to private
+
 		return true;
 
 	}
@@ -491,6 +516,8 @@ public class CloudInteractionHandler {
 					.set("username", username)
 					.set("age", Integer.toString(age))
 					.set("gender", gender)
+					.set("seed", ThreadLocalRandom.current().nextInt(1, 10))
+					.set("hasStorage", false)
 					.build();
 			datastore.put(account);
 			
@@ -670,10 +697,10 @@ public class CloudInteractionHandler {
 //				}
 			}
 			
+			public_lists.addAll(public_lists_set);
+			
 		}
-		
-		public_lists.addAll(public_lists_set);
-		
+
 		return public_lists;
 		
 	}
@@ -733,6 +760,16 @@ public class CloudInteractionHandler {
 		
 	}
 	
+	public static QueryResults<Entity> getRandomPublicAccounts() {
+		
+		Query<Entity> query = Query.newEntityQueryBuilder().setKind("User Account").setFilter(PropertyFilter.eq("hasStorage", true)).setFilter(PropertyFilter.lt("seed", ThreadLocalRandom.current().nextInt(5, 10))).setLimit(8).build();
+		
+		QueryResults<Entity> results = datastore.run(query); 
+		
+		return results;
+		
+	}
+	
 	/**
 	 * Method to get every public list stored on the cloud. Returns the cloud path to the folder
 	 * containing each of the public lists.
@@ -740,7 +777,7 @@ public class CloudInteractionHandler {
 	 * @return	null if not logged in or there are no public lists, an array list of the cloud paths
 	 * 			if user is logged in and their are public lists on the cloud
 	 */
-	public static ArrayList<String> getAllPublicLists() {
+	public static ArrayList<String> getRandomPublicLists() {
 		
 		ArrayList<String> public_lists = null;
 		
@@ -754,24 +791,22 @@ public class CloudInteractionHandler {
 			return null;
 		}
 		
-		//fetches all of the public lists
-		Page<Blob> blobs = storage.list("we-tech-user-storage");
+		QueryResults<Entity> results = getRandomPublicAccounts();
 		
-		//returns if there are no public lists
-		if(blobs == null) {
-			return null;
+		ArrayList<Page<Blob>> all_lists = new ArrayList<Page<Blob>>();
+		
+		while(results.hasNext()) {
+//			System.out.println(results.next());
+			
+			all_lists.add(storage.list("we-tech-user-storage", BlobListOption.prefix(results.next().getKey().getId() + "/public/")));
+
 		}
 		
-		//creates a new array list
-		public_lists = new ArrayList<String>();
-		
-		
-		//loops through every list fetched from the cloud
-		for(Blob blob : blobs.iterateAll()) {
+		for(Page<Blob> blobs : all_lists) {
 			
-			//if the list contains "/public/" string, then perform some string manipulation and
-			//add it to the linked hash set
-			if(blob.getName().contains("/public/")) {
+			for(Blob blob : blobs.iterateAll()) {
+				
+//				System.out.println(blob.getName());
 				
 				//split the string at every instance of a "/"
 				String[] blob_name_parts = blob.getName().split("/");
@@ -786,16 +821,18 @@ public class CloudInteractionHandler {
 			
 		}
 		
+		public_lists = new ArrayList<String>();
+		
 		//moves the linked hash set into the array list
 		public_lists.addAll(public_lists_set);
 		
 		//prints all items in array list
 		//TODO remove in final
-//		for(String name : public_lists) {
-//			
-//			System.out.println(name);
-//			
-//		}
+		for(String name : public_lists) {
+			
+			System.out.println(name);
+			
+		}
 		
 		//returns the array list
 		return public_lists;

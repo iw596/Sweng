@@ -275,7 +275,6 @@ public class ComparisonScreenController implements Initializable {
 		} else if (left_object.getType().equals("VideoItem")||left_object.getType().equals("YouTubeItem") && video_controllers.size() == 2){
 			System.out.println("Greater than two videos");
 			changeVideoPlayerVideo(left_object.getPath(),0);
-			
 		}
 		
 		//if the right object is a video item, instantiate the video player
@@ -392,7 +391,7 @@ public class ComparisonScreenController implements Initializable {
 	private void instantiateVideoPlayer(BasicItem item, Pane pane) {
 		System.out.println("Called");
 		NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
-		//NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
+		NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
 		System.out.println(item.getPath());
 		String [] paths = {item.getPath()};
 		System.out.println(paths[0]);

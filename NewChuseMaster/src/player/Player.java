@@ -44,6 +44,7 @@ public class Player extends BorderPane {
 	    public Player(Canvas canvas) {
 	    	// Add location of VLC, this may need to be changed depending on where VLC is installed
 	    	NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
+	    	NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
 	    	this.height = (int) canvas.getHeight();
 	    	this.width = (int) canvas.getWidth();
 	    	System.out.println("The height is: " + height + " The width is: " + width);

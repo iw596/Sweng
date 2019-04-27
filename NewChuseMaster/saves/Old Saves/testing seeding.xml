@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id User="new_seed">
+  <page>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>test</title>
+      <path>n/a</path>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>seed</title>
+      <path>n/a</path>
+    </multimedia>
+  </page>
+  <results Time="2019-04-26 10:23:58">
+    <multimedia>
+      <type>BasicItem</type>
+      <title>test</title>
+      <path>n/a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>seed</title>
+      <path>n/a</path>
+      <points>2</points>
+    </multimedia>
+  </results>
+<results Time="2019-04-26 10:25:42">
+    <multimedia>
+      <type>BasicItem</type>
+      <title>test</title>
+      <path>n/a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>seed</title>
+      <path>n/a</path>
+      <points>2</points>
+    </multimedia>
+  </results>
+</id>

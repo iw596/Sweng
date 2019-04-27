@@ -510,5 +510,38 @@ public class BackEndContainer {
 	public Boolean wasAccountCreated() {
 		return wasAccountCreated;
 	}
+	
+//	public ArrayList<String> getRandomPublicAccountUsernames() {
+//		
+//		QueryResults<Entity> results = CloudInteractionHandler.getRandomPublicAccounts();
+//		
+//		if(results == null) {
+//			return null;
+//		}
+//		
+//		ArrayList<String> usernames = new ArrayList<String>();
+//		
+//		while(results.hasNext()) {
+//			usernames.add(results.next().getString("username"));
+//		}
+//
+//		return usernames;
+//	}
+	
+	public ArrayList<String> getRandomPublicLists() {
+		return CloudInteractionHandler.getRandomPublicLists();
+	}
+	
+	public String getAccountNameFromId(int Id) {
+		
+		Entity account = CloudInteractionHandler.getUserAccountEntity(Id);
+		
+		if(account == null) {
+			return null;
+		}
+		
+		return account.getString("username");
+		
+	}
 
 }

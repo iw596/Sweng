@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id User="alexei">
+  <page>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>jahsdas</title>
+      <path>n/a</path>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>iuhsgiusdagusdf</title>
+      <path>n/a</path>
+    </multimedia>
+  </page>
+  <results Time="2019-04-24 12:19:37">
+    <multimedia>
+      <type>BasicItem</type>
+      <title>iuhsgiusdagusdf</title>
+      <path>n/a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>jahsdas</title>
+      <path>n/a</path>
+      <points>2</points>
+    </multimedia>
+  </results>
+</id>

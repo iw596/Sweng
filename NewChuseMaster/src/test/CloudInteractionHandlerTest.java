@@ -46,7 +46,7 @@ public class CloudInteractionHandlerTest {
 		
 		CloudInteractionHandler.logIn("test@gmail.com", "testing123");
 		
-		ArrayList<String> public_lists = CloudInteractionHandler.getAllPublicLists();
+		ArrayList<String> public_lists = CloudInteractionHandler.getRandomPublicLists();
 		
 		for(String list : public_lists) {
 			
