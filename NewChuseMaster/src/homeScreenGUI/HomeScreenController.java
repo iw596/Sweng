@@ -1,18 +1,14 @@
 package homeScreenGUI;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import javax.swing.filechooser.FileFilter;
-
 import com.jfoenix.controls.JFXButton;
 
 import backEnd.BackEndContainer;
-import comparisonScreenGUI.ComparisonScreenController;
 import intermediateScreensGUI.InterAudioController;
 import intermediateScreensGUI.InterImageController;
 import intermediateScreensGUI.InterTextController;
@@ -25,10 +21,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import previewListScreenGUI.PreviewListController;

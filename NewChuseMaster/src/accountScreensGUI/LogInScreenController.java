@@ -112,6 +112,21 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
     public LogInScreenController(BackEndContainer back_end, MasterScreenController sidebar) {
     	this.back_end = back_end;
     	this.sidebar = sidebar;
+    	startCloudService();
+    }
+    
+    private void startCloudService() {
+    	Thread thread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				back_end.startCloudHandler();
+			}
+    	});
+    	
+    	thread.start();
+    	
     }
     
     @FXML
@@ -281,7 +296,9 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
 			
 		});
 		
-		this.back_end.startCloudHandler();
+//		this.back_end.startCloudHandler();
+		
+		root.requestFocus();
 		
 	}
 
@@ -357,23 +374,6 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
 			}
 			
 		});
-		
-//    	//creates an account and checks that the account can be created successfully
-//    	if(this.back_end.createAccount(create_email.getText(), create_username.getText(), create_password.getText(), Integer.parseInt(age.getText()), gender.getSelectionModel().getSelectedItem())) {
-//    		//displays success message
-//    		sign_up_comment.setText("Account created successfully!");
-//    		//removes all entered text and gender selection
-//    		create_email.setText("");
-//    		create_username.setText("");
-//    		create_password.setText("");
-//    		confirm_password.setText("");
-//    		age.setText("");
-//    		gender.getSelectionModel().clearSelection();
-//    	} else {
-//    		//displays an error message
-//    		sign_up_comment.setText("Account with this username or email already in use.");
-//    	}
-		
 		
 	}
 	

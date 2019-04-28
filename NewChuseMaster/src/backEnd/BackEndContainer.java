@@ -63,11 +63,15 @@ public class BackEndContainer {
 	
 	private ArrayList<String> public_lists;
 	
+	private ArrayList<String> logged_in_users_lists;
+	
 	private String current_list_file_name;
 	
 	private String list_owner;
 	
 	private Boolean wasAccountCreated = false;
+
+	private ArrayList<String> random_public_lists;
 	
 	/**
 	 * Constructor function for the BackEndContainer object. Sets the current list and
@@ -78,6 +82,8 @@ public class BackEndContainer {
 		current_results = null;
 		current_list_file_name = null;
 		list_owner = null;
+		logged_in_users_lists = null;
+		random_public_lists = null;
 	}
 	
 	/**
@@ -327,7 +333,11 @@ public class BackEndContainer {
 	 * Method to start the back-end Google Cloud Platform Interaction handler.
 	 */
 	public void startCloudHandler() {
-		this.cloud_handler = new CloudInteractionHandler();
+		
+		if(this.cloud_handler == null) {
+			this.cloud_handler = new CloudInteractionHandler();
+		}
+		
 	}
 	
 	/**
@@ -519,9 +529,21 @@ public class BackEndContainer {
 	 * @param username	the username of the user
 	 * @return
 	 */
-	public ArrayList<String> getLoggedInUsersLists(String username) {
+	public void loadLoggedInUsersLists(String username) {
 		
-		return CloudInteractionHandler.getAllProfileContent(username);
+		this.logged_in_users_lists = CloudInteractionHandler.getAllProfileContent(username);
+		
+	}
+	
+	/**
+	 * Method to get all of the currently logged in user's lists.
+	 * 
+	 * @param username	the username of the user
+	 * @return
+	 */
+	public ArrayList<String> getLoggedInUsersLists() {
+		
+		return this.logged_in_users_lists;
 		
 	}
 	
@@ -534,11 +556,19 @@ public class BackEndContainer {
 	}
 	
 	/**
-	 * Method to get a random selection of public lists.
+	 * Method to load a random selection of public lists.
+	 * @return
+	 */
+	public void loadRandomPublicLists() {
+		this.random_public_lists = CloudInteractionHandler.getRandomPublicLists();
+	}
+	
+	/**
+	 * Method to get a pre-loaded random selection of public lists.
 	 * @return
 	 */
 	public ArrayList<String> getRandomPublicLists() {
-		return CloudInteractionHandler.getRandomPublicLists();
+		return this.random_public_lists;
 	}
 	
 	/**

@@ -1,13 +1,10 @@
 package resultsScreenGUI;
 
-import java.awt.Event;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import org.apache.commons.io.FilenameUtils;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;

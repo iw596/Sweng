@@ -1,4 +1,7 @@
 package spotifydata;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import com.neovisionaries.i18n.CountryCode;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
@@ -6,18 +9,11 @@ import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.PlaylistTrack;
 import com.wrapper.spotify.requests.data.playlists.GetPlaylistsTracksRequest;
 
-import listDataStructure.AudioItem;
 import listDataStructure.BasicItem;
 import listDataStructure.SpotifyItem;
-import uk.co.caprica.vlcj.discovery.NativeDiscovery;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 public class GetPlaylistsTracks {
-	 private static String playlist_id; //= "3AGOiaoRXMSjswCLtuNqv5";
+//	 private static String playlist_id; //= "3AGOiaoRXMSjswCLtuNqv5";
 
 	 private static SpotifyApi spotifyApi;
 	  
@@ -26,7 +22,7 @@ public class GetPlaylistsTracks {
 	  @SuppressWarnings("static-access")
 	public GetPlaylistsTracks (SpotifyApi spotifyApi, String playlist_id){
 		  this.spotifyApi = spotifyApi;
-		  this.playlist_id = playlist_id;
+//		  this.playlist_id = playlist_id;
 		  this.getPlaylistsTracksRequest = this.spotifyApi
 	      .getPlaylistsTracks(playlist_id)
 	      /*.fields("description")*/

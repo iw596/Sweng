@@ -9,7 +9,8 @@ import com.jfoenix.controls.JFXButton;
 
 import backEnd.BackEndContainer;
 import cloudInteraction.DownloadingScreenController;
-import comparisonScreenGUI.ComparisonScreenController;
+import cloudInteraction.RunnableUserListFetcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,8 +21,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import multithreading.NotifyingThread;
+import multithreading.ThreadTerminationListener;
 
-public class CloudFileListController implements Initializable {
+public class CloudFileListController implements Initializable, ThreadTerminationListener {
 
     @FXML
     private ScrollPane cloud_scroll_pane;
@@ -39,8 +42,14 @@ public class CloudFileListController implements Initializable {
 		this.back_end = back_end;
 		this.home_controller = home_controller;
 		
-		cloud_paths = back_end.getLoggedInUsersLists(back_end.getLocalAccount().getUsername());
+		RunnableUserListFetcher list_fetcher = new RunnableUserListFetcher(back_end, back_end.getLocalAccount().getUsername());
 		
+		list_fetcher.addTerminationListener(this);
+		
+		Thread thread = new Thread(list_fetcher);
+		
+		thread.start();
+
 	}
 	
 	@Override
@@ -48,8 +57,6 @@ public class CloudFileListController implements Initializable {
 		
 		cloud_scroll_pane.setFitToHeight(true);
 		cloud_scroll_pane.setFitToWidth(true);
-		
-		createButtons();
 		
 	}
 	
@@ -90,39 +97,18 @@ public class CloudFileListController implements Initializable {
 				@Override
 				public void handle(ActionEvent arg0) {
 					
-				try {
-					//load the comparison screen and start the tournament comparison algorithm
-					FXMLLoader loader = new FXMLLoader(cloudInteraction.DownloadingScreenController.class.getResource("DownloadingScreen.fxml"));
-					DownloadingScreenController controller = new DownloadingScreenController(back_end, path);
-			    	loader.setController(controller);
-					BorderPane new_pane = loader.load();
-					home_controller.showInSelf(new_pane);
-					System.gc();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-					
-//					try {
-//						if(!back_end.downloadList(path)) {
-//							return;
-//						}
-//					} catch (IOException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					}
-//
-//					try {
-//						//load the comparison screen and start the tournament comparison algorithm
-//						FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
-//				    	ComparisonScreenController controller = new ComparisonScreenController(back_end);
-//				    	loader.setController(controller);
-//						BorderPane new_pane = loader.load();
-//						home_controller.showInSelf(new_pane);
-//					} catch (IOException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
+					try {
+						//load the comparison screen and start the tournament comparison algorithm
+						FXMLLoader loader = new FXMLLoader(cloudInteraction.DownloadingScreenController.class.getResource("DownloadingScreen.fxml"));
+						DownloadingScreenController controller = new DownloadingScreenController(back_end, path);
+				    	loader.setController(controller);
+						BorderPane new_pane = loader.load();
+						home_controller.showInSelf(new_pane);
+						System.gc();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
 				}
     			
@@ -131,6 +117,26 @@ public class CloudFileListController implements Initializable {
 		}
 		
 		files_pane.getChildren().addAll(file_buttons);
+		
+	}
+
+	@Override
+	public void notifyOfThreadTermination(NotifyingThread thread) {
+		// TODO Auto-generated method stub
+		
+		System.out.println("Thread completed!");
+		
+		cloud_paths = back_end.getLoggedInUsersLists();
+		
+		Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				createButtons();
+			}
+			
+		});
 		
 	}
 

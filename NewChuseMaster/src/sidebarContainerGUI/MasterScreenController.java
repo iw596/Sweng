@@ -15,13 +15,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
+import multithreading.NotifyingThread;
+import multithreading.ThreadTerminationListener;
 import publicListsScreenGUI.PublicListsScreenController;
 import searchScreenGUI.NotLoggedInScreenController;
-import searchScreenGUI.UsernameSearchScreenController;
 import socialScreenGUI.SocialScreenController;
 
 /**
@@ -35,7 +34,7 @@ import socialScreenGUI.SocialScreenController;
  * @author Dan Jackson
  *
  */
-public class MasterScreenController implements Initializable {
+public class MasterScreenController implements Initializable, ThreadTerminationListener {
 
     @FXML
     private JFXTextField search_bar;
@@ -50,17 +49,16 @@ public class MasterScreenController implements Initializable {
     private JFXButton account_button;
 
     @FXML
-    private ImageView home_button;
+    private JFXButton home_button;
 
     @FXML
-    private ImageView settings_button;
+    private JFXButton settings_button;
 
     @FXML
-    private ImageView social_button;
+    private JFXButton social_button;
     
     private BackEndContainer back_end;
     
-	
     private String search_text;
     
     /**
@@ -143,6 +141,8 @@ public class MasterScreenController implements Initializable {
     void showAccountScreen(ActionEvent event) throws IOException {
     	System.out.println("Account Screen Button Pressed");
     	
+    	back_end.setListOwner(null);
+    	
     	if(back_end.getLocalAccount() == null) {
     		FXMLLoader loader = new FXMLLoader(accountScreensGUI.LogInScreenController.class.getResource("LogInScreen.fxml"));
         	LogInScreenController controller = new LogInScreenController(back_end, this);
@@ -176,8 +176,6 @@ public class MasterScreenController implements Initializable {
     	bindSizeProperties(new_pane);
     	
     	back_end.setComparingLosers(false);
-    	
-    	//controller.initialize(null, null);
 
     }
 
@@ -224,7 +222,7 @@ public class MasterScreenController implements Initializable {
     	System.out.println("Social Button Pressed");
     	
     	back_end.setListOwner(null);
-    	
+
     	if(this.back_end.getLocalAccount() != null) {
     		FXMLLoader loader = new FXMLLoader(socialScreenGUI.SocialScreenController.class.getResource("SocialScreen.fxml"));
     		SocialScreenController controller = new SocialScreenController(back_end);
@@ -238,13 +236,20 @@ public class MasterScreenController implements Initializable {
         	BorderPane new_pane = loader.load();
         	bindSizeProperties(new_pane);
     	}
-    	
-    	
-    	
+
     }
     
+    /**
+     * Method to set the username button's currently displayed text to the user's user name.
+     * 
+     * @param username	the user name to display on the button
+     */
     public void setUsernameText(String username) {
-    	account_button.setText(username);
+    	if(username.equals("Log In")) {
+    		account_button.setText(username);
+    	} else {
+    		account_button.setText("@" + username);
+    	}
     }
     
     /**
@@ -303,6 +308,12 @@ public class MasterScreenController implements Initializable {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void notifyOfThreadTermination(NotifyingThread thread) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

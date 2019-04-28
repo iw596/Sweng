@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id User="">
+  <page>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Pizza</title>
+      <path>n/a</path>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Curry</title>
+      <path>n/a</path>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Burger</title>
+      <path>n/a</path>
+    </multimedia>
+  </page>
+</id>

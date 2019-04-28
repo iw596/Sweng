@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import com.jfoenix.controls.JFXButton;
 
 import backEnd.BackEndContainer;
+import cloudInteraction.DownloadingScreenController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -61,7 +64,7 @@ public class UserPreviewItem extends VBox {
 		//adds list buttons to the object
 		addLists();
 		//sets padding on the object
-		this.setPadding(new Insets(25, 25, 25, 25));
+		this.setPadding(new Insets(10, 25, 10, 25));
 		this.setAlignment(Pos.CENTER);
 		this.getChildren().add(title);
 		this.getChildren().add(list_scroll_pane);
@@ -96,9 +99,9 @@ public class UserPreviewItem extends VBox {
 		list_box.getChildren().addAll(buttons);
 		
 		//binds the size properties of the object to the button heights * 2 and the title box height
-		this.prefHeightProperty().bind(buttons.get(0).heightProperty().multiply(2).add(title_box.getHeight()));
-		this.minHeightProperty().bind(buttons.get(0).heightProperty().multiply(2).add(title_box.getHeight()));
-		this.maxHeightProperty().bind(buttons.get(0).heightProperty().multiply(2).add(title_box.getHeight()));
+//		this.prefHeightProperty().bind(buttons.get(0).heightProperty().multiply(2).add(title_box.getHeight()));
+//		this.minHeightProperty().bind(buttons.get(0).heightProperty().multiply(2).add(title_box.getHeight()));
+//		this.maxHeightProperty().bind(buttons.get(0).heightProperty().multiply(2).add(title_box.getHeight()));
 		
 	}
 	
@@ -130,8 +133,15 @@ public class UserPreviewItem extends VBox {
 				public void handle(ActionEvent event) {
 					
 					try {
-						back_end.downloadList(list);
-						parent.showPreviewListScreen(name);
+//						back_end.downloadList(list);
+//						parent.showPreviewListScreen(name);
+						back_end.setListOwner(name);
+						FXMLLoader loader = new FXMLLoader(cloudInteraction.DownloadingScreenController.class.getResource("DownloadingScreen.fxml"));
+						DownloadingScreenController controller = new DownloadingScreenController(back_end, list);
+						loader.setController(controller);
+						BorderPane new_pane = loader.load();
+						parent.showInSelf(new_pane);
+						
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

@@ -74,9 +74,9 @@
    <left>
       <VBox prefWidth="40.0" style="-fx-background-color: #444444;" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton onAction="#showHomeScreen" text=" " wrapText="true">
+            <JFXButton fx:id="home_button" onAction="#showHomeScreen" text=" " wrapText="true">
                <graphic>
-                  <ImageView fx:id="home_button" pickOnBounds="true" preserveRatio="true">
+                  <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@home.png" />
                      </image>
@@ -92,9 +92,9 @@
                   <Insets bottom="6.0" left="7.0" top="3.0" />
                </padding>
             </JFXButton>
-            <JFXButton layoutX="10.0" layoutY="70.0" onAction="#showSettingsScreen" text=" " wrapText="true">
+            <JFXButton fx:id="settings_button" layoutX="10.0" layoutY="70.0" onAction="#showSettingsScreen" text=" " wrapText="true">
                <graphic>
-                  <ImageView fx:id="settings_button" pickOnBounds="true" preserveRatio="true">
+                  <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@settings.png" />
                      </image>
@@ -110,9 +110,9 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </JFXButton>
-            <JFXButton layoutX="10.0" layoutY="104.0" onAction="#showSocialScreen" text=" " wrapText="true">
+            <JFXButton fx:id="social_button" layoutX="10.0" layoutY="104.0" onAction="#showSocialScreen" text=" " wrapText="true">
                <graphic>
-                  <ImageView fx:id="social_button" pickOnBounds="true" preserveRatio="true">
+                  <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@social.png" />
                      </image>

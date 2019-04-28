@@ -15,26 +15,13 @@ import uk.co.caprica.vlcj.player.direct.DirectMediaPlayer;
 
 public class CanvasComponent extends DirectMediaPlayerComponent{
 	private WritableImage writable_image;
-	private WritablePixelFormat<ByteBuffer> pixel_format;
-	private int width;
-	private int height;
    
 	public CanvasComponent(FloatProperty video_source_ratio_property,WritableImage writable_image,WritablePixelFormat<ByteBuffer> pixel_format,int width,int height) {
         super(new CanvasBuffer(video_source_ratio_property, width, height));
         this.writable_image = writable_image;
-        this.pixel_format =  pixel_format;
-        this.width = width;
-        this.height = height;
     }
 
     PixelWriter pixelWriter = null;
-
-    private PixelWriter getPW() {
-        if (pixelWriter == null) {
-            pixelWriter = writable_image.getPixelWriter();
-        }
-        return pixelWriter;
-    }
 
     @Override
     public void display(DirectMediaPlayer mediaPlayer, Memory[] nativeBuffers, BufferFormat bufferFormat) {

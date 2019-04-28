@@ -33,7 +33,7 @@ public class AuthorisationURI {
 	  
 	  public SpotifyApi getSpotifyAPI() {
 			// TODO Auto-generated method stub
-			return this.spotify_api;
+			return spotify_api;
 		}
 
 

@@ -29,7 +29,6 @@ import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
  */
 public class Player extends BorderPane {
 
-		private String[] paths; 
 		private ImageView image_view;
 	    private DirectMediaPlayerComponent media_player_component;
 	    private WritableImage writable_image;
@@ -117,18 +116,4 @@ public class Player extends BorderPane {
 	        });
 	    }
 	    
-	    /** This methods takes an array of strings which are file paths to videos
-	     *  or links to Youtube videos. This method stores this array and loads the
-	     *  first video into the player.
-	     * 
-	     * @param paths - list of strings containing links and filepaths to videos
-	     */
-	    public void loadVideos (String paths[]) {
-	    	// Store the paths
-	    	this.paths = paths;
-	    	
-	    }
-	    
-
-
 }

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.io.FileUtils;
@@ -25,9 +24,7 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.ReadOption;
 import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
-import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
@@ -781,7 +778,7 @@ public class CloudInteractionHandler {
 				setKind("User Account")
 				.setFilter(CompositeFilter.and(PropertyFilter.eq("seed", seed), 
 						PropertyFilter.eq("hasStorage", true)))
-				.setLimit(8)
+				.setLimit(16)
 				.build();
 		
 		//retrieve 2 copies of the list of account entities

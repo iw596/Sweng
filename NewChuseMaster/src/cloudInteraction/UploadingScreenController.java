@@ -5,8 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import backEnd.BackEndContainer;
-import comparisonScreenGUI.ComparisonScreenController;
-import homeScreenGUI.HomeScreenController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +13,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import multithreading.NotifyingThread;
 import multithreading.ThreadTerminationListener;
-import previewListScreenGUI.PreviewListController;
 import resultsScreenGUI.ResultsScreenController;
 
 public class UploadingScreenController implements ThreadTerminationListener, Initializable {

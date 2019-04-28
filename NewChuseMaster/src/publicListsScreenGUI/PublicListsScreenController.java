@@ -21,7 +21,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import previewListScreenGUI.PreviewListController;
 
 
 /**
@@ -138,21 +137,6 @@ public class PublicListsScreenController implements Initializable{
     	for(JFXButton button : file_buttons) {
     		lists_pane.getChildren().add(button);
     	}
-		
-	}
-	
-	/**
-	 * Method to show the list preview screen within the current pane.
-	 * @param cloud_path	the path to the list stored on the cloud
-	 * @throws IOException
-	 */
-	private void showPreviewListScreen(String cloud_path) throws IOException {
-		
-    	FXMLLoader loader = new FXMLLoader(previewListScreenGUI.PreviewListController.class.getResource("PreviewList.fxml"));
-    	PreviewListController controller = new PreviewListController(back_end, this.username);
-    	loader.setController(controller);
-    	BorderPane new_pane = loader.load();
-    	showInSelf(new_pane);
 		
 	}
 	

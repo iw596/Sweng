@@ -3,26 +3,25 @@ package socialScreenGUI;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXButton;
-
 import backEnd.BackEndContainer;
+import cloudInteraction.RunnableRandomListFetcher;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import multithreading.NotifyingThread;
+import multithreading.ThreadTerminationListener;
 import previewListScreenGUI.PreviewListController;
 
 /**
@@ -36,7 +35,7 @@ import previewListScreenGUI.PreviewListController;
  * @author Dan Jackson
  *
  */
-public class SocialScreenController implements Initializable {
+public class SocialScreenController implements Initializable, ThreadTerminationListener {
 	
     @FXML
     private BorderPane root;
@@ -54,6 +53,8 @@ public class SocialScreenController implements Initializable {
     private VBox right_column;
     
 	private BackEndContainer back_end;
+	
+	private UserPreviewDataStructure preview_data;
 
 	/**
 	 * Constructor for the social screen controller.
@@ -61,6 +62,14 @@ public class SocialScreenController implements Initializable {
 	 */
     public SocialScreenController(BackEndContainer back_end) {
     	this.back_end = back_end;
+    	startListFetcherThread();
+    }
+    
+    private void startListFetcherThread() {
+    	RunnableRandomListFetcher fetcher = new RunnableRandomListFetcher(back_end);
+    	fetcher.addTerminationListener(this);
+    	Thread thread = new Thread(fetcher);
+    	thread.start();
     }
     
 	@Override
@@ -69,26 +78,11 @@ public class SocialScreenController implements Initializable {
 	 * and adds them to the screen.
 	 */
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		UserPreviewDataStructure preview = new UserPreviewDataStructure();
-		
-		//returns if there are no users retrieved
-		if(preview.getNumberOfUsers() < 1) {
-			return;
-		}
-		
-		int row;
-		
+
 		discover_scroll_pane.setFitToHeight(true);
 		discover_scroll_pane.setFitToWidth(true);
-		
-		//check if the number of users is even
-		if(preview.getNumberOfUsers() % 2 != 0) {
-			preview.remove(preview.getNumberOfUsers() - 1);
-		}
-		
-		//finds the number of rows of items
-		int rows = (int) (Math.ceil(preview.getNumberOfUsers()) / 2);
+
+		showLoadingScreen();
 		
 		//binds the size properties of the columns to half the width of the window
 		right_column.prefWidthProperty().bind(root.widthProperty().divide(2));
@@ -99,15 +93,47 @@ public class SocialScreenController implements Initializable {
 		left_column.maxWidthProperty().bind(root.widthProperty().divide(2));
 		
 		System.out.println(root.getPrefWidth());
+
+	}
+	
+	/**
+	 * Method to show a loading animation on the screen whilst the public lists are loaded.
+	 */
+	private void showLoadingScreen() {
 		
-		System.out.println(rows);
+		//creates the loading animation and sets its size
+		ProgressIndicator loading_animation = new ProgressIndicator();
+		loading_animation.setPrefSize(76, 81);
+		loading_animation.setProgress(-1);
+		
+		//creates a container for the animation and text and sets the spacing and alignment for it
+		VBox container = new VBox(loading_animation);
+		container.setSpacing(24);
+		container.setAlignment(Pos.CENTER);
+		
+		//creates loading text and sets its font size to 18
+		Text loading_text = new Text("Loading...");
+		loading_text.setStyle("-fx-font-size: 18");
+		
+		//adds the loading text to the container
+		container.getChildren().add(loading_text);
+		
+		//sets the container as the content for the scroll pane
+		discover_scroll_pane.setContent(container);
+	}
+	
+	/**
+	 * Method to create the user preview boxes with the relevant user and list
+	 * data.
+	 */
+	private void createUserPreviews() {
 		
 		//loops through every user
-		for(row = 0; row < preview.getNumberOfUsers(); row++) {
+		for(int row = 0; row < preview_data.getNumberOfUsers(); row++) {
 			
 			//creates a user preview item for the current username and set of lists
-			UserPreviewItem box = new UserPreviewItem(preview.getUserName(row), preview.getUserLists(row), this.back_end, this);
-			
+			UserPreviewItem box = new UserPreviewItem(preview_data.getUserName(row), preview_data.getUserLists(row), this.back_end, this);
+
 			//if the row is even, add to right column
 			if((row + 1) % 2 == 0) {
 				System.out.println("column 2");
@@ -119,11 +145,69 @@ public class SocialScreenController implements Initializable {
 			}
 
 		}
+	}
+	
+	/**
+	 * Method to retrieve the user data and turn it into a usable preview data structure object.
+	 * @param lists	the data to convert into the preview data structure object
+	 * @return	the preview data structure object
+	 */
+	private UserPreviewDataStructure getUserPreviewData(ArrayList<String> lists) {
+		
+		UserPreviewDataStructure preview = new UserPreviewDataStructure(lists);
+		
+		//returns if there are no users retrieved
+		if(preview.getNumberOfUsers() < 1) {
+			return null;
+		}
+		
+		//check if the number of users is even
+		if(preview.getNumberOfUsers() % 2 != 0) {
+			preview.remove(preview.getNumberOfUsers() - 1);
+		}
+		
+		return preview;
+		
+	}
+	
+	@Override
+	/**
+	 * Method called when the thread fetching the random user accounts terminates.
+	 */
+	public void notifyOfThreadTermination(NotifyingThread thread) {
+		// TODO Auto-generated method stub
+		
+		//fetches the random list data
+		ArrayList<String> lists = back_end.getRandomPublicLists();
+		
+		//creates and stores the preview data structure from the fetched data
+		preview_data = getUserPreviewData(lists);
+		
+		//checks that the list data and the data structure data both exist
+		//and that there is more than one item in the list
+		if(lists == null || preview_data == null || lists.size() == 1) {
+			//if they don't then restart fetcher thread and return
+			startListFetcherThread();
+			return;
+		}
+
+		//runs once back on the main JavaFX application thread
+		//this is due to all GUI modifications having to be run from the same thread
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				//creates the user preview GUI objects
+				createUserPreviews();
+				discover_scroll_pane.setContent(grid_container);
+			}
+			
+		});
 		
 	}
 	
 	/**
-	 * Creates the user preview data structure. Stores an array list of array lists of strings, with the contained
+	 * User preview data structure. Inner class. Stores an array list of array lists of strings, with the contained
 	 * array list of strings storing the user ID, username and the user's public lists.
 	 *  
 	 * @author Dan
@@ -136,11 +220,12 @@ public class SocialScreenController implements Initializable {
     	
     	/**
     	 * Constructor for the user preview data structure.
+    	 * @param 
     	 */
-    	private UserPreviewDataStructure() {
-    		
-    		//fetches a random selection of public lists
-    		ArrayList<String> lists = back_end.getRandomPublicLists();
+    	private UserPreviewDataStructure(ArrayList<String> lists) {
+
+    		//randomly shuffles the array list of lists
+    		Collections.shuffle(lists);
     		
     		//creates the data structure
     		createDataStructure(lists);
@@ -268,7 +353,7 @@ public class SocialScreenController implements Initializable {
      * Method to display another .fxml file within the current screen.
      * @param new_pane
      */
-    private void showInSelf(BorderPane new_pane) {
+    void showInSelf(BorderPane new_pane) {
     	
     	new_pane.prefWidthProperty().bind(root.widthProperty());
     	new_pane.prefHeightProperty().bind(root.heightProperty());
@@ -288,5 +373,5 @@ public class SocialScreenController implements Initializable {
     	System.gc();
 	
     }
-    
+
 }

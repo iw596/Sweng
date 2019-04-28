@@ -80,32 +80,32 @@ public class DataStructureTest {
 		
 	}
 	
-	@Test 
-	/**
-	 * Method to test that a Spotify item can be created successfully and that the item's
-	 * properties can be successfully returned.
-	 */
-	public void createSpotifyItem() {
-		
-		ArrayList<String> song_metadata = new ArrayList<String>();
-		
-		song_metadata.add("Title");
-		song_metadata.add("Artist");
-		song_metadata.add("Album");
-		song_metadata.add("Date");
-		song_metadata.add("Genre");
-		
-		SpotifyItem test_item = new SpotifyItem("Song URL", song_metadata);
-		
-		assertEquals("Title", test_item.getTitle());
-		assertEquals("Song URL", test_item.getPath());
-		assertEquals("Artist", test_item.getMetadata().get(1)); 
-		assertEquals("Album", test_item.getMetadata().get(2)); 
-		assertEquals("Date", test_item.getMetadata().get(3)); 
-		assertEquals("Genre", test_item.getMetadata().get(4));
-		 
-		
-	}
+//	@Test 
+//	/**
+//	 * Method to test that a Spotify item can be created successfully and that the item's
+//	 * properties can be successfully returned.
+//	 */
+//	public void createSpotifyItem() {
+//		
+//		ArrayList<String> song_metadata = new ArrayList<String>();
+//		
+//		song_metadata.add("Title");
+//		song_metadata.add("Artist");
+//		song_metadata.add("Album");
+//		song_metadata.add("Date");
+//		song_metadata.add("Genre");
+//		
+//		SpotifyItem test_item = new SpotifyItem("Song URL", song_metadata);
+//		
+//		assertEquals("Title", test_item.getTitle());
+//		assertEquals("Song URL", test_item.getPath());
+//		assertEquals("Artist", test_item.getMetadata().get(1)); 
+//		assertEquals("Album", test_item.getMetadata().get(2)); 
+//		assertEquals("Date", test_item.getMetadata().get(3)); 
+//		assertEquals("Genre", test_item.getMetadata().get(4));
+//		 
+//		
+//	}
 	
 	@Test
 	/**
@@ -218,11 +218,11 @@ public class DataStructureTest {
 		shared_metadata.add("Album");
 		shared_metadata.add("Date");
 		shared_metadata.add("Genre");
-		
-		//adds 10 items to list
-		for(int i=0; i < 10; i++) {
-			test_list.addItem(new SpotifyItem("Song URL " + (i+1), shared_metadata));
-		}
+//		
+//		//adds 10 items to list
+//		for(int i=0; i < 10; i++) {
+//			test_list.addItem(new SpotifyItem("Song URL " + (i+1), shared_metadata));
+//		}
 		
 		assertEquals(10, test_list.getSize());
 		assertEquals("Song URL 1", test_list.get(0).getPath());
@@ -269,13 +269,13 @@ public class DataStructureTest {
 		BasicItem basic_test_item = new BasicItem("Test Item");
 		ImageItem image_test_item = new ImageItem("example\\path\\to\\file.jpg");
 		AudioItem audio_test_item = new AudioItem(System.getProperty("user.dir") + "\\test_audio.wav");
-		SpotifyItem spotify_test_item = new SpotifyItem("Song URL", song_metadata);
+//		SpotifyItem spotify_test_item = new SpotifyItem("Song URL", song_metadata);
 		
 		test_list.addItem(video_test_item);
 		test_list.addItem(basic_test_item);
 		test_list.addItem(image_test_item);
 		test_list.addItem(audio_test_item);
-		test_list.addItem(spotify_test_item);
+//		test_list.addItem(spotify_test_item);
 		
 		assertEquals(5, test_list.getSize());
 		assertEquals("Video Title", test_list.get(0).getTitle());

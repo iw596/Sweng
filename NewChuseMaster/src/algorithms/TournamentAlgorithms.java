@@ -23,9 +23,6 @@ public class TournamentAlgorithms {
 	//variable to track the position of the algorithm
 	private int position;
 	
-	//variable to track the round of the algorithm
-	private int round;
-	
 	//variable to hold the list currently being compared
 	private ChuseList current_list;
 	
@@ -44,7 +41,6 @@ public class TournamentAlgorithms {
 	
 	public TournamentAlgorithms(ChuseList list) {
 		position = 0;
-		round = 0;
 		current_list = list;
 		results_list = new ArrayList<ChuseList>();
 		results_list.add(current_list);
@@ -114,13 +110,6 @@ public class TournamentAlgorithms {
 	 */
 	public void resetPosition() {
 		this.position = 0;
-	}
-	
-	/**
-	 * Method to advance the round of the algorithm.
-	 */
-	public void advanceRound() {
-		this.round++;
 	}
 	
 	/**

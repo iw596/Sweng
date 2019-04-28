@@ -60,8 +60,6 @@ public class PreviewListController implements Initializable {
    
     private String username;
     
-    private String cloud_path;
-    
     /**
      * Constructor for the PreviewListController, takes reference to the back end, the lists username, 
      * the path to it on the cloud and stores all of these variables. It also determines the name of the
@@ -103,7 +101,7 @@ public class PreviewListController implements Initializable {
 		scroll_pane.setFitToHeight(true);
 		scroll_pane.setFitToWidth(true);
 		
-		username_label.setText(username);
+		username_label.setText("@" + username);
 		list_title.setText(list_name);
 		
 //		try {

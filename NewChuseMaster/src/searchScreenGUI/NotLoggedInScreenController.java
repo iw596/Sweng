@@ -16,7 +16,6 @@ import javafx.scene.layout.BorderPane;
 import sidebarContainerGUI.MasterScreenController;
 
 public class NotLoggedInScreenController implements Initializable {
-	
 
     @FXML
     private BorderPane root;
@@ -32,7 +31,7 @@ public class NotLoggedInScreenController implements Initializable {
     	this.back_end = back_end;
     	this.master = master;
     }
-    
+
     @FXML
     void loadLoginScreen(ActionEvent event) throws IOException {
     	

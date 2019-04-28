@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 import com.wrapper.spotify.SpotifyApi;
 
 import backEnd.BackEndContainer;
-import intermediateScreensGUI.InterVideoController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,7 +37,7 @@ public class SpotifyAuthController implements Initializable {
 		Platform.runLater(() -> {
     	AuthorisationURI auth_uri = new AuthorisationURI();
 		WebEngine web_engine = web_view.getEngine();
-		web_engine.load(auth_uri.authorizationCodeUri_Sync().toString());
+		web_engine.load(AuthorisationURI.authorizationCodeUri_Sync().toString());
 		web_engine.getLoadWorker().stateProperty().addListener((ov, o, n) -> {
 			
 		//System.out.println("Change");
@@ -49,7 +48,7 @@ public class SpotifyAuthController implements Initializable {
 				token = location.substring(location.indexOf("=") + 1,location.indexOf("&"));
 				// Have token so can now compliw596ete authorisation
 				AuthorisationCode authCode = new AuthorisationCode(token, auth_uri.getSpotifyAPI());
-				authCode.authorizationCode_Sync();
+				AuthorisationCode.authorizationCode_Sync();
 				//GetPlaylistsTracks getTracks = new GetPlaylistsTracks(authCode.getSpotifyApi(),"3AGOiaoRXMSjswCLtuNqv5");
 				//getTracks.getPlaylistsTracks_Sync();
 				//GetPlaylistExample playlist = new GetPlaylistExample(authCode.getSpotifyApi());

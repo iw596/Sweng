@@ -1,6 +1,5 @@
 package spotifyauth;
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
@@ -8,7 +7,6 @@ import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredential
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 
 public class AuthorisationCode {
-	  private static String code = "";
 
 	  private static SpotifyApi spotifyApi;
 	  private static AuthorizationCodeRequest authorizationCodeRequest; //= spotifyApi.authorizationCode(code)
@@ -17,7 +15,6 @@ public class AuthorisationCode {
 	  @SuppressWarnings("static-access")
 	  public AuthorisationCode(String code,SpotifyApi spotifyApi){
 		  this.spotifyApi = spotifyApi;
-		  this.code = code;
 		  this.authorizationCodeRequest = spotifyApi.authorizationCode(code)
 		          .build(); 
 		 

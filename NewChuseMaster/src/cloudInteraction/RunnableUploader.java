@@ -1,7 +1,5 @@
 package cloudInteraction;
 
-import java.io.IOException;
-
 import backEnd.BackEndContainer;
 import multithreading.NotifyingThread;
 

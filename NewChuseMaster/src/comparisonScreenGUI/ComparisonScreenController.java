@@ -25,7 +25,6 @@ import listDataStructure.BasicItem;
 import resultsScreenGUI.ResultsScreenController;
 import spotifyplayer.SpotifyPlayer;
 import videoPlayback.Player;
-import videoPlayback.YoutubeController;
 
 /**
  * Class for the comparison screen controller. This class handles all button listeners and interactivity
@@ -208,7 +207,6 @@ public class ComparisonScreenController implements Initializable {
         			//if the odd item does exist, adds the odd item to the list, advances the round
         			//resets the algorithm's position
         			back_end.getComparison().addOddItemToList();
-        			back_end.getComparison().advanceRound();
         			back_end.getComparison().resetPosition();
         			//if the round is not over, updates the text on the buttons with the next item's titles
         			right_button.setText(back_end.getComparison().getCurrentPairTitles().get(1));
@@ -235,7 +233,6 @@ public class ComparisonScreenController implements Initializable {
         	} else {
         		//if the tournament is not over, advances the round, resets the position and
         		//updates the text on the buttons with the next item's titles
-        		back_end.getComparison().advanceRound();
         		back_end.getComparison().resetPosition();
         		right_button.setText(back_end.getComparison().getCurrentPairTitles().get(1));
             	left_button.setText(back_end.getComparison().getCurrentPairTitles().get(0));
@@ -323,36 +320,36 @@ public class ComparisonScreenController implements Initializable {
 		
 	}
 	
-	/**
-	 * Method to instantiate a YouTube video player within another pane on the JavaFX stage.
-	 * 
-	 * @param item - the item to retrieve the media data from
-	 * @param pane - the pane to instantiate the video player in
-	 */
-	private void instantiateYouTubePlayer(BasicItem item, Pane pane) {
-		
-		try {
-			
-			FXMLLoader loader = new FXMLLoader(videoPlayback.YoutubeController.class.getResource("YoutubePlayer.fxml"));
-			YoutubeController controller = new YoutubeController(item.getPath());
-			loader.setController(controller);
-			BorderPane youtube_root = loader.load();
-			StackPane.setAlignment(youtube_root, Pos.CENTER);
-			pane.getChildren().add(youtube_root);
-			
-			youtube_root.prefWidthProperty().bind(pane.widthProperty());
-			youtube_root.prefHeightProperty().bind(pane.heightProperty());
-			youtube_root.minWidthProperty().bind(pane.minWidthProperty());
-			youtube_root.minHeightProperty().bind(pane.minHeightProperty());
-			youtube_root.maxWidthProperty().bind(pane.maxWidthProperty());
-			youtube_root.maxHeightProperty().bind(pane.maxHeightProperty());
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-	}
+//	/**
+//	 * Method to instantiate a YouTube video player within another pane on the JavaFX stage.
+//	 * 
+//	 * @param item - the item to retrieve the media data from
+//	 * @param pane - the pane to instantiate the video player in
+//	 */
+//	private void instantiateYouTubePlayer(BasicItem item, Pane pane) {
+//		
+//		try {
+//			
+//			FXMLLoader loader = new FXMLLoader(videoPlayback.YoutubeController.class.getResource("YoutubePlayer.fxml"));
+//			YoutubeController controller = new YoutubeController(item.getPath());
+//			loader.setController(controller);
+//			BorderPane youtube_root = loader.load();
+//			StackPane.setAlignment(youtube_root, Pos.CENTER);
+//			pane.getChildren().add(youtube_root);
+//			
+//			youtube_root.prefWidthProperty().bind(pane.widthProperty());
+//			youtube_root.prefHeightProperty().bind(pane.heightProperty());
+//			youtube_root.minWidthProperty().bind(pane.minWidthProperty());
+//			youtube_root.minHeightProperty().bind(pane.minHeightProperty());
+//			youtube_root.maxWidthProperty().bind(pane.maxWidthProperty());
+//			youtube_root.maxHeightProperty().bind(pane.maxHeightProperty());
+//
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} 
+//		
+//	}
 	
 	/** Method to instantiate the image viewer. This method takes an image and a pane
 	 * 	where the image will be displayed.
