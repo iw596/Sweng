@@ -51,16 +51,13 @@ public class PlaylistEntryController implements Initializable {
     		GetPlaylistsTracks get_tracks = new GetPlaylistsTracks(spotifyApi,playlist_id);
     		spotify_items = GetPlaylistsTracks.getPlaylistsTracks_Sync();
     		
-    		Platform.runLater(new Runnable() {
 
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					back_end.loadSpotifyItems((Stage) root.getScene().getWindow(),spotify_items);
-				}
-    			
-    		});
+			
+			// TODO Auto-generated method stub
+    		back_end.loadSpotifyItems(spotify_items);
+			
 
+    		
         	if(back_end.getCurrentListSize() < 2) {
         		System.out.println("Nothing to compare - only one item in list.");
         	} else {
