@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import spotifyGUI.SpotifyAuthController;
 
 /**
  * Class for the intermediate audio screen controller. This class handles all button listeners and interactivity
@@ -79,6 +80,8 @@ public class InterAudioController {
     	
     	FXMLLoader loader = new FXMLLoader(spotifyGUI.SpotifyAuthController.class.getResource("SpotifyAuthPage.fxml"));    	
     	BorderPane new_pane = loader.load();
+    	SpotifyAuthController controller = loader.getController();
+    	controller.setBackEnd(back_end);
     	showInSelf(new_pane);
 		
     }
