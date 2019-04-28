@@ -156,7 +156,7 @@ public class BackEndContainer {
 		original_list.addItemArray(video_items);
 	}
 	
-	public void loadSpotifyItems(Stage stage, ArrayList<BasicItem> spotify_items){
+	public void loadSpotifyItems(ArrayList<BasicItem> spotify_items){
 		current_list = new ChuseList();
 		original_list = new ChuseList();
 		
