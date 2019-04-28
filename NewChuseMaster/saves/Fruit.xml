@@ -176,4 +176,66 @@
       <points>5</points>
     </multimedia>
   </results>
+<results Time="2019-04-28 14:58:17">
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Redcurrent</title>
+      <path>n/a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Grapes</title>
+      <path>n/a</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Raspberry</title>
+      <path>n/a</path>
+      <points>3</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Apple</title>
+      <path>n/a</path>
+      <points>4</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Blueberry</title>
+      <path>n/a</path>
+      <points>4</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Orange</title>
+      <path>n/a</path>
+      <points>5</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Pear</title>
+      <path>n/a</path>
+      <points>5</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Strawberry</title>
+      <path>n/a</path>
+      <points>5</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Blackberry</title>
+      <path>n/a</path>
+      <points>5</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Blackcurrent</title>
+      <path>n/a</path>
+      <points>5</points>
+    </multimedia>
+  </results>
 </id>

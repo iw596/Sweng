@@ -152,20 +152,6 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
     	
     	thread.start();
     	
-//    	//logs in and checks that the account can be logged into successfully
-//    	if(this.back_end.logIn(login_email.getText(), login_password.getText())){
-//    		//if it can, removes all the entered text
-//    		login_email.setText("");
-//    		login_password.setText("");
-//    		//sets the username text in the top right hand corner to the account's username
-//    		sidebar.setUsernameText(back_end.getLocalAccount().getUsername());
-//    		//sets the comment text to a success message
-//    		login_comment.setText("Logged in successfully!");
-//    	} else {
-//    		//sets the comment text to a failure message
-//    		login_comment.setText("Unable to log in. Email or password incorrect.");
-//    	}
-    	
     }
 
     @FXML
@@ -338,6 +324,7 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
 				login_password.setText("");
 				//sets the username text in the top right hand corner to the account's username
 				sidebar.setUsernameText(back_end.getLocalAccount().getUsername());
+				sidebar.showLogoutButton();
 				//sets the comment text to a success message
 				login_comment.setText("Logged in successfully!");
 			}

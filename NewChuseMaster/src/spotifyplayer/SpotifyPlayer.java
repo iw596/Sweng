@@ -12,18 +12,25 @@ import com.sun.jna.NativeLibrary;
 import javafx.application.Platform;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleFloatProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.scene.image.WritablePixelFormat;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import uk.co.caprica.vlcj.binding.internal.libvlc_marquee_position_e;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.AudioOutput;
@@ -60,9 +67,14 @@ public class SpotifyPlayer extends BorderPane {
 	    
 	    private Controls controls;
 	    
+	    // Store coordinates where screen will be displayer
+	    private int x_screen_position;
+	    private int y_screen_position;
+	    
 	    // Store window width and height
 	    private int window_width;
 	    private int window_height;
+	    private Stage stage;
 	    private Image test;
 	    
 	    private Text text_artist;
@@ -105,6 +117,11 @@ public class SpotifyPlayer extends BorderPane {
 	    	// Store the window height and window width
 	    	this.window_width = width ;
 	    	this.window_height = height;
+	    
+	    
+	    	// Store the coordinates where the window will be opened
+	        this.x_screen_position = x_screen_position;
+	        this.y_screen_position = y_screen_position;
 
 	    	// Create pane to add player on
 	    	setPlayer_holder(new Pane());

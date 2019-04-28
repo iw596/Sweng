@@ -3,16 +3,24 @@ package accountScreensGUI;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXButton;
-
 import backEnd.BackEndContainer;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import sidebarContainerGUI.MasterScreenController;
 
+/**
+ * Controller class fot he account info screen. Displays the currently logged in
+ * account's information. Does not have any user-interactable elements.
+ * 
+ * Date created: 25/04/2019
+ * Date last edited: 28/04/2019
+ * Last edited by: Dan Jackson
+ * 
+ * @author Dan Jackson
+ *
+ */
 public class AccountInfoScreenController implements Initializable {
 
     @FXML
@@ -30,9 +38,6 @@ public class AccountInfoScreenController implements Initializable {
     @FXML
     private Text age;
     
-    @FXML
-    private JFXButton log_out_button;
-    
     private MasterScreenController master;
     
     private BackEndContainer back_end;
@@ -40,13 +45,6 @@ public class AccountInfoScreenController implements Initializable {
     public AccountInfoScreenController(BackEndContainer back_end, MasterScreenController master) {
     	this.back_end = back_end;
     	this.master = master;
-    }
-    
-    @FXML
-    void logOut(ActionEvent event) {
-    	master.setUsernameText("Log In");
-    	master.initialize(null, null);
-    	back_end.logOut();
     }
     
     @Override

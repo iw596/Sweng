@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import sidebarContainerGUI.MasterScreenController;
 
 public class NotLoggedInScreenController implements Initializable {
@@ -20,6 +21,9 @@ public class NotLoggedInScreenController implements Initializable {
     @FXML
     private BorderPane root;
 
+    @FXML
+    private VBox container;
+    
     @FXML
     private JFXButton login_button;
     
@@ -73,6 +77,7 @@ public class NotLoggedInScreenController implements Initializable {
 			login_button.setVisible(false);
 			login_button.setDisable(true);
 			login_button.setMouseTransparent(true);
+			container.getChildren().remove(login_button);
 		}
 		
 	}

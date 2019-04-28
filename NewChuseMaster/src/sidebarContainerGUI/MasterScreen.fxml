@@ -72,7 +72,7 @@
       </BorderPane>
    </center>
    <left>
-      <VBox prefWidth="40.0" style="-fx-background-color: #444444;" BorderPane.alignment="CENTER">
+      <VBox fx:id="sidebar" prefWidth="40.0" style="-fx-background-color: #444444;" BorderPane.alignment="CENTER">
          <children>
             <JFXButton fx:id="home_button" onAction="#showHomeScreen" text=" " wrapText="true">
                <graphic>
@@ -92,24 +92,6 @@
                   <Insets bottom="6.0" left="7.0" top="3.0" />
                </padding>
             </JFXButton>
-            <JFXButton fx:id="settings_button" layoutX="10.0" layoutY="70.0" onAction="#showSettingsScreen" text=" " wrapText="true">
-               <graphic>
-                  <ImageView pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@settings.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font size="1.0" />
-               </font>
-               <padding>
-                  <Insets bottom="6.0" left="7.0" top="3.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets top="30.0" />
-               </VBox.margin>
-            </JFXButton>
             <JFXButton fx:id="social_button" layoutX="10.0" layoutY="104.0" onAction="#showSocialScreen" text=" " wrapText="true">
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
@@ -126,6 +108,22 @@
                </padding>
                <VBox.margin>
                   <Insets top="30.0" />
+               </VBox.margin>
+            </JFXButton>
+            <Region prefHeight="317.0" prefWidth="47.0" VBox.vgrow="ALWAYS" />
+            <JFXButton fx:id="logout_button" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="25.0" onAction="#logOut" text=" ">
+               <font>
+                  <Font size="1.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Logout%20Icon%20White.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="7.0" top="10.0" />
                </VBox.margin>
             </JFXButton>
          </children>

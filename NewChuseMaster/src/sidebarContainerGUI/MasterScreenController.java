@@ -10,13 +10,16 @@ import com.jfoenix.controls.JFXTextField;
 import accountScreensGUI.AccountInfoScreenController;
 import accountScreensGUI.LogInScreenController;
 import backEnd.BackEndContainer;
+import cloudInteraction.RunnablePublicListFetcher;
 import homeScreenGUI.HomeScreenController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import multithreading.NotifyingThread;
 import multithreading.ThreadTerminationListener;
 import publicListsScreenGUI.PublicListsScreenController;
@@ -37,6 +40,9 @@ import socialScreenGUI.SocialScreenController;
 public class MasterScreenController implements Initializable, ThreadTerminationListener {
 
     @FXML
+    private VBox sidebar;
+	
+    @FXML
     private JFXTextField search_bar;
 
     @FXML
@@ -50,12 +56,12 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
 
     @FXML
     private JFXButton home_button;
-
-    @FXML
-    private JFXButton settings_button;
-
+    
     @FXML
     private JFXButton social_button;
+    
+    @FXML
+    private JFXButton logout_button;
     
     private BackEndContainer back_end;
     
@@ -70,17 +76,31 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
     }
     
     @FXML
+    /**
+     * Method called when the search button is clicked. Triggers a user search for the 
+     * text within the search bar.
+     * 
+     * @param event
+     */
     void searchClicked(ActionEvent event) {
     	
+    	//gets the text from the search bar and searches for a user of that name
     	search_text = search_bar.getText();
     	search(search_text);
     	
     }
     
     @FXML
+    /**
+     * Method called when the enter button is hit whilst typing within the search bar. Triggers
+     * a user search for the text within the search bar.
+     * @param event
+     */
     void searchEntered(KeyEvent event) {
     	
+    	//tests whether or not the key pressed was the enter key
     	if (event.getCode().toString() == "ENTER"){
+    		//gets the text from the search bar and searches for a user of that name
     		search_text = search_bar.getText();
     		search(search_text);
     	}
@@ -94,7 +114,10 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
      */
     public void search(String username) {
     	
+    	//checks if the user is logged in or not
     	if(back_end.getLocalAccount() == null) {
+    		//if the user is not logged in then shows the not logged in screen
+    		//and returns
     		try {
 				loadNotLoggedInScreen();
 			} catch (IOException e) {
@@ -104,11 +127,26 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
     		return;
     	}
     	
-    	//loads the titles of all public lists from the user's account
-    	this.back_end.loadPublicListsFromUser(username);
+    	//loads the titles of all public lists from the user's account in a new thread
+    	//this keeps the UI active and responsive and stops the program from freezing if the 
+    	//request time is particularly long
+    	RunnablePublicListFetcher fetcher = new RunnablePublicListFetcher(back_end, username);
+    	fetcher.addTerminationListener(this);
+    	Thread thread = new Thread(fetcher);
+    	thread.start();
     	
-    	//checks whether there are any public lists - if not, returns
+    }
+
+    /**
+     * Method to show the results from the search.
+     * 
+     * @param username
+     */
+    private void showSearchResults(String username) {
+    	
+    	//checks whether there are any public lists
     	if(this.back_end.getPublicLists() == null) {
+    		 //if there are no public lists returns and shows the no accounts screen
     		try {
 				loadNoAccountsScreen();
 			} catch (IOException e) {
@@ -118,6 +156,7 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
     		return;
     	}
     	
+    	//sets the list owner equal to the searched for username
     	back_end.setListOwner(username);
     	
     	//loads the public lists screen
@@ -128,11 +167,11 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
 			e.printStackTrace();
 		}
     	
+    	//resets the search text and the text in the search bar
     	search_text = "";
     	this.search_bar.setText("");
-    	
     }
-
+    
     @FXML
     /**
      * Method to show the user account screen when the button is clicked.
@@ -141,14 +180,17 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
     void showAccountScreen(ActionEvent event) throws IOException {
     	System.out.println("Account Screen Button Pressed");
     	
+    	//sets the current list owner to null
     	back_end.setListOwner(null);
-    	
+
+    	//if not logged in, show the login/create account screen
     	if(back_end.getLocalAccount() == null) {
     		FXMLLoader loader = new FXMLLoader(accountScreensGUI.LogInScreenController.class.getResource("LogInScreen.fxml"));
         	LogInScreenController controller = new LogInScreenController(back_end, this);
         	loader.setController(controller);
         	BorderPane new_pane = loader.load();
         	bindSizeProperties(new_pane);
+        //if logged in, show the account info screen
     	} else {
     		FXMLLoader loader = new FXMLLoader(accountScreensGUI.AccountInfoScreenController.class.getResource("AccountInfoScreen.fxml"));
     		AccountInfoScreenController controller = new AccountInfoScreenController(back_end, this);
@@ -167,14 +209,17 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
      */
     void showHomeScreen(ActionEvent event) throws IOException {
     	
+    	//sets the current list owner to null
     	back_end.setListOwner(null);
     	
+    	//load the home screen
     	FXMLLoader loader = new FXMLLoader(homeScreenGUI.HomeScreenController.class.getResource("HomeScreen.fxml"));
     	HomeScreenController controller = new HomeScreenController(back_end);
     	loader.setController(controller);
     	BorderPane new_pane = loader.load();
     	bindSizeProperties(new_pane);
     	
+    	//tell the back end that losers are not being compared anymore
     	back_end.setComparingLosers(false);
 
     }
@@ -185,32 +230,18 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
      */
     private void bindSizeProperties(BorderPane new_pane) {
     	
-		
+		//binds the new panes width and height to the widht and height of the content (main) pane
     	new_pane.prefWidthProperty().bind(content_pane.widthProperty());
 		new_pane.prefHeightProperty().bind(content_pane.heightProperty());
-		
 		new_pane.minWidthProperty().bind(content_pane.minWidthProperty());
 		new_pane.minHeightProperty().bind(content_pane.minHeightProperty());
-		
 		new_pane.maxWidthProperty().bind(content_pane.maxWidthProperty());
 		new_pane.maxHeightProperty().bind(content_pane.maxHeightProperty());
-    	
     	new_pane.setManaged(true);
     	
+    	//displays the new pane in the content pane's centre panel
     	content_pane.setCenter(new_pane);
     	
-    }
-
-	@FXML
-	/**
-	 * Method to show the settings screen when the button is clicked.
-	 * @param event
-	 */
-    void showSettingsScreen(ActionEvent event) {
-		System.out.println("Settings Button Pressed");
-		
-		back_end.getRandomPublicLists();
-		
     }
 
     @FXML
@@ -221,22 +252,47 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
     void showSocialScreen(ActionEvent event) throws IOException {
     	System.out.println("Social Button Pressed");
     	
+    	//sets the current list owner to null
     	back_end.setListOwner(null);
 
-    	if(this.back_end.getLocalAccount() != null) {
-    		FXMLLoader loader = new FXMLLoader(socialScreenGUI.SocialScreenController.class.getResource("SocialScreen.fxml"));
-    		SocialScreenController controller = new SocialScreenController(back_end);
-        	loader.setController(controller);
-        	BorderPane new_pane = loader.load();
-        	bindSizeProperties(new_pane);
-    	} else {
+    	//if the user is not logged in, shows the not logged in screen and returns
+    	if(this.back_end.getLocalAccount() == null) {
     		FXMLLoader loader = new FXMLLoader(searchScreenGUI.NotLoggedInScreenController.class.getResource("NotLoggedInScreen.fxml"));
     		NotLoggedInScreenController controller = new NotLoggedInScreenController(back_end, this);
         	loader.setController(controller);
         	BorderPane new_pane = loader.load();
         	bindSizeProperties(new_pane);
+        	return;
     	}
+    	
+    	//shows the social screen
+		FXMLLoader loader = new FXMLLoader(socialScreenGUI.SocialScreenController.class.getResource("SocialScreen.fxml"));
+		SocialScreenController controller = new SocialScreenController(back_end);
+    	loader.setController(controller);
+    	BorderPane new_pane = loader.load();
+    	bindSizeProperties(new_pane);
 
+    }
+    
+    @FXML
+    /**
+     * Method to log out of the currently logged in account. Resets the username text to
+     * "Log In" and hides the log out button.
+     * @param event
+     */
+    void logOut(ActionEvent event) {
+    	back_end.logOut();
+    	setUsernameText("Log In");
+    	hideLogoutButton();
+    	
+    	//shows the home screen
+    	try {
+			showHomeScreen(null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
     
     /**
@@ -287,19 +343,38 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
     private void loadNoAccountsScreen() throws IOException {
     	
     	FXMLLoader loader = new FXMLLoader(searchScreenGUI.NotLoggedInScreenController.class.getResource("NoAccountsScreen.fxml"));
-//    	NotLoggedInScreenController controller = new NotLoggedInScreenController(back_end, this);
-//    	loader.setController(controller);
     	BorderPane new_pane = loader.load();
     	bindSizeProperties(new_pane);
     	
     }
 
+    /**
+     * Method to show the log out button.
+     */
+    public void showLogoutButton() {
+		logout_button.setVisible(true);
+		logout_button.setMouseTransparent(false);
+    }
+    
+    /**
+     * Method to hide the log out button.
+     */
+    public void hideLogoutButton() {
+    	logout_button.setVisible(false);
+    	logout_button.setMouseTransparent(true);
+    }
+    
 	@Override
 	/**
 	 * Method to initialise the master screen by displaying the home screen as soon as the application is loaded.
 	 */
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+		
+		//if the user is logged in, show the logout button
+		if(back_end.getLocalAccount() == null) {
+			hideLogoutButton();
+		}
 		
 		try {
 			showHomeScreen(null);
@@ -311,8 +386,24 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
 	}
 
 	@Override
+	/**
+	 * Method called when a notifying thread launched from this controller terminates. Used to display the search
+	 * results after the search thread has found the results.
+	 */
 	public void notifyOfThreadTermination(NotifyingThread thread) {
-		// TODO Auto-generated method stub
+		System.out.println("Showing search results!");
+		
+		//wait for the program to be back on the main JavaFX thread
+		//as handling an GUI updates from another thread crashes the program
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				//displays the search results (or lack of search results)
+				showSearchResults(search_text);
+			}
+			
+		});
 		
 	}
 
