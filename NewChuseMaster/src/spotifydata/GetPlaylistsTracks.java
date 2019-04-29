@@ -11,51 +11,58 @@ import com.wrapper.spotify.requests.data.playlists.GetPlaylistsTracksRequest;
 
 import listDataStructure.BasicItem;
 import listDataStructure.SpotifyItem;
-
+/** This class handles requesting data about a playlist from spotify servers. It uses
+ *  a spotify API object to handle making the requests and then formats the data. Note to
+ *  use this class the passed in spotifyapi object 	MUST have a valid access token assoicated
+ *  with it.
+ * 
+ * Date created: 27/04/2019
+ * Date last edited 29/04/2019
+ * Last edited by: Isaac Watson
+ *
+ * @author Isaac Watson and Harry Ogden
+ *
+ */
 public class GetPlaylistsTracks {
-//	 private static String playlist_id; //= "3AGOiaoRXMSjswCLtuNqv5";
 
-	 private static SpotifyApi spotifyApi;
+	 private static SpotifyApi spotify_api;
 	  
-	 private static  GetPlaylistsTracksRequest getPlaylistsTracksRequest;
+	 private static  GetPlaylistsTracksRequest get_playlist_tracks_request;
 	  
+	 /** Contructor for GetPlaylistTracks class. It takes the spotify api which has
+	  *  the access token and a id for the playlist we want the data from and stores
+	  *  this information
+	  * @param api - spotify api with valid access token
+	  * @param playlist_id - playlist we want to gather data from
+	  */
 	  @SuppressWarnings("static-access")
-	public GetPlaylistsTracks (SpotifyApi spotifyApi, String playlist_id){
-		  this.spotifyApi = spotifyApi;
-//		  this.playlist_id = playlist_id;
-		  this.getPlaylistsTracksRequest = this.spotifyApi
+	public GetPlaylistsTracks (SpotifyApi api, String playlist_id){
+		  this.spotify_api = api;
+		  this.get_playlist_tracks_request = this.spotify_api
 	      .getPlaylistsTracks(playlist_id)
-	      /*.fields("description")*/
-//	      .limit(100)
 	      .offset(0)
 	      .market(CountryCode.GB)
 	      .build();
 	  }
-
+	  
+	  /** This method is used to make a request to the spotify servers to return information
+	   * about a playlist. This method makes the request and stores all the returned data
+	   * in a array of basic items which is then returned.
+	   * @return
+	   */
 	  public static ArrayList<BasicItem> getPlaylistsTracks_Sync() {
 		    try {
-		      final Paging<PlaylistTrack> playlistTrackPaging = getPlaylistsTracksRequest.execute();
-		      
-		      
-		      System.out.println(getPlaylistsTracksRequest.execute());
-		      //System.out.println(playlistTrackPaging.getLimit());
-		      System.out.println(playlistTrackPaging);
-		      
-		      System.out.println("Total: " + playlistTrackPaging.getTotal());
-		      System.out.println("Href: " + playlistTrackPaging.getHref());
+		      // Make the request
+		      final Paging<PlaylistTrack> playlistTrackPaging = get_playlist_tracks_request.execute();
 
 		      int playlist_length;
-		      
+		      // If more than 100 items just use the first 100 
 		      if(playlistTrackPaging.getTotal() > 100) {
 		    	  playlist_length = 100;
 		      } else {
 		    	  playlist_length = playlistTrackPaging.getTotal();
 		      }
 		      
-		      for (int i= 0; i < playlist_length; i++) {
-		    	  System.out.println("Track "+ i + " name: " + playlistTrackPaging.getItems()[i].getTrack().getName());
-		    	  System.out.println(playlistTrackPaging.getItems()[i].getTrack().getPreviewUrl());
-		      }
 		      
 		      ArrayList<BasicItem> spotify_items = new ArrayList<BasicItem>();
 		      
@@ -66,9 +73,8 @@ public class GetPlaylistsTracks {
 		    	  ArrayList<String> track_metadata = new ArrayList<String>();
 		    	  
 		    	  track_metadata.add(playlistTrackPaging.getItems()[i].getTrack().getName());
-		    	  
 		    	  String artist = playlistTrackPaging.getItems()[i].getTrack().getArtists()[0].getName();
-		    	  
+		    	  // If multple artists then need to specifically add each one to the item
 		    	  if(playlistTrackPaging.getItems()[i].getTrack().getArtists().length > 1) {
 		    		  for(int j=1; j < playlistTrackPaging.getItems()[i].getTrack().getArtists().length; j++) {
 		    			  artist += ", " + playlistTrackPaging.getItems()[i].getTrack().getArtists()[j].getName();
@@ -82,15 +88,9 @@ public class GetPlaylistsTracks {
 		    	  
 		    	  spotify_items.add(new SpotifyItem(playlistTrackPaging.getItems()[i].getTrack().getId(), track_metadata,playlistTrackPaging.getItems()[i].getTrack().getPreviewUrl(), playlistTrackPaging.getItems()[i].getTrack().getAlbum().getImages()[0]));
 		      }
-		      // System.out.println(playlistTrackPaging.getItems());
-		      
-		      
-		      for(BasicItem item : spotify_items) {
-		    	  item.print();
-		      }
+	
 		      return spotify_items;
 		      
-		      //System.out.println("Track 1 name: " + playlistTrackPaging.getItems()[1].getTrack().getName());
 		    } catch (IOException | SpotifyWebApiException e) {
 		    	System.out.println("Error: " + e.getMessage());
 		    }
