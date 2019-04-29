@@ -21,15 +21,15 @@ import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 
 /**
- * Controls is the  class in the player package. This class handles the generation
- * of a resizable transport control used to control a video player object. This object
+ * Controls is the  class in the spotifyplayer package. This class handles the generation
+ * of a resizable transport control used to control a sptofy player object. This object
  * extends a HBox.
  * 
- * Date created: 18/03/2019
- * Date last edited 15/04/2019
+ * Date created: 27/04/2019
+ * Date last edited 29/04/2019
  * Last edited by: Isaac Watson
  *
- * @author Isaac Watson 
+ * @author Isaac Watson and Harry Ogden
  */
 public class Controls extends HBox {
 	
@@ -50,8 +50,14 @@ public class Controls extends HBox {
 	
 	DecimalFormat format = new DecimalFormat("#.##"); // To format time
 	
+	// No preview text
+	Text no_preview_text = new Text("No preview available");
+	
 	// Boolean to stop blank end screen being played.
 	boolean over = false;
+	
+	
+	boolean no_preview = false;
 	
 	DirectMediaPlayerComponent media_player_component;
 	boolean updateScrubber = true;
@@ -82,9 +88,6 @@ public class Controls extends HBox {
             @Override
             public void run() {
                 setAlignment(Pos.CENTER); // setting the HBox to center 
-                //setPadding(new Insets(5, 10, 5, 10));  // Add some padding between bar and video
-        		
-                
                 // Adding the components to the bottom 
                 getChildren().add(play_pause); 
                 getChildren().add(volume_label);
@@ -126,7 +129,7 @@ public class Controls extends HBox {
 		    	// Make sure its a left mouse click
 				if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
 					// Do not pause when onScreen time slider is pressed
-				    if (!mouseEvent.getPickResult().getIntersectedNode().toString().contains("HBox")) {
+				    if (!mouseEvent.getPickResult().getIntersectedNode().toString().contains("HBox") && no_preview == false) {
 				    	System.out.println("Click");
 		            	// If playing then pause
 		                if (media_player_component.getMediaPlayer().getMediaPlayerState() == libvlc_state_t.libvlc_Playing && over == false) { 
@@ -302,6 +305,50 @@ public class Controls extends HBox {
 			float time = media_player_component.getMediaPlayer().getLength() * fraction/100;
 			media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
 			
+		}
+	}
+	/** This method is called when no spotify preview is available, if the previous track
+	 *  had a preview then the controls will be removed and a no preview message added and the no_preivew boolean
+	 *  set to true. If the previous track did not have a preview then nothing will change.
+	 */
+	public void noPreview(){
+		if (no_preview == false){
+			no_preview = true;
+			// Remove all controls
+            getChildren().remove(play_pause); 
+            getChildren().remove(volume_label);
+            getChildren().remove(volume);
+            getChildren().remove(time_label);
+            getChildren().remove(time_scrubber);
+            getChildren().remove(current_time_text);
+            // Add no preview message
+            getChildren().add(no_preview_text);
+
+		}
+		
+	}
+	
+	/** This method is called when a spotify preview is available, if the previous track
+	 *  had a preview then nothing will be changed. If the previous track did not have
+	 *  a preview then the controls will be added back to the hbox and the no_preview boolean
+	 *  reset back to false.
+	 */
+	public void previewAvailable(){
+		if (no_preview == true){
+			no_preview = false;
+            setAlignment(Pos.CENTER); // setting the HBox to center 
+            setAlignment(Pos.CENTER); // setting the HBox to center 
+            // Adding the components to the bottom 
+            getChildren().add(play_pause); 
+            HBox.setHgrow(play_pause, Priority.ALWAYS);
+            getChildren().add(volume_label);
+            getChildren().add(volume);
+            getChildren().add(time_label);
+            getChildren().add(time_scrubber);
+            HBox.setHgrow(time_scrubber, Priority.ALWAYS);
+            getChildren().add(current_time_text);
+            HBox.setHgrow(current_time_text, Priority.ALWAYS);
+            getChildren().remove(no_preview_text);
 		}
 	}
 

@@ -32,6 +32,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import uk.co.caprica.vlcj.binding.internal.libvlc_marquee_position_e;
+import uk.co.caprica.vlcj.binding.internal.libvlc_state_t;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.AudioOutput;
 import uk.co.caprica.vlcj.player.Marquee;
@@ -39,14 +40,14 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 /**
  * Player is the  class in the player package. This class handles the generation
- * of a resizeable VLC based media player capable of loading in local videos and 
- * Youtube videos if passed a file path or URL respectively.
+ * of a resizeable VLC based media player capable of loading in spotify 
+ * preview tracs if passed a valid  URL .
  * 
- * Date created: 18/03/2019
- * Date last edited 30/03/2019
- * Last edited by: Dan Jackson
+ * Date created: 27/04/2019
+ * Date last edited 29/04/2019
+ * Last edited by: Isaac Watson
  *
- * @author Isaac Watson 
+ * @author Isaac Watson and Harry Ogden 
  */
 public class SpotifyPlayer extends BorderPane {
 	
@@ -74,7 +75,6 @@ public class SpotifyPlayer extends BorderPane {
 	    // Store window width and height
 	    private int window_width;
 	    private int window_height;
-	    private Stage stage;
 	    private Image test;
 	    
 	    private Text text_artist;
@@ -93,8 +93,9 @@ public class SpotifyPlayer extends BorderPane {
 	     */
 	    public SpotifyPlayer(int width, int height) {
 	    	// Add location of VLC, this may need to be changed depending on where VLC is installed
-	    	//NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:\\Program Files\\VideoLAN\\VLC");
+	    	NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:\\Program Files\\VideoLAN\\VLC");
 	    	NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files (x86)/VideoLAN/VLC"); // This is one used on uni Machines
+	    	// Vbox to display metadata
 	    	VBox metadata_vbox = new VBox();
 	    	setTop(metadata_vbox);
 	    	text_song = new Text("Song: ");
@@ -272,37 +273,28 @@ public class SpotifyPlayer extends BorderPane {
      	   });
 	    }
 	    
-	    /** This methods takes an array of strings which are file paths to videos
-	     *  or links to Youtube videos. This method stores this array and loads the
-	     *  first video into the player.
+	    /** This methods takes an array of strings which are file paths to spotify 
+	     *  tracks.
 	     * 
 	     * @param paths - list of strings containing links and filepaths to videos
 	     */
 	    public void loadPaths (String paths[]) {
 	    	// Store the paths
 	    	this.paths = paths;
-	    	System.out.println("Size of paths array is:" + paths.length);
-	    	System.out.println("Current index is:" + this.current_video_index);
 	    	// Load first video
 	    	loadVideo(this.current_video_index);
 	    	
 	    }
 	    
-	    /** This method loads in a video which is stored in the paths list. If the 
-	     *  video is a local video it first checks that the file path is valid and that
-	     *  the file of type  .mp4. If it is a URL then the URL is checked
-	     *  to ensure it leads to a youtube video. If the URL/file path is not valid
-	     *  then the video is not loaded. If it is valid then the video is loaded into
-	     *  the player. Method returns true if file/url is valid and false if not.
+	    /** This method loads in a spotify link which is stored in the paths list. If the 
+	     *  track is valid then it is loaded into the player and played. Otherwise
+	     *  the controls are notified that the link is invalid.
 	     *  
 	     * @param index_video - Index of the video in the paths list.
 	     */
 	    protected void  loadVideo (int index_video) {
 	    	
 	    	this.media_player_component.getMediaPlayer().pause();
-
-
-	  
 	        Platform.runLater(new Runnable() {
 	            @Override
 	            public void run() {
@@ -331,14 +323,12 @@ public class SpotifyPlayer extends BorderPane {
 							System.out.println("null");
 						}
 
-				    	//System.out.println("The height of the player is: " + media_player_component.getMediaPlayer().getVideoDimension().getHeight());
 			    		
 			    	} 
 			    	// Load invalid video screen
 			    	else if (video_check_result == 2){
-			    		loadInvalidFileScreen();
+			    		controls.noPreview();
 			    	}
-			    	// Load file too large screen
 			
 	            }
 	        });
@@ -347,10 +337,9 @@ public class SpotifyPlayer extends BorderPane {
 	    
 
 
-		/** This method checks that the string in the paths array is either a Yotube watch link or a valid path to an 
-	     *  .mp4 file. If the link or path is valid then 1 is returned. If the filepath
-	     *  or link is not valid then a 2 is returned. If the size of the video
-	     *  is over 20 Mb then 3 is returned
+		/** This method checks that the string in the paths array is either a valid 
+		 * spotify playback link or a null. If the link is valid then a 1 is returned.
+		 * Otherwise a 2 is returned to indicate no preview available.
 	     *  
 	     * @param index_video - the index of the path array that is being checked
 	     * 
@@ -359,6 +348,9 @@ public class SpotifyPlayer extends BorderPane {
 	    	// If name of filepath is less than three characters then must be an errorneous filepath so disregard straight away
 	    	// to prevent buffer overflow in rest of checks
 	    	
+	    	if(this.paths[index_video] == null){
+	    		return 2;
+	    	}
 	    	return 1;
 	    }
 	    
@@ -399,52 +391,7 @@ public class SpotifyPlayer extends BorderPane {
 			
 		}
 	
-		
-		/**
-		 *  Method to load an error screen if an invalid video path has been provided. If there is another valid video queued,
-		 *  then play this after displaying the error message.
-		 */
-		private void loadInvalidFileScreen() {
-			// Error so set in_error to be true
-			in_error = true;
-			// Short sleep to prevent memory access error
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-	     	Platform.runLater(new Runnable() {
-	     		@Override
-	      		 public void run() {
-	     			media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
-	     			// Set error message to be displayed
-					 Marquee.marquee()
-			    	.text("Playback error: " + "\"" + paths[current_video_index] + "\"" +" is not a valid path")
-			    	.size(30)
-			    	.opacity(0.7f)
-			    	.position(libvlc_marquee_position_e.centre)
-			    	 .colour(Color.WHITE)
-			    	.location(5,5)
-			    	.timeout(12000)
-			    	.enable()
-			    	.apply(media_player_component.getMediaPlayer()); 
-				    try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				    // Enable the error message and play the error screen
-			    	media_player_component.getMediaPlayer().enableMarquee(true);
-			    	media_player_component.getMediaPlayer().prepareMedia("endscreen.jpg");
-			    	media_player_component.getMediaPlayer().play();
-					
-	     		}
-	     	});
-		     	
-		}
-
+	
 		
 		/** Get the player holder
 		 * @return the player_holder
@@ -469,24 +416,47 @@ public class SpotifyPlayer extends BorderPane {
 			// TODO Auto-generated method stub
 			return this.window_height;
 		}
-
+		
+		/** This method changes the preview which the player is playing. It first
+		 * checks if the preview if valid. If it is not then the no preview method
+		 * in the controls is called. If it is then the media of the player is change
+		 * and the new track played. The controls are also notifed that the track
+		 * has a preview available
+		 * @param track_path - link to preview track
+		 */
 		public void changeSong(String track_path) {
-			// TODO Auto-generated method stub
+			// TODO If valid link then can load and play track
 			if(track_path != null){
 				this.media_player_component.getMediaPlayer().prepareMedia(track_path);
 				this.media_player_component.getMediaPlayer().play();
+				controls.previewAvailable();
+			}
+			
+			// If no preview then update controls
+			else{
+				// If currently playing a track then pause
+				if (controls.no_preview == false && media_player_component.getMediaPlayer().getMediaPlayerState() != libvlc_state_t.libvlc_Playing)
+				controls.noPreview();
+				
+				
 			}
 			
 		}
-
+		/** This method is used to stop the media playing from playing music 
+		 *	 if it is not already paused
+		 * 
+		 */
 		public void exit() {
-			// TODO Auto-generated method stub
+			// If still playing then pause the player
 			if (media_player_component.getMediaPlayer().isPlaying() == true){
 				this.media_player_component.getMediaPlayer().pause();
 			}
 			
 		}
-		
+		/** This sets the metadata which will be displayed by the player
+		 * 
+		 * @param metadata - metadata to show
+		 */
 		public void setMeta(ArrayList<String> metadata){
 	    	text_song.setText("Song: " + metadata.get(0));
 	    	text_artist.setText("Artist: " + metadata.get(1));  
@@ -494,7 +464,10 @@ public class SpotifyPlayer extends BorderPane {
 	    
 			
 		}
-		
+		/** This sets the artwork which will be displayed by the player
+		 * 
+		 * @param art - artwork to show
+		 */
 		public void setArt(Image art){
 			this.image_view.setImage(art);
 			
