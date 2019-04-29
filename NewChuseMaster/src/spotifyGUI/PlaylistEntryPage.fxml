@@ -37,4 +37,7 @@
         </items>
       </SplitPane>
    </center>
+   <bottom>
+      <Text fx:id="error_message" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

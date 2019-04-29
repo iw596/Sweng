@@ -17,69 +17,72 @@ import javafx.scene.web.WebView;
 import spotifyauth.AuthorisationCode;
 import spotifyauth.AuthorisationURI;
 
+/** This controller handles the spotify authentication screen which handles authenticating
+ * users with the spotify server in order to obtain an access token which is needed to
+ * access the spotify API. This class uses a webview to handle displaying the webpage
+ * to the user and then after a access token is retrieved the user is sent to the 
+ * playlist entry page 
+ *  
+ * Date created: 27/04/2019
+ * Date last edited 29/04/2019
+ * Last edited by: Isaac Watson
+ *
+ * @author Isaac Watson and Harry Ogden
+ *
+ */
 public class SpotifyAuthController implements Initializable {
 
     @FXML private BorderPane root_pane01;	
     @FXML private WebView web_view;
+    // This is where user will be redircted to after logging in 
 	String redirectURI = "https://localhost:8888";
 	String token = "a";
 	
-	String username;
-	String password;
-	
 	BorderPane pane01;
+	
 	private BackEndContainer back_end;
+	private static SpotifyApi spotify_api;
 	
-	private static SpotifyApi spotifyApi;
-	
+	/** This method creates loads up the webpage containing the spotify login screen and
+	 * then  waits until the user has authenticated themselve by detecting url change to
+	 * redirect url
+	 */
 	@Override
 	public void initialize(URL url01, ResourceBundle resources) {
 		Platform.runLater(() -> {
-    	AuthorisationURI auth_uri = new AuthorisationURI();
-		WebEngine web_engine = web_view.getEngine();
-		web_engine.load(AuthorisationURI.authorizationCodeUri_Sync().toString());
-		web_engine.getLoadWorker().stateProperty().addListener((ov, o, n) -> {
-			
-		//System.out.println("Change");
-		if (web_engine.getLocation().contains(redirectURI)) {
-				System.out.println("Video has ended");
-				String location = web_engine.getLocation();
-				System.out.println("The token is: " + location.substring(location.indexOf("=") + 1,location.indexOf("&")));
-				token = location.substring(location.indexOf("=") + 1,location.indexOf("&"));
-				// Have token so can now compliw596ete authorisation
-				AuthorisationCode authCode = new AuthorisationCode(token, auth_uri.getSpotifyAPI());
-				AuthorisationCode.authorizationCode_Sync();
-				//GetPlaylistsTracks getTracks = new GetPlaylistsTracks(authCode.getSpotifyApi(),"3AGOiaoRXMSjswCLtuNqv5");
-				//getTracks.getPlaylistsTracks_Sync();
-				//GetPlaylistExample playlist = new GetPlaylistExample(authCode.getSpotifyApi());
-				//playlist.getPlaylist_Async();
-				//GetPlaylistsTracksExample test = new GetPlaylistsTracksExample(authCode.getSpotifyApi(),"37i9dQZF1DX5hHfOi73rY3");
-				//test.getPlaylistsTracks_Sync();
-				
-				spotifyApi = authCode.getSpotifyApi();
-				
-				// Load second screen with list details
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PlaylistEntryPage.fxml"));
-				try {
-					pane01 = fxmlLoader.load();
-					PlaylistEntryController controller = fxmlLoader.getController();
-					// Pass clicked list filename to second sample controller
-					controller.setAPI(spotifyApi);
-					controller.setBackEnd(back_end);
-					showInSelf(pane01);
-					
-					/*FXMLLoader loader = new FXMLLoader(intermediateScreensGUI.InterVideoController.class.getResource("IntermediateVideoPage.fxml"));
-		        	InterVideoController controller = new InterVideoController(back_end);
-		        	loader.setController(controller);
-		        	BorderPane pane01;
-		        	pane01 = loader.load();
-		        	showInSelf(pane01);*/
-					} catch (Exception e) {
-						e.printStackTrace();
-				}
-			}
+			// Create class to obtain URI
+	    	AuthorisationURI auth_uri = new AuthorisationURI();
+			WebEngine web_engine = web_view.getEngine();
+			// Load in spotify login screen
+			web_engine.load(AuthorisationURI.authorizationCodeUri_Sync().toString());
+			// Add listener to listen for redirect
+			web_engine.getLoadWorker().stateProperty().addListener((ov, o, n) -> {
+				// If redirected to correct screen parse token then can load next screen
+				if (web_engine.getLocation().contains(redirectURI)) {
+						String location = web_engine.getLocation();
+						System.out.println("The token is: " + location.substring(location.indexOf("=") + 1,location.indexOf("&")));
+						// Parse out token 
+						token = location.substring(location.indexOf("=") + 1,location.indexOf("&"));
+						// Have token so can now complete authorisation
+						AuthorisationCode authCode = new AuthorisationCode(token, auth_uri.getSpotifyAPI());
+						AuthorisationCode.authorizationCode_Sync();
+						spotify_api = authCode.getSpotifyApi();
+						// Load second screen with list details
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PlaylistEntryPage.fxml"));
+						try {
+							pane01 = fxmlLoader.load();
+							PlaylistEntryController controller = fxmlLoader.getController();
+							// Pass clicked list filename to second sample controller
+							controller.setAPI(spotify_api);
+							controller.setBackEnd(back_end);
+							showInSelf(pane01);
 		
-		});
+							} catch (Exception e) {
+								e.printStackTrace();
+						}
+					}
+			
+			});
 		
 	    });
 		
