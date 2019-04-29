@@ -438,7 +438,7 @@ public class Player extends BorderPane {
 	    	
 	     	// Update controls to handle end of video
 	    	this.controls.over = true;
-	    	this.controls.updateScrubber = false;
+	    	this.controls.update_scrubber = false;
 	    	
 			
 			

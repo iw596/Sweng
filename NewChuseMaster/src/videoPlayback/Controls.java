@@ -20,11 +20,11 @@ import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 
 /**
  * Controls is the  class in the player package. This class handles the generation
- * of a resizable transport control used to control a video player object. This object
+ * of a resizable transport control used to control a spotify player object. This object
  * extends a HBox.
  * 
- * Date created: 18/03/2019
- * Date last edited 15/04/2019
+ * Date created: 27/04/2019
+ * Date last edited 29/04/2019
  * Last edited by: Isaac Watson
  *
  * @author Isaac Watson 
@@ -47,12 +47,14 @@ public class Controls extends HBox {
 	Text current_time_text = new Text("0.00");
 	
 	DecimalFormat format = new DecimalFormat("#.##"); // To format time
+
 	
 	// Boolean to stop blank end screen being played.
 	boolean over = false;
 	
 	DirectMediaPlayerComponent media_player_component;
-	boolean updateScrubber = true;
+	boolean update_scrubber = true;
+
 
 	/**
 	 * Constructor for a video player's controls.
@@ -170,13 +172,13 @@ public class Controls extends HBox {
 		// This event happens when the user begins a mouse click on the scrubber
         time_scrubber.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
-				updateScrubber = false; // Prevent the scrubber position being updated by any playing audio
+				update_scrubber = false; // Prevent the scrubber position being updated by any playing audio
 			}
 		});
 		// This event happens when the user begins a mouse click on the scrubber and drags it
         time_scrubber.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
-				updateScrubber = false; // Prevent the scrubber position being updated by any playing audio
+				update_scrubber = false; // Prevent the scrubber position being updated by any playing audio
 			}
 		});
 		// This event happens when the user releases a mouse click from the scrubber
@@ -185,7 +187,7 @@ public class Controls extends HBox {
 				System.out.println("Scrubber value: " + time_scrubber.getValue());
 				seek((float) time_scrubber.getValue()); // Set the play position to the new scrubber position
 				
-				updateScrubber = true; // Allow the scrubber position to be updated by any playing audio
+				update_scrubber = true; // Allow the scrubber position to be updated by any playing audio
 					
 		
 				
@@ -205,7 +207,7 @@ public class Controls extends HBox {
         // Updating to the new time value 
     	// This will move the slider while running the video 
     
-    	if (updateScrubber) {
+    	if (update_scrubber) {
     		// Place everything in a runlater runnable in order to prevent Javafx rendering error when
     		// screen is resized
     	     Platform.runLater(new Runnable() {
@@ -269,13 +271,12 @@ public class Controls extends HBox {
     
     /** 
      * Method for seeking to a different time in the video.
-     * @param fraction
+     * @param fraction fraction of the video we are interested in skipping too
      */
 	public void seek(Float fraction) {
 		// If slider has been moved to the end then set to value just below 100, this prevents a VLC glitch where end of video is not 
 		// recognised
 		if (fraction > 99.99) {
-			System.out.println("In frac > 99 ");
 			fraction = (float) 99.99;
 			
 		}
@@ -285,17 +286,13 @@ public class Controls extends HBox {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// Convert fraction into actual time
-
+		// Convert fraction into actual time and move to that area of the track
 		float time = media_player_component.getMediaPlayer().getLength() * fraction/100;
-		System.out.println("Current time: " + media_player_component.getMediaPlayer().getTime());
 		media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
-		System.out.println(media_player_component.getMediaPlayer().getMediaPlayerState());
-		if (media_player_component.getMediaPlayer().getMediaPlayerState().equals("libvlc_Ended")){
-			//media_player_component.getMediaPlayer();
-			System.out.println(media_player_component.getMediaPlayer().getMediaPlayerState());
-		}
+
 	}
+	
+
 
 	
 
