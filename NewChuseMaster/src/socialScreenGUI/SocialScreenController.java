@@ -65,6 +65,9 @@ public class SocialScreenController implements Initializable, ThreadTerminationL
     	startListFetcherThread();
     }
     
+    /**
+     * Method to start the random public list fetcher.
+     */
     private void startListFetcherThread() {
     	RunnableRandomListFetcher fetcher = new RunnableRandomListFetcher(back_end);
     	fetcher.addTerminationListener(this);

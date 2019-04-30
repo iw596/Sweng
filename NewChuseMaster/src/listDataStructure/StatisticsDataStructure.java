@@ -164,9 +164,6 @@ public class StatisticsDataStructure{
 		
 		StatisticsDataStructure timeRangeResults = new StatisticsDataStructure();
 		timeRangeResults.list = this.list;
-
-				
-		//fuck_you_java_fuck_you_stuart_this_elec_cource_why_do_fucking_programing_read_the_fuck_departments_name_you_dip_shit;
 		
 		/*for(int i = 0; i < this.getResultList().size(); i++){
 			timeRangeResults.getResultList().add(this.getResultList().get(i));

@@ -440,9 +440,12 @@ public class CloudInteractionHandler {
     		//loop through every item in the list
     		for(int i = 0; i < list.getSize(); i++) {
     			
+    			System.out.println("Original path: " + list.get(i).getPath());
+    			System.out.println("New file path: " + file.getAbsolutePath());
     			//if the path for the current item of the list contain the exact name of the media file but with a different path
     			//then change the path of the current item to the new path of the media file
     			if(list.get(i).getPath().contains(file.getName())) {
+    				System.out.println("Changing path!");
     				list.get(i).changePath(file.getAbsolutePath());
     			}
     		}

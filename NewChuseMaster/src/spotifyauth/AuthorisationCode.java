@@ -7,7 +7,7 @@ import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredential
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 
 /** This class handles the generation of a access token using the code retrieved
- * when a user logs into the spotify server.
+ * when a user logs into the Spotify server.
  * 
  * Date created: 27/04/2019
  * Date last edited 29/04/2019
@@ -16,8 +16,6 @@ import com.wrapper.spotify.requests.authorization.authorization_code.Authorizati
  * @author Isaac Watson and Harry Ogden
  *
  */
-
-
 public class AuthorisationCode {
 
 	  private static SpotifyApi spotify_api;

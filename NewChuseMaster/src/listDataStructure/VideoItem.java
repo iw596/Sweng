@@ -114,4 +114,12 @@ public class VideoItem extends BasicItem implements ListInterface {
 
 	}
 	
+	@Override
+	/**
+	 * Method for changing the file path to the video of a video item.
+	 */
+	public void changePath(String file_path) {
+		this.file_path = file_path;
+	}
+	
 }
