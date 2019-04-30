@@ -1,10 +1,11 @@
 package analytics;
 	
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.layout.BorderPane;
+import javafx.fxml.FXMLLoader;
 
 
 public class Analytics extends Application {
