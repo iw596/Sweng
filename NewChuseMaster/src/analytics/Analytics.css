@@ -13,7 +13,7 @@
 
 
 /* This part gives the line colour to the area chart (currently limited to 3) */
-.default-color0.chart-series-area-line { -fx-stroke: #F9CCAC; }
+ .default-color0.chart-series-area-line { -fx-stroke: #F9CCAC; }
 .default-color1.chart-series-area-line { -fx-stroke: #E96A8E; }
 .default-color2.chart-series-area-line { -fx-stroke: #973490; }
  
