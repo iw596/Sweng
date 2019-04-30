@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import com.wrapper.spotify.SpotifyApi;
 
 import backEnd.BackEndContainer;
+import homeScreenGUI.HomeScreenController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +36,7 @@ public class SpotifyAuthController implements Initializable {
     @FXML private BorderPane root_pane01;	
     @FXML private WebView web_view;
     // This is where user will be redircted to after logging in 
-	String redirectURI = "https://localhost:8888";
+	String redirectURI = "https://localhost:8888/?code=";
 	String token = "a";
 	
 	BorderPane pane01;
@@ -58,6 +59,7 @@ public class SpotifyAuthController implements Initializable {
 			// Add listener to listen for redirect
 			web_engine.getLoadWorker().stateProperty().addListener((ov, o, n) -> {
 				// If redirected to correct screen parse token then can load next screen
+				System.out.println(web_engine.getLocation());
 				if (web_engine.getLocation().contains(redirectURI)) {
 						String location = web_engine.getLocation();
 						System.out.println("The token is: " + location.substring(location.indexOf("=") + 1,location.indexOf("&")));
@@ -81,6 +83,25 @@ public class SpotifyAuthController implements Initializable {
 								e.printStackTrace();
 						}
 					}
+				// If users do not accept agreement then redirect them back home screen
+				else if (web_engine.getLocation().equals("https://accounts.spotify.com/authorize/cancel")){
+					System.out.println("Not accepted");
+			    	//load the home screen
+			    	FXMLLoader loader = new FXMLLoader(homeScreenGUI.HomeScreenController.class.getResource("HomeScreen.fxml"));
+			    	HomeScreenController controller = new HomeScreenController(back_end);
+			    	loader.setController(controller);
+			    	BorderPane new_pane;
+					web_view = null;
+					try {
+						new_pane = loader.load();
+						bindSizeProperties(new_pane);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			    	
+					
+				}
 			
 			});
 		
@@ -91,7 +112,10 @@ public class SpotifyAuthController implements Initializable {
 		
 		
 	}
-	
+	/** This method sets the back_end variable
+	 * 
+	 * @param back_end
+	 */
 	public void setBackEnd(BackEndContainer back_end) {
 		   this.back_end = back_end;
 	}
@@ -108,6 +132,25 @@ public class SpotifyAuthController implements Initializable {
     	root_pane01.setCenter(new_pane);
     	root_pane01.requestFocus();
 	
+    }
+    /**
+     * Method to bind the size of a contained .fxml pane to the same size as the main content window.
+     * @param new_pane
+     */
+    private void bindSizeProperties(BorderPane new_pane) {
+    	
+		//binds the new panes width and height to the widht and height of the content (main) pane
+    	new_pane.prefWidthProperty().bind(root_pane01.widthProperty());
+		new_pane.prefHeightProperty().bind(root_pane01.heightProperty());
+		new_pane.minWidthProperty().bind(root_pane01.minWidthProperty());
+		new_pane.minHeightProperty().bind(root_pane01.minHeightProperty());
+		new_pane.maxWidthProperty().bind(root_pane01.maxWidthProperty());
+		new_pane.maxHeightProperty().bind(root_pane01.maxHeightProperty());
+    	new_pane.setManaged(true);
+    	
+    	//displays the new pane in the content pane's centre panel
+    	root_pane01.setCenter(new_pane);
+    	
     }
 	
 }
