@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id>
+  <results Time="2019-04-28 16:43:10">
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Game of Thrones</title>
+      <path>n/a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Breaking Bad</title>
+      <path>n/a</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>The Walking Dead</title>
+      <path>n/a</path>
+      <points>3</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Stranger Things</title>
+      <path>n/a</path>
+      <points>4</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Black Mirror</title>
+      <path>n/a</path>
+      <points>4</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Sherlock</title>
+      <path>n/a</path>
+      <points>4</points>
+    </multimedia>
+  </results>
+</id>

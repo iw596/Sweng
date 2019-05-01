@@ -15,13 +15,5 @@
 	<classpathentry kind="lib" path="VideoJars/vlcj-3.12.1-test-sources.jar"/>
 	<classpathentry kind="lib" path="VideoJars/vlcj-3.12.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Spotify API"/>
-	<classpathentry kind="lib" path="spotifyJars/commons-codec-1.10.jar"/>
-	<classpathentry kind="lib" path="spotifyJars/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="spotifyJars/gson-2.8.5.jar"/>
-	<classpathentry kind="lib" path="spotifyJars/httpclient-4.5.5.jar"/>
-	<classpathentry kind="lib" path="spotifyJars/httpclient-cache-4.5.5.jar"/>
-	<classpathentry kind="lib" path="spotifyJars/httpcore-4.4.9.jar"/>
-	<classpathentry kind="lib" path="spotifyJars/nv-i18n-1.23.jar"/>
-	<classpathentry kind="lib" path="spotifyJars/spotify-web-api-java-2.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
