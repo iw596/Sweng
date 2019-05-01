@@ -38,14 +38,17 @@
                                  <children>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <JFXButton fx:id="IFSAudio" layoutX="121.0" layoutY="66.0" onAction="#importFromSpotifyAudio" prefHeight="158.0" prefWidth="294.0" style="-fx-background-color: #FFFFFF;" text=" " AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <JFXButton fx:id="IFSAudio" contentDisplay="TOP" graphicTextGap="10.0" layoutX="121.0" layoutY="66.0" onAction="#importFromSpotifyAudio" prefHeight="158.0" prefWidth="294.0" style="-fx-background-color: #FFFFFF;" text="Import from Spotify" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <graphic>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView pickOnBounds="true" preserveRatio="true">
                                                    <image>
-                                                      <Image url="@../../Screenshot%202019-03-10%20at%2009.58.39.png" />
+                                                      <Image url="@../../icons/Spotify_Icon_RGB_Green.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
                                           </JFXButton>
                                        </children>
                                     </AnchorPane>
@@ -68,14 +71,17 @@
                                  <children>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <JFXButton fx:id="IFFAudio" layoutX="107.0" layoutY="38.0" onAction="#importFromFilesAudio" prefHeight="156.0" prefWidth="294.0" style="-fx-background-color: white;" text=" " AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <JFXButton fx:id="IFFAudio" contentDisplay="TOP" graphicTextGap="8.0" layoutX="107.0" layoutY="38.0" onAction="#importFromFilesAudio" prefHeight="156.0" prefWidth="294.0" style="-fx-background-color: white;" text="Import from Audio Files" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <graphic>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView pickOnBounds="true" preserveRatio="true">
                                                    <image>
-                                                      <Image url="@../../Screenshot%202019-03-10%20at%2009.58.47.png" />
+                                                      <Image url="@../../icons/music%20icon%20(2).png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
                                           </JFXButton>
                                        </children>
                                     </AnchorPane>

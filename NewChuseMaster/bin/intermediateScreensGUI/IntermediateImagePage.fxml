@@ -39,14 +39,17 @@
                                  <children>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <JFXButton fx:id="IFFSImage" layoutX="70.0" layoutY="68.0" onAction="#importFromAFileImage" prefHeight="161.0" prefWidth="192.0" style="-fx-background-color: #ffffff;" text=" " textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <JFXButton fx:id="IFFSImage" contentDisplay="TOP" graphicTextGap="8.0" layoutX="70.0" layoutY="68.0" onAction="#importFromAFileImage" prefHeight="161.0" prefWidth="192.0" style="-fx-background-color: #ffffff;" text="Import from Images" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <graphic>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView pickOnBounds="true" preserveRatio="true">
                                                    <image>
-                                                      <Image url="@../../inter_img_1.PNG" />
+                                                      <Image url="@../../icons/image%20icon%20(2).png" />
                                                    </image>
                                                 </ImageView>
-                                             </graphic></JFXButton>
+                                             </graphic>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font></JFXButton>
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">

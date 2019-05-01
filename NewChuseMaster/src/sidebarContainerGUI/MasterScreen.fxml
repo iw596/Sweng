@@ -48,9 +48,9 @@
                   </Region>
                   <JFXButton fx:id="account_button" graphicTextGap="8.0" mnemonicParsing="false" onAction="#showAccountScreen" text="Log In" wrapText="true">
                      <graphic>
-                        <ImageView fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@user.png" />
+                              <Image url="file:/C:/Users/Dan/Sweng/NewChuseMaster/icons/user_image.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -72,13 +72,13 @@
       </BorderPane>
    </center>
    <left>
-      <VBox fx:id="sidebar" prefWidth="40.0" style="-fx-background-color: #444444;" BorderPane.alignment="CENTER">
+      <VBox fx:id="sidebar" prefWidth="40.0" style="-fx-background-color: #272C31;" BorderPane.alignment="CENTER">
          <children>
             <JFXButton fx:id="home_button" onAction="#showHomeScreen" text=" " wrapText="true">
                <graphic>
-                  <ImageView pickOnBounds="true" preserveRatio="true">
+                  <ImageView pickOnBounds="true" preserveRatio="true" smooth="false">
                      <image>
-                        <Image url="@home.png" />
+                        <Image url="@../../icons/home%20(2).png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -94,9 +94,9 @@
             </JFXButton>
             <JFXButton fx:id="social_button" layoutX="10.0" layoutY="104.0" onAction="#showSocialScreen" text=" " wrapText="true">
                <graphic>
-                  <ImageView pickOnBounds="true" preserveRatio="true">
+                  <ImageView pickOnBounds="true" smooth="false">
                      <image>
-                        <Image url="@social.png" />
+                        <Image url="@../../icons/user.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -116,9 +116,9 @@
                   <Font size="1.0" />
                </font>
                <graphic>
-                  <ImageView fitHeight="28.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView pickOnBounds="true" preserveRatio="true" smooth="false">
                      <image>
-                        <Image url="@Logout%20Icon%20White.png" />
+                        <Image url="file:/C:/Users/Dan/Sweng/NewChuseMaster/icons/Logout%20Icon%20White%20Small.png" />
                      </image>
                   </ImageView>
                </graphic>

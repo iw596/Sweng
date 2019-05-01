@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTabPane?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
@@ -23,7 +23,7 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                      <children>
-                        <StackPane layoutX="188.0" layoutY="-62.0" prefHeight="26.0" prefWidth="598.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <StackPane layoutX="188.0" layoutY="-62.0" prefHeight="26.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create a list and compare!">
                                  <font>
@@ -46,28 +46,34 @@
                                             <items>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                                    <children>
-                                                      <Button fx:id="I" layoutX="46.0" layoutY="64.0" mnemonicParsing="false" onAction="#goToTextItermediatePage" prefHeight="118.0" prefWidth="144.0" style="-fx-background-color: #FFFFFF;" text=" " AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <JFXButton fx:id="I" contentDisplay="TOP" graphicTextGap="10.0" onAction="#goToTextItermediatePage" prefHeight="160.0" prefWidth="144.0" text="Text List" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <graphic>
-                                                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                                            <ImageView pickOnBounds="true" preserveRatio="true">
                                                                <image>
-                                                                  <Image url="@../../txtx.PNG" />
+                                                                  <Image url="@../../icons/image%20icon%20(2).png" />
                                                                </image>
                                                             </ImageView>
                                                          </graphic>
-                                                      </Button>
+                                                         <font>
+                                                            <Font size="17.0" />
+                                                         </font>
+                                                      </JFXButton>
                                                    </children>
                                                 </AnchorPane>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                                    <children>
-                                                      <Button fx:id="II" layoutX="46.0" layoutY="64.0" mnemonicParsing="false" onAction="#goToImageIntermediatePage" prefHeight="152.0" prefWidth="143.0" style="-fx-background-color: #FFFFFF;" text=" " AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <JFXButton fx:id="II" contentDisplay="TOP" graphicTextGap="10.0" onAction="#goToImageIntermediatePage" prefHeight="125.0" prefWidth="125.0" text="Image List" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <graphic>
-                                                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                                            <ImageView pickOnBounds="true" preserveRatio="true" smooth="false">
                                                                <image>
-                                                                  <Image url="@../../img.PNG" />
+                                                                  <Image url="@../../icons/text%20icon(2).png" />
                                                                </image>
                                                             </ImageView>
                                                          </graphic>
-                                                      </Button>
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </JFXButton>
                                                    </children>
                                                 </AnchorPane>
                                             </items>
@@ -80,28 +86,34 @@
                                             <items>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                                    <children>
-                                                      <Button fx:id="III" layoutX="46.0" layoutY="64.0" mnemonicParsing="false" onAction="#goToAudioIntermediatePage" prefHeight="152.0" prefWidth="144.0" style="-fx-background-color: #FFFFFF;" text=" " AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <JFXButton fx:id="III" contentDisplay="TOP" graphicTextGap="10.0" onAction="#goToAudioIntermediatePage" prefHeight="160.0" prefWidth="144.0" text="Music List" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <graphic>
-                                                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                                            <ImageView pickOnBounds="true" preserveRatio="true">
                                                                <image>
-                                                                  <Image url="@../../mus.PNG" />
+                                                                  <Image url="@../../icons/music%20icon%20(2).png" />
                                                                </image>
                                                             </ImageView>
                                                          </graphic>
-                                                      </Button>
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </JFXButton>
                                                    </children>
                                                 </AnchorPane>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                                    <children>
-                                                      <Button fx:id="IV" layoutX="46.0" layoutY="64.0" mnemonicParsing="false" onAction="#goToVideoIntermediatePage" prefHeight="152.0" prefWidth="143.0" style="-fx-background-color: #FFFFFF;" text=" " AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <JFXButton fx:id="IV" contentDisplay="TOP" graphicTextGap="10.0" onAction="#goToVideoIntermediatePage" prefHeight="160.0" prefWidth="143.0" text="Video List" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <graphic>
-                                                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                                            <ImageView pickOnBounds="true" preserveRatio="true">
                                                                <image>
-                                                                  <Image url="@../../vid.PNG" />
+                                                                  <Image url="@../../icons/video%20icon(2).png" />
                                                                </image>
                                                             </ImageView>
                                                          </graphic>
-                                                      </Button>
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </JFXButton>
                                                    </children>
                                                 </AnchorPane>
                                             </items>
@@ -131,7 +143,7 @@
                                  </children></AnchorPane>
                           </content>
                         </Tab>
-                        <Tab style="-fx-background-color: #696969;" text="Online Lists">
+                        <Tab text="Online Lists">
                           <content>
                             <AnchorPane fx:id="cloud_anchor_pane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>

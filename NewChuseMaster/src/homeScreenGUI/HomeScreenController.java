@@ -45,13 +45,13 @@ public class HomeScreenController implements Initializable {
     @FXML
     private BorderPane root;
 	@FXML
-	private Button I;
+	private JFXButton I;
 	@FXML
-	private Button II;
+	private JFXButton II;
 	@FXML
-	private Button III;
+	private JFXButton III;
 	@FXML
-	private Button IV;
+	private JFXButton IV;
 
     @FXML
     private VBox files_pane;
