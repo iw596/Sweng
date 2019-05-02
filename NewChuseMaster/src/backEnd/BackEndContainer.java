@@ -383,8 +383,7 @@ public class BackEndContainer {
 	public Boolean logIn(String email, String password) {
 		if(CloudInteractionHandler.logIn(email, password)) {
 			System.out.println("Logged in!");
-			loggedIn = true;
-			return true;
+			return loggedIn = true;
 		} else {
 			System.out.println("Not logged in.");
 			return false;
@@ -426,10 +425,7 @@ public class BackEndContainer {
 	public ArrayList<String> getPublicLists() {
 		return public_lists;
 	}
-	
-	//*******************************************************************
-	//--------------------------- NEW ----------------------------------
-	//*******************************************************************
+
 	/**
 	 * Method to download a list XML from the cloud and read it into the current and original list
 	 * variables.
@@ -627,27 +623,5 @@ public class BackEndContainer {
 	public StatisticsDataStructure getCurrentListStatistics() {
 		return statistics_data;
 	}
-	
-//	/**
-//	 * Method to get a user's age given their user name.
-//	 * @param username	the user name of the account
-//	 * @return	the user's age
-//	 */
-//	public String getAccountAge(String username) {
-//		
-//		return CloudInteractionHandler.queryUserAccountByProperty("username", username)
-//				.next().getString("age");
-//		
-//	}
-//	
-//	/**
-//	 * Method to get a user's gender given their user name.
-//	 * @param username	the user name of the account
-//	 * @return	the user's gender
-//	 */
-//	public String getAccountGender(String username) {
-//		return CloudInteractionHandler.queryUserAccountByProperty("username", username)
-//				.next().getString("gender");
-//	}
 
 }

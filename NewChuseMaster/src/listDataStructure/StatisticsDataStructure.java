@@ -38,6 +38,8 @@ public class StatisticsDataStructure{
 	 */
 	public StatisticsDataStructure(String file_path, String username){
 		
+		System.out.println("Username is: " + username);
+		
 		// set the chuse list from the list witch is being passed by file_path
 		list = new ChuseList();
 		list = XMLHandler.buildListFromXML(file_path);

@@ -2,9 +2,12 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXTabPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -25,16 +28,6 @@
                </children>
             </HBox>
          </top>
-         <center>
-            <ScrollPane fx:id="scroll_pane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <content>
-                  <VBox fx:id="results_pane" alignment="CENTER" prefHeight="200.0" prefWidth="558.0" style="-fx-fill-width: true; -fx-background-color: white;" />
-               </content>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </ScrollPane>
-         </center>
          <bottom>
             <HBox fx:id="bottom_container" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: white; -fx-spacing: 12;" BorderPane.alignment="CENTER">
                <children>
@@ -69,6 +62,33 @@
                </children>
             </HBox>
          </bottom>
+         <center>
+            <JFXTabPane stylesheets="@../../tab_style.css" BorderPane.alignment="CENTER">
+               <tabs>
+                  <Tab text="Results">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ScrollPane fx:id="scroll_pane" prefHeight="163.0" prefWidth="568.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <VBox fx:id="results_pane" alignment="CENTER" prefHeight="200.0" prefWidth="558.0" style="-fx-fill-width: true; -fx-background-color: white;" />
+                                 </content>
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab text="Statistics">
+                    <content>
+                      <AnchorPane fx:id="statistics_pane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+               </tabs>
+            </JFXTabPane>
+         </center>
       </BorderPane>
    </center>
 </BorderPane>

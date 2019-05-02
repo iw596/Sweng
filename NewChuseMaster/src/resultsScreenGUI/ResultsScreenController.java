@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
+import analytics.AnalyticsController;
 import backEnd.BackEndContainer;
 import cloudInteraction.UploadingScreenController;
 import comparisonScreenGUI.ComparisonScreenController;
@@ -16,14 +17,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import searchScreenGUI.NotLoggedInScreenController;
 
 /**
  * Controller for the ResultsScreen.fxml file. Initialises results screen and UI components.
@@ -54,6 +60,9 @@ public class ResultsScreenController implements Initializable {
 	
 	@FXML 
 	private ScrollPane scroll_pane;
+	
+    @FXML
+    private AnchorPane statistics_pane;
 
     @FXML
     private HBox bottom_container;
@@ -219,6 +228,26 @@ public class ResultsScreenController implements Initializable {
 		this.save_as_button.setLayoutX(bottom_container.getWidth());
 		this.save_button.setLayoutX(bottom_container.getWidth());
 		
+		if(back_end.getLocalAccount() == null) {
+			try {
+				loadNotLoggedInScreen();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return;
+		}
+		
+		try {
+			loadStatisticsScreen();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 		
+		System.out.println("List owner is: " + back_end.getListOwner());
+		
 	}
 	
 	@FXML
@@ -314,6 +343,42 @@ public class ResultsScreenController implements Initializable {
     	root.requestFocus();
     	
     }
+	
+    private void loadStatisticsScreen() throws IOException {
+    	
+		FXMLLoader loader = new FXMLLoader(analytics.AnalyticsController.class.getResource("Analytics.fxml"));
+		AnalyticsController controller = new AnalyticsController(back_end, back_end.getListOwner());
+		loader.setController(controller);
+		ScrollPane new_pane = loader.load();
+		
+    	new_pane.prefWidthProperty().bind(statistics_pane.widthProperty());
+    	new_pane.prefHeightProperty().bind(statistics_pane.heightProperty());
+    	new_pane.minWidthProperty().bind(statistics_pane.minWidthProperty());
+    	new_pane.minHeightProperty().bind(statistics_pane.minHeightProperty());
+    	new_pane.maxWidthProperty().bind(statistics_pane.maxWidthProperty());
+    	new_pane.maxHeightProperty().bind(statistics_pane.maxHeightProperty());
+		
+		statistics_pane.getChildren().add(new_pane);
+		
+    }
+    
+    private void loadNotLoggedInScreen() throws IOException {
+
+		FXMLLoader loader = new FXMLLoader(analytics.AnalyticsController.class.getResource("NotLoggedInAnalyticsScreen.fxml"));
+		NotLoggedInScreenController controller = new NotLoggedInScreenController(back_end, null);
+		loader.setController(controller);
+		BorderPane new_pane = loader.load();
+		
+    	new_pane.prefWidthProperty().bind(statistics_pane.widthProperty());
+    	new_pane.prefHeightProperty().bind(statistics_pane.heightProperty());
+    	new_pane.minWidthProperty().bind(statistics_pane.minWidthProperty());
+    	new_pane.minHeightProperty().bind(statistics_pane.minHeightProperty());
+    	new_pane.maxWidthProperty().bind(statistics_pane.maxWidthProperty());
+    	new_pane.maxHeightProperty().bind(statistics_pane.maxHeightProperty());
+		
+		statistics_pane.getChildren().add(new_pane);
+		
+	}
 	
     /**
      * Method to display another .fxml file within the current screen.

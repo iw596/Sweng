@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.Label;
 import javafx.scene.chart.CategoryAxis;
@@ -28,7 +29,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import listDataStructure.StatisticsDataStructure;
 
 
@@ -65,29 +68,39 @@ public class AnalyticsController implements Initializable {
     
     public AnalyticsController(BackEndContainer back_end, String username) {
     	this.back_end = back_end;
-     	back_end.createCurrentListStatistics(username);
+    	
+    	if(username != null && !username.equals("Local (Not Logged In)")) {
+    		back_end.createCurrentListStatistics(username);
+    	}
+    	
     }
     
     @Override
     public void initialize (URL url, ResourceBundle rb) {
     
-//    // Needed to access the cloud
-//    // get rid of this when integrating 
-//    new CloudInteractionHandler();	
-    // Creates the data structure
-// 	StatisticsDataStructure aa = new StatisticsDataStructure(System.getProperty("user.dir") + "\\saves\\Test_12_XML.xml");
-   
-    StatisticsDataStructure aa = back_end.getCurrentListStatistics();
- 	
- 	// aa is the information from the cloud to the statistics.
-    chart1(aa);
-    chart2(aa);
-    chart3(aa);
-    chart4(aa);   
-    
-    //Scroll bar to fit size of window.
-    scroll.setFitToHeight(true);
-    scroll.setFitToWidth(true);
+	    //Scroll bar to fit size of window.
+	    scroll.setFitToHeight(true);
+	    scroll.setFitToWidth(true);
+    	
+	    StatisticsDataStructure aa = back_end.getCurrentListStatistics();
+	    
+	    if(back_end.getCurrentListStatistics() == null) {
+	    	Text error_msg = new Text("This list has not been shared. Please share the list to view statistics about the responses!"); 
+	    	error_msg.setStyle("-fx-font-size: 18;");
+	    	error_msg.setTextAlignment(TextAlignment.CENTER);
+	    	VBox container = new VBox(error_msg);
+	    	container.setAlignment(Pos.CENTER);
+	    	scroll.setContent(container);
+	    	return;
+	    }
+	     
+	 	// aa is the information from the cloud to the statistics.
+	    chart1(aa);
+	    chart2(aa);
+	    chart3(aa);
+	    chart4(aa);   
+	    
+
 
    }
     
