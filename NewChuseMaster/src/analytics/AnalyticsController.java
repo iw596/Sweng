@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import backEnd.BackEndContainer;
 import cloudInteraction.CloudInteractionHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -60,15 +61,24 @@ public class AnalyticsController implements Initializable {
     @FXML
     private NumberAxis barchart_y;
   
+    private BackEndContainer back_end;
+    
+    public AnalyticsController(BackEndContainer back_end, String username) {
+    	this.back_end = back_end;
+     	back_end.createCurrentListStatistics(username);
+    }
+    
     @Override
     public void initialize (URL url, ResourceBundle rb) {
     
-    // Needed to access the cloud
-    // get rid of this when integrating 
-    new CloudInteractionHandler();	
+//    // Needed to access the cloud
+//    // get rid of this when integrating 
+//    new CloudInteractionHandler();	
     // Creates the data structure
- 	StatisticsDataStructure aa = new StatisticsDataStructure(System.getProperty("user.dir") + "\\saves\\Test_12_XML.xml");
+// 	StatisticsDataStructure aa = new StatisticsDataStructure(System.getProperty("user.dir") + "\\saves\\Test_12_XML.xml");
    
+    StatisticsDataStructure aa = back_end.getCurrentListStatistics();
+ 	
  	// aa is the information from the cloud to the statistics.
     chart1(aa);
     chart2(aa);
@@ -275,6 +285,5 @@ public class AnalyticsController implements Initializable {
     	barchart4.setCategoryGap(20);
     	
     	}
-    
 
 }

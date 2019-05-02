@@ -1,65 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="581.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="analytics.AnalyticsController">
-   <center>
-      <StackPane BorderPane.alignment="CENTER">
+
+<ScrollPane fx:id="scroll" fitToHeight="true" fitToWidth="true" hmax="100.0" prefHeight="394.0" prefWidth="545.0" vmax="100.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox alignment="CENTER" style="-fx-background-color: white;">
          <children>
-            <ScrollPane fx:id="scroll" fitToHeight="true" fitToWidth="true" hmax="100.0" prefHeight="394.0" prefWidth="545.0" vmax="100.0">
-               <content>
-                  <VBox style="-fx-background-color: white;">
-                     <children>
-                        <StackPane prefHeight="150.0" prefWidth="200.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Analytics" />
-                           </children>
-                        </StackPane>
-                        <AreaChart fx:id="areachart" style="-fx-background-color: white;" stylesheets="@Analytics.css">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </AreaChart>
-                        <BarChart fx:id="barchart" style="-fx-background-color: white;" stylesheets="@Analytics.css">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </BarChart>
-                        <BarChart fx:id="barchart3" style="-fx-background-color: white;" stylesheets="@Analytics.css">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </BarChart>
-                        <BarChart fx:id="barchart4" style="-fx-background-color: white;" stylesheets="@Analytics.css">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </BarChart>
-                     </children>
-                  </VBox>
-               </content>
-            </ScrollPane>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Analytics">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="8.0" />
+               </VBox.margin>
+            </Text>
+            <AreaChart fx:id="areachart" style="-fx-background-color: white;" stylesheets="@Analytics.css">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </AreaChart>
+            <BarChart fx:id="barchart" style="-fx-background-color: white;" stylesheets="@Analytics.css">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <BarChart fx:id="barchart3" style="-fx-background-color: white;" stylesheets="@Analytics.css">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <BarChart fx:id="barchart4" style="-fx-background-color: white;" stylesheets="@Analytics.css">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
          </children>
-      </StackPane>
-   </center>
-</BorderPane>
+      </VBox>
+   </content>
+</ScrollPane>

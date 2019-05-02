@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.apache.commons.io.FilenameUtils;
+
 import cloudInteraction.CloudInteractionHandler;
 import cloudInteraction.UserAccount;
 import xmlHandling.XMLHandler;
@@ -34,7 +36,7 @@ public class StatisticsDataStructure{
  	 * 
 	 * @param file_path
 	 */
-	public StatisticsDataStructure(String file_path){
+	public StatisticsDataStructure(String file_path, String username){
 		
 		// set the chuse list from the list witch is being passed by file_path
 		list = new ChuseList();
@@ -51,25 +53,47 @@ public class StatisticsDataStructure{
 		// set results array
 		result_list = new ArrayList<Result>();
 		
+		if(list.getAuthor().equals("")) {
+			System.out.println("No author name");
+			System.out.println("author name is " + list.getAuthor());
+			list.setAuthor(username);
+			System.out.println("Author name is now " + list.getAuthor());
+		}
+		
 		// This gets the information needed for the statistics from the cloud, using the username that is extracted from the XML
-		String gender = CloudInteractionHandler.queryUserAccountByProperty("username", list.getAuthor()).next().getString("gender");
-		String age = CloudInteractionHandler.queryUserAccountByProperty("username", list.getAuthor()).next().getString("age");
+		String gender = CloudInteractionHandler.queryUserAccountByProperty("username", list.getAuthor())
+				.next().getString("gender");
+		String age = CloudInteractionHandler.queryUserAccountByProperty("username", list.getAuthor())
+				.next().getString("age");
+		
 		// This creates the results file from the data previously collected
 		addResult(new UserAccount("null", list.getAuthor(), age, gender), temp);
 		// This is to extract the usernames from the XML results files name e.g XML-user.xml returns user
-		ArrayList<String> results_files = getResultsFilesExtension(file_path.substring(0, file_path.indexOf("\\saves")+6), list.getName().substring(0, list.getName().indexOf(".xml")));
+		
+		System.out.println("File path var: " + file_path);
+		System.out.println("File location: " + FilenameUtils.getFullPath(file_path));
+		System.out.println("File extension: " + FilenameUtils.getExtension(file_path));
+
+		ArrayList<String> results_files = getResultsFilesExtension(FilenameUtils.getFullPath(file_path).substring(0, FilenameUtils.getFullPath(file_path).lastIndexOf("/")), FilenameUtils.getBaseName((file_path)));
+
 		// This stores the user account
 		UserAccount temp_user;
 		// For each result file get the information needed for statistics from the cloud and create the user account
 		for (int j = 0; j < results_files.size(); j++){
-			gender = CloudInteractionHandler.queryUserAccountByProperty("username", results_files.get(j)).next().getString("gender");
-			age = CloudInteractionHandler.queryUserAccountByProperty("username", results_files.get(j)).next().getString("age");
+			gender = CloudInteractionHandler.queryUserAccountByProperty("username", results_files.get(j))
+					.next().getString("gender");
+			age = CloudInteractionHandler.queryUserAccountByProperty("username", results_files.get(j))
+					.next().getString("age");
 			// Creates the user account class that will be stored in the results class
 			temp_user = new UserAccount("null", results_files.get(j), age, gender);
 			// reconstructs the file path in order to get the results list
+			
+			System.out.println("Hello im here " + file_path.substring(0, file_path.indexOf(".xml")) +"-"+ results_files.get(j)+".xml");
+			
 			temp = XMLHandler.buildResultsListFromXML(file_path.substring(0, file_path.indexOf(".xml")) +"-"+ results_files.get(j)+".xml");
 			// adds the results list and user account to the results class
 			addResult(temp_user, temp);
+			
 		}
 		
 		
@@ -97,13 +121,19 @@ public class StatisticsDataStructure{
 	 * @return
 	 */
 	public static ArrayList<String> getResultsFilesExtension(String directory_name, String extension){
-		
+
 		File folder = new File(directory_name);
 		// Finds all files within the saves folder
 		String[] all_files = folder.list();
 		// This stores the relevant files name
 		ArrayList<String> files = new ArrayList<String>();
 		int i;
+		
+		System.out.println("all files " + all_files);
+		
+		System.out.println("extension is " + extension);
+		
+		System.out.println("directory is " + directory_name);
 		
 		for (i = 0; i < folder.list().length; i++){
 			// If the selected file is a results file for the list, then add to the list of the files

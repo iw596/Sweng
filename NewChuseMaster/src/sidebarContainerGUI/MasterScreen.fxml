@@ -50,7 +50,7 @@
                      <graphic>
                         <ImageView pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="file:/C:/Users/Dan/Sweng/NewChuseMaster/icons/user_image.png" />
+                              <Image url="@../../icons/user_image.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -118,7 +118,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true" smooth="false">
                      <image>
-                        <Image url="file:/C:/Users/Dan/Sweng/NewChuseMaster/icons/Logout%20Icon%20White%20Small.png" />
+                        <Image url="@../../icons/Logout%20Icon%20White%20Small.png" />
                      </image>
                   </ImageView>
                </graphic>

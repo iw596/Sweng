@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -49,11 +52,28 @@
                   </HBox>
                </top>
                <center>
-                  <ScrollPane fx:id="scroll_pane" prefHeight="138.0" prefWidth="640.0" BorderPane.alignment="CENTER">
-                     <content>
-                        <VBox fx:id="items_pane" alignment="CENTER" />
-                     </content>
-                  </ScrollPane>
+                  <JFXTabPane stylesheets="@../../tab_style.css" BorderPane.alignment="CENTER">
+                     <tabs>
+                        <Tab text="Results">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ScrollPane fx:id="scroll_pane" prefHeight="258.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <content>
+                                          <VBox fx:id="items_pane" alignment="CENTER" />
+                                       </content>
+                                    </ScrollPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab text="Statistics">
+                          <content>
+                            <AnchorPane fx:id="statistics_pane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                     </tabs>
+                  </JFXTabPane>
                </center>
             </BorderPane>
          </center>

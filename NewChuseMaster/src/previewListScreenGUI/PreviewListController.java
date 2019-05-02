@@ -8,17 +8,21 @@ import org.apache.commons.io.FilenameUtils;
 
 import com.jfoenix.controls.JFXButton;
 
+import analytics.AnalyticsController;
 import backEnd.BackEndContainer;
 import comparisonScreenGUI.ComparisonScreenController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import searchScreenGUI.NotLoggedInScreenController;
 
 /**
  * PreviewListController is a controller class for the list preview GUI screen. This displays a preview of the
@@ -44,6 +48,9 @@ public class PreviewListController implements Initializable {
 
     @FXML
     private ScrollPane scroll_pane;
+    
+    @FXML
+    private AnchorPane statistics_pane;
 
     @FXML
     private VBox items_pane;
@@ -104,6 +111,22 @@ public class PreviewListController implements Initializable {
 		username_label.setText("@" + username);
 		list_title.setText(list_name);
 		
+		if(back_end.getLocalAccount() != null) {
+			try {
+				loadStatisticsScreen();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				loadNotLoggedInScreen();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 //		try {
 //			
 //			System.out.println(FilenameUtils.getPath(cloud_path));
@@ -129,7 +152,26 @@ public class PreviewListController implements Initializable {
 		
 	}
 	
-    /**
+    private void loadNotLoggedInScreen() throws IOException {
+
+		FXMLLoader loader = new FXMLLoader(analytics.AnalyticsController.class.getResource("NotLoggedInAnalyticsScreen.fxml"));
+		NotLoggedInScreenController controller = new NotLoggedInScreenController(back_end, null);
+		loader.setController(controller);
+		BorderPane new_pane = loader.load();
+		
+    	new_pane.prefWidthProperty().bind(statistics_pane.widthProperty());
+    	new_pane.prefHeightProperty().bind(statistics_pane.heightProperty());
+    	new_pane.minWidthProperty().bind(statistics_pane.minWidthProperty());
+    	new_pane.minHeightProperty().bind(statistics_pane.minHeightProperty());
+    	new_pane.maxWidthProperty().bind(statistics_pane.maxWidthProperty());
+    	new_pane.maxHeightProperty().bind(statistics_pane.maxHeightProperty());
+		
+		statistics_pane.getChildren().add(new_pane);
+		
+	}
+
+
+	/**
      * Method to display another .fxml file within the current screen.
      * @param new_pane
      */
@@ -150,6 +192,24 @@ public class PreviewListController implements Initializable {
     	
     	System.gc();
 	
+    }
+    
+    private void loadStatisticsScreen() throws IOException {
+    	
+		FXMLLoader loader = new FXMLLoader(analytics.AnalyticsController.class.getResource("Analytics.fxml"));
+		AnalyticsController controller = new AnalyticsController(back_end, username);
+		loader.setController(controller);
+		ScrollPane new_pane = loader.load();
+		
+    	new_pane.prefWidthProperty().bind(statistics_pane.widthProperty());
+    	new_pane.prefHeightProperty().bind(statistics_pane.heightProperty());
+    	new_pane.minWidthProperty().bind(statistics_pane.minWidthProperty());
+    	new_pane.minHeightProperty().bind(statistics_pane.minHeightProperty());
+    	new_pane.maxWidthProperty().bind(statistics_pane.maxWidthProperty());
+    	new_pane.maxHeightProperty().bind(statistics_pane.maxHeightProperty());
+		
+		statistics_pane.getChildren().add(new_pane);
+		
     }
 	
 }

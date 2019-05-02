@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import listDataStructure.BasicItem;
 import listDataStructure.ChuseList;
 import listDataStructure.RankingList;
+import listDataStructure.StatisticsDataStructure;
 import mediaFileImportHandling.AudioFileHandler;
 import mediaFileImportHandling.ImageFileHandler;
 import mediaFileImportHandling.TextFileHandler;
@@ -73,6 +74,8 @@ public class BackEndContainer {
 
 	private ArrayList<String> random_public_lists;
 	
+	private StatisticsDataStructure statistics_data;
+	
 	/**
 	 * Constructor function for the BackEndContainer object. Sets the current list and
 	 * current results equal to null.
@@ -84,6 +87,7 @@ public class BackEndContainer {
 		list_owner = null;
 		logged_in_users_lists = null;
 		random_public_lists = null;
+		statistics_data = null;
 	}
 	
 	/**
@@ -94,6 +98,7 @@ public class BackEndContainer {
 	public void loadTextFiles(Stage stage) {
 		
 		this.current_list_file_name = null;
+		this.statistics_data = null;
 		
 		current_list = new ChuseList();
 		original_list = new ChuseList();
@@ -112,6 +117,7 @@ public class BackEndContainer {
 	public void loadImageFiles(Stage stage) {
 		
 		this.current_list_file_name = null;
+		this.statistics_data = null;
 		
 		current_list = new ChuseList();
 		original_list = new ChuseList();
@@ -130,6 +136,7 @@ public class BackEndContainer {
 	public void loadAudioFiles(Stage stage) {
 		
 		this.current_list_file_name = null;
+		this.statistics_data = null;
 		
 		current_list = new ChuseList();
 		original_list = new ChuseList();
@@ -147,6 +154,8 @@ public class BackEndContainer {
 	 */
 	public void loadVideoFiles(Stage stage) {
 		
+		this.statistics_data = null;
+		
 		current_list = new ChuseList();
 		original_list = new ChuseList();
 		
@@ -159,12 +168,13 @@ public class BackEndContainer {
 	public void loadSpotifyItems(ArrayList<BasicItem> spotify_items){
 		current_list = new ChuseList();
 		original_list = new ChuseList();
+		this.statistics_data = null;
 		
 		current_list.addItemArray(spotify_items);
 		original_list.addItemArray(spotify_items);
 		
 		for(int i = 0; i < current_list.getSize();i++){
-		System.out.println(current_list.get(i).getTitle());
+			System.out.println(current_list.get(i).getTitle());
 		}
 	}
 	
@@ -183,6 +193,7 @@ public class BackEndContainer {
 	public void createBasicItemList(ArrayList<String> content) {
 		
 		this.current_list_file_name = null;
+		this.statistics_data = null;
 		
 		current_list = new ChuseList();
 		original_list = new ChuseList();
@@ -274,6 +285,7 @@ public class BackEndContainer {
 	 * @param file_path	the path to the XML file
 	 */
 	public void loadXMLForComparison(String file_path) {
+		this.statistics_data = null;
 		this.current_list_file_name = file_path;
 		current_list = XMLHandler.buildListFromXML(file_path);
 		original_list = XMLHandler.buildListFromXML(file_path);
@@ -285,6 +297,7 @@ public class BackEndContainer {
 	 * @throws IOException
 	 */
 	public void createYouTubeList(String playlist_url) throws IOException {
+		this.statistics_data = null;
 		current_list = YouTubeAPIHandler.getPlaylistData(playlist_url);
 		original_list = YouTubeAPIHandler.getPlaylistData(playlist_url);
 	}
@@ -587,5 +600,54 @@ public class BackEndContainer {
 		return account.getString("username");
 		
 	}
+	
+	/**
+	 * Method for creating a collection of statistics data from the currently stored XML file.
+	 * @return	true if successfully creates statistics, false if fails.
+	 */
+	public Boolean createCurrentListStatistics(String username) {
+		
+		//checks if the current list is saved as an XML file
+		if(current_list_file_name == null) {
+			//if it is not then returns
+			return false;
+		}
+		
+		//creates a new set of statistics data
+		statistics_data = new StatisticsDataStructure(current_list_file_name, username);
+		
+		return true;
+		
+	}
+	
+	/**
+	 * Method to get the current lists statistics data that are stored.
+	 * @return	the current lists statistics data.
+	 */
+	public StatisticsDataStructure getCurrentListStatistics() {
+		return statistics_data;
+	}
+	
+//	/**
+//	 * Method to get a user's age given their user name.
+//	 * @param username	the user name of the account
+//	 * @return	the user's age
+//	 */
+//	public String getAccountAge(String username) {
+//		
+//		return CloudInteractionHandler.queryUserAccountByProperty("username", username)
+//				.next().getString("age");
+//		
+//	}
+//	
+//	/**
+//	 * Method to get a user's gender given their user name.
+//	 * @param username	the user name of the account
+//	 * @return	the user's gender
+//	 */
+//	public String getAccountGender(String username) {
+//		return CloudInteractionHandler.queryUserAccountByProperty("username", username)
+//				.next().getString("gender");
+//	}
 
 }
