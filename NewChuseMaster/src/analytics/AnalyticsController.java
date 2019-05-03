@@ -57,20 +57,29 @@ public class AnalyticsController implements Initializable {
     public AnalyticsController(BackEndContainer back_end, String username) {
     	this.back_end = back_end;
     	
+	// check if user is logged 
     	if(username != null && !username.equals("Local (Not Logged In)")) {
+		// set up statistics data structure on current list 
     		back_end.createCurrentListStatistics(username);
     	}
     	
     }
-    
+	
+    /**
+     * initial all the 4 charts of statistics
+     *
+     * @param url
+     * @param rb
+     *
+     */
     @Override
     public void initialize (URL url, ResourceBundle rb) {
     
 	    //Scroll bar to fit size of window.
 	    scroll.setFitToHeight(true);
 	    scroll.setFitToWidth(true);
-    	
-	    StatisticsDataStructure aa = back_end.getCurrentListStatistics();
+    		
+	    StatisticsDataStructure statistics = back_end.getCurrentListStatistics();
 	    
 	    if(back_end.getCurrentListStatistics() == null) {
 	    	Text error_msg = new Text("This list has not been shared. Please share the list to view statistics about the responses!"); 
@@ -82,11 +91,11 @@ public class AnalyticsController implements Initializable {
 	    	return;
 	    }
 	     
-	 	// aa is the information from the cloud to the statistics.
-	    chart1(aa);
-	    chart2(aa);
-	    chart3(aa);
-	    chart4(aa);   
+	    // aa is the information from the cloud to the statistics.
+	    chart1(statistics);
+	    chart2(statistics);
+	    chart3(statistics);
+	    chart4(statistics);   
    }
     
     /***
