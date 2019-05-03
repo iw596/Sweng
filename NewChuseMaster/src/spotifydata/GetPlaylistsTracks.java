@@ -80,7 +80,7 @@ public class GetPlaylistsTracks {
 		    			  artist += ", " + playlistTrackPaging.getItems()[i].getTrack().getArtists()[j].getName();
 		    		  }
 		    	  }
-		    	  
+		    	  // Add all metadate to track
 		    	  track_metadata.add(artist);
 		    	  track_metadata.add(playlistTrackPaging.getItems()[i].getTrack().getAlbum().getName());
 		    	  track_metadata.add(Double.toString(((double)playlistTrackPaging.getItems()[i].getTrack().getDurationMs() / 1000) / 60));
@@ -92,7 +92,7 @@ public class GetPlaylistsTracks {
 		      return spotify_items;
 		      
 		    } catch (IOException | SpotifyWebApiException e) {
-		    	System.out.println("Error: " + e.getMessage());
+		    	e.printStackTrace();
 		    }
 		    
 		    return null;

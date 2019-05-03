@@ -121,7 +121,6 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
     		try {
 				loadNotLoggedInScreen();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     		return;
@@ -150,7 +149,6 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
     		try {
 				loadNoAccountsScreen();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     		return;
@@ -163,7 +161,6 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
     	try {
 			loadPublicListsScreen();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	
@@ -178,7 +175,6 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
      * @param event
      */
     void showAccountScreen(ActionEvent event) throws IOException {
-    	System.out.println("Account Screen Button Pressed");
     	
     	//sets the current list owner to null
     	back_end.setListOwner(null);
@@ -193,7 +189,7 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
         //if logged in, show the account info screen
     	} else {
     		FXMLLoader loader = new FXMLLoader(accountScreensGUI.AccountInfoScreenController.class.getResource("AccountInfoScreen.fxml"));
-    		AccountInfoScreenController controller = new AccountInfoScreenController(back_end, this);
+    		AccountInfoScreenController controller = new AccountInfoScreenController(back_end);
         	loader.setController(controller);
         	BorderPane new_pane = loader.load();
         	bindSizeProperties(new_pane);
@@ -250,7 +246,6 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
      * @param event
      */
     void showSocialScreen(ActionEvent event) throws IOException {
-    	System.out.println("Social Button Pressed");
     	
     	//sets the current list owner to null
     	back_end.setListOwner(null);
@@ -289,7 +284,6 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
     	try {
 			showHomeScreen(null);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	
@@ -369,7 +363,6 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
 	 * Method to initialise the master screen by displaying the home screen as soon as the application is loaded.
 	 */
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		
 		//if the user is logged in, show the logout button
 		if(back_end.getLocalAccount() == null) {
@@ -379,7 +372,6 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
 		try {
 			showHomeScreen(null);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -391,7 +383,6 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
 	 * results after the search thread has found the results.
 	 */
 	public void notifyOfThreadTermination(NotifyingThread thread) {
-		System.out.println("Showing search results!");
 		
 		//wait for the program to be back on the main JavaFX thread
 		//as handling an GUI updates from another thread crashes the program

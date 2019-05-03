@@ -79,11 +79,9 @@ public class TournamentAlgorithms {
 		if(id == 0) {
 			//add the first item to the results
 			results.addItem(current_list.get((position) * 2));
-			//TODO UNSURE WHETHER TO remove the second item from the current list
 		} else {
 			//add the second item to the results
 			results.addItem(current_list.get(((position) * 2) + 1));
-			//TODO UNSURE WHETHER TO remove the first item from the current list
 			
 		}
 		
@@ -188,14 +186,6 @@ public class TournamentAlgorithms {
 	 * Method to remove duplicated items in the list of results lists.
 	 */
 	public void removeDuplicates() {
-		
-//		int z = 0;
-//		
-//		for(ChuseList result : results_list) {
-//			System.out.println("List " + z + " is: ");
-//			result.printList();
-//			z++;
-//		}
 		
 		if(results_list.size() >= 3) {
 			//loops through every result list
@@ -306,12 +296,6 @@ public class TournamentAlgorithms {
 	 */
 	public ChuseList getLosers() {
 		return this.losers;
-	}
-	
-	public void printResults() {
-
-		ranked_results.print();
-		
 	}
 	
 	/**

@@ -46,9 +46,8 @@ public class AuthorisationCode {
 	      spotify_api.setAccessToken(authorizationCodeCredentials.getAccessToken());
 	      spotify_api.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
 
-	      System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
 	    } catch (IOException | SpotifyWebApiException e) {
-	      System.out.println("Error: " + e.getMessage());
+	    	e.printStackTrace();
 	    }
 	  }
 

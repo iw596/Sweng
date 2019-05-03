@@ -53,7 +53,6 @@ public class YouTubePopupController {
     		//creates a youtube playlist
 			back_end.createYouTubeList(url_text_field.getText());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

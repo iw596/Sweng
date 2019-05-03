@@ -17,7 +17,16 @@ import java.net.URI;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.SpotifyHttpManager;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
-
+/** This class handles the generation of a URI which allows the user to access a spotify login page where they
+ * can then login and retreive an access code
+ * 
+ * Date created: 27/04/2019
+ * Date last edited 29/04/2019
+ * Last edited by: Isaac Watson
+ *
+ * @author Isaac Watson and Harry Ogden
+ *
+ */
 public class AuthorisationURI {
 	  // These show the spotify server we are a valid application
 	  private static final String client_id = "990db6620e3c45bfbf24b43c212e5d6d";
@@ -47,7 +56,6 @@ public class AuthorisationURI {
 	  public static URI authorizationCodeUri_Sync() {
 		    final URI uri = authorization_code_uri_request.execute();
 
-		    System.out.println("URI: " + uri.toString());
 		    return uri;
 	  }
 	
@@ -56,7 +64,6 @@ public class AuthorisationURI {
 	   * @return spotify_api 
 	   */
 	  public SpotifyApi getSpotifyAPI() {
-			// TODO Auto-generated method stub
 			return spotify_api;
 		}
 

@@ -68,12 +68,4 @@ public class RankingItem {
 		return this.item;
 	}
 	
-	/**
-	 * Method to print out the item and items ranking.
-	 */
-	public void print() {
-		System.out.println("Rank points: " + this.getRanking() + "");
-		item.print();
-	}
-	
 }

@@ -19,7 +19,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -168,6 +167,12 @@ public class HomeScreenController implements Initializable {
 	
     }
     
+    /**
+     * Method to show a new scroll pane within the cloud file browser tab. This is necessary as
+     * the scroll pane does not inherit from the Pane class, whereas all other panes do.
+     * 
+     * @param new_pane
+     */
     private void showInCloudPane(ScrollPane new_pane) {
     	
     	new_pane.prefWidthProperty().bind(cloud_anchor_pane.widthProperty());
@@ -182,10 +187,12 @@ public class HomeScreenController implements Initializable {
     	cloud_anchor_pane.getChildren().clear();
     	cloud_anchor_pane.getChildren().add(new_pane);
     	
-    	//root.setCenter(new_pane);
-    	
     }
     
+    /**
+     * Method to show a new pane within the cloud file browser tab.
+     * @param new_pane
+     */
     private void showInCloudPane(Pane new_pane) {
     	
     	new_pane.prefWidthProperty().bind(cloud_anchor_pane.widthProperty());
@@ -199,9 +206,6 @@ public class HomeScreenController implements Initializable {
     	
     	cloud_anchor_pane.getChildren().clear();
     	cloud_anchor_pane.getChildren().add(new_pane);
-    	
-    	//root.setCenter(new_pane);
-    	
     }
     
     /**
@@ -232,8 +236,6 @@ public class HomeScreenController implements Initializable {
 
 				@Override
 				public void handle(ActionEvent arg0) {
-					System.out.println(file.getAbsolutePath());
-					
 					//reads the XML file at the given location and stores the contents in the current list
 					back_end.loadXMLForComparison(file.getAbsolutePath());
 
@@ -244,15 +246,8 @@ public class HomeScreenController implements Initializable {
 				    	loader.setController(controller);
 				    	BorderPane new_pane = loader.load();
 				    	showInSelf(new_pane);
-						
-//						//load the comparison screen and start the tournament comparison algorithm
-//						FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
-//				    	ComparisonScreenController controller = new ComparisonScreenController(back_end);
-//				    	loader.setController(controller);
-//						BorderPane new_pane = loader.load();
-//						showInSelf(new_pane);
+
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
@@ -272,7 +267,7 @@ public class HomeScreenController implements Initializable {
 	 * Initialization function for the controller. Adds the buttons to the scroll pane.
 	 */
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		//this.addButtonToGrid(new Button());
+
     	recent_scroll_pane.setFitToHeight(true);
     	recent_scroll_pane.setFitToWidth(true);
     	
@@ -286,7 +281,6 @@ public class HomeScreenController implements Initializable {
     	    	ScrollPane new_pane = loader.load();
     			showInCloudPane(new_pane);
     		} catch (IOException e) {
-    			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
     	} else {
@@ -297,7 +291,6 @@ public class HomeScreenController implements Initializable {
     	    	Pane new_pane = loader.load();
     			showInCloudPane(new_pane);
     		} catch (IOException e) {
-    			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
 

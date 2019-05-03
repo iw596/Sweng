@@ -54,7 +54,7 @@ public class CloudInteractionHandler {
 	private static Storage storage;
 	private static Datastore datastore;
 	
-	private static Boolean loggedIn = false;
+	private static Boolean logged_in = false;
 
 	private static UserAccount user = null;
 	
@@ -68,7 +68,6 @@ public class CloudInteractionHandler {
 			storage = authoriseCloudStorage(System.getProperty("user.dir") + "\\SWEng WeTech-6bbc22590207.json");
 			datastore = authoriseCloudDatastore(System.getProperty("user.dir") + "\\SWEng WeTech-6bbc22590207.json");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -86,11 +85,12 @@ public class CloudInteractionHandler {
 	}
 	
 	/**
-	 * MODIFIED FROM EXAMPLE CODE FROM GOOGLE
+	 * 							MODIFIED FROM EXAMPLE CODE FROM GOOGLE
+	 * 
 	 * Method to authorise access to the Google Cloud Storage service using the application's private key.
 	 * 
 	 * @param jsonPath		path to the application's private key
-	 * @return
+	 * @return	storage		the GCP cloud storage object
 	 * @throws IOException
 	 */
 	private static Storage authoriseCloudStorage(String jsonPath) throws IOException {
@@ -104,11 +104,12 @@ public class CloudInteractionHandler {
 	}
 	
 	/**
-	 * MODIFIED FROM EXAMPLE CODE FROM GOOGLE
+	 *						 MODIFIED FROM EXAMPLE CODE FROM GOOGLE
+	 * 
 	 * Method to authorise access to the Google Cloud Datastore service using the application's private key.
 	 * 
 	 * @param jsonPath		path to the application's private key
-	 * @return
+	 * @return	datastore	the GCP cloud datastore object
 	 * @throws IOException
 	 */
 	private static Datastore authoriseCloudDatastore(String jsonPath) throws IOException {
@@ -143,7 +144,6 @@ public class CloudInteractionHandler {
 		try {
 			storage.create(blobInfo, new String(file_content).getBytes("UTF-8"));
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (StorageException e) {
 			return;
@@ -151,6 +151,12 @@ public class CloudInteractionHandler {
 		
 	}
 	
+	/**
+	 * Method to upload a user's shared results XML file to the original user's public area.
+	 * 
+	 * @param local_file_path	the path to the local file
+	 * @param upload_file_name	the desired path and file name for the uploaded version of the file
+	 */
 	public static void uploadResults(String local_file_path, String upload_file_name) {
 		uploadFileToBucket("we-tech-user-storage", local_file_path, upload_file_name);
 	}
@@ -187,7 +193,6 @@ public class CloudInteractionHandler {
 		try {
 			storage.create(blob_info, new String(encoded).getBytes("UTF-8"));
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (StorageException e) {
 			return;
@@ -197,8 +202,8 @@ public class CloudInteractionHandler {
 	
 	/**
 	 * Method to read all of the bytes from a file.
-	 * @param local_file_path
-	 * @return
+	 * @param local_file_path	the path to the local file
+	 * @return	file_content 	the content the file contains in bytes
 	 */
 	private static byte[] readAllBytesFromFile(String local_file_path) {
 		
@@ -212,7 +217,6 @@ public class CloudInteractionHandler {
 		try {
 			file_content = Files.readAllBytes(file.toPath());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -233,9 +237,11 @@ public class CloudInteractionHandler {
 		String mime_type = null;
 		
 		//checks the extension in order to determine the MIME type of the file
-		if(extension.equals("jpg") || extension.equals("png") || extension.equals("jpeg") || extension.equals("gif")) {
+		if(extension.equals("jpg") || extension.equals("png") || extension.equals("jpeg") 
+				|| extension.equals("gif")) {
 			mime_type = "image/" + extension;
-		} else if(extension.equals("mp3") || extension.equals("m4a") || extension.equals("flac") || extension.equals("wav")) {
+		} else if(extension.equals("mp3") || extension.equals("m4a") 
+				|| extension.equals("flac") || extension.equals("wav")) {
 			mime_type = "audio/" + extension;
 		} else if(extension.equals("mp4") || extension.equals("mov")) {
 			mime_type = "video/" + extension;
@@ -249,13 +255,13 @@ public class CloudInteractionHandler {
 	/**
 	 * Method to upload an entire list of multimedia items to the Google Cloud Platform.
 	 * @param filepath	the filepath to the local list XML file
+	 * @return Boolean	true if successful, false if unsuccessful
 	 */
 	public static Boolean uploadList(String filepath) {
 		
 		//checks if the user is logged in
 		if(!isLoggedIn()) {
 			//if not returns without uploading
-			System.out.println("Returning without upload.");
 			return false;
 		}
 		
@@ -269,25 +275,34 @@ public class CloudInteractionHandler {
 		paths.removeAll(Collections.singleton(null));
 
 		//uploads the XML list file to the user's area
-		uploadFileToBucket("we-tech-user-storage", filepath, user.getId() + "/" + list_access_type + "/" + FilenameUtils.getBaseName(filepath) + "/" + FilenameUtils.getName(filepath));
+		uploadFileToBucket("we-tech-user-storage",
+				filepath, user.getId() + "/" + list_access_type + "/" + FilenameUtils.getBaseName(filepath) 
+				+ "/" + FilenameUtils.getName(filepath));
 		
 		//uploads every multimedia file contained within the XML file to the user's area
 		for(String path : paths) {
-			uploadMediaToBucket("we-tech-user-storage", path, user.getId() + "/" + list_access_type + "/" + FilenameUtils.getBaseName(filepath) + "/" + FilenameUtils.getName(path));
+			uploadMediaToBucket("we-tech-user-storage", 
+					path, user.getId() + "/" + list_access_type + "/" + FilenameUtils.getBaseName(filepath)
+					+ "/" + FilenameUtils.getName(path));
 		}
 		
+		//gets the current user
 		Entity current_user = getUserAccountEntity(user.getId());
 		
+		//if the access type is not public, returns
 		if(!list_access_type.equals("public")) {
 			return true;
 		}
 		
+		//sets access type to private
 		setAccessType(0);
 		
+		//if the user has storage then returns
 		if(current_user.getBoolean("hasStorage")) {
 			return true;
 		}
 		
+		//recreate the user's entity with the "hasStorage" property set to true and push it to the Cloud Datastore
 		Entity account = Entity.newBuilder(datastore.newKeyFactory().setKind("User Account").newKey(user.getId()))
 				.set("password", current_user.getString("password"))
 				.set("username", user.getUsername())
@@ -296,7 +311,6 @@ public class CloudInteractionHandler {
 				.set("seed", current_user.getLong("seed"))
 				.set("hasStorage", true)
 				.build();
-		
 		datastore.put(account);
 		
 		//resets the access type to private
@@ -318,13 +332,13 @@ public class CloudInteractionHandler {
 		
 		//checks that the user is logged in
 		if(!isLoggedIn()) {
-			System.out.println("Not logged in.");
 			return downloaded_file_name;
 		}
 		
 		//checks that the user is logged into the correct account for the access rights, or that the list is public
-		if(!Integer.toString(user.getId()).equals(cloud_list_path.split("/")[0]) && (user.getId() + "/" + cloud_list_path.split("/")[1] + "/").equals(user.getId() + "/private/")) {
-			System.out.println("Not logged in to correct account.");
+		if(!Integer.toString(user.getId()).equals(cloud_list_path.split("/")[0]) && 
+				(user.getId() + "/" + cloud_list_path.split("/")[1] + "/")
+				.equals(user.getId() + "/private/")) {
 			return downloaded_file_name;
 		}
 		
@@ -337,22 +351,15 @@ public class CloudInteractionHandler {
 		
 		//loops through all of the files
 		for(Blob blob : blobs.iterateAll()) {
-			
-			System.out.println("Downloading...");
-			
-			System.out.println(blob.getName());
-			
-			
 			//if it is an XML file then download and save as an XML file
 			if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {
 				//reads the XML file's byte content
 				byte[] list_xml = blob.getContent();
 				//writes the XML file's byte content to a local file
-				downloaded_file_name = System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/" + FilenameUtils.getName(blob.getName());
-//				FileUtils.writeByteArrayToFile(new File(System.getProperty("user.dir") + "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] + "/" + FilenameUtils.getName(blob.getName())), list_xml);
+				downloaded_file_name = System.getProperty("user.dir") 
+						+ "/saves/" + cloud_list_path.split("/")[cloud_list_path.split("/").length - 1] 
+								+ "/" + FilenameUtils.getName(blob.getName());
 				FileUtils.writeByteArrayToFile(new File(downloaded_file_name), list_xml);
-				System.out.println("Downloaded file name is:");
-				System.out.println(downloaded_file_name);
 			//if it is not an XML file, it must be a media file, so download, decode from Base64 and then save
 			} else {
 				
@@ -383,8 +390,6 @@ public class CloudInteractionHandler {
 	 * @param list_download_folder	the folder where the media files are contained
 	 */
 	private static Boolean rebuildXML(String list_download_folder) {
-		
-		System.out.println("Rebuilding XML...");
 		
 		//opens the folder
     	File folder = new File(list_download_folder);
@@ -427,8 +432,6 @@ public class CloudInteractionHandler {
     		
     	}
     	
-    	System.out.println(list);
-    	
     	//loops through every file in the folder
     	for(File file : list_of_files) {
     		
@@ -440,18 +443,15 @@ public class CloudInteractionHandler {
     		//loop through every item in the list
     		for(int i = 0; i < list.getSize(); i++) {
     			
-    			System.out.println("Original path: " + list.get(i).getPath());
-    			System.out.println("New file path: " + file.getAbsolutePath());
     			//if the path for the current item of the list contain the exact name of the media file but with a different path
     			//then change the path of the current item to the new path of the media file
     			if(list.get(i).getPath().contains(file.getName())) {
-    				System.out.println("Changing path!");
     				list.get(i).changePath(file.getAbsolutePath());
     			}
     		}
     	}
     	
-    	
+    	//if the output XML file does not exist, return false (error case)
     	if(output_xml_file == null) {
     		return false;
     	}
@@ -467,8 +467,8 @@ public class CloudInteractionHandler {
 	 * Method for getting the paths to all multimedia items from a list XML file and returning this
 	 * list of paths as an array list of Strings.
 	 * 
-	 * @param list	the list of multimedia items
-	 * @return
+	 * @param list		the list of multimedia items
+	 * @return	paths	the list of the file paths contained within the list's multimedia items
 	 */
 	private static ArrayList<String> getPathsFromList(ChuseList list) {
 		
@@ -482,8 +482,6 @@ public class CloudInteractionHandler {
 			
 		}
 		
-		System.out.println(paths);
-		
 		//returns the list of paths
 		return paths;
 		
@@ -495,6 +493,7 @@ public class CloudInteractionHandler {
 	 * @param email		the account's desired email address
 	 * @param username	the account's desired user name
 	 * @param password	the account's desired password
+	 * @return	Boolean	true if successful, false if unsuccessful.
 	 */
 	public static Boolean createAccount(String email, String username, String password, int age, String gender) {
 		
@@ -513,7 +512,9 @@ public class CloudInteractionHandler {
 			String encrypted_pass = BCrypt.hashpw(password, BCrypt.gensalt(14));
 			
 			//create a new account on the datastore, storing the hashed email, hashed password and the username
-			Entity account = Entity.newBuilder(datastore.newKeyFactory().setKind("User Account").newKey(email.hashCode()))
+			Entity account = Entity.newBuilder(datastore.newKeyFactory()
+					.setKind("User Account")
+					.newKey(email.hashCode()))
 					.set("password", encrypted_pass)
 					.set("username", username)
 					.set("age", Integer.toString(age))
@@ -524,14 +525,6 @@ public class CloudInteractionHandler {
 			datastore.put(account);
 			
 			result = true;
-		
-		//otherwise print error statements
-		} else if(retrieved_account != null && results == null) {
-			System.out.println("Account with this email address already exists.");
-		} else if(retrieved_account == null && results != null) {
-			System.out.println("Account with this username already exists.");
-		} else {
-			System.out.println("Account with this email address and username already exists.");
 		}
 		
 		return result;
@@ -541,7 +534,7 @@ public class CloudInteractionHandler {
 	/**
 	 * @param email		the email address associated with the account
 	 * @param password	the account's password
-	 * @return
+	 * @return Boolean	true if successful, false if unsuccessful
 	 */
 	public static Boolean logIn(String email, String password) {
 		
@@ -556,12 +549,10 @@ public class CloudInteractionHandler {
 			if(verifyAccountPassword(email, password)) {
 				//creates a new local user account object using the provided details
 				user = new UserAccount(email, retrieved_account.getString("username"), retrieved_account.getString("age"), retrieved_account.getString("gender"));
-				loggedIn = true;
+				logged_in = true;
 				result = true;
 			}
 		}
-		
-		//user.print();
 		
 		//returns true if logged in, false if not
 		return result;
@@ -573,7 +564,7 @@ public class CloudInteractionHandler {
 	 */
 	public static void logOut() {
 		user = null;
-		loggedIn = false;
+		logged_in = false;
 	}
 	
 	/**
@@ -581,7 +572,7 @@ public class CloudInteractionHandler {
 	 * 
 	 * @param email		the email address for the account
 	 * @param password	the password associated with the account
-	 * @return			true if successful, false otherwise
+	 * @return Boolean	true if successful, false if unsuccessful
 	 */
 	public static Boolean verifyAccountPassword(String email, String password) {
 		
@@ -607,7 +598,7 @@ public class CloudInteractionHandler {
 	 * Method to check whether or not an account ID is valid.
 	 * 
 	 * @param email	the email address to check
-	 * @return
+	 * @return Boolean	true if successful, false if unsuccessful
 	 */
 	public static Boolean verifyAccountId(String email) {
 		
@@ -637,9 +628,11 @@ public class CloudInteractionHandler {
 		
 		ArrayList<String> lists = null;
 		
+		//fetch all of the user's public and private lists
 		ArrayList<String> public_lists = getPublicProfileContent(username);
 		ArrayList<String> private_lists = getPrivateProfileContent(username);
 		
+		//checks what lists exist - returns the relevant data or null
 		if(public_lists == null && private_lists == null) {
 			return null;
 		} else if(public_lists == null && private_lists != null) {
@@ -659,7 +652,7 @@ public class CloudInteractionHandler {
 	 * Method to get all public list stored on a user's profile. Uses their user name to find their account.
 	 * 
 	 * @param username	the user name of the account
-	 * @return
+	 * @return public_lists		an array list of paths to the user's public list directories
 	 */
 	public static ArrayList<String> getPublicProfileContent(String username) {
 		
@@ -693,10 +686,7 @@ public class CloudInteractionHandler {
 				
 				//adds the concatenated string to the linked hash set
 				public_lists_set.add(name);
-				
-//				if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {					
-//					public_lists.add(FilenameUtils.removeExtension(blob.getName()));
-//				}
+
 			}
 			
 			public_lists.addAll(public_lists_set);
@@ -711,7 +701,7 @@ public class CloudInteractionHandler {
 	 * Method to get all public list stored on a user's profile. Uses their user name to find their account.
 	 * 
 	 * @param username	the username of the account
-	 * @return
+	 * @return	private_lists	an array list of paths to the user's private list directories
 	 */
 	public static ArrayList<String> getPrivateProfileContent(String username) {
 		
@@ -721,7 +711,7 @@ public class CloudInteractionHandler {
 		//this does not allow duplicated entries and retains the order they were added in
 		LinkedHashSet<String> private_lists_set = new LinkedHashSet<String>();
 		
-		if(!loggedIn || !user.getUsername().equals(username)) {
+		if(!logged_in || !user.getUsername().equals(username)) {
 			return null;
 		}
 		
@@ -750,10 +740,7 @@ public class CloudInteractionHandler {
 			
 			//adds the concatenated string to the linked hash set
 			private_lists_set.add(name);
-			
-//			if(FilenameUtils.getExtension(blob.getName()).equals("xml")) {					
-//				private_lists.add(FilenameUtils.removeExtension(blob.getName()));
-//			}
+
 		}
 		
 		private_lists.addAll(private_lists_set);
@@ -765,14 +752,12 @@ public class CloudInteractionHandler {
 	/**
 	 * Method to get a set of 8 or less pseudo-random accounts.
 	 * 
-	 * @return	a set of 8 or less account entities
+	 * @return results	a set of 8 or less account entities
 	 */
 	public static QueryResults<Entity> getRandomPublicAccounts() {
 		
 		//generate a random integer between 1 and 5
 		int seed = ThreadLocalRandom.current().nextInt(1, 6);
-		
-		System.out.println("New random value: " + seed);
 
 		//create a query which searches for entities in the database
 		//retrieves at most 8 entities and only retrieves entities that have a public
@@ -829,8 +814,7 @@ public class CloudInteractionHandler {
 		LinkedHashSet<String> public_lists_set = new LinkedHashSet<String>();
 		
 		//checks if logged in
-		if(!loggedIn) {
-			System.out.println("Not logged in.");
+		if(!logged_in) {
 			return null;
 		}
 		
@@ -839,25 +823,16 @@ public class CloudInteractionHandler {
 
 		ArrayList<Page<Blob>> all_lists = new ArrayList<Page<Blob>>();
 		
-		int counter = 0;
-		
 		//cycles through results of public accounts
 		while(results.hasNext()) {
 			
 			//get the id of an account
 			String blob_name = Long.toString(results.next().getKey().getId());
-			
-			System.out.println(blob_name);
-			
+
 			//add all public list files belonging to the account to array list
 			all_lists.add(storage.list("we-tech-user-storage", BlobListOption.prefix(blob_name + "/public/")));
 			
-			counter++;
 		}
-		
-		System.out.println("Size of results = " + counter);
-		
-		System.out.println("all_lists size =  " + all_lists.size());
 		
 		//cycle through every set of list files
 		for(Page<Blob> blobs : all_lists) {
@@ -865,16 +840,12 @@ public class CloudInteractionHandler {
 			//cycles through every file in every set of list files
 			for(Blob blob : blobs.iterateAll()) {
 				
-//				System.out.println(blob.getName());
-				
 				//split the string at every instance of a "/"
 				String[] blob_name_parts = blob.getName().split("/");
 				
 				//concatenate string parts so only the folder path is present and not the file names 
 				String name = blob_name_parts[0] + "/" + blob_name_parts[1] + "/" + blob_name_parts[2] + "/";
-				
-				System.out.println("name = " + name);
-				
+
 				//adds the concatenated string to the linked hash set
 				public_lists_set.add(name);
 				
@@ -882,20 +853,10 @@ public class CloudInteractionHandler {
 			
 		}
 		
-		System.out.println("public lists set size = " + public_lists_set.size());
-		
 		public_lists = new ArrayList<String>();
 		
 		//moves the linked hash set into the array list
 		public_lists.addAll(public_lists_set);
-		
-		//prints all items in array list
-		//TODO remove in final
-		for(String name : public_lists) {
-			
-			System.out.println(name);
-			
-		}
 		
 		//returns the array list
 		return public_lists;
@@ -904,9 +865,9 @@ public class CloudInteractionHandler {
 	
 	/**
 	 * Method to locate all accounts featuring a specific property with a specific value.
-	 * @param property
-	 * @param value
-	 * @return
+	 * @param property	the property to search for	
+	 * @param value		the value to search for
+	 * @return results	a set of account entities
 	 */
 	public static QueryResults<Entity> queryUserAccountByProperty(String property, String value) {
 		
@@ -919,6 +880,7 @@ public class CloudInteractionHandler {
 		//run the query
 		QueryResults<Entity> results = datastore.run(query);
 		
+		//returns if there is not a next result
 		if(!results.hasNext()) {
 			results = null;
 		}
@@ -929,8 +891,8 @@ public class CloudInteractionHandler {
 	
 	/**
 	 * Method to get a user account entity with a given email address.
-	 * @param email	the email address of the account
-	 * @return
+	 * @param email			the email address of the account
+	 * @return retrieved	the user account entity
 	 */
 	public static Entity getUserAccountEntity(String email) {
 		
@@ -943,8 +905,8 @@ public class CloudInteractionHandler {
 	
 	/**
 	 * Method to get a user account entity with a given email address.
-	 * @param user_id	the user ID of the account
-	 * @return
+	 * @param user_id		the user ID of the account
+	 * @return retrieved	the user account entity
 	 */
 	public static Entity getUserAccountEntity(int user_id) {
 		
@@ -964,7 +926,7 @@ public class CloudInteractionHandler {
 	 */
 	public static Boolean isLoggedIn() {
 		
-		if(loggedIn) {
+		if(logged_in) {
 			return true;
 		} else {
 			return false;
@@ -975,7 +937,7 @@ public class CloudInteractionHandler {
 	/**
 	 * Method to get the locally stored user account.
 	 * 
-	 * @return
+	 * @return user	the local user account object
 	 */
 	public static UserAccount getUserAccount() {
 		return user;
@@ -994,5 +956,4 @@ public class CloudInteractionHandler {
 			list_access_type = "private";
 		}
 	}
-	
 }

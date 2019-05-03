@@ -15,6 +15,17 @@ import multithreading.NotifyingThread;
 import multithreading.ThreadTerminationListener;
 import previewListScreenGUI.PreviewListController;
 
+/**
+ * Controller class for the downloading splash screen. Implements the Cloud file downloader
+ * within its own thread to keep the UI responsive.
+ * 
+ * Date created: 24/04/2019
+ * Date last edited: 28/04/2019
+ * Last edited by: Dan Jackson
+ * 
+ * @author Dan Jackson
+ *
+ */
 public class DownloadingScreenController implements ThreadTerminationListener, Initializable {
 
     @FXML
@@ -28,21 +39,36 @@ public class DownloadingScreenController implements ThreadTerminationListener, I
     
     private String username;
     
+    /**
+     * Constructor for the downloading screen controller. Passes in reference to the back
+     * end container and the path to the directory to be donwloaded from the Cloud.
+     * 
+     * @param back_end		reference to the back end container
+     * @param cloud_path	the path to the cloud directory
+     */
     public DownloadingScreenController(BackEndContainer back_end, String cloud_path) {
     	this.back_end = back_end;
     	this.path = cloud_path;
     }
 
+    /**
+     * Method to load the preview list screen.
+     * 
+     * @throws IOException
+     */
     private void loadNextScreen() throws IOException {
 
     	this.username = back_end.getListOwner();
     	
+    	//if there is not a list owner stored in the back end, set username to 
+    	//the local account's username
     	if(this.username == null) {
     		this.username = back_end.getLocalAccount().getUsername();
     	}
     	
 		//load the comparison screen and start the tournament comparison algorithm
-    	FXMLLoader loader = new FXMLLoader(previewListScreenGUI.PreviewListController.class.getResource("PreviewList.fxml"));
+    	FXMLLoader loader = new FXMLLoader(previewListScreenGUI.PreviewListController
+    			.class.getResource("PreviewList.fxml"));
     	PreviewListController controller = new PreviewListController(back_end, this.username);
     	loader.setController(controller);
     	BorderPane new_pane = loader.load();
@@ -50,6 +76,11 @@ public class DownloadingScreenController implements ThreadTerminationListener, I
     	
     }
     
+    /**
+     * Method to show a pane within the current window.
+     * 
+     * @param new_pane
+     */
 	private void showInSelf(Pane new_pane) {
     	new_pane.prefWidthProperty().bind(root.widthProperty());
     	new_pane.prefHeightProperty().bind(root.heightProperty());
@@ -70,8 +101,11 @@ public class DownloadingScreenController implements ThreadTerminationListener, I
 	}
 
 	@Override
+	/**
+	 * Method called when the FXML file is loaded. Starts the download process within its
+	 * own thread.
+	 */
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 
 		RunnableDownloader downloader = new RunnableDownloader(back_end, path);
 		downloader.addTerminationListener(this);
@@ -81,19 +115,19 @@ public class DownloadingScreenController implements ThreadTerminationListener, I
 	}
 
 	@Override
+	/**
+	 * Method called when the download thread finishes.
+	 */
 	public void notifyOfThreadTermination(NotifyingThread thread) {
-		// TODO Auto-generated method stub
 		
-		System.out.println("Finished downloading.");
-		
+		//waits for the program to be back on the main JavaFX application thread
 		Platform.runLater(new Runnable() {
 			@Override
+			//loads the preview list screen
 			public void run() {
-				// TODO Auto-generated method stub
 				try {
 					loadNextScreen();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

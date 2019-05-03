@@ -45,15 +45,6 @@ public class InterTextController {
     public InterTextController(BackEndContainer back_end) {
     	this.back_end = back_end;
     }
-    
-    @FXML
-    /**
-     * Method to open the text file chooser when the button is clicked.
-     * @param event
-     */
-    void importFromAFileText(ActionEvent event) {
-    	System.out.println("Import from a file");
-    }
 
     @FXML
     /**
@@ -64,7 +55,7 @@ public class InterTextController {
     	back_end.loadTextFiles((Stage) root.getScene().getWindow());
     	
     	if(back_end.getCurrentListSize() < 2) {
-    		System.out.println("Nothing to compare - only one item in list.");
+    		//TODO ADD ERROR MESSAGE ABOUT ONLY 1 ITEM
     	} else {
     		FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
     		
@@ -86,7 +77,6 @@ public class InterTextController {
      * @throws IOException
      */
     void manualInput(ActionEvent event) throws IOException {
-    	System.out.println("Manual Input");
     	
     	FXMLLoader loader = new FXMLLoader(listCreationGUI.ManualTextScreenController.class.getResource("ManualTextScreen.fxml"));
     	

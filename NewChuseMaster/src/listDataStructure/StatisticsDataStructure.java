@@ -12,19 +12,28 @@ import cloudInteraction.CloudInteractionHandler;
 import cloudInteraction.UserAccount;
 import xmlHandling.XMLHandler;
 
-public class StatisticsDataStructure{
+/**
+ * *******PLEASE ADD CLASS DESCRIPTION***********
+ * 
+ * Date created: 25/04/2019
+ * Date last edited: 02/05/2019
+ * Last edited by: Dan Jackson
+ * 
+ * @author Jack and Luke
+ *
+ */
+public class StatisticsDataStructure {
 	
 	private ChuseList list;
 	
 	private ArrayList<Result> result_list;
 	
 	/**
-	 * 
+	 * Constructor for an empty StatisticsDataStructure object.
 	 */
 	public StatisticsDataStructure(){
 		this.list = new ChuseList();
 		this.result_list = new ArrayList<Result>();
-		
 	}
 	
 	/**
@@ -37,9 +46,7 @@ public class StatisticsDataStructure{
 	 * @param file_path
 	 */
 	public StatisticsDataStructure(String file_path, String username){
-		
-		System.out.println("Username is: " + username);
-		
+
 		// set the chuse list from the list witch is being passed by file_path
 		list = new ChuseList();
 		list = XMLHandler.buildListFromXML(file_path);
@@ -56,10 +63,7 @@ public class StatisticsDataStructure{
 		result_list = new ArrayList<Result>();
 		
 		if(list.getAuthor().equals("")) {
-			System.out.println("No author name");
-			System.out.println("author name is " + list.getAuthor());
 			list.setAuthor(username);
-			System.out.println("Author name is now " + list.getAuthor());
 		}
 		
 		// This gets the information needed for the statistics from the cloud, using the username that is extracted from the XML
@@ -71,11 +75,6 @@ public class StatisticsDataStructure{
 		// This creates the results file from the data previously collected
 		addResult(new UserAccount("null", list.getAuthor(), age, gender), temp);
 		// This is to extract the usernames from the XML results files name e.g XML-user.xml returns user
-		
-		System.out.println("File path var: " + file_path);
-		System.out.println("File location: " + FilenameUtils.getFullPath(file_path));
-		System.out.println("File extension: " + FilenameUtils.getExtension(file_path));
-
 		ArrayList<String> results_files = getResultsFilesExtension(FilenameUtils.getFullPath(file_path).substring(0, FilenameUtils.getFullPath(file_path).lastIndexOf("/")), FilenameUtils.getBaseName((file_path)));
 
 		// This stores the user account
@@ -89,8 +88,6 @@ public class StatisticsDataStructure{
 			// Creates the user account class that will be stored in the results class
 			temp_user = new UserAccount("null", results_files.get(j), age, gender);
 			// reconstructs the file path in order to get the results list
-			
-			System.out.println("Hello im here " + file_path.substring(0, file_path.indexOf(".xml")) +"-"+ results_files.get(j)+".xml");
 			
 			temp = XMLHandler.buildResultsListFromXML(file_path.substring(0, file_path.indexOf(".xml")) +"-"+ results_files.get(j)+".xml");
 			// adds the results list and user account to the results class
@@ -130,12 +127,7 @@ public class StatisticsDataStructure{
 		// This stores the relevant files name
 		ArrayList<String> files = new ArrayList<String>();
 		int i;
-		
-		System.out.println("all files " + all_files);
-		
-		System.out.println("extension is " + extension);
-		
-		System.out.println("directory is " + directory_name);
+
 		
 		for (i = 0; i < folder.list().length; i++){
 			// If the selected file is a results file for the list, then add to the list of the files
@@ -196,31 +188,6 @@ public class StatisticsDataStructure{
 		
 		StatisticsDataStructure timeRangeResults = new StatisticsDataStructure();
 		timeRangeResults.list = this.list;
-		
-		/*for(int i = 0; i < this.getResultList().size(); i++){
-			timeRangeResults.getResultList().add(this.getResultList().get(i));
-		}
-		
-		for(int i = 0; i < this.getResultList().size(); i++){
-			for(int j = 0; j < this.getResultList().get(i).getRankingList().size(); j++){
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				
-				Date temp;
-				
-				try {
-					temp = sdf.parse(this.getResultList().get(i).getRankingList().get(j).getTime().substring(0, 10));
-					if ((start.compareTo(temp) > 0) || (end.compareTo(temp) < 0)){
-						timeRangeResults.getResultList().get(i).getRankingList().remove(j);
-					}
-					
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				
-			}
-		}*/
 		
 		Result temp;
 		

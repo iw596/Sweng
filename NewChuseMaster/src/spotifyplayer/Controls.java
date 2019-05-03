@@ -120,7 +120,7 @@ public class Controls extends HBox {
             } 
         });
         
-        // Add listner for mouse click
+        // Add listener for mouse click
 		player.getPlayer_holder().addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			
 		    @Override
@@ -130,7 +130,6 @@ public class Controls extends HBox {
 				if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
 					// Do not pause when onScreen time slider is pressed
 				    if (!mouseEvent.getPickResult().getIntersectedNode().toString().contains("HBox") && no_preview == false) {
-				    	System.out.println("Click");
 		            	// If playing then pause
 		                if (media_player_component.getMediaPlayer().getMediaPlayerState() == libvlc_state_t.libvlc_Playing && over == false) { 
 		                	media_player_component.getMediaPlayer().pause(); 
@@ -153,7 +152,6 @@ public class Controls extends HBox {
             public void invalidated(Observable ov) 
             { 
                 if (volume.isPressed()) { 
-                	System.out.println(media_player_component.getMediaPlayer().getLength());
                 	// Small multiply factor to ensure that at low levels there is still some sound
                 	media_player_component.getMediaPlayer().setVolume((int) (volume.getValue() * 1.25));  
                 } 
@@ -164,8 +162,8 @@ public class Controls extends HBox {
         
         //adds event listener for when the video's time changes
         media_player_component.getMediaPlayer().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
+        	
             /**
-            *
             * @param mediaPlayer play video
             * @param newTime get every millisecond changed in the mediaplayer
             * when is in playing mode
@@ -176,37 +174,30 @@ public class Controls extends HBox {
 				// Update the scrubber, providing a fractional value of (current time / length)
 				updatesValues(time/length);
 			}
-
-			
-	
-
 		});
         
-
 		// This event happens when the user begins a mouse click on the scrubber
         time_scrubber.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				updateScrubber = false; // Prevent the scrubber position being updated by any playing audio
 			}
 		});
+        
 		// This event happens when the user begins a mouse click on the scrubber and drags it
         time_scrubber.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				updateScrubber = false; // Prevent the scrubber position being updated by any playing audio
 			}
 		});
+        
 		// This event happens when the user releases a mouse click from the scrubber
         time_scrubber.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
-				System.out.println("The fraction when released is: " + time_scrubber.getValue());
 				if (over == false) {
 					seek((float) time_scrubber.getValue()); // Set the play position to the new scrubber position
 					updateScrubber = true; // Allow the scrubber position to be updated by any playing audio
 					
 				}
-				
-			
-				
 			}
 		});
         
@@ -219,8 +210,7 @@ public class Controls extends HBox {
     protected void updatesValues(Float fraction) { 
   
         // Updating to the new time value 
-                // This will move the slider while running your video 
-    	//System.out.println("Function called. Fraction is: " + fraction);
+    	// This will move the slider while running your video 
     	if (updateScrubber) {
     		// Place everything in a runlater runnable in order to prevent Javafx rendering error when
     		// screen is resized
@@ -257,7 +247,6 @@ public class Controls extends HBox {
 		        	}
 		        	else {
 		        		current_seconds_text = Long.toString(current_seconds);
-		        		
 		        	}
 
 		        	// Repeat the string manipulation for the string storing length of video
@@ -275,9 +264,10 @@ public class Controls extends HBox {
 		        		length_video_seconds_text = Long.toString(length_seconds);
 		        	}
 
-		        	current_time_text.setText(current_minutes_text + ":" + current_seconds_text + "/" + length_video_minutes_text + ":" + length_video_seconds_text);
+		        	current_time_text.setText(current_minutes_text + ":" + current_seconds_text + "/" 
+		        	+ length_video_minutes_text + ":" + length_video_seconds_text);
 		    	            }
-		    	     });
+    	     });
     		
     	}
 
@@ -292,26 +282,28 @@ public class Controls extends HBox {
 		// recognised
 		if (fraction > 99.99) {
 			fraction = (float) 99.99;
-			
 		}
+		
     	try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	
 		// Convert fraction into actual time
 		if (over == false) {
 			float time = media_player_component.getMediaPlayer().getLength() * fraction/100;
 			media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
 			
 		}
+		
 	}
 	/** This method is called when no spotify preview is available, if the previous track
 	 *  had a preview then the controls will be removed and a no preview message added and the no_preivew boolean
 	 *  set to true. If the previous track did not have a preview then nothing will change.
 	 */
 	public void noPreview(){
+		
 		if (no_preview == false){
 			no_preview = true;
 			// Remove all controls
@@ -323,12 +315,12 @@ public class Controls extends HBox {
             getChildren().remove(current_time_text);
             // Add no preview message
             getChildren().add(no_preview_text);
-
 		}
 		
 	}
 	
-	/** This method is called when a spotify preview is available, if the previous track
+	/** 
+	 * 	This method is called when a spotify preview is available, if the previous track
 	 *  had a preview then nothing will be changed. If the previous track did not have
 	 *  a preview then the controls will be added back to the hbox and the no_preview boolean
 	 *  reset back to false.
@@ -351,9 +343,4 @@ public class Controls extends HBox {
             getChildren().remove(no_preview_text);
 		}
 	}
-
-	
-
-    
-    
 }

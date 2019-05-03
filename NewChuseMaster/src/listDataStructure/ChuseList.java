@@ -26,8 +26,8 @@ public class ChuseList {
 	//the name of the list
 	private String list_name;
 	
-	//Author NEW
-	private String Author;
+	//Author
+	private String author;
 	
 	/**
 	 * Constructor for the list. Sets the name of the list.
@@ -100,17 +100,6 @@ public class ChuseList {
 		return list.size();
 	}
 	
-
-	/**
-	 * Method to get the title of an item in the list at a given index.
-	 * TODO remove in final release - just used for testing
-	 * @param index - the index of the item to get the title of
-	 * @return list.get(index).getTitle() - the title of the item
-	 */
-	public String getTitleAtIndex(int index){
-		return list.get(index).getTitle();
-	}
-	
 	/**
 	 * Method to get an item at a given index.
 	 * @param index - the index to get the item from
@@ -133,14 +122,28 @@ public class ChuseList {
 		}
 	}
 
+	/**
+	 * Method to get the author of a list.
+	 * @return author	the other of the list
+	 */
 	public String getAuthor() {
-		return Author;
+		return author;
 	}
 
+	/**
+	 * Method to set the author of a list.
+	 * 
+	 * @param author	the name of the author
+	 */
 	public void setAuthor(String author) {
-		Author = author;
+		this.author = author;
 	}
 	
+	/**
+	 * Method to set the name of the list.
+	 * 
+	 * @param name	the name of the list
+	 */
 	public void setListName(String name){
 		list_name = name;
 	}

@@ -48,13 +48,11 @@ public class InterVideoController {
      * @param event
      */
     void importFromFilesVideo(ActionEvent event) throws IOException {
-    	
-    	System.out.println("Load video files.");
-    	
+
     	back_end.loadVideoFiles((Stage) root.getScene().getWindow());
     	
     	if(back_end.getCurrentListSize() < 2) {
-    		System.out.println("Nothing to compare - only one item in list.");
+    		//TODO ADD ERROR MESSAGE TO DO WITH LESS THAN 2 ITEMS
     	} else {
         	FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
         	
@@ -74,7 +72,6 @@ public class InterVideoController {
      * @param event
      */
     void importFromYouTubeVideo(ActionEvent event) {
-    	System.out.println("Import from YouTube");
 
 		try {
 	    	Stage popup = new Stage();
@@ -92,7 +89,6 @@ public class InterVideoController {
 			popup.show();
 			new_root.requestFocus();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -117,7 +113,6 @@ public class InterVideoController {
 			new_pane = loader.load();
 	    	showInSelf(new_pane);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

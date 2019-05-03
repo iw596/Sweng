@@ -109,7 +109,7 @@ public class AudioController {
 	public void loadFile(String filePath) {
 		// Check that the file path provided is not empty
 		if (filePath == null) {
-			System.out.println("Error: no file path provided");
+			//System.out.println("Error: no file path provided");
 		}
 		else {
 			try {
@@ -124,7 +124,7 @@ public class AudioController {
 			}
 			// If loading fails, print an error message
 			catch(Exception e) {
-				System.out.println("Error: couldn't load audio file.");
+				//System.out.println("Error: couldn't load audio file.");
 			}
 		}
 	}

@@ -1,34 +1,22 @@
 package analytics;
 
-import javafx.fxml.FXML;
-import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.BarChart;
-
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import backEnd.BackEndContainer;
-import cloudInteraction.CloudInteractionHandler;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
-import javafx.scene.control.Label;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -99,9 +87,6 @@ public class AnalyticsController implements Initializable {
 	    chart2(aa);
 	    chart3(aa);
 	    chart4(aa);   
-	    
-
-
    }
     
     /***
@@ -111,7 +96,8 @@ public class AnalyticsController implements Initializable {
      * @param orignal
      * Authors: Jack Small, Luke Fisher, Aeri Olsson
      */
-    public void chart1(StatisticsDataStructure orignal){
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public void chart1(StatisticsDataStructure orignal){
     	
     	//AREA CHART (Popularity over the last 7 days)
     	//Preparing two series for male and female entries.
@@ -122,19 +108,12 @@ public class AnalyticsController implements Initializable {
     	
     	//Setting the format for displaying the dates.
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    	// Used for upper and lower bounds for date searching.
-        Date date1;
-        Date date2;
         
         //Gets results within a certain date range.
         StatisticsDataStructure Result; // = aa.getDataForGivenTimeRange(date1, date2);
         //Gets female and male results within results.
         StatisticsDataStructure Male;
         StatisticsDataStructure Female;
-        
-        
-        // gets todays date
-    	date2 = new Date();
 
     	// get date 7 days ago
     	Calendar cal = Calendar.getInstance();
@@ -145,7 +124,6 @@ public class AnalyticsController implements Initializable {
     	for(int i = 0; i < 7 ; i++){
     		
     		cal.add(Calendar.DATE, +1);
-    		date1 = cal.getTime();
     		
     		try {
     			Result = orignal.getDataForGivenTimeRange(sdf.parse(sdf.format(cal.getTime())), sdf.parse(sdf.format(cal.getTime())));
@@ -181,7 +159,8 @@ public class AnalyticsController implements Initializable {
      * @param orignal (original data on the list)
      * Authors: Jack Small, Luke Fisher, Aeri Olsson
      */
-    public void chart2(StatisticsDataStructure orignal){
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public void chart2(StatisticsDataStructure orignal){
     	
     	//Gives object to store data
         XYChart.Series set1 = new XYChart.Series<>();
@@ -212,7 +191,8 @@ public class AnalyticsController implements Initializable {
      * 
      * Authors: Jack Small, Luke Fisher, Aeri Olsson
      */
-    public void chart3(StatisticsDataStructure orignal){
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public void chart3(StatisticsDataStructure orignal){
     	
     	//Declaring the list storing the data for females.
     	XYChart.Series series4 = new XYChart.Series();
@@ -249,7 +229,8 @@ public class AnalyticsController implements Initializable {
      * 
      * @param orignal
      */
-    public void chart4(StatisticsDataStructure orignal){
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public void chart4(StatisticsDataStructure orignal){
     		
     	//Getting the original data and arranging it by age.
     	StatisticsDataStructure under18Results = orignal.getDataForGivenAgeRange(0, 18);

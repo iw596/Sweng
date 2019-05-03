@@ -51,6 +51,9 @@ public class PlaylistEntryController implements Initializable {
 
     
 	@Override
+	/**
+	 * Method called when the FXML is loaded. Sets the error message to be invisible.
+	 */
 	public void initialize(URL location, ResourceBundle resources) {
 		// Run once filename has been passed to controller 
 		error_message.setVisible(false);
@@ -62,24 +65,17 @@ public class PlaylistEntryController implements Initializable {
 	public void playlist_entered(KeyEvent event) throws IOException{
 		if (event.getCode().toString() == "ENTER"){
     		String playlist_id = playlist_field.getText();
-			System.out.println(playlist_field.getText());
 			// Extract playlist id from URL
 			playlist_id = playlist_field.getText().substring(playlist_field.getText().lastIndexOf("/") + 1);
-			System.out.println(playlist_id);
 			
     		GetPlaylistsTracks get_tracks = new GetPlaylistsTracks(spotify_api,playlist_id);
     		spotify_items = GetPlaylistsTracks.getPlaylistsTracks_Sync();
-    		
 
-			
-
-			
     		// If entered playlist was valid then progress to comparison screen
     		if (spotify_items != null){
-    			// TODO Auto-generated method stub
         		back_end.loadSpotifyItems(spotify_items);
     	      	if(back_end.getCurrentListSize() < 2) {
-            		System.out.println("Nothing to compare - only one item in list.");
+    	      		//TODO ADD MESSAGE ABOUT ONLY 1 ITEM
             	} else {
             		// Once we have the data then load the comparison screen
     	        	FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
@@ -98,17 +94,16 @@ public class PlaylistEntryController implements Initializable {
     			error_message.setFont(Font.font("verdana",FontPosture.REGULAR, 15));
     		
     		}
-    			
-  
-			
+
     	}
 	}
-	/** Setter for  the spotify api
+	/** 
+	 * Setter for  the Spotify API.
 	 * 
-	 * @param Api
+	 * @param api
 	 */
-	public void setAPI(SpotifyApi Api){
-		spotify_api = Api;
+	public void setAPI(SpotifyApi api){
+		spotify_api = api;
 	}
 	
     /**
@@ -129,6 +124,10 @@ public class PlaylistEntryController implements Initializable {
 	
     }
     
+    /**
+     * Method to pass reference to the back end into the controller.
+     * @param back_end	
+     */
     public void setBackEnd(BackEndContainer back_end) {
     	this.back_end = back_end;
     }

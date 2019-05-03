@@ -48,14 +48,6 @@ public class BasicItem implements ListInterface {
 	}
 	
 	/**
-	 * Function to print the item's title in the console.
-	 * TODO remove in final release - only useful for testing
-	 */
-	public void print() {
-		System.out.println("Title: " + title);
-	}
-	
-	/**
 	 * Function to return the object's real value. This function is designed to be used
 	 * when checking if two items are equal, as it checks that the item content is
 	 * equivalent, rather than that they have the same memory address.

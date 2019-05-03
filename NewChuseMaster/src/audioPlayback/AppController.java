@@ -173,17 +173,17 @@ public class AppController {
 				}
 				else {
 					// Print an error message
-					System.out.println("Error: file does not exist");
+					//System.out.println("Error: file does not exist");
 				}
 			}
 			else {
 				// Print an error message
-				System.out.println("Error: invalid file type");
+				//System.out.println("Error: invalid file type");
 			}	
 		}
 		catch (Exception e) {
 			// Print an error message
-			System.out.println("Error: invalid file path");
+			//System.out.println("Error: invalid file path");
 		}
 	}
 	

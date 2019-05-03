@@ -56,7 +56,7 @@ public class InterAudioController {
     	back_end.loadAudioFiles((Stage) root.getScene().getWindow());
     	
     	if(back_end.getCurrentListSize() < 2) {
-    		System.out.println("Nothing to compare - only one item in list.");
+    		//TODO ADD TO SCREEN ERROR MESSAGE ABOUT ONLY 1 ITEM
     	} else {
         	FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
         	
@@ -76,7 +76,6 @@ public class InterAudioController {
      * @param event
      */
     void importFromSpotifyAudio(ActionEvent event) throws Exception {
-    	System.out.println("Import from spotify");
     	
     	FXMLLoader loader = new FXMLLoader(spotifyGUI.SpotifyAuthController.class.getResource("SpotifyAuthPage.fxml"));    	
     	BorderPane new_pane = loader.load();

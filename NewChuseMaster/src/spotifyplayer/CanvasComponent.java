@@ -14,6 +14,8 @@ import uk.co.caprica.vlcj.player.direct.BufferFormat;
 import uk.co.caprica.vlcj.player.direct.DirectMediaPlayer;
 
 /**
+ * ****** This class was modified from:  https://github.com/caprica/vlcj-javafx  *********
+ * 
  * The CanvasComponent class extends the DirectMediaPlayerComponent class, it adds functionality
  * to make the player compatible with JavaFx 
  * 

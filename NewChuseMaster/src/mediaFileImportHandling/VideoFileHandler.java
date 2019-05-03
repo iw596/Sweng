@@ -37,10 +37,8 @@ public abstract class VideoFileHandler  extends FileImportHandler {
 		//loops through every file path and creates a new image item based on the path,
 		//and adds this to the list items
 		for(String file_path : file_paths) {
-			System.out.println("Adding: " + file_path);
 			output_items.add(new VideoItem(file_path));
 		}
-		System.out.println("Number of videos: " + output_items.size());
 		
 		return output_items;
 		

@@ -15,6 +15,17 @@ import multithreading.NotifyingThread;
 import multithreading.ThreadTerminationListener;
 import resultsScreenGUI.ResultsScreenController;
 
+/**
+ * Controller class for the uploading splash screen. Implements the Cloud file uploader
+ * within its own thread to keep the UI responsive.
+ * 
+ * Date created: 24/04/2019
+ * Date last edited: 28/04/2019
+ * Last edited by: Dan Jackson
+ * 
+ * @author Dan Jackson
+ *
+ */
 public class UploadingScreenController implements ThreadTerminationListener, Initializable {
 
     @FXML
@@ -28,14 +39,27 @@ public class UploadingScreenController implements ThreadTerminationListener, Ini
     
     private String username;
     
-    private Boolean makePublic;
+    private Boolean make_public;
     
-    public UploadingScreenController(BackEndContainer back_end, String local_path, Boolean makePublic) {
+    /**
+     * Constructor for the uploading screen controller. Passes in reference to the back end, as well as 
+     * the path to a local file and whether or not to make the list public.
+     * 
+     * @param back_end
+     * @param local_path
+     * @param make_public
+     */
+    public UploadingScreenController(BackEndContainer back_end, String local_path, Boolean make_public) {
     	this.back_end = back_end;
     	this.path = local_path;
-    	this.makePublic = makePublic;
+    	this.make_public = make_public;
     }
 
+    /**
+     * Method to load the results screen.
+     * 
+     * @throws IOException
+     */
     private void loadNextScreen() throws IOException {
 
     	//back_end.uploadList();
@@ -54,6 +78,10 @@ public class UploadingScreenController implements ThreadTerminationListener, Ini
     	
     }
     
+    /**
+     * Method to load another pane within the main window.
+     * @param new_pane
+     */
 	private void showInSelf(Pane new_pane) {
     	new_pane.prefWidthProperty().bind(root.widthProperty());
     	new_pane.prefHeightProperty().bind(root.heightProperty());
@@ -74,12 +102,11 @@ public class UploadingScreenController implements ThreadTerminationListener, Ini
 	}
 
 	@Override
+	/**
+	 * Method called when the FXML is loaded. Starts the list upload within its own thread.
+	 */
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-
-		System.out.println(path);
-		
-		RunnableUploader uploader = new RunnableUploader(back_end, path, makePublic);
+		RunnableUploader uploader = new RunnableUploader(back_end, path, make_public);
 		uploader.addTerminationListener(this);
 		thread = new Thread(uploader);
 		thread.start();
@@ -87,19 +114,17 @@ public class UploadingScreenController implements ThreadTerminationListener, Ini
 	}
 
 	@Override
+	/**
+	 * Method called when the uploading list thread terminates. Loads the results screen.
+	 */
 	public void notifyOfThreadTermination(NotifyingThread thread) {
-		// TODO Auto-generated method stub
-		
-		System.out.println("Finished uploading.");
-		
+
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				try {
 					loadNextScreen();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

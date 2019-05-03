@@ -24,6 +24,8 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTubeScopes;
 import com.google.api.services.youtube.model.PlaylistItemListResponse;
 
+import listDataStructure.ChuseList;
+
 /**
  * Abstract class used for handling the YouTube data API
  * 
@@ -98,8 +100,6 @@ public abstract class YouTubeAPIHandler {
             .build();
         Credential credential = new AuthorizationCodeInstalledApp(
         flow, new LocalServerReceiver()).authorize("user");
-        System.out.println(
-            "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
         return credential;
     }
 
@@ -124,7 +124,7 @@ public abstract class YouTubeAPIHandler {
      * @return video_list - the list of video items with associated metadata
      * @throws IOException
      */
-    public static listDataStructure.ChuseList getPlaylistData(String playlist_url) throws IOException{
+    public static ChuseList getPlaylistData(String playlist_url) throws IOException{
     	
     	//gets a youtube service
         YouTube youtube = getYouTubeService();
@@ -144,36 +144,37 @@ public abstract class YouTubeAPIHandler {
             parameters.put("playlistId", playlist_id);
 
             //gets the playlist data
-            YouTube.PlaylistItems.List playlistItemsListByPlaylistIdRequest = youtube.playlistItems().list(parameters.get("part").toString());
+            YouTube.PlaylistItems.List playlist_item_list = youtube.playlistItems()
+            		.list(parameters.get("part").toString());
             
             //if the parameters contains the max number of results, finds the max 
             //number of results
             if (parameters.containsKey("maxResults")) {
-                playlistItemsListByPlaylistIdRequest.setMaxResults(Long.parseLong(parameters.get("maxResults").toString()));
+                playlist_item_list.setMaxResults(Long.parseLong(parameters.get("maxResults").toString()));
             }
             
             //if the parameters contain the playlist ID and this isn't blank
             //then sets the playlist ID equal to the found playlist ID
             if (parameters.containsKey("playlistId") && parameters.get("playlistId") != "") {
-                playlistItemsListByPlaylistIdRequest.setPlaylistId(parameters.get("playlistId").toString());
+                playlist_item_list.setPlaylistId(parameters.get("playlistId").toString());
             }
             
             //sets the data fields to pull from the playlist
-            playlistItemsListByPlaylistIdRequest.setFields("items(snippet)");
+            playlist_item_list.setFields("items(snippet)");
 
             //gets the data
-            PlaylistItemListResponse response = playlistItemsListByPlaylistIdRequest.execute();
+            PlaylistItemListResponse response = playlist_item_list.execute();
             
             //stores the response in a JSON Object
-            JSONObject jsonObject = new JSONObject(response);
+            JSONObject json_object = new JSONObject(response);
 
             int i;
             
             //loops through every item in the JSON object (every video in the playlist)
-            for(i=0;i < jsonObject.getJSONArray("items").length(); i++) {
+            for(i=0;i < json_object.getJSONArray("items").length(); i++) {
             	
             	//creates a JSON object containing just the snippet tagged items from the response
-            	JSONObject snippet = jsonObject.getJSONArray("items").getJSONObject(i).getJSONObject("snippet");
+            	JSONObject snippet = json_object.getJSONArray("items").getJSONObject(i).getJSONObject("snippet");
             	
             	//adds a new video item to the array list, with the relevant information being
             	//pulled from the JSON object and added to the video item

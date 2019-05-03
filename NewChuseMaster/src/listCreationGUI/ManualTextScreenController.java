@@ -73,7 +73,7 @@ public class ManualTextScreenController {
 		createList();
 		
 		if(text_fields.size() < 2) {
-			System.out.println("Nothing to compare - only one item in list.");
+			//TODO ADD ERROR ABOUT ONLY 1 ITEM
 		} else {
 			FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
 			

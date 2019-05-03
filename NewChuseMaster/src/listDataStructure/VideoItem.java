@@ -55,19 +55,6 @@ public class VideoItem extends BasicItem implements ListInterface {
 		this.channel = "";
 		this.type = "VideoItem";
 	}
-
-	/**
-	 * Method to print the item.
-	 * TODO remove in final release - only used for testing
-	 */
-	public void print() {
-		System.out.println("-------------------------");
-		System.out.println("Title: " + this.getTitle());
-		System.out.println("Channel: " + this.channel);
-		//System.out.println("Description: " + this.description);
-		System.out.println("Watch link: " + this.video_id);
-		System.out.println("-------------------------");
-	}
 	
 	/**
 	 * Method to get the filepath or the url of a video.

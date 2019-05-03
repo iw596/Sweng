@@ -17,7 +17,6 @@ import listDataStructure.BasicItem;
  */
 public abstract class TextFileHandler extends FileImportHandler{
 	
-	
 	/**
 	 * Method for opening multiple text files from a local file system.
 	 * @param stage - the JavaFX stage the files are opened from
@@ -40,7 +39,6 @@ public abstract class TextFileHandler extends FileImportHandler{
 				// read from the file given by the file path and place content into a string
 				file_text = read(file_path);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -77,7 +75,6 @@ public abstract class TextFileHandler extends FileImportHandler{
 				output = output + line + "\n"; 
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

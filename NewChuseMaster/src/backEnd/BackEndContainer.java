@@ -56,11 +56,11 @@ public class BackEndContainer {
 	private ChuseList losers;
 	
 	//boolean check as to whether it is a fresh, uncompared list or whether losers are being compared to 
-	private Boolean comparingLosers;
+	private Boolean comparing_losers;
 	
 	private CloudInteractionHandler cloud_handler;
 	
-	private static Boolean loggedIn = false;
+	private static Boolean logged_in = false;
 	
 	private ArrayList<String> public_lists;
 	
@@ -70,7 +70,7 @@ public class BackEndContainer {
 	
 	private String list_owner;
 	
-	private Boolean wasAccountCreated = false;
+	private Boolean was_account_created = false;
 
 	private ArrayList<String> random_public_lists;
 	
@@ -165,6 +165,11 @@ public class BackEndContainer {
 		original_list.addItemArray(video_items);
 	}
 	
+	/**
+	 * Method to load a set of Spotify items into the current and original list.
+	 * 
+	 * @param spotify_items
+	 */
 	public void loadSpotifyItems(ArrayList<BasicItem> spotify_items){
 		current_list = new ChuseList();
 		original_list = new ChuseList();
@@ -173,9 +178,6 @@ public class BackEndContainer {
 		current_list.addItemArray(spotify_items);
 		original_list.addItemArray(spotify_items);
 		
-		for(int i = 0; i < current_list.getSize();i++){
-			System.out.println(current_list.get(i).getTitle());
-		}
 	}
 	
 	/**
@@ -209,7 +211,7 @@ public class BackEndContainer {
 	 */
 	public RankingList getRankedResults() {
 		
-		if(comparingLosers) {
+		if(comparing_losers) {
 			current_results.addRankedResults(comparison.getUnrankedResults());
 		} else {
 			current_results = comparison.getRankedResults();
@@ -238,7 +240,7 @@ public class BackEndContainer {
 	 */
 	public void saveCurrentListToXML(String file_path) {
 		
-		if(loggedIn == false) {
+		if(logged_in == false) {
 			// save list with null for username on attribute 
 			XMLHandler.buildXMLFromList(this.original_list, file_path, this.current_results, null);
 		}else {
@@ -260,7 +262,7 @@ public class BackEndContainer {
 	 * 
 	 */
 	public void updateSaveListToXML(String file_path) {
-		if(loggedIn == true) {
+		if(logged_in == true) {
 			// if its there list append results
 			if(CloudInteractionHandler.getUserAccount().getUsername().equals(this.original_list.getAuthor()) || this.list_owner == null) {
 				XMLHandler.appendResults(file_path, this.current_results);
@@ -331,7 +333,7 @@ public class BackEndContainer {
 	 * @param state - true/false
 	 */
 	public void setComparingLosers(Boolean state) {
-		this.comparingLosers = state;
+		this.comparing_losers = state;
 	}
 	
 	/**
@@ -362,14 +364,12 @@ public class BackEndContainer {
 	 */
 	public Boolean createAccount(String email, String username, String password, int age, String gender) {
 		
-		wasAccountCreated = false;
+		was_account_created = false;
 		
 		if(CloudInteractionHandler.createAccount(email, username, password, age, gender)) {
-			System.out.println("Successfully created account!");
-			wasAccountCreated = true;
+			was_account_created = true;
 			return true;
 		} else {
-			System.out.println("Account with this email or username already exists.");
 			return false;
 		}
 	}
@@ -382,10 +382,8 @@ public class BackEndContainer {
 	 */
 	public Boolean logIn(String email, String password) {
 		if(CloudInteractionHandler.logIn(email, password)) {
-			System.out.println("Logged in!");
-			return loggedIn = true;
+			return logged_in = true;
 		} else {
-			System.out.println("Not logged in.");
 			return false;
 		}
 	}
@@ -395,7 +393,7 @@ public class BackEndContainer {
 	 */
 	public void logOut() {
 		CloudInteractionHandler.logOut();
-		loggedIn = false;
+		logged_in = false;
 	}
 	
 	
@@ -485,6 +483,10 @@ public class BackEndContainer {
 		this.list_owner = username;
 	}
 	
+	/**
+	 * Method to get the user name of the owner of the currently active list.
+	 * @return
+	 */
 	public String getListOwner() {
 		return this.list_owner;
 	}
@@ -505,12 +507,7 @@ public class BackEndContainer {
 			Entity result = results.next();
 			
 			account_id = Long.toString(result.getKey().getId());
-			
-			System.out.println(result.toString());
-			
-			System.out.println(result.getKey().getId());
 
-			
 		}
 		
 		return account_id;
@@ -561,7 +558,7 @@ public class BackEndContainer {
 	 * @return
 	 */
 	public Boolean wasAccountCreated() {
-		return wasAccountCreated;
+		return was_account_created;
 	}
 	
 	/**

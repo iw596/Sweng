@@ -92,8 +92,6 @@ public abstract class XMLHandler {
 			
 			for(int j=1; j < id_check.item(0).getChildNodes().getLength(); j += 2) {
 				
-				//System.out.println("j value:" + j);
-				
 				if(!id_check.item(0).getChildNodes().item(j).getNodeName().equals("page")){
 					continue;
 				}
@@ -147,13 +145,10 @@ public abstract class XMLHandler {
 			}
 			
 		} catch (ParserConfigurationException e) {
-			//TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -177,7 +172,6 @@ public abstract class XMLHandler {
 		
 	}
 	
-	// EDIT ------------
 	/**
 	* buildXMLFromList(ChuseList, String, RankingList)
 	*  
@@ -248,34 +242,21 @@ public abstract class XMLHandler {
 		        // write to file in given location
 		        StreamResult file = new StreamResult(myFile);
 		        
-		        
-		        System.out.println(file_path);
-		        System.out.println(source);
-		        System.out.println(file);
-		        System.out.println(myFile.getName());
-		        
 		        try {
 					transf.transform(source, file);
 				} catch (TransformerException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
 				
 			} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (TransformerConfigurationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
-		}
+	}
 			
-	// ----------------------
-			
-	
-	
 	/**
 	 * Method to build an XML file from a list, but not add the results of the list to
 	 * the XML file.
@@ -316,8 +297,14 @@ public abstract class XMLHandler {
 		return document;
 	}
 	
-	// NEW ----------------------------------------
-	
+	/**
+	 * Method to add a single set of local results to a locally stored list XML file.
+	 * 
+	 * @param document	the XML file document
+	 * @param id		the results element
+	 * @param list		the results list
+	 * @return
+	 */
 	private static Document addResults(Document document, Element id, RankingList list) {
 					
 		// add results tag
@@ -332,8 +319,7 @@ public abstract class XMLHandler {
 					
 		// add time stamp to attributes
 		results.setAttribute("Time", df.format(date));
-					
-						
+							
 		// loop through all Ranked items and add them to the XML file under the page tag
 		for(int i = 0; i < list.getSize(); i++) {
 			// add the item 
@@ -346,8 +332,14 @@ public abstract class XMLHandler {
 					
 		// return the document which is being stored
 		return document;
-		}
+	}
 	
+	/**
+	 * Method to append results to an XML file with n sets of results already in the file.
+	 * 
+	 * @param file_path	the path to the file
+	 * @param results	the results to add
+	 */
 	public static void appendResults(String file_path, RankingList results){
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -386,16 +378,12 @@ public abstract class XMLHandler {
 	        transf.transform(source, file);
 	    	
 		} catch (ParserConfigurationException | SAXException | IOException | TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
-	// ---------------------------------------------
-			
+	
 	/**
 	 * createItem(Document, BasicItem)
 	 * 
@@ -463,8 +451,12 @@ public abstract class XMLHandler {
 	        return node;
 	 }
 
-	// NEW ---------------------------------
-	
+	/**
+	 * Method to build a set of results from an list of nodes from a read XML file.
+	 * 
+	 * @param element_list	the list of elements in the XML file
+	 * @return list			the set of results
+	 */
 	public static RankingList buildResultsFromXML(NodeList element_list){
 		
 		
@@ -481,8 +473,6 @@ public abstract class XMLHandler {
 				continue;
 			}
 			
-			
-							
 			//item 1 is type
 			//item 3 is title
 			//item 5 is location
@@ -519,13 +509,17 @@ public abstract class XMLHandler {
 						
 		}
 		
-		
 		return list;
 		
 	}
 	
+	/**
+	 * Method to build a results list from an XML file.
+	 * 
+	 * @param filename	the path to the XML file
+	 * @return
+	 */
 	public static ArrayList<RankingList> buildResultsListFromXML(String filename){
-		
 		
 		// this line is need for XML handling (don't know why :) )
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -567,13 +561,18 @@ public abstract class XMLHandler {
 				}
 				
 			} catch (ParserConfigurationException | SAXException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 			return results;
-		}	
+	}	
 	
+	/**
+	 * Method to build an XML file from a list with a set of results added.
+	 * 
+	 * @param file_path	the path to the local XML file
+	 * @param results	the results lists
+	 */
 	public static void buildXMLFromListWithResults(String file_path, RankingList results) {
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -619,20 +618,15 @@ public abstract class XMLHandler {
 	        try {
 				transf.transform(source, file);
 			} catch (TransformerException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
-
-	// --------------------------------------
 }

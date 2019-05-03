@@ -53,17 +53,6 @@ public class AudioItem extends BasicItem implements ListInterface {
 	}
 	
 	/**
-	 * Method to print the audio file's metadata.
-	 */
-	public void print() {
-		System.out.println("Title: " + this.getTitle());
-		System.out.println("Artist: " + this.metadata.get(1));
-		System.out.println("Album: " + this.metadata.get(2));
-		System.out.println("Date: " + this.metadata.get(3));
-		System.out.println("Genre: " + this.metadata.get(4));
-	}
-	
-	/**
 	 * Method to get the absolute value of the item.
 	 * @return object_params
 	 */
@@ -83,10 +72,17 @@ public class AudioItem extends BasicItem implements ListInterface {
 
 	} 
 	
+	/**
+	 * Method to change the file path to a new path.
+	 * @param new_path	the new file path
+	 */
 	public void changePath(String new_path) {
 		this.file_location = new_path;
 	}
 	
+	/**
+	 * Method to replace all nulls in the metadata with an empty string.
+	 */
 	private void replaceNulls() {
 		
 		for(int i = 0; i < metadata.size(); i++) {

@@ -147,7 +147,6 @@ public class Player extends BorderPane {
 		    	try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -166,7 +165,6 @@ public class Player extends BorderPane {
 		    	try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	            
@@ -201,7 +199,6 @@ public class Player extends BorderPane {
 			    	try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 	                double fitWidth = height / video_source_ratio_property.get();
@@ -210,7 +207,6 @@ public class Player extends BorderPane {
 			    	try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 	                image_view.setY(0);
@@ -229,7 +225,6 @@ public class Player extends BorderPane {
 			    	try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 	                image_view.setX(0);
@@ -247,8 +242,6 @@ public class Player extends BorderPane {
 	    public void loadPaths (String paths[]) {
 	    	// Store the paths
 	    	this.paths = paths;
-	    	System.out.println("Size of paths array is:" + paths.length);
-	    	System.out.println("Current index is:" + this.current_video_index);
 	    	// Load first video
 	    	loadVideo(this.current_video_index);
 	    	
@@ -266,9 +259,7 @@ public class Player extends BorderPane {
 	    protected void  loadVideo (int index_video) {
 	    	
 	    	this.media_player_component.getMediaPlayer().pause();
-
-
-
+	    	
 	        Platform.runLater(new Runnable() {
 	            @Override
 	            public void run() {
@@ -290,7 +281,6 @@ public class Player extends BorderPane {
 			    		//media_player_component.getMediaPlayer().enableMarquee(false);
 			    		media_player_component.getMediaPlayer().prepareMedia(paths[index_video]);
 			    		media_player_component.getMediaPlayer().play();
-				    	//System.out.println("The height of the player is: " + media_player_component.getMediaPlayer().getVideoDimension().getHeight());
 			    		
 			    	} 
 			    	// Load invalid video screen
@@ -306,8 +296,6 @@ public class Player extends BorderPane {
 	    	
 	    }
 	    
-
-
 		/** This method checks that the string in the paths array is either a Yotube watch link or a valid path to an 
 	     *  .mp4 file. If the link or path is valid then 1 is returned. If the filepath
 	     *  or link is not valid then a 2 is returned. If the size of the video
@@ -324,7 +312,6 @@ public class Player extends BorderPane {
 	    	// Check that it is a Youtube watch link
 	    	
 	    	if (paths[index_video].contains("www.youtube.com/watch?v=")) {
-	    		System.out.println("Index is " + index_video);
 	    		in_error = false;
 	    		return 1;
 	    	} 
@@ -359,7 +346,6 @@ public class Player extends BorderPane {
 	     * @return the media player component
 	     */
 		protected DirectMediaPlayerComponent getMediaPlayerComponent() {
-			// TODO Auto-generated method stub
 			return this.media_player_component;
 		}
 
@@ -368,7 +354,6 @@ public class Player extends BorderPane {
 		 * @return current video index
 		 */
 		protected int getCurrentIndex() {
-			// TODO Auto-generated method stub
 			return this.current_video_index;
 		}
 		
@@ -384,7 +369,6 @@ public class Player extends BorderPane {
 		 * @param nextIndex- index that current index will be changed too
 		 */
 		public void setCurrentIndex(int nextIndex) {
-			// TODO Auto-generated method stub
 			this.current_video_index = nextIndex;
 			
 		}
@@ -402,7 +386,6 @@ public class Player extends BorderPane {
 	    	try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -423,13 +406,11 @@ public class Player extends BorderPane {
 				    	try {
 							Thread.sleep(10);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 				    // Set audio output module
 			    	media_player_component.getMediaPlayer().setAudioOutput(audio_output_name);
 			    	
-			    	//System.out.println(audioOutputs.get(4).getDescription());
 			    	media_player_component.getMediaPlayer().prepareMedia("endscreen.jpg");
 			    	media_player_component.getMediaPlayer().play();
 			    	media_player_component.getMediaPlayer().pause();
@@ -455,7 +436,6 @@ public class Player extends BorderPane {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -499,7 +479,6 @@ public class Player extends BorderPane {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// Place in runnable as graphical change
@@ -594,21 +573,12 @@ public class Player extends BorderPane {
 		}
 
 		public void exit() {
-			// TODO Auto-generated method stub
 			if (media_player_component.getMediaPlayer().isPlaying() == true){
 				this.media_player_component.getMediaPlayer().pause();
 			}
+			
 			//this.controls.media_player_component.getMediaPlayer().pause();
 			//media_player_component.getMediaPlayer().release();
-			
-		}
-
-		public void fullExit() {
-			if (media_player_component.getMediaPlayer().isPlaying() == true){
-				this.media_player_component.getMediaPlayer().pause();
-			}
-			//this.controls.media_player_component.getMediaPlayer().pause();
-			media_player_component.getMediaPlayer().release();
 			
 		}
 

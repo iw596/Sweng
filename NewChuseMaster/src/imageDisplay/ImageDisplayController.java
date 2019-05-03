@@ -63,7 +63,6 @@ public class ImageDisplayController  implements Initializable {
 			alert.setTitle("Error");
 			alert.setHeaderText("Invalid File Path");
 			alert.setContentText("File not found.\nEnter new file path.");
-			System.out.println("Invalid File Path");
 			alert.showAndWait();
 			//Returns 1, meaning loading was unsuccessful
 			return 1;
@@ -95,7 +94,6 @@ public class ImageDisplayController  implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		// Create a new image profile using the wanted image and then add the image_prodiles container
 		// to the BorderPane
 		imageProfile image_profile = new imageProfile(image);

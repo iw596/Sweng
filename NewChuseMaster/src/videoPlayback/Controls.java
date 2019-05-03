@@ -67,20 +67,14 @@ public class Controls extends HBox {
 		//Create buttons
 		play_pause = new Button("||");  
 	
-	
 		//Create sliders
 		time_scrubber = new Slider();
 		time_scrubber.setValue(0);
 		time_scrubber.setPrefWidth(100);
-		
-        
-
-        
+		        
         // Place graphical change in runnable to prevent javafx screen rendering error
         Platform.runLater(new Runnable() {
         	
-        	
- 
             @Override
             public void run() {
                 setAlignment(Pos.CENTER); // setting the HBox to center 
@@ -141,10 +135,7 @@ public class Controls extends HBox {
 		    	}
 			}
 		});
-        
 
-        
-        
         //adds event listener for when the video's time changes
         media_player_component.getMediaPlayer().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
             /**
@@ -162,10 +153,7 @@ public class Controls extends HBox {
 		
 
 			}
-
 			
-		
-
 		}); 
         
 
@@ -184,14 +172,9 @@ public class Controls extends HBox {
 		// This event happens when the user releases a mouse click from the scrubber
         time_scrubber.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
-				System.out.println("Scrubber value: " + time_scrubber.getValue());
 				seek((float) time_scrubber.getValue()); // Set the play position to the new scrubber position
 				
 				update_scrubber = true; // Allow the scrubber position to be updated by any playing audio
-					
-		
-				
-			
 				
 			}
 		});
@@ -262,8 +245,8 @@ public class Controls extends HBox {
 		        	}
 
 		        	current_time_text.setText(current_minutes_text + ":" + current_seconds_text + "/" + length_video_minutes_text + ":" + length_video_seconds_text);
-		    	            }
-		    	     });
+    	    	 }
+    	     });
     		
     	}
 
@@ -283,7 +266,6 @@ public class Controls extends HBox {
     	try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// Convert fraction into actual time and move to that area of the track
@@ -291,11 +273,4 @@ public class Controls extends HBox {
 		media_player_component.getMediaPlayer().skip((long) time - media_player_component.getMediaPlayer().getTime());
 
 	}
-	
-
-
-	
-
-    
-    
 }

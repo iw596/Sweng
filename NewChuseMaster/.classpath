@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="VideoJars/vlcj-3.12.1-test-sources.jar"/>
 	<classpathentry kind="lib" path="VideoJars/vlcj-3.12.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Spotify API"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Spotify"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

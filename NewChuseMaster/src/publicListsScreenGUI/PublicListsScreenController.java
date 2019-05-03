@@ -109,8 +109,6 @@ public class PublicListsScreenController implements Initializable{
 
 				@Override
 				public void handle(ActionEvent arg0) {
-					System.out.println(list);
-					System.out.println(FilenameUtils.getName(list));
 					//load the comparison screen and start the tournament comparison algorithm
 					try {
 						FXMLLoader loader = new FXMLLoader(cloudInteraction.DownloadingScreenController.class.getResource("DownloadingScreen.fxml"));
@@ -119,15 +117,8 @@ public class PublicListsScreenController implements Initializable{
 						BorderPane new_pane = loader.load();
 						showInSelf(new_pane);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-//					try {
-//						showPreviewListScreen(list);
-//					} catch (IOException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
 				}
     			
     		});

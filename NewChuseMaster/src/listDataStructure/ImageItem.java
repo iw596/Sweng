@@ -61,13 +61,9 @@ public class ImageItem extends BasicItem implements ListInterface {
 	}
 	
 	/**
-	 * A method for printing the image item's file location in the console.
-	 * TODO remove in final release - only useful for testing
+	 * Method to change the file path to a new path.
+	 * @param new_path	the new file path
 	 */
-	public void print() {
-		System.out.println("File Location: " + this.file_location);
-	}
-	
 	public void changePath(String new_path) {
 		this.file_location = new_path;
 	}

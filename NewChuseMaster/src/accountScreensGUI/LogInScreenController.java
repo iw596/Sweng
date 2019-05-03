@@ -115,12 +115,15 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
     	startCloudService();
     }
     
+    /**
+     * Method to start the cloud interaction handler. This launches the handler in a new
+     * thread to make the UI more responsive.
+     */
     private void startCloudService() {
     	Thread thread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				back_end.startCloudHandler();
 			}
     	});
@@ -144,12 +147,10 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
     		return;
     	}
     	
+    	//starts the login process in a new thread to make the UI more responsive
     	login = new RunnableLogIn(back_end, login_email.getText(), login_password.getText());
-    	
     	login.addTerminationListener(this);
-    	
     	Thread thread = new Thread(login);
-    	
     	thread.start();
     	
     }
@@ -186,22 +187,6 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
     	Thread thread = new Thread(sign_up);
     	
     	thread.start();
-    	
-//    	//creates an account and checks that the account can be created successfully
-//    	if(this.back_end.createAccount(create_email.getText(), create_username.getText(), create_password.getText(), Integer.parseInt(age.getText()), gender.getSelectionModel().getSelectedItem())) {
-//    		//displays success message
-//    		sign_up_comment.setText("Account created successfully!");
-//    		//removes all entered text and gender selection
-//    		create_email.setText("");
-//    		create_username.setText("");
-//    		create_password.setText("");
-//    		confirm_password.setText("");
-//    		age.setText("");
-//    		gender.getSelectionModel().clearSelection();
-//    	} else {
-//    		//displays an error message
-//    		sign_up_comment.setText("Account with this username or email already in use.");
-//    	}
     	
     }
     
@@ -281,16 +266,16 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
 			}
 			
 		});
-		
-//		this.back_end.startCloudHandler();
-		
+
 		root.requestFocus();
 		
 	}
 
 	@Override
+	/**
+	 * Method to listen for threads terminated that were launched within this controller.
+	 */
 	public void notifyOfThreadTermination(NotifyingThread thread) {
-		// TODO Auto-generated method stub
 
 		if(login != null && thread.toString().equals(login.toString())) {
 			logIn();
@@ -299,14 +284,17 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
 		}
 	}
 	
+	/**
+	 * Method to set the login comment and update the top corner "Log In" text with the user's username
+	 * and show the logout button.
+	 */
 	private void logIn() {
 		if(back_end.getLocalAccount() == null) {
 			//sets the comment text to a failure message
-			
+			//waits for the main thread to be the JavaFX UI thread
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 					login_comment.setText("Unable to log in. Email or password incorrect.");
 				}
 			});
@@ -314,11 +302,11 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
 			return;
 		}
 		
+		//waits for the main thread to be the JavaFX UI thread
 		Platform.runLater(new Runnable() {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				//if it can, removes all the entered text
 				login_email.setText("");
 				login_password.setText("");
@@ -332,9 +320,14 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
 		});
 	}
 
+	/**
+	 * Method to update the sign up comment when an account is created, displaying either a success
+	 * or error message.
+	 */
 	private void signUp() {
 		
 		if(!back_end.wasAccountCreated()) {
+			//waits for the main thread to be the JavaFX UI thread
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
@@ -345,6 +338,7 @@ public class LogInScreenController implements Initializable, ThreadTerminationLi
 			return;
 		}
 		
+		//waits for the main thread to be the JavaFX UI thread
 		Platform.runLater(new Runnable() {
 
 			@Override

@@ -15,7 +15,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -84,6 +83,12 @@ public class PreviewListController implements Initializable {
     
     
     @FXML
+    /**
+     * Method to load the comparison screen and start the comparison algorithm.
+     * 
+     * @param event
+     * @throws IOException
+     */
     void startComparison(ActionEvent event) throws IOException {
     	
 		FXMLLoader loader = new FXMLLoader(comparisonScreenGUI.ComparisonScreenController.class.getResource("ComparisonScreen.fxml"));
@@ -115,30 +120,15 @@ public class PreviewListController implements Initializable {
 			try {
 				loadStatisticsScreen();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
 			try {
 				loadNotLoggedInScreen();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
-//		try {
-//			
-//			System.out.println(FilenameUtils.getPath(cloud_path));
-//			
-//			if(!back_end.downloadList(FilenameUtils.getPath(cloud_path))) {
-//				failure_comment.setText("Failed to download list.");
-//			}
-//			
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		
 		for (int i=0;i<back_end.getCurrentListSize();i++) {
 			PublicListItem item = new PublicListItem(back_end.getCurrentList().get(i).getTitle(),"");
@@ -152,6 +142,11 @@ public class PreviewListController implements Initializable {
 		
 	}
 	
+	/**
+	 * Method to load the not logged in screen in the analytics pane.
+	 * 
+	 * @throws IOException
+	 */
     private void loadNotLoggedInScreen() throws IOException {
 
 		FXMLLoader loader = new FXMLLoader(analytics.AnalyticsController.class.getResource("NotLoggedInAnalyticsScreen.fxml"));
@@ -194,6 +189,11 @@ public class PreviewListController implements Initializable {
 	
     }
     
+    /**
+     * Method to load the statistics in the analytics screen.
+     * 
+     * @throws IOException
+     */
     private void loadStatisticsScreen() throws IOException {
     	
 		FXMLLoader loader = new FXMLLoader(analytics.AnalyticsController.class.getResource("Analytics.fxml"));

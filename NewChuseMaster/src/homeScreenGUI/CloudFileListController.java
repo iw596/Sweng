@@ -24,6 +24,17 @@ import javafx.scene.layout.VBox;
 import multithreading.NotifyingThread;
 import multithreading.ThreadTerminationListener;
 
+/**
+ * Controller class for the Cloud File List browser which is displayed in the Online Lists tab.
+ * Adds a set of buttons for all the lists stored on the currently logged in user's Cloud storage.
+ * 
+ * Date created: 24/04/2019
+ * Date last edited: 28/04/2019
+ * Last edited by: Dan Jackson
+ * 
+ * @author Dan Jackson
+ *
+ */
 public class CloudFileListController implements Initializable, ThreadTerminationListener {
 
     @FXML
@@ -38,21 +49,30 @@ public class CloudFileListController implements Initializable, ThreadTermination
 	
 	private HomeScreenController home_controller;
 	
+	/**
+	 * Constructor for the Cloud File List controller. Passes in reference to the back end container as well as
+	 * reference to the home screen controller. Starts a new thread to fetch the lists from within.
+	 * 
+	 * @param back_end			reference to the back end
+	 * @param home_controller	reference to the parent screen's controller (home screen controller)
+	 */
 	public CloudFileListController(BackEndContainer back_end, HomeScreenController home_controller) {
 		this.back_end = back_end;
 		this.home_controller = home_controller;
 		
-		RunnableUserListFetcher list_fetcher = new RunnableUserListFetcher(back_end, back_end.getLocalAccount().getUsername());
-		
+		//starts the user list fetcher in a new thread
+		RunnableUserListFetcher list_fetcher = new RunnableUserListFetcher(back_end,
+				back_end.getLocalAccount().getUsername());
 		list_fetcher.addTerminationListener(this);
-		
 		Thread thread = new Thread(list_fetcher);
-		
 		thread.start();
 
 	}
 	
 	@Override
+	/**
+	 * Method called when the FXMl is loaded. Sets the scroll pane to fit the size of its content.
+	 */
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		cloud_scroll_pane.setFitToHeight(true);
@@ -60,6 +80,9 @@ public class CloudFileListController implements Initializable, ThreadTermination
 		
 	}
 	
+	/**
+	 * Method to create the buttons for the cloud files.
+	 */
 	private void createButtons() {
 		
 		if(cloud_paths == null) {
@@ -68,12 +91,10 @@ public class CloudFileListController implements Initializable, ThreadTermination
 		
 		ArrayList<JFXButton> file_buttons = new ArrayList<JFXButton>();
 		
+		//loops through every path in the array list of paths
 		for(String path : cloud_paths) {
-			
-			System.out.println(path);
-			
 			String file_name = path.split("/")[2];
-			
+			//if the path contains the string "/public/" then adds a comment stating it is stored publicly
 			if(path.contains("/public/")) {
 				file_name += " - (Stored publicly)";
 			}
@@ -106,7 +127,6 @@ public class CloudFileListController implements Initializable, ThreadTermination
 						home_controller.showInSelf(new_pane);
 						System.gc();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
@@ -121,18 +141,18 @@ public class CloudFileListController implements Initializable, ThreadTermination
 	}
 
 	@Override
+	/**
+	 * Method called when the user list fetcher thread terminates. Fetches the set of locally stored Cloud paths to
+	 * user lists, then uses this set of lists to create buttons.
+	 */
 	public void notifyOfThreadTermination(NotifyingThread thread) {
-		// TODO Auto-generated method stub
-		
-		System.out.println("Thread completed!");
-		
 		cloud_paths = back_end.getLoggedInUsersLists();
 		
+		//waits for the program to be back on the main JavaFX application thread
 		Platform.runLater(new Runnable() {
 			
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				createButtons();
 			}
 			

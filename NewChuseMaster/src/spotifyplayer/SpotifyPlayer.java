@@ -12,25 +12,18 @@ import com.sun.jna.NativeLibrary;
 import javafx.application.Platform;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleFloatProperty;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.scene.image.WritablePixelFormat;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import uk.co.caprica.vlcj.binding.internal.libvlc_marquee_position_e;
 import uk.co.caprica.vlcj.binding.internal.libvlc_state_t;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
@@ -67,10 +60,6 @@ public class SpotifyPlayer extends BorderPane {
 	    private String audio_output_name =  new String();
 	    
 	    private Controls controls;
-	    
-	    // Store coordinates where screen will be displayer
-	    private int x_screen_position;
-	    private int y_screen_position;
 	    
 	    // Store window width and height
 	    private int window_width;
@@ -118,11 +107,6 @@ public class SpotifyPlayer extends BorderPane {
 	    	// Store the window height and window width
 	    	this.window_width = width ;
 	    	this.window_height = height;
-	    
-	    
-	    	// Store the coordinates where the window will be opened
-	        this.x_screen_position = x_screen_position;
-	        this.y_screen_position = y_screen_position;
 
 	    	// Create pane to add player on
 	    	setPlayer_holder(new Pane());
@@ -173,16 +157,15 @@ public class SpotifyPlayer extends BorderPane {
 	        getPlayer_holder().widthProperty().addListener((observable, oldValue, newValue) -> {
 	        	   Platform.runLater(new Runnable() {
 	        		    @Override
-	        		        public void run() {
-	        		            // draw stuff
-	        		    	fitImageViewSize(newValue.floatValue(), (float) getPlayer_holder().getHeight());	            
-	        		        }
-	        		    });
+        		        public void run() {
+        		            // draw stuff
+        		    	fitImageViewSize(newValue.floatValue(), (float) getPlayer_holder().getHeight());	            
+        		    	}
+	        	   });
 	            
 		    	try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -195,13 +178,12 @@ public class SpotifyPlayer extends BorderPane {
 	        		            // draw stuff
 	        		    		fitImageViewSize((float) getPlayer_holder().getWidth(), newValue.floatValue());
 
-	        		        }
-	        		    });
+	        		    }
+	        	   });
 	            
 		    	try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	            
@@ -213,8 +195,7 @@ public class SpotifyPlayer extends BorderPane {
 	        		        public void run() {
 	        		    	fitImageViewSize((float) getPlayer_holder().getWidth(), (float) getPlayer_holder().getHeight());
 	        		        }
-	        		    });
-	           
+	        	   });
 	        }); 
 	    }
 	    
@@ -236,7 +217,6 @@ public class SpotifyPlayer extends BorderPane {
 			    	try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 	                double fitWidth = height / video_source_ratio_property.get();
@@ -245,7 +225,6 @@ public class SpotifyPlayer extends BorderPane {
 			    	try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 	                image_view.setY(0);
@@ -264,7 +243,6 @@ public class SpotifyPlayer extends BorderPane {
 			    	try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 	                image_view.setX(0);
@@ -316,14 +294,8 @@ public class SpotifyPlayer extends BorderPane {
 			    		//media_player_component.getMediaPlayer().enableMarquee(false);
 						if (paths[index_video] != null){
 				    		media_player_component.getMediaPlayer().prepareMedia(paths[index_video]);
-				    		media_player_component.getMediaPlayer().play();
-							
+				    		media_player_component.getMediaPlayer().play();	
 						}
-						else{
-							System.out.println("null");
-						}
-
-			    		
 			    	} 
 			    	// Load invalid video screen
 			    	else if (video_check_result == 2){
@@ -335,8 +307,6 @@ public class SpotifyPlayer extends BorderPane {
 	    	
 	    }
 	    
-
-
 		/** This method checks that the string in the paths array is either a valid 
 		 * spotify playback link or a null. If the link is valid then a 1 is returned.
 		 * Otherwise a 2 is returned to indicate no preview available.
@@ -361,7 +331,6 @@ public class SpotifyPlayer extends BorderPane {
 	     * @return the media player component
 	     */
 		protected DirectMediaPlayerComponent getMediaPlayerComponent() {
-			// TODO Auto-generated method stub
 			return this.media_player_component;
 		}
 
@@ -370,7 +339,6 @@ public class SpotifyPlayer extends BorderPane {
 		 * @return current video index
 		 */
 		protected int getCurrentIndex() {
-			// TODO Auto-generated method stub
 			return this.current_video_index;
 		}
 		
@@ -386,13 +354,10 @@ public class SpotifyPlayer extends BorderPane {
 		 * @param nextIndex- index that current index will be changed too
 		 */
 		public void setCurrentIndex(int nextIndex) {
-			// TODO Auto-generated method stub
 			this.current_video_index = nextIndex;
 			
 		}
 	
-	
-		
 		/** Get the player holder
 		 * @return the player_holder
 		 */
@@ -407,13 +372,19 @@ public class SpotifyPlayer extends BorderPane {
 			this.player_holder = player_holder;
 		}
 
+		/**
+		 * Method to get the width of the window.
+		 * @return window_width the width of the window
+		 */
 		public double getWindowWidth() {
-			// TODO Auto-generated method stub
 			return this.window_width;
 		}
 
+		/**
+		 * Method to get the height of the window.
+		 * @return window_height	the height of the window
+		 */
 		public double getWindowHeight() {
-			// TODO Auto-generated method stub
 			return this.window_height;
 		}
 		
@@ -425,7 +396,6 @@ public class SpotifyPlayer extends BorderPane {
 		 * @param track_path - link to preview track
 		 */
 		public void changeSong(String track_path) {
-			// TODO If valid link then can load and play track
 			if(track_path != null){
 				this.media_player_component.getMediaPlayer().prepareMedia(track_path);
 				this.media_player_component.getMediaPlayer().play();

@@ -19,7 +19,6 @@ import com.wrapper.spotify.model_objects.specification.Image;
  */
 public class SpotifyItem extends BasicItem implements ListInterface {
 
-
 	private String song_url;
 	private ArrayList<String> metadata = new ArrayList<String>();
 	private String preview_url;
@@ -56,22 +55,20 @@ public class SpotifyItem extends BasicItem implements ListInterface {
 		return this.metadata;
 	}
 	
+	/**
+	 * Method to get the album artwork of a Spotify track.
+	 * @return this.artwork		the album artwork image
+	 */
 	public Image getImage(){
 		return this.artwork;
 	}
 	
+	/**
+	 * Method to get the audio preview of a Spotify track.
+	 * @return this.preview_url		the URL to the preview audio 
+	 */
 	public String getPreview(){
 		return this.preview_url;
-	}
-	
-	/**
-	 * Method to print each of the item's properties.
-	 */
-	public void print() {
-		System.out.println("Title: " + this.getTitle());
-		System.out.println("Artist: " + this.metadata.get(1));
-		System.out.println("Album: " + this.metadata.get(2));
-		System.out.println("Length: " + this.metadata.get(3) + "minutes");
 	}
 	
 	/**

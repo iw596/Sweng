@@ -21,7 +21,7 @@ public class RankingList{
 
 	ArrayList<RankingItem> items;
 	
-	private String Time;
+	private String time;
 	
 	/**
 	 * Constructor method for a ranking list, initialising the array list of
@@ -29,7 +29,7 @@ public class RankingList{
 	 */
 	public RankingList() {
 		this.items = new ArrayList<RankingItem>();
-		this.Time = null;
+		this.time = null;
 		
 	}
 	
@@ -169,18 +169,6 @@ public class RankingList{
 	}
 	
 	/**
-	 * Method for printing the ranking list.
-	 */
-	public void print() {
-		System.out.println("*****************");
-		//cycles through every item in the list, printing each one
-		for(RankingItem item : items) {
-			item.print();
-		}
-		System.out.println("*****************");
-	}
-	
-	/**
 	 * Method to get the size of the results list.
 	 * @return items.size()
 	 */
@@ -188,12 +176,21 @@ public class RankingList{
 		return items.size();
 	}
 
+	/**
+	 * Method to get the time at which the comparison was completed.
+	 * @return time		the time of comparison completion
+	 */
 	public String getTime() {
-		return Time;
+		return time;
 	}
 
+	/**
+	 * Method to set the time at which the comparison was completed.
+	 * 
+	 * @param time	the time of comparison completion
+	 */
 	public void setTime(String time) {
-		Time = time;
+		this.time = time;
 	}
 	
 }

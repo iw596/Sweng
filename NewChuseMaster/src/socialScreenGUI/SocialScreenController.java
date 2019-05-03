@@ -95,8 +95,6 @@ public class SocialScreenController implements Initializable, ThreadTerminationL
 		left_column.minWidthProperty().bind(root.widthProperty().divide(2));
 		left_column.maxWidthProperty().bind(root.widthProperty().divide(2));
 		
-		System.out.println(root.getPrefWidth());
-
 	}
 	
 	/**
@@ -139,11 +137,9 @@ public class SocialScreenController implements Initializable, ThreadTerminationL
 
 			//if the row is even, add to right column
 			if((row + 1) % 2 == 0) {
-				System.out.println("column 2");
 				right_column.getChildren().add(box);
 			//if the row is odd, add to left column
 			} else {
-				System.out.println("column 1");
 				left_column.getChildren().add(box);
 			}
 
@@ -178,7 +174,6 @@ public class SocialScreenController implements Initializable, ThreadTerminationL
 	 * Method called when the thread fetching the random user accounts terminates.
 	 */
 	public void notifyOfThreadTermination(NotifyingThread thread) {
-		// TODO Auto-generated method stub
 		
 		//fetches the random list data
 		ArrayList<String> lists = back_end.getRandomPublicLists();
@@ -232,9 +227,7 @@ public class SocialScreenController implements Initializable, ThreadTerminationL
     		
     		//creates the data structure
     		createDataStructure(lists);
-    		
-    		System.out.println(user_preview);
-    		
+
     	}
     	
     	/**

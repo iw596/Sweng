@@ -110,6 +110,8 @@ public class ComparisonScreenController implements Initializable {
      */
     void rightItemSelected(ActionEvent event) {
     	
+    	//if there are audio or image controllers, loops through them all
+    	//and exits them
     	if(audio_controllers.size() > 0) {
     		for(int i = 0; i < audio_controllers.size(); i++) {
     			audio_controllers.get(i).exit();
@@ -153,8 +155,8 @@ public class ComparisonScreenController implements Initializable {
     }
     
     /**
-     * Method to check whether the tournament algorithm has completed all it's rounds, and if not whether to start a new round or 
-     * continue on the same round.
+     * Method to check whether the tournament algorithm has completed all it's rounds, and if 
+     * not whether to start a new round or continue on the same round.
      */
     private void endCheck() {
     	
@@ -171,12 +173,10 @@ public class ComparisonScreenController implements Initializable {
     		
     		// If round over and uses video player then need to silence players
     		if(video_controllers.size() > 0) {
-        		System.out.println(video_controllers.size());
         		for(int i = 0; i < video_controllers.size(); i++) {
         			video_controllers.get(i).exit();	
         		}
     		}else if(spotify_controllers.size() > 0) {
-        		System.out.println(spotify_controllers.size());
         		for(int i = 0; i < spotify_controllers.size(); i++) {
         			spotify_controllers.get(i).exit();	
         		}
@@ -202,13 +202,13 @@ public class ComparisonScreenController implements Initializable {
             		back_end.getRankedResults();
 
 					try {
-						FXMLLoader loader = new FXMLLoader(resultsScreenGUI.ResultsScreenController.class.getResource("ResultsScreen.fxml"));
+						FXMLLoader loader = new FXMLLoader(resultsScreenGUI.ResultsScreenController
+								.class.getResource("ResultsScreen.fxml"));
 	                	ResultsScreenController controller = new ResultsScreenController(back_end);
 	                	loader.setController(controller);
 	                	BorderPane new_pane = loader.load();
 	                	showInSelf(new_pane);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
@@ -232,11 +232,8 @@ public class ComparisonScreenController implements Initializable {
 	 * the checkObjectType function, which checks the object type and instantiates the relevant media viewer.
 	 */
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
     	left_button.setText(back_end.getComparison().getCurrentPairTitles().get(0));
-    	System.out.println(left_button.getText());
     	right_button.setText(back_end.getComparison().getCurrentPairTitles().get(1));
-    	System.out.println(right_button.getText());
 		checkObjectType();
 	}
 	
@@ -252,87 +249,51 @@ public class ComparisonScreenController implements Initializable {
 		
 		BasicItem left_object = back_end.getComparison().getCurrentPair().get(0);
 		BasicItem right_object = back_end.getComparison().getCurrentPair().get(1);
-		System.out.println(left_object.getType());
 
 		left_content.getChildren().removeAll();
 		right_content.getChildren().removeAll();
 		
 		//if the left object is a video item, instantiate the video player
-		if(left_object.getType().equals("VideoItem") ||left_object.getType().equals("YouTubeItem") && video_controllers.size() != 2) {
+		if((left_object.getType().equals("VideoItem") 
+				||left_object.getType().equals("YouTubeItem")) && video_controllers.size() < 2) {
 			instantiateVideoPlayer(left_object, left_content);
 		} else if(left_object.getType().equals("ImageItem")) {
 			instantiateImageViewer(left_object, left_content);
 		} else if(left_object.getType().equals("AudioItem")) {
 			instantiateAudioPlayer(left_object, left_content);
-		} else if (left_object.getType().equals("VideoItem")||left_object.getType().equals("YouTubeItem") && video_controllers.size() == 2){
-			System.out.println("Greater than two videos");
+		} else if ((left_object.getType().equals("VideoItem")
+				||left_object.getType().equals("YouTubeItem")) && video_controllers.size() > 1){
 			changeVideoPlayerVideo(left_object.getPath(),0);
-		} else if (left_object.getType().equals("SpotifyItem")&& spotify_controllers.size() != 2){
-			System.out.println("Is a SpotifyItem");
-			System.out.println("Left track name: " + left_object.getTitle());
+		} else if (left_object.getType().equals("SpotifyItem") 
+				&& spotify_controllers.size() != 2){
 			instantiateSpotifyPlayer(left_object, left_content);
-		}else if (left_object.getType().equals("SpotifyItem") && spotify_controllers.size() == 2){
-			System.out.println("Change track");
-			System.out.println("Left track name: " + left_object.getTitle() );
+		}else if (left_object.getType().equals("SpotifyItem") 
+				&& spotify_controllers.size() == 2){
 			changeSpotifyPlayerSong(left_object.getPreview(),0);
 			spotify_controllers.get(0).setMeta(left_object.getMetadata());
 			spotify_controllers.get(0).setArt(new Image(left_object.getImage().getUrl()));
 		}
 		
 		//if the right object is a video item, instantiate the video player
-		if(right_object.getType().equals("VideoItem")||right_object.getType().equals("YouTubeItem") && video_controllers.size() != 2 ) {
+		if((right_object.getType().equals("VideoItem") 
+				|| right_object.getType().equals("YouTubeItem")) && video_controllers.size() < 2 ) {
 			instantiateVideoPlayer(right_object, right_content);
 		} else if(right_object.getType().equals("ImageItem")) {
 			instantiateImageViewer(right_object, right_content);
 		} else if(right_object.getType().equals("AudioItem")) {
 			instantiateAudioPlayer(right_object, right_content);
-		} else if (right_object.getType().equals("VideoItem")||right_object.getType().equals("YouTubeItem") && video_controllers.size() == 2){
-			System.out.println("Greater than two videos");
+		} else if ((right_object.getType().equals("VideoItem") 
+				|| right_object.getType().equals("YouTubeItem")) && video_controllers.size() > 1){
 			changeVideoPlayerVideo(right_object.getPath(),1);
 		} else if (right_object.getType().equals("SpotifyItem") && spotify_controllers.size() != 2){
-			System.out.println("Is a SpotifyItem");
-			System.out.println("Right track name: " + right_object.getTitle() );
 			instantiateSpotifyPlayer(right_object, right_content);
 		} else if (right_object.getType().equals("SpotifyItem") && spotify_controllers.size() == 2){
-			System.out.println("Change track");
-			System.out.println("Right track name: " + right_object.getTitle() );
 			changeSpotifyPlayerSong(right_object.getPreview(),1);
 			spotify_controllers.get(1).setMeta(right_object.getMetadata());
 			spotify_controllers.get(1).setArt(new Image(right_object.getImage().getUrl()));
 		}
 		
 	}
-	
-//	/**
-//	 * Method to instantiate a YouTube video player within another pane on the JavaFX stage.
-//	 * 
-//	 * @param item - the item to retrieve the media data from
-//	 * @param pane - the pane to instantiate the video player in
-//	 */
-//	private void instantiateYouTubePlayer(BasicItem item, Pane pane) {
-//		
-//		try {
-//			
-//			FXMLLoader loader = new FXMLLoader(videoPlayback.YoutubeController.class.getResource("YoutubePlayer.fxml"));
-//			YoutubeController controller = new YoutubeController(item.getPath());
-//			loader.setController(controller);
-//			BorderPane youtube_root = loader.load();
-//			StackPane.setAlignment(youtube_root, Pos.CENTER);
-//			pane.getChildren().add(youtube_root);
-//			
-//			youtube_root.prefWidthProperty().bind(pane.widthProperty());
-//			youtube_root.prefHeightProperty().bind(pane.heightProperty());
-//			youtube_root.minWidthProperty().bind(pane.minWidthProperty());
-//			youtube_root.minHeightProperty().bind(pane.minHeightProperty());
-//			youtube_root.maxWidthProperty().bind(pane.maxWidthProperty());
-//			youtube_root.maxHeightProperty().bind(pane.maxHeightProperty());
-//
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} 
-//		
-//	}
 	
 	/** Method to instantiate the image viewer. This method takes an image and a pane
 	 * 	where the image will be displayed.
@@ -399,18 +360,22 @@ public class ComparisonScreenController implements Initializable {
 		}
 		
 	}
-	
+	/** This method instantiates a video player to be displayed on the comparison screen GUI. It takes a item
+	 *  to be displayed and the pane to display the player on. Then it creates the player and adds it to the pane
+	 * 
+	 * @param item - the item that the player will play
+	 * @param pane - the pane where the player will be added
+	 */
 	private void instantiateVideoPlayer(BasicItem item, Pane pane) {
-		System.out.println("Called");
+		// Find vlc path
 		NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
 		NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
-		System.out.println(item.getPath());
+		// Convert item path into array so its compatible with the player
 		String [] paths = {item.getPath()};
-		System.out.println(paths[0]);
+		// Create player with media and correct height
 		Player player = new Player((int) pane.getWidth(),(int) pane.getHeight());
+		// If first player then add to first index in video controllers
 		if (video_controllers.size() == 0){
-			System.out.println("Added first item");
-			System.out.println("Size is now: " + video_controllers.size());
 			video_controllers.add(player);
 			//video_controllers.add(player);
 			StackPane.setAlignment(player, Pos.CENTER);
@@ -426,9 +391,8 @@ public class ComparisonScreenController implements Initializable {
 
 			
 		}
+		// If the second player then add to second index in video controllers
 		else if (video_controllers.size() == 1){
-			System.out.println("Added first item");
-			System.out.println("Size is now: " + video_controllers.size());
 			video_controllers.add(player);
 			//video_controllers.add(player);
 			StackPane.setAlignment(player, Pos.CENTER);
@@ -445,22 +409,30 @@ public class ComparisonScreenController implements Initializable {
 		} 
 
 	}
-	
+	/** This method changes the video that the player will play
+	 * 
+	 * @param file_path the media path that will be loaded by the video player
+	 * @param index_player the index of the player in the video_controllers that will have its media changed
+	 */
 	private void changeVideoPlayerVideo (String file_path, int index_player){
 		video_controllers.get(index_player).changeVideo(file_path);	
 	}
 	
+	
+	
+	/** This method instantiates a Spotify player to be displayed on the comparison screen GUI. It takes a item
+	 *  to be displayed and the pane to display the player on. Then it creates the player and adds it to the pane
+	 * 
+	 * @param item - the item that the player will play
+	 * @param pane - the pane where the player will be added
+	 */
 	private void instantiateSpotifyPlayer(BasicItem item, Pane pane) {
-		System.out.println("Called");
 		NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
 		NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
-		System.out.println(item.getPreview());
 		String [] paths = {item.getPreview()};
-		System.out.println(paths[0]);
 		SpotifyPlayer player = new SpotifyPlayer((int) pane.getWidth(),(int) pane.getHeight());
+		// If first player then add to first index in spotify controllers
 		if (spotify_controllers.size() == 0){
-			System.out.println("Added first item");
-			System.out.println("Size is now: " + video_controllers.size());
 			spotify_controllers.add(player);
 			//video_controllers.add(player);
 			StackPane.setAlignment(player, Pos.CENTER);
@@ -477,9 +449,8 @@ public class ComparisonScreenController implements Initializable {
 			player.setArt(new Image(item.getImage().getUrl()));
 			
 		}
+		// If second player then add to second index in spotify controllers
 		else if (spotify_controllers.size() == 1){
-			System.out.println("Added first item");
-			System.out.println("Size is now: " + video_controllers.size());
 			spotify_controllers.add(player);
 			//video_controllers.add(player);
 			StackPane.setAlignment(player, Pos.CENTER);
@@ -498,7 +469,11 @@ public class ComparisonScreenController implements Initializable {
 		} 
 
 	}
-	
+	/** This method changes the spotify preview that will be played by the spotify player
+	 * 
+	 * @param track_path  The path to the preview track
+	 * @param index_player The index of the spotify player in spotify controllers that will have its track changed
+	 */
 	private void changeSpotifyPlayerSong (String track_path, int index_player){
 		spotify_controllers.get(index_player).changeSong(track_path);	
 	}

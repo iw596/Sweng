@@ -59,10 +59,8 @@ public class SpotifyAuthController implements Initializable {
 			// Add listener to listen for redirect
 			web_engine.getLoadWorker().stateProperty().addListener((ov, o, n) -> {
 				// If redirected to correct screen parse token then can load next screen
-				System.out.println(web_engine.getLocation());
 				if (web_engine.getLocation().contains(redirectURI)) {
 						String location = web_engine.getLocation();
-						System.out.println("The token is: " + location.substring(location.indexOf("=") + 1,location.indexOf("&")));
 						// Parse out token 
 						token = location.substring(location.indexOf("=") + 1,location.indexOf("&"));
 						// Have token so can now complete authorisation
@@ -85,7 +83,6 @@ public class SpotifyAuthController implements Initializable {
 					}
 				// If users do not accept agreement then redirect them back home screen
 				else if (web_engine.getLocation().equals("https://accounts.spotify.com/authorize/cancel")){
-					System.out.println("Not accepted");
 			    	//load the home screen
 			    	FXMLLoader loader = new FXMLLoader(homeScreenGUI.HomeScreenController.class.getResource("HomeScreen.fxml"));
 			    	HomeScreenController controller = new HomeScreenController(back_end);

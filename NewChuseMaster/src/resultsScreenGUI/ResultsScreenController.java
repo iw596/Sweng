@@ -17,7 +17,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -25,8 +24,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import searchScreenGUI.NotLoggedInScreenController;
@@ -76,7 +73,7 @@ public class ResultsScreenController implements Initializable {
     @FXML
     private JFXCheckBox save_online_toggle;
     
-    private Boolean saveListOnline = false;
+    private Boolean save_list_online = false;
 
     @FXML
     private JFXCheckBox make_public_toggle;
@@ -84,9 +81,9 @@ public class ResultsScreenController implements Initializable {
     @FXML
     private JFXCheckBox share_results_toggle;
     
-    private Boolean shareResults = false;
+    private Boolean share_results = false;
     
-    private Boolean shareListPublicly = false;
+    private Boolean share_list_publicly = false;
 	
 	// Array list containing list items ranked in order
 	// All items from rankinglist are sorted into the ranked items arraylist.
@@ -117,15 +114,15 @@ public class ResultsScreenController implements Initializable {
     void toggleOnlineSaving(ActionEvent event) {
     	
     	//toggles a boolean variable
-    	if(saveListOnline) {
-    		saveListOnline = false;
+    	if(save_list_online) {
+    		save_list_online = false;
     		//disables the public sharing check box if unchecked as impossible to share
     		//publicly if not stored online
     		make_public_toggle.setDisable(true);
     		make_public_toggle.selectedProperty().set(false);
-    		shareListPublicly = false;
+    		share_list_publicly = false;
     	} else {
-    		saveListOnline = true;
+    		save_list_online = true;
     		make_public_toggle.setDisable(false);
     	}
     	
@@ -140,10 +137,10 @@ public class ResultsScreenController implements Initializable {
      */
     void togglePublicSharing(ActionEvent event) {
     	
-    	if(shareListPublicly) {
-    		shareListPublicly = false;
+    	if(share_list_publicly) {
+    		share_list_publicly = false;
     	} else {
-    		shareListPublicly = true;
+    		share_list_publicly = true;
     	}
     	
     }
@@ -158,10 +155,10 @@ public class ResultsScreenController implements Initializable {
     void toggleResultsSharing(ActionEvent event) {
     	
     	//toggles a boolean variable
-    	if(shareResults) {
-    		shareResults = false;
+    	if(share_results) {
+    		share_results = false;
     	} else {
-    		shareResults = true;
+    		share_results = true;
     	}
     	
     }
@@ -232,7 +229,6 @@ public class ResultsScreenController implements Initializable {
 			try {
 				loadNotLoggedInScreen();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -242,12 +238,9 @@ public class ResultsScreenController implements Initializable {
 		try {
 			loadStatisticsScreen();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
- 		
-		System.out.println("List owner is: " + back_end.getListOwner());
-		
+
 	}
 	
 	@FXML
@@ -269,7 +262,6 @@ public class ResultsScreenController implements Initializable {
         	BorderPane new_pane = loader.load();
         	showInSelf(new_pane);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -284,31 +276,32 @@ public class ResultsScreenController implements Initializable {
     	if(back_end.getCurrentListFileName() != null) {
     		back_end.updateSaveListToXML(back_end.getCurrentListFileName());
     		
-    		if(back_end.getLocalAccount() != null && saveListOnline) {
+    		if(back_end.getLocalAccount() != null && save_list_online) {
     			showListUploadScreen();
     			//back_end.uploadList(back_end.getCurrentListFileName(), shareListPublicly);
-    		} else if(back_end.getLocalAccount() != null && shareResults) {
+    		} else if(back_end.getLocalAccount() != null && share_results) {
     			
     			back_end.uploadResults();
     			
     		}
     		
     	} else {
-    		System.out.println("No file exists with same name.");
     		save_as_button.fireEvent(action);
     	}
 
 	}
 	
+	/**
+	 * Method to load the list upload splash screen.
+	 */
 	private void showListUploadScreen() {
 		try {
 			FXMLLoader loader = new FXMLLoader(cloudInteraction.UploadingScreenController.class.getResource("UploadingScreen.fxml"));
-			UploadingScreenController controller = new UploadingScreenController(back_end, back_end.getCurrentListFileName(), shareListPublicly);
+			UploadingScreenController controller = new UploadingScreenController(back_end, back_end.getCurrentListFileName(), share_list_publicly);
 			loader.setController(controller);
 			BorderPane new_pane = loader.load();
 			showInSelf(new_pane);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -320,8 +313,6 @@ public class ResultsScreenController implements Initializable {
 	 */
     void saveAsList(MouseEvent event) {
 		// Save current list
-		System.out.println("Save List Pressed");
-		
     	Stage stage = (Stage)root.getScene().getWindow();
     	FileChooser file_chooser = new FileChooser();
     	
@@ -333,7 +324,7 @@ public class ResultsScreenController implements Initializable {
     	if(new_file != null) {
     		back_end.saveCurrentListToXML(new_file.getAbsolutePath());
 
-    		if(back_end.getLocalAccount() != null && saveListOnline) {
+    		if(back_end.getLocalAccount() != null && save_list_online) {
     			showListUploadScreen();
     			//back_end.uploadList(new_file.getAbsolutePath(), shareListPublicly);
     		}
@@ -344,6 +335,10 @@ public class ResultsScreenController implements Initializable {
     	
     }
 	
+	/**
+	 * Method to load the statistics screen in the analytics pane.
+	 * @throws IOException
+	 */
     private void loadStatisticsScreen() throws IOException {
     	
 		FXMLLoader loader = new FXMLLoader(analytics.AnalyticsController.class.getResource("Analytics.fxml"));
@@ -362,6 +357,10 @@ public class ResultsScreenController implements Initializable {
 		
     }
     
+    /**
+     * Method to load the not logged in screen in the analytics pane.
+     * @throws IOException
+     */
     private void loadNotLoggedInScreen() throws IOException {
 
 		FXMLLoader loader = new FXMLLoader(analytics.AnalyticsController.class.getResource("NotLoggedInAnalyticsScreen.fxml"));

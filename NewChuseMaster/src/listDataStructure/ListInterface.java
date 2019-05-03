@@ -65,12 +65,26 @@ public interface ListInterface {
 		return null;
 	}
 	
+	/**
+	 * Method to change the file path to a new path.
+	 * @param new_path	the new file path
+	 */
 	public default void changePath(String new_path) {
 		System.out.println("No change path implementation present.");
 	}
+	
+	/**
+	 * Method to get the audio preview of a Spotify track.
+	 * @return
+	 */
 	public default String getPreview() {
 		return null;
 	}
+	
+	/**
+	 * Method to get the album artwork of a Spotify track.
+	 * @return
+	 */
 	public default Image getImage() {
 		return null;
 	}

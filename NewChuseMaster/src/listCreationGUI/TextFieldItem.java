@@ -18,12 +18,14 @@ import javafx.scene.layout.HBox;
  *
  */
 public class TextFieldItem {
+	
 	// UI Components
-	HBox newField;
-	TextField newItem;
-	Button newButton;
+	HBox new_field;
+	TextField new_item;
+	Button new_button;
 	
 	int id;
+	
 	ManualTextScreenController controller;
 	
 	/**
@@ -31,23 +33,23 @@ public class TextFieldItem {
 	 */
 	public TextFieldItem(ManualTextScreenController controller, int index){
 		
-		newField = new HBox();
-		newItem = new TextField();
-		newButton = new Button("Remove");
+		new_field = new HBox();
+		new_item = new TextField();
+		new_button = new Button("Remove");
 		
 		id = index;
 		this.controller = controller;
 		
 		// Remove TextFieldItem when "remove" button is pressed
-		newButton.setOnAction(new EventHandler<ActionEvent>() {
+		new_button.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	controller.removeItem(id);
-		        newField.getChildren().remove(newButton);
-		        newField.getChildren().remove(newItem);
+		        new_field.getChildren().remove(new_button);
+		        new_field.getChildren().remove(new_item);
 		    }
 		});
 		
-		newField.getChildren().addAll(newItem,newButton);
+		new_field.getChildren().addAll(new_item,new_button);
 	}
 	
 	// Return HBox for adding to TextFieldPane
@@ -56,7 +58,7 @@ public class TextFieldItem {
 	 * @return
 	 */
 	public HBox getHBox(){
-		return this.newField;
+		return this.new_field;
 	}	
 	
 	/**
@@ -72,7 +74,7 @@ public class TextFieldItem {
 	 * @return
 	 */
 	public String getText() {
-		return this.newItem.getText();
+		return this.new_item.getText();
 	}
 	
 }

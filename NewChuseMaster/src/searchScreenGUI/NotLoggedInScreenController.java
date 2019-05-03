@@ -16,6 +16,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import sidebarContainerGUI.MasterScreenController;
 
+/**
+ * Controller class for the not logged in screen. Adds button to take you to the 
+ * log in screen depending on the area it is instantiated in.
+ * 
+ * Date created: 21/04/2019
+ * Date last edited: 28/04/2019
+ * Last edited by: Dan Jackson
+ * 
+ * @author Dan Jackson
+ *
+ */
 public class NotLoggedInScreenController implements Initializable {
 
     @FXML
@@ -31,12 +42,24 @@ public class NotLoggedInScreenController implements Initializable {
     
     private MasterScreenController master;
     
+    /**
+     * Constructor for the not logged in screen controller. Passes in reference to the back end container and
+     * the master screen controller.
+     * 
+     * @param back_end
+     * @param master
+     */
     public NotLoggedInScreenController(BackEndContainer back_end, MasterScreenController master) {
     	this.back_end = back_end;
     	this.master = master;
     }
 
     @FXML
+    /**
+     * Method to load the login screen.
+     * @param event
+     * @throws IOException
+     */
     void loadLoginScreen(ActionEvent event) throws IOException {
     	
     	FXMLLoader loader = new FXMLLoader(accountScreensGUI.LogInScreenController.class.getResource("LogInScreen.fxml"));
@@ -71,6 +94,10 @@ public class NotLoggedInScreenController implements Initializable {
     }
 
 	@Override
+	/**
+	 * Method called when the FXML file is loaded. If the reference to the master controller is null, then
+	 * do not add the log in button.
+	 */
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		if(master == null) {

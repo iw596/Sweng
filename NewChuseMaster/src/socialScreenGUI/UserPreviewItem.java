@@ -58,7 +58,6 @@ public class UserPreviewItem extends VBox {
 		this.lists = lists;
 		this.back_end = back_end;
 		this.parent = parent;
-		System.out.println(lists);
 		//adds title to the object
 		addTitle();
 		//adds list buttons to the object
@@ -97,12 +96,6 @@ public class UserPreviewItem extends VBox {
 		list_scroll_pane.setContent(list_box);
 		
 		list_box.getChildren().addAll(buttons);
-		
-		//binds the size properties of the object to the button heights * 2 and the title box height
-//		this.prefHeightProperty().bind(buttons.get(0).heightProperty().multiply(2).add(title_box.getHeight()));
-//		this.minHeightProperty().bind(buttons.get(0).heightProperty().multiply(2).add(title_box.getHeight()));
-//		this.maxHeightProperty().bind(buttons.get(0).heightProperty().multiply(2).add(title_box.getHeight()));
-		
 	}
 	
 	/**
@@ -133,8 +126,6 @@ public class UserPreviewItem extends VBox {
 				public void handle(ActionEvent event) {
 					
 					try {
-//						back_end.downloadList(list);
-//						parent.showPreviewListScreen(name);
 						back_end.setListOwner(name);
 						FXMLLoader loader = new FXMLLoader(cloudInteraction.DownloadingScreenController.class.getResource("DownloadingScreen.fxml"));
 						DownloadingScreenController controller = new DownloadingScreenController(back_end, list);
@@ -143,7 +134,6 @@ public class UserPreviewItem extends VBox {
 						parent.showInSelf(new_pane);
 						
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
