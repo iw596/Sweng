@@ -13,7 +13,9 @@ import cloudInteraction.UserAccount;
 import xmlHandling.XMLHandler;
 
 /**
- * *******PLEASE ADD CLASS DESCRIPTION***********
+ * class for loading all results data on chuse list across all result files.
+ * the data is orginised in to a list of all users with result of the list, with each 
+ * user have there own list of all there resulst on the list 
  * 
  * Date created: 25/04/2019
  * Date last edited: 02/05/2019
