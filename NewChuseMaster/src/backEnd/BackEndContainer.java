@@ -10,8 +10,10 @@ import com.google.cloud.datastore.QueryResults;
 
 import algorithms.TournamentAlgorithms;
 import apiHandlers.YouTubeAPIHandler;
+import audioPlayback.AppController;
 import cloudInteraction.CloudInteractionHandler;
 import cloudInteraction.UserAccount;
+import imageDisplay.ImageDisplayController;
 import javafx.stage.Stage;
 import listDataStructure.BasicItem;
 import listDataStructure.ChuseList;
@@ -21,6 +23,8 @@ import mediaFileImportHandling.AudioFileHandler;
 import mediaFileImportHandling.ImageFileHandler;
 import mediaFileImportHandling.TextFileHandler;
 import mediaFileImportHandling.VideoFileHandler;
+import spotifyplayer.SpotifyPlayer;
+import videoPlayback.Player;
 import xmlHandling.XMLHandler;
 
 /**
@@ -75,6 +79,15 @@ public class BackEndContainer {
 	private ArrayList<String> random_public_lists;
 	
 	private StatisticsDataStructure statistics_data;
+	
+    private ArrayList<AppController> audio_controllers;
+    
+    private ArrayList<Player> video_controllers;
+    
+	private ArrayList<SpotifyPlayer> spotify_controllers;
+    
+	
+	
 	
 	/**
 	 * Constructor function for the BackEndContainer object. Sets the current list and
@@ -298,10 +311,10 @@ public class BackEndContainer {
 	 * @param playlist_url
 	 * @throws IOException
 	 */
-	public void createYouTubeList(String playlist_url) throws IOException {
+	public void createYouTubeList(ChuseList playlist_list) throws IOException {
 		this.statistics_data = null;
-		current_list = YouTubeAPIHandler.getPlaylistData(playlist_url);
-		original_list = YouTubeAPIHandler.getPlaylistData(playlist_url);
+		current_list = playlist_list;
+		original_list = playlist_list;
 	}
 	
 	/**
@@ -620,5 +633,53 @@ public class BackEndContainer {
 	public StatisticsDataStructure getCurrentListStatistics() {
 		return statistics_data;
 	}
-
+	
+	/**
+	 * Method to set the video controllers, so back end knows that video controllers have been initalised
+	 * @param video_controllers - the arraylist of video controllers that are active
+	 */
+	public void setVideoControllers( ArrayList<Player> video_controllers){
+		this.video_controllers = video_controllers;	
+	}
+	/**
+	 * Method to set the audio controllers, so back end knows that audio controllers have been initalized
+	 * @param audio_controllers - the array list of audio controllers that are active
+	 */
+	
+	public void setAudioControllers( ArrayList<AppController> audio_controllers){
+		this.audio_controllers = audio_controllers;	
+	}
+	
+	/**
+	 * Method to set the spotify controllers, so back end knows that spotify controllers have been initalized
+	 * @param spotify_controllers - the arraylist of spotify controllers that are active
+	 */
+	public void setSpotifyControllers( ArrayList<SpotifyPlayer> spotify_controllers){
+		this.spotify_controllers = spotify_controllers;	
+	}
+	
+	/** Getter for the video players
+	 * 
+	 * @return video_controllers - video controllers stored by the backend
+	 */
+	public ArrayList<Player> getVideoPlayers(){
+		return this.video_controllers;
+	}
+	
+	/** Getter for the audio players
+	 * 
+	 * @return audio_controllers - audio controllers stored by the backend
+	 */
+	public ArrayList<AppController> getAudioControllers(){
+		return this.audio_controllers;
+	}
+	
+	/** Getter for the spotify players
+	 * 
+	 * @return spotify_controllers - spotify controllers stored by the backend
+	 */
+	public ArrayList<SpotifyPlayer> getSpotifyPlayers(){
+		return this.spotify_controllers;
+	}
 }
+	
