@@ -39,10 +39,8 @@ public class Controls extends HBox {
 
 	//Instantiate sliders
 	Slider time_scrubber;
-	Slider volume;
 	
 	//Labels
-	Label volume_label = new Label("Volume: "); 
 	Label time_label = new Label("Time: "); 
 	
 	// Text to show current time
@@ -77,12 +75,7 @@ public class Controls extends HBox {
 		time_scrubber = new Slider();
 		time_scrubber.setValue(0);
 		time_scrubber.setPrefWidth(100);
-		volume = new Slider();
-        
-		// Setting the preference for volume bar 
-        volume.setPrefWidth(70); 
-        volume.setMinWidth(30); 
-        volume.setValue(100);  // Set volume to be max
+
         
         Platform.runLater(new Runnable() {
             @Override
@@ -90,8 +83,6 @@ public class Controls extends HBox {
                 setAlignment(Pos.CENTER); // setting the HBox to center 
                 // Adding the components to the bottom 
                 getChildren().add(play_pause); 
-                getChildren().add(volume_label);
-                getChildren().add(volume);
                 getChildren().add(time_label);
                 getChildren().add(time_scrubber);
                 HBox.setHgrow(time_scrubber, Priority.ALWAYS);
@@ -147,16 +138,7 @@ public class Controls extends HBox {
 			}
 		});
         
-        // Add Listener for volume slider
-        volume.valueProperty().addListener(new InvalidationListener() { 
-            public void invalidated(Observable ov) 
-            { 
-                if (volume.isPressed()) { 
-                	// Small multiply factor to ensure that at low levels there is still some sound
-                	media_player_component.getMediaPlayer().setVolume((int) (volume.getValue() * 1.25));  
-                } 
-            } 
-        });
+
         
 
         
@@ -308,8 +290,6 @@ public class Controls extends HBox {
 			no_preview = true;
 			// Remove all controls
             getChildren().remove(play_pause); 
-            getChildren().remove(volume_label);
-            getChildren().remove(volume);
             getChildren().remove(time_label);
             getChildren().remove(time_scrubber);
             getChildren().remove(current_time_text);
@@ -333,8 +313,6 @@ public class Controls extends HBox {
             // Adding the components to the bottom 
             getChildren().add(play_pause); 
             HBox.setHgrow(play_pause, Priority.ALWAYS);
-            getChildren().add(volume_label);
-            getChildren().add(volume);
             getChildren().add(time_label);
             getChildren().add(time_scrubber);
             HBox.setHgrow(time_scrubber, Priority.ALWAYS);
