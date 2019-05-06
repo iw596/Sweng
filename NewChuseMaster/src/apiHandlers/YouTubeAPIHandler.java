@@ -90,6 +90,7 @@ public abstract class YouTubeAPIHandler {
     private static Credential authorize() throws IOException {
         // Load client secrets.
         InputStream in = YouTubeAPIHandler.class.getResourceAsStream("/client_secret.json");
+   
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader( in ));
 
         // Build flow and trigger user authorization request.
@@ -143,9 +144,24 @@ public abstract class YouTubeAPIHandler {
             parameters.put("maxResults","" + max_playlist_length + "");
             parameters.put("playlistId", playlist_id);
 
+            com.google.api.services.youtube.YouTube.PlaylistItems.List message = youtube.playlistItems().list(parameters.get("playlistId").toString());
+            System.out.println("Message: " +youtube.playlistItems().list(parameters.get("playlistId").toString()));
+            if (message.toString().equals("{part=no valid url}")){
+            	System.out.println("In here");
+            	return null;
+            	
+            }
+   
+       
+              
+            
             //gets the playlist data
             YouTube.PlaylistItems.List playlist_item_list = youtube.playlistItems()
             		.list(parameters.get("part").toString());
+            
+            if (playlist_item_list == null){
+            	return null;
+            }
             
             //if the parameters contains the max number of results, finds the max 
             //number of results
@@ -187,8 +203,10 @@ public abstract class YouTubeAPIHandler {
         } catch (GoogleJsonResponseException e) {
             e.printStackTrace();
             System.err.println("There was a service error: " + e.getDetails().getCode() + " : " + e.getDetails().getMessage());
+            return null;
         } catch (Throwable t) {
             t.printStackTrace();
+            return null;
         }
         
         return video_list;
