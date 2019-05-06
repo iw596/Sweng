@@ -257,16 +257,19 @@ public class ComparisonScreenController implements Initializable {
 		if((left_object.getType().equals("VideoItem") 
 				||left_object.getType().equals("YouTubeItem")) && video_controllers.size() < 2) {
 			instantiateVideoPlayer(left_object, left_content);
+			back_end.setVideoControllers(video_controllers);
 		} else if(left_object.getType().equals("ImageItem")) {
 			instantiateImageViewer(left_object, left_content);
 		} else if(left_object.getType().equals("AudioItem")) {
 			instantiateAudioPlayer(left_object, left_content);
+			back_end.setAudioControllers(audio_controllers);
 		} else if ((left_object.getType().equals("VideoItem")
 				||left_object.getType().equals("YouTubeItem")) && video_controllers.size() > 1){
 			changeVideoPlayerVideo(left_object.getPath(),0);
 		} else if (left_object.getType().equals("SpotifyItem") 
 				&& spotify_controllers.size() != 2){
 			instantiateSpotifyPlayer(left_object, left_content);
+			back_end.setSpotifyControllers(spotify_controllers);
 		}else if (left_object.getType().equals("SpotifyItem") 
 				&& spotify_controllers.size() == 2){
 			changeSpotifyPlayerSong(left_object.getPreview(),0);
@@ -278,15 +281,18 @@ public class ComparisonScreenController implements Initializable {
 		if((right_object.getType().equals("VideoItem") 
 				|| right_object.getType().equals("YouTubeItem")) && video_controllers.size() < 2 ) {
 			instantiateVideoPlayer(right_object, right_content);
+			back_end.setVideoControllers(video_controllers);
 		} else if(right_object.getType().equals("ImageItem")) {
 			instantiateImageViewer(right_object, right_content);
 		} else if(right_object.getType().equals("AudioItem")) {
 			instantiateAudioPlayer(right_object, right_content);
+			back_end.setAudioControllers(audio_controllers);
 		} else if ((right_object.getType().equals("VideoItem") 
 				|| right_object.getType().equals("YouTubeItem")) && video_controllers.size() > 1){
 			changeVideoPlayerVideo(right_object.getPath(),1);
 		} else if (right_object.getType().equals("SpotifyItem") && spotify_controllers.size() != 2){
 			instantiateSpotifyPlayer(right_object, right_content);
+			back_end.setSpotifyControllers(spotify_controllers);
 		} else if (right_object.getType().equals("SpotifyItem") && spotify_controllers.size() == 2){
 			changeSpotifyPlayerSong(right_object.getPreview(),1);
 			spotify_controllers.get(1).setMeta(right_object.getMetadata());
@@ -415,6 +421,7 @@ public class ComparisonScreenController implements Initializable {
 	 * @param index_player the index of the player in the video_controllers that will have its media changed
 	 */
 	private void changeVideoPlayerVideo (String file_path, int index_player){
+		System.gc();
 		video_controllers.get(index_player).changeVideo(file_path);	
 	}
 	
@@ -475,6 +482,7 @@ public class ComparisonScreenController implements Initializable {
 	 * @param index_player The index of the spotify player in spotify controllers that will have its track changed
 	 */
 	private void changeSpotifyPlayerSong (String track_path, int index_player){
+		System.gc();
 		spotify_controllers.get(index_player).changeSong(track_path);	
 	}
 	
