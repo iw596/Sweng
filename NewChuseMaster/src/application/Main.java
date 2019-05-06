@@ -16,7 +16,11 @@ import javafx.scene.layout.BorderPane;
  * superclass as is necessary for a JavaFX application. All of the code is launched from within the overridden
  * start() method.
  * 
- * @author jacks
+ * Date created: 26/03/2019
+ * Date last edited: 26/03/2019
+ * Last edited by: Dan Jackson
+ * 
+ * @author Dan Jackson
  *
  */
 public class Main extends Application {

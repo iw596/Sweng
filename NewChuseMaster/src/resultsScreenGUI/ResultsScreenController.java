@@ -280,9 +280,7 @@ public class ResultsScreenController implements Initializable {
     			showListUploadScreen();
     			//back_end.uploadList(back_end.getCurrentListFileName(), shareListPublicly);
     		} else if(back_end.getLocalAccount() != null && share_results) {
-    			
     			back_end.uploadResults();
-    			
     		}
     		
     	} else {

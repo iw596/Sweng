@@ -50,7 +50,7 @@
                                                          <graphic>
                                                             <ImageView pickOnBounds="true" preserveRatio="true">
                                                                <image>
-                                                                  <Image url="@../../icons/image%20icon%20(2).png" />
+                                                                  <Image url="@../../icons/text%20icon(2).png" />
                                                                </image>
                                                             </ImageView>
                                                          </graphic>
@@ -66,7 +66,7 @@
                                                          <graphic>
                                                             <ImageView pickOnBounds="true" preserveRatio="true" smooth="false">
                                                                <image>
-                                                                  <Image url="@../../icons/text%20icon(2).png" />
+                                                                  <Image url="@../../icons/image%20icon%20(2).png" />
                                                                </image>
                                                             </ImageView>
                                                          </graphic>
