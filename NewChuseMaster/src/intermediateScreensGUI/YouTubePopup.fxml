@@ -37,4 +37,7 @@
          </font>
       </Text>
    </top>
+   <bottom>
+      <Text fx:id="error" visible="false" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter a valid URL" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

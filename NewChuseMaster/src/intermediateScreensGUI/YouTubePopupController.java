@@ -37,8 +37,8 @@ public class YouTubePopupController {
     @FXML
     private JFXTextField url_text_field;
     
-   
-    private Text error_message;
+    @FXML
+    private Text error;
     
     InterVideoController parent_controller;
     private ChuseList playlist_list;
@@ -50,17 +50,12 @@ public class YouTubePopupController {
     public YouTubePopupController(BackEndContainer back_end, InterVideoController controller) {
     	this.back_end = back_end;
     	this.parent_controller = controller;
-    	
-    	this.error_message = new Text("Plese enter a valid URL.");
-    	this.error_message.setVisible(false);
+    	 	
 
-    	
-
-    	
     }
 
 
-    @FXML
+	@FXML
     /**
      * Method to submit the URL that was input by the user.
      * @param event
@@ -71,16 +66,16 @@ public class YouTubePopupController {
     		//creates a youtube playlist
     		playlist_list = YouTubeAPIHandler.getPlaylistData(url_text_field.getText());
     		if (playlist_list == null){
-    			if (this.error_message.isVisible() == false){
-    				this.error_message.setVisible(true);
-    				 root.setAlignment(error_message,Pos.BOTTOM_CENTER);
+    			if (this.error.isVisible() == false){
+    				this.error.setVisible(true);
+    				System.gc();
     			}
 
     		}
     		else{
     			back_end.createYouTubeList(YouTubeAPIHandler.getPlaylistData(url_text_field.getText()));    	//gets the stage the popup is open in
-    			if (this.error_message.isVisible() == true){
-    				this.error_message.setVisible(false);
+    			if (this.error.isVisible() == true){
+    				this.error.setVisible(false);
     			}
     			
     			Stage stage = (Stage)root.getScene().getWindow();
