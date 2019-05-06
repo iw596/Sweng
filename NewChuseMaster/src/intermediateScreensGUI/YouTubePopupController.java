@@ -63,6 +63,8 @@ public class YouTubePopupController {
     void submitURL(ActionEvent event) {
     	
     	try {
+    		
+    		
     		//creates a youtube playlist
     		playlist_list = YouTubeAPIHandler.getPlaylistData(url_text_field.getText());
     		if (playlist_list == null){
