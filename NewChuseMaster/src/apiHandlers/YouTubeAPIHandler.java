@@ -30,8 +30,8 @@ import listDataStructure.ChuseList;
  * Abstract class used for handling the YouTube data API
  * 
  * Date created: 12/02/2019
- * Date last edited: 01/03/2019
- * Last edited by: Dan Jackson
+ * Date last edited: 06/05/2019
+ * Last edited by: Isac Watson
  * 
  * @author Harry Ogden
  *
