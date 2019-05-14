@@ -52,7 +52,7 @@
                   </HBox>
                </top>
                <center>
-                  <JFXTabPane stylesheets="@../../tab_style.css" BorderPane.alignment="CENTER">
+                  <JFXTabPane stylesheets="@/tab_style.css" BorderPane.alignment="CENTER">
                      <tabs>
                         <Tab text="Results">
                           <content>

@@ -38,7 +38,7 @@
                                  <children>
                                     <ImageView fitHeight="136.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../user(2).png" />
+                                          <Image url="@/user(2).png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -151,7 +151,7 @@
                                  <children>
                                     <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../user(1).png" />
+                                          <Image url="@/user(1).png" />
                                        </image>
                                     </ImageView>
                                  </children>

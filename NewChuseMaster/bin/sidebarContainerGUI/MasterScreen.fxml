@@ -31,7 +31,7 @@
                            <graphic>
                               <ImageView fitHeight="25.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/search.png" />
+                                    <Image url="@/search.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -50,7 +50,7 @@
                      <graphic>
                         <ImageView pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../icons/user-image.png" />
+                              <Image url="@/user-image.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -78,7 +78,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true" smooth="false">
                      <image>
-                        <Image url="@../../icons/home%20(2).png" />
+                        <Image url="@/home(2).png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -96,7 +96,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" smooth="false">
                      <image>
-                        <Image url="@../../icons/user.png" />
+                        <Image url="@/user.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -118,7 +118,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true" smooth="false">
                      <image>
-                        <Image url="@../../icons/Logout%20Icon%20White%20Small.png" />
+                        <Image url="@/Logout-Icon-White-Small.png" />
                      </image>
                   </ImageView>
                </graphic>

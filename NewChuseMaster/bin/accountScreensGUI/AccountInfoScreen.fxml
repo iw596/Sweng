@@ -19,7 +19,7 @@
                <children>
                   <ImageView fitHeight="491.0" fitWidth="301.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                      <image>
-                        <Image url="@../../triangles.PNG" />
+                        <Image url="@/triangles.PNG" />
                      </image>
                      <effect>
                         <Reflection bottomOpacity="0.02" fraction="0.68" topOpacity="0.1" />

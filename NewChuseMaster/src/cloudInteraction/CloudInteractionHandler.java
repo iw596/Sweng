@@ -1,9 +1,9 @@
 package cloudInteraction;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -65,8 +65,8 @@ public class CloudInteractionHandler {
 	 */
 	public CloudInteractionHandler() {
 		try {
-			storage = authoriseCloudStorage(System.getProperty("user.dir") + "\\SWEng WeTech-6bbc22590207.json");
-			datastore = authoriseCloudDatastore(System.getProperty("user.dir") + "\\SWEng WeTech-6bbc22590207.json");
+			storage = authoriseCloudStorage(CloudInteractionHandler.class.getResourceAsStream("/SWEng-WeTech-6bbc22590207.json"));
+			datastore = authoriseCloudDatastore(CloudInteractionHandler.class.getResourceAsStream("/SWEng-WeTech-6bbc22590207.json"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -89,17 +89,17 @@ public class CloudInteractionHandler {
 	 * 
 	 * Method to authorise access to the Google Cloud Storage service using the application's private key.
 	 * 
-	 * @param jsonPath		path to the application's private key
+	 * @param jsonStream		path to the application's private key
 	 * @return	storage		the GCP cloud storage object
 	 * @throws IOException
 	 */
-	private static Storage authoriseCloudStorage(String jsonPath) throws IOException {
-		  // You can specify a credential file by providing a path to GoogleCredentials.
-		  // Otherwise credentials are read from the GOOGLE_APPLICATION_CREDENTIALS environment variable.
-		  GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
-		        .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
-		  Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-
+	private static Storage authoriseCloudStorage(InputStream jsonStream) throws IOException {
+		// You can specify a credential file by providing a path to GoogleCredentials.
+		// Otherwise credentials are read from the GOOGLE_APPLICATION_CREDENTIALS environment variable.
+		GoogleCredentials credentials = GoogleCredentials.fromStream(jsonStream)
+				.createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
+		Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+		
 		return storage;
 	}
 	
@@ -108,17 +108,17 @@ public class CloudInteractionHandler {
 	 * 
 	 * Method to authorise access to the Google Cloud Datastore service using the application's private key.
 	 * 
-	 * @param jsonPath		path to the application's private key
+	 * @param jsonStream		path to the application's private key
 	 * @return	datastore	the GCP cloud datastore object
 	 * @throws IOException
 	 */
-	private static Datastore authoriseCloudDatastore(String jsonPath) throws IOException {
-		  // You can specify a credential file by providing a path to GoogleCredentials.
-		  // Otherwise credentials are read from the GOOGLE_APPLICATION_CREDENTIALS environment variable.
-		  GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
-		        .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
-		  Datastore datastore = DatastoreOptions.newBuilder().setCredentials(credentials).build().getService();
-
+	private static Datastore authoriseCloudDatastore(InputStream jsonStream) throws IOException {
+		// You can specify a credential file by providing a path to GoogleCredentials.
+		// Otherwise credentials are read from the GOOGLE_APPLICATION_CREDENTIALS environment variable.
+		GoogleCredentials credentials = GoogleCredentials.fromStream(jsonStream)
+				.createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
+		Datastore datastore = DatastoreOptions.newBuilder().setCredentials(credentials).build().getService();
+		
 		return datastore;
 	}
 	

@@ -2,17 +2,14 @@ package intermediateScreensGUI;
 
 import java.io.IOException;
 
-
 import com.jfoenix.controls.JFXTextField;
 
 import apiHandlers.YouTubeAPIHandler;
 import backEnd.BackEndContainer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
-
 import javafx.stage.Stage;
 import listDataStructure.ChuseList;
 

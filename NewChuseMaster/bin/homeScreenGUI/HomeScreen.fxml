@@ -17,9 +17,9 @@
 
 <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" stylesheets="@../../splitpaneprettiness.css" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" stylesheets="@/splitpaneprettiness.css" BorderPane.alignment="CENTER">
         <items>
-            <SplitPane dividerPositions="0.15" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" stylesheets="@../../splitpaneprettiness.css">
+            <SplitPane dividerPositions="0.15" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" stylesheets="@/splitpaneprettiness.css">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                      <children>
@@ -38,11 +38,11 @@
                      <children>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="75.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <SplitPane dividerPositions="0.5" layoutX="90.0" layoutY="18.0" prefHeight="75.0" prefWidth="598.0" stylesheets="@../../splitpaneprettiness.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <SplitPane dividerPositions="0.5" layoutX="90.0" layoutY="18.0" prefHeight="75.0" prefWidth="598.0" stylesheets="@/splitpaneprettiness.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <items>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                        <children>
-                                          <SplitPane dividerPositions="0.5" layoutX="48.0" layoutY="17.0" prefHeight="73.0" prefWidth="295.0" stylesheets="@../../splitpaneprettiness.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <SplitPane dividerPositions="0.5" layoutX="48.0" layoutY="17.0" prefHeight="73.0" prefWidth="295.0" stylesheets="@/splitpaneprettiness.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <items>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                                    <children>
@@ -50,7 +50,7 @@
                                                          <graphic>
                                                             <ImageView pickOnBounds="true" preserveRatio="true">
                                                                <image>
-                                                                  <Image url="@../../icons/text%20icon(2).png" />
+                                                                  <Image url="@/text-icon(2).png" />
                                                                </image>
                                                             </ImageView>
                                                          </graphic>
@@ -66,7 +66,7 @@
                                                          <graphic>
                                                             <ImageView pickOnBounds="true" preserveRatio="true" smooth="false">
                                                                <image>
-                                                                  <Image url="@../../icons/image%20icon%20(2).png" />
+                                                                  <Image url="@/image-icon(2).png" />
                                                                </image>
                                                             </ImageView>
                                                          </graphic>
@@ -82,7 +82,7 @@
                                     </AnchorPane>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                        <children>
-                                          <SplitPane dividerPositions="0.5" layoutX="48.0" layoutY="7.0" prefHeight="73.0" prefWidth="295.0" stylesheets="@../../splitpaneprettiness.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <SplitPane dividerPositions="0.5" layoutX="48.0" layoutY="7.0" prefHeight="73.0" prefWidth="295.0" stylesheets="@/splitpaneprettiness.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <items>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                                    <children>
@@ -90,7 +90,7 @@
                                                          <graphic>
                                                             <ImageView pickOnBounds="true" preserveRatio="true">
                                                                <image>
-                                                                  <Image url="@../../icons/music%20icon%20(2).png" />
+                                                                  <Image url="@/music-icon(2).png" />
                                                                </image>
                                                             </ImageView>
                                                          </graphic>
@@ -106,7 +106,7 @@
                                                          <graphic>
                                                             <ImageView pickOnBounds="true" preserveRatio="true">
                                                                <image>
-                                                                  <Image url="@../../icons/video%20icon(2).png" />
+                                                                  <Image url="@/video-icon(2).png" />
                                                                </image>
                                                             </ImageView>
                                                          </graphic>
@@ -130,7 +130,7 @@
             </SplitPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #FFFFFF;">
                <children>
-                  <JFXTabPane layoutX="166.0" layoutY="118.0" prefHeight="236.0" prefWidth="598.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../../tab_style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <JFXTabPane layoutX="166.0" layoutY="118.0" prefHeight="236.0" prefWidth="598.0" style="-fx-background-color: #FFFFFF;" stylesheets="@/tab_style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <tabs>
                         <Tab fx:id="local_lists_tab" text="Local Lists">
                           <content>
