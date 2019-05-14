@@ -113,7 +113,8 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
      * @param username	the user name to search for
      */
     public void search(String username) {
-    	
+    	//Exit all players
+    	back_end.exitPlayers();
     	//checks if the user is logged in or not
     	if(back_end.getLocalAccount() == null) {
     		//if the user is not logged in then shows the not logged in screen
@@ -178,7 +179,9 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
     	
     	//sets the current list owner to null
     	back_end.setListOwner(null);
-
+    	
+    	//Exit all players
+    	back_end.exitPlayers();
     	//if not logged in, show the login/create account screen
     	if(back_end.getLocalAccount() == null) {
     		FXMLLoader loader = new FXMLLoader(accountScreensGUI.LogInScreenController.class.getResource("LogInScreen.fxml"));
@@ -208,6 +211,8 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
     	//sets the current list owner to null
     	back_end.setListOwner(null);
     	
+    	//Exit all players
+    	back_end.exitPlayers();
     	//load the home screen
     	FXMLLoader loader = new FXMLLoader(homeScreenGUI.HomeScreenController.class.getResource("HomeScreen.fxml"));
     	HomeScreenController controller = new HomeScreenController(back_end);
@@ -307,6 +312,8 @@ public class MasterScreenController implements Initializable, ThreadTerminationL
      * @throws IOException
      */
     private void loadPublicListsScreen() throws IOException {
+    	//Exit all players
+    	back_end.exitPlayers();
     	
     	FXMLLoader loader = new FXMLLoader(publicListsScreenGUI.PublicListsScreenController.class.getResource("PublicListsScreen.fxml"));
     	PublicListsScreenController controller = new PublicListsScreenController(back_end, search_text);
