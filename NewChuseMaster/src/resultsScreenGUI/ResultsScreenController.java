@@ -84,6 +84,8 @@ public class ResultsScreenController implements Initializable {
     private Boolean share_results = false;
     
     private Boolean share_list_publicly = false;
+    
+    private Boolean list_has_been_shared = false;
 	
 	// Array list containing list items ranked in order
 	// All items from rankinglist are sorted into the ranked items arraylist.
@@ -280,7 +282,10 @@ public class ResultsScreenController implements Initializable {
     			showListUploadScreen();
     			//back_end.uploadList(back_end.getCurrentListFileName(), shareListPublicly);
     		} else if(back_end.getLocalAccount() != null && share_results) {
-    			back_end.uploadResults();
+    			if(!list_has_been_shared) { 
+    				back_end.uploadResults();
+    				list_has_been_shared = true;
+    			}
     		}
     		
     	} else {

@@ -619,6 +619,8 @@ public class BackEndContainer {
 			return false;
 		}
 		
+		System.out.println("Current list is " + current_list_file_name);
+		
 		//creates a new set of statistics data
 		statistics_data = new StatisticsDataStructure(current_list_file_name, username);
 		

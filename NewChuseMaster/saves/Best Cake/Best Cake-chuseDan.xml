@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<id>
+  <results Time="2019-05-14 16:37:51">
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Chocolate Cake</title>
+      <path>n/a</path>
+      <points>1</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Victoria Sponge</title>
+      <path>n/a</path>
+      <points>2</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Lemon Drizzle Cake</title>
+      <path>n/a</path>
+      <points>3</points>
+    </multimedia>
+    <multimedia>
+      <type>BasicItem</type>
+      <title>Fudge Cake</title>
+      <path>n/a</path>
+      <points>3</points>
+    </multimedia>
+  </results>
+</id>
