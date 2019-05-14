@@ -47,6 +47,7 @@ public class CanvasComponent extends DirectMediaPlayerComponent{
         if (pixel_writer == null) {
             pixel_writer = writable_image.getPixelWriter();
         }
+        System.gc();
         return pixel_writer;
     }
    

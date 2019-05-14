@@ -22,6 +22,7 @@ import uk.co.caprica.vlcj.binding.internal.libvlc_marquee_position_e;
 import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.AudioOutput;
 import uk.co.caprica.vlcj.player.Marquee;
+import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 /**
@@ -80,8 +81,8 @@ public class Player extends BorderPane {
 	    	 *  For 64 bit uncomment the top line and comment the first. For 32 bit (lab machines) comment first line leave second line
 	    	 *  uncommented
 	    	 */
-	    	//NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:\\Program Files\\VideoLAN\\VLC");
-	    	NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files (x86)/VideoLAN/VLC"); // This is one used on uni Machines
+	    	NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:\\Program Files\\VideoLAN\\VLC");
+	    	NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:\\Program Files (x86)\\VideoLAN\\VLC"); // This is one used on uni Machines
 	    	
 	    	// Find and store the actual dimensions of the user screen
 	    	this.screen_height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -118,7 +119,10 @@ public class Player extends BorderPane {
 	        // Get directX audio output driver name
 	    	List<AudioOutput> audioOutputs = media_player_component.getMediaPlayerFactory().getAudioOutputs();
 	    	this.audio_output_name = audioOutputs.get(4).getName();
-			// Stops playing audio when screen is closed.
+	    	System.gc();
+	    	
+
+
 
 
 	    }
@@ -280,7 +284,11 @@ public class Player extends BorderPane {
 					    	.apply(media_player_component.getMediaPlayer()); 
 			    		//media_player_component.getMediaPlayer().enableMarquee(false);
 			    		media_player_component.getMediaPlayer().prepareMedia(paths[index_video]);
-			    		media_player_component.getMediaPlayer().play();
+			    		media_player_component.getMediaPlayer().playMedia(paths[index_video]);
+			    		System.out.println(media_player_component.getMediaPlayer().getMediaMeta().getTitle());
+			    		System.out.println(media_player_component.getMediaPlayer().getMediaType().name());
+			    		
+			    		//System.out.println("Video player state: "  + media_player_component.getMediaPlayer().getMediaPlayerState());
 			    		
 			    	} 
 			    	// Load invalid video screen
@@ -571,20 +579,27 @@ public class Player extends BorderPane {
 		public void setPlayer_holder(Pane player_holder) {
 			this.player_holder = player_holder;
 		}
-
+		/** Method to pause player if player is running
+		 * 
+		 */
 		public void exit() {
 			if (media_player_component.getMediaPlayer().isPlaying() == true){
 				this.media_player_component.getMediaPlayer().pause();
 			}
 			
-			//this.controls.media_player_component.getMediaPlayer().pause();
-			//media_player_component.getMediaPlayer().release();
+
 			
 		}
-
+		
+		/** Method to change track of player
+		 * 
+		 * @param file_path - file path to new media
+		 */
 		public void changeVideo(String file_path){
+			
 			this.media_player_component.getMediaPlayer().prepareMedia(file_path);
 			this.media_player_component.getMediaPlayer().play();
+			this.controls.play_pause.setText("||");
 		}
 
 }
