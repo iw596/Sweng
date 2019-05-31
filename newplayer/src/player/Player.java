@@ -28,9 +28,7 @@ import javafx.scene.layout.BorderPane;
  */
 public class Player extends Renderer  {
 
-    /**
-     *
-     */
+    // set the frame rate
     private static final double FPS = 60.0;
 
     /**
@@ -53,16 +51,32 @@ public class Player extends Renderer  {
         nanoTimer.cancel();
     }
     
+    /** This method makes the player play the media file currently stored in the media player
+     * 
+     */
     public void play(){
         media_player.controls().setRepeat(true);
 
-        media_player.media().play(VIDEO_FILE);
+        media_player.controls().play();
 
         startTimer();
     }
-    
+    /** Getter for diplay_pane containing controls and player
+     * 
+     * @return display_pane - pane containing controls and player
+     */
     public BorderPane getPane(){
     	return diplay_pane;
+    }
+    
+    /** Method to set the media that the player will play. Does this by setting the media in the media
+     *  player
+     * 
+     * @params file_name - the filename of the media 
+     */
+    public void setMedia (String file_name){
+    	media_player.media().prepare(file_name);
+    	
     }
     
     

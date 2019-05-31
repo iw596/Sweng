@@ -67,7 +67,7 @@ public abstract class Renderer {
     /**
      * Filename of the video to play.
      */
-    protected static  String VIDEO_FILE = "Thor- Ragnarok Teaser Trailer [HD].mp4";
+    protected static  String VIDEO_FILE = "https://www.youtube.com/watch?v=jhAXPnm8BP0";
 
     /**
      * Lightweight JavaFX canvas, the video is rendered here.
@@ -276,6 +276,12 @@ public abstract class Renderer {
      *
      */
     protected abstract void stopTimer();
+    
+    /** Abstract method to set video to be played 
+     * 
+     */
+    
+    public abstract void setMedia (String  file_name);
     
     /** Returns the embedded media player
      * 

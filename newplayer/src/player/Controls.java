@@ -3,6 +3,7 @@ package player;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -22,6 +23,7 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 public class Controls extends HBox {
 	
 	public Button play_pause;
+	private Label time_label = new Label("Time");
 	EmbeddedMediaPlayer media_player;
 	Renderer renderer;
 
@@ -31,6 +33,7 @@ public class Controls extends HBox {
 		
 		play_pause = new Button("||");
 		getChildren().add(play_pause);
+		getChildren().add(time_label);
 		  // Add Listener for play/pause button
         // Set up event handler to enable button press to pause video
         play_pause.setOnAction(new EventHandler<ActionEvent>() { 
@@ -62,7 +65,8 @@ public class Controls extends HBox {
  		    	// Make sure its a left mouse click
  				if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
  					// Do not pause when onScreen time slider is pressed
- 				    if (!mouseEvent.getPickResult().getIntersectedNode().toString().contains("HBox")) {
+ 				    if (mouseEvent.getPickResult().getIntersectedNode().toString().contains("Canvas")) {
+ 				    	System.out.println(mouseEvent.getPickResult().getIntersectedNode().toString());
  				   	   // If playing then pause
  		            	if(media_player.status().isPlaying() == true){
  		            		media_player.controls().pause();
