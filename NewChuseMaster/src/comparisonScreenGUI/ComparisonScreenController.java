@@ -92,6 +92,18 @@ public class ComparisonScreenController implements Initializable {
     		for(int i = 0; i < image_controllers.size(); i++) {
     			image_controllers.get(i).exit();
     		}
+    	}  else if(video_controllers.size() > 0) {
+    		for(int i = 0; i < video_controllers.size(); i++) {
+    			video_controllers.get(i).exit();
+    		}
+        	video_controllers = new ArrayList<Player>();
+
+    	} else if(spotify_controllers.size() > 0) {
+    		for(int i = 0; i < spotify_controllers.size(); i++) {
+    			spotify_controllers.get(i).exit();
+    		}
+    		spotify_controllers = new ArrayList<SpotifyPlayer>();
+
     	}  
     	
     	oddCheck();
@@ -120,6 +132,18 @@ public class ComparisonScreenController implements Initializable {
     		for(int i = 0; i < image_controllers.size(); i++) {
     			image_controllers.get(i).exit();
     		}
+    	}  else if(video_controllers.size() > 0) {
+    		for(int i = 0; i < video_controllers.size(); i++) {
+    			video_controllers.get(i).exit();
+    		}
+        	video_controllers = new ArrayList<Player>();
+
+    	} else if(spotify_controllers.size() > 0) {
+    		for(int i = 0; i < spotify_controllers.size(); i++) {
+    			spotify_controllers.get(i).exit();
+    		}
+    		spotify_controllers = new ArrayList<SpotifyPlayer>();
+
     	}  
     	
     	
@@ -171,16 +195,6 @@ public class ComparisonScreenController implements Initializable {
     		//if the round is over, stores the results from the round
     		back_end.getComparison().storeResults();
     		
-    		// If round over and uses video player then need to silence players
-    		if(video_controllers.size() > 0) {
-        		for(int i = 0; i < video_controllers.size(); i++) {
-        			video_controllers.get(i).exit();	
-        		}
-    		}else if(spotify_controllers.size() > 0) {
-        		for(int i = 0; i < spotify_controllers.size(); i++) {
-        			spotify_controllers.get(i).exit();	
-        		}
-    		}
     		
     		//checks if the entire tournament is over
         	if(back_end.getComparison().isFinished()) {
@@ -255,7 +269,7 @@ public class ComparisonScreenController implements Initializable {
 		
 		//if the left object is a video item, instantiate the video player
 		if((left_object.getType().equals("VideoItem") 
-				||left_object.getType().equals("YouTubeItem")) && video_controllers.size() < 2) {
+				||left_object.getType().equals("YouTubeItem"))) {
 			instantiateVideoPlayer(left_object, left_content);
 			back_end.setVideoControllers(video_controllers);
 		} else if(left_object.getType().equals("ImageItem")) {
@@ -263,23 +277,14 @@ public class ComparisonScreenController implements Initializable {
 		} else if(left_object.getType().equals("AudioItem")) {
 			instantiateAudioPlayer(left_object, left_content);
 			back_end.setAudioControllers(audio_controllers);
-		} else if ((left_object.getType().equals("VideoItem")
-				||left_object.getType().equals("YouTubeItem")) && video_controllers.size() > 1){
-			changeVideoPlayerVideo(left_object.getPath(),0);
-		} else if (left_object.getType().equals("SpotifyItem") 
-				&& spotify_controllers.size() != 2){
+		} else if (left_object.getType().equals("SpotifyItem")){
 			instantiateSpotifyPlayer(left_object, left_content);
 			back_end.setSpotifyControllers(spotify_controllers);
-		}else if (left_object.getType().equals("SpotifyItem") 
-				&& spotify_controllers.size() == 2){
-			changeSpotifyPlayerSong(left_object.getPreview(),0);
-			spotify_controllers.get(0).setMeta(left_object.getMetadata());
-			spotify_controllers.get(0).setArt(new Image(left_object.getImage().getUrl()));
 		}
 		
 		//if the right object is a video item, instantiate the video player
 		if((right_object.getType().equals("VideoItem") 
-				|| right_object.getType().equals("YouTubeItem")) && video_controllers.size() < 2 ) {
+				|| right_object.getType().equals("YouTubeItem")) ) {
 			instantiateVideoPlayer(right_object, right_content);
 			back_end.setVideoControllers(video_controllers);
 		} else if(right_object.getType().equals("ImageItem")) {
@@ -287,16 +292,9 @@ public class ComparisonScreenController implements Initializable {
 		} else if(right_object.getType().equals("AudioItem")) {
 			instantiateAudioPlayer(right_object, right_content);
 			back_end.setAudioControllers(audio_controllers);
-		} else if ((right_object.getType().equals("VideoItem") 
-				|| right_object.getType().equals("YouTubeItem")) && video_controllers.size() > 1){
-			changeVideoPlayerVideo(right_object.getPath(),1);
-		} else if (right_object.getType().equals("SpotifyItem") && spotify_controllers.size() != 2){
+		}  else if (right_object.getType().equals("SpotifyItem")){
 			instantiateSpotifyPlayer(right_object, right_content);
 			back_end.setSpotifyControllers(spotify_controllers);
-		} else if (right_object.getType().equals("SpotifyItem") && spotify_controllers.size() == 2){
-			changeSpotifyPlayerSong(right_object.getPreview(),1);
-			spotify_controllers.get(1).setMeta(right_object.getMetadata());
-			spotify_controllers.get(1).setArt(new Image(right_object.getImage().getUrl()));
 		}
 		
 	}
@@ -377,56 +375,28 @@ public class ComparisonScreenController implements Initializable {
 		NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
 		NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
 		// Convert item path into array so its compatible with the player
-		String [] paths = {item.getPath()};
 		// Create player with media and correct height
-		Player player = new Player((int) pane.getWidth(),(int) pane.getHeight());
 		// If first player then add to first index in video controllers
-		if (video_controllers.size() == 0){
-			video_controllers.add(player);
-			//video_controllers.add(player);
-			StackPane.setAlignment(player, Pos.CENTER);
-			pane.getChildren().add(player);
-			player.loadPaths(paths);
-			// Set width and height preferences
-			player.prefWidthProperty().bind(pane.widthProperty());
-			player.prefHeightProperty().bind(pane.heightProperty());
-			player.minWidthProperty().bind(pane.minWidthProperty());
-			player.minHeightProperty().bind(pane.minHeightProperty());
-			player.maxWidthProperty().bind(pane.maxWidthProperty());
-			player.maxHeightProperty().bind(pane.maxHeightProperty());
+		
+		Player player = new Player();
+		video_controllers.add(player);
+		BorderPane video_pane = player.getPane();
+		//video_controllers.add(player);
+		StackPane.setAlignment(video_pane, Pos.CENTER);
+		pane.getChildren().add(video_pane);
+		player.setMedia(item.getPath());
+		player.play();
+		// Set width and height preferences
+		video_pane.prefWidthProperty().bind(pane.widthProperty());
+		video_pane.prefHeightProperty().bind(pane.heightProperty());
+		video_pane.minWidthProperty().bind(pane.minWidthProperty());
+		video_pane.minHeightProperty().bind(pane.minHeightProperty());
+		video_pane.maxWidthProperty().bind(pane.maxWidthProperty());
+		video_pane.maxHeightProperty().bind(pane.maxHeightProperty());
 
 			
-		}
-		// If the second player then add to second index in video controllers
-		else if (video_controllers.size() == 1){
-			video_controllers.add(player);
-			//video_controllers.add(player);
-			StackPane.setAlignment(player, Pos.CENTER);
-			pane.getChildren().add(player);
-			player.loadPaths(paths);
-			// Set width and height preferences
-			player.prefWidthProperty().bind(pane.widthProperty());
-			player.prefHeightProperty().bind(pane.heightProperty());
-			player.minWidthProperty().bind(pane.minWidthProperty());
-			player.minHeightProperty().bind(pane.minHeightProperty());
-			player.maxWidthProperty().bind(pane.maxWidthProperty());
-			player.maxHeightProperty().bind(pane.maxHeightProperty());
-			
-		} 
+	}
 
-	}
-	/** This method changes the video that the player will play
-	 * 
-	 * @param file_path the media path that will be loaded by the video player
-	 * @param index_player the index of the player in the video_controllers that will have its media changed
-	 */
-	private void changeVideoPlayerVideo (String file_path, int index_player){
-		System.gc();
-		video_controllers.get(index_player).changeVideo(file_path);	
-	}
-	
-	
-	
 	/** This method instantiates a Spotify player to be displayed on the comparison screen GUI. It takes a item
 	 *  to be displayed and the pane to display the player on. Then it creates the player and adds it to the pane
 	 * 
@@ -434,57 +404,30 @@ public class ComparisonScreenController implements Initializable {
 	 * @param pane - the pane where the player will be added
 	 */
 	private void instantiateSpotifyPlayer(BasicItem item, Pane pane) {
-		NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
-		NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
-		String [] paths = {item.getPreview()};
-		SpotifyPlayer player = new SpotifyPlayer((int) pane.getWidth(),(int) pane.getHeight());
+		SpotifyPlayer player = new SpotifyPlayer();
+		spotify_controllers.add(player);
+		BorderPane player_holder = player.getPane();
 		// If first player then add to first index in spotify controllers
-		if (spotify_controllers.size() == 0){
-			spotify_controllers.add(player);
-			//video_controllers.add(player);
-			StackPane.setAlignment(player, Pos.CENTER);
-			pane.getChildren().add(player);
-			player.loadPaths(paths);
-			// Set width and height preferences
-			player.prefWidthProperty().bind(pane.widthProperty());
-			player.prefHeightProperty().bind(pane.heightProperty());
-			player.minWidthProperty().bind(pane.minWidthProperty());
-			player.minHeightProperty().bind(pane.minHeightProperty());
-			player.maxWidthProperty().bind(pane.maxWidthProperty());
-			player.maxHeightProperty().bind(pane.maxHeightProperty());
-			player.setMeta(item.getMetadata());
-			player.setArt(new Image(item.getImage().getUrl()));
-			
-		}
-		// If second player then add to second index in spotify controllers
-		else if (spotify_controllers.size() == 1){
-			spotify_controllers.add(player);
-			//video_controllers.add(player);
-			StackPane.setAlignment(player, Pos.CENTER);
-			pane.getChildren().add(player);
-			player.loadPaths(paths);
-			// Set width and height preferences
-			player.prefWidthProperty().bind(pane.widthProperty());
-			player.prefHeightProperty().bind(pane.heightProperty());
-			player.minWidthProperty().bind(pane.minWidthProperty());
-			player.minHeightProperty().bind(pane.minHeightProperty());
-			player.maxWidthProperty().bind(pane.maxWidthProperty());
-			player.maxHeightProperty().bind(pane.maxHeightProperty());
-			player.setMeta(item.getMetadata());
-			player.setArt(new Image(item.getImage().getUrl()));
-			
-		} 
+		
+		//video_controllers.add(player);
+		StackPane.setAlignment(player_holder, Pos.CENTER);
+		pane.getChildren().add(player_holder);
+	
+		player.setMedia(item.getPreview());
+		player.play();
 
+		// Set width and height preferences
+		player_holder.prefWidthProperty().bind(pane.widthProperty());
+		player_holder.prefHeightProperty().bind(pane.heightProperty());
+		player_holder.minWidthProperty().bind(pane.minWidthProperty());
+		player_holder.minHeightProperty().bind(pane.minHeightProperty());
+		player_holder.maxWidthProperty().bind(pane.maxWidthProperty());
+		player_holder.maxHeightProperty().bind(pane.maxHeightProperty());
+		player.setArt(new Image(item.getImage().getUrl()));
+		player.setMeta(item.getMetadata());
+	
 	}
-	/** This method changes the spotify preview that will be played by the spotify player
-	 * 
-	 * @param track_path  The path to the preview track
-	 * @param index_player The index of the spotify player in spotify controllers that will have its track changed
-	 */
-	private void changeSpotifyPlayerSong (String track_path, int index_player){
-		System.gc();
-		spotify_controllers.get(index_player).changeSong(track_path);	
-	}
+
 	
     /**
      * Method to display another .fxml file within the current screen and bind its resize properties to that of
