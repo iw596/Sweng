@@ -1,11 +1,11 @@
 package audioPlayback;
 
 import javafx.application.Platform;
-
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
-import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
+import uk.co.caprica.vlcj.player.base.MediaPlayer;
+import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
+import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
-import uk.co.caprica.vlcj.player.MediaPlayer;
+
 
 public class AudioController {
 	private AppController appController;
@@ -31,11 +31,11 @@ public class AudioController {
 	 */
 	public AudioController(AppController appController, EmbeddedMediaPlayerComponent mediaPlayerComponent) {
 		this.appController = appController;
-		this.mediaPlayer = mediaPlayerComponent.getMediaPlayer();
+		this.mediaPlayer = mediaPlayerComponent.mediaPlayer();
 		
 		// Add event listeners to the media player so that the program
 		// can react to events as the audio file is played
-		mediaPlayer.addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
+		mediaPlayer.events().addMediaPlayerEventListener(new MediaPlayerEventAdapter(){
 			// This function is called when playback reaches the end of the audio file
 			@Override
 			public void finished(MediaPlayer mediaPlayer) {
@@ -54,7 +54,7 @@ public class AudioController {
 			@Override
 			public void timeChanged(MediaPlayer mediaPlayer, long newTime) {
 				Float time = (float) newTime;
-				Float length = (float) mediaPlayer.getLength();
+				Float length = (float) mediaPlayer.status().length();
 				// Update the scrubber, providing a fractional value of (current time / length)
 				appController.updateScrubber(time/length);
 			}
@@ -68,12 +68,12 @@ public class AudioController {
 	public void play() {
 		// If an audio file is loaded ready for playback, start the media player
 		if (fileLoaded) {
-			mediaPlayer.play();
+			mediaPlayer.controls().play();
 			
 			// Check if the media player should start playback from a different point in the file
 			if (nextPlayPosition > 0) {
 				// If so, set the position
-				mediaPlayer.setPosition(nextPlayPosition);
+				mediaPlayer.controls().setPosition(nextPlayPosition);
 				// Reset the variable so that this effect doesn't repeat itself
 				nextPlayPosition = (float) 0;
 			}
@@ -88,7 +88,7 @@ public class AudioController {
 	 */
 	public void pause() {
 		// Pause audio playback and reflect the change in the isPlaying boolean
-		mediaPlayer.pause();
+		mediaPlayer.controls().pause();
 		isPlaying = false;
 	}
 	
@@ -97,7 +97,7 @@ public class AudioController {
 	 */
 	public void stop() {
 		// Stop audio playback and reflect the change in the isPlaying boolean
-		mediaPlayer.stop();
+		mediaPlayer.controls().stop();
 		isPlaying = false;
 	}
 	
@@ -114,9 +114,9 @@ public class AudioController {
 		else {
 			try {
 				// Load the media at the given file path ready for playback
-				mediaPlayer.prepareMedia(filePath);
+				mediaPlayer.media().prepare(filePath);
 				// Stop the media player to prevent an error where playback finishes before the end of the file
-				mediaPlayer.stop();
+				mediaPlayer.controls().stop();
 				// Upon successful loading, reflect the change in the file loaded property
 				fileLoaded = true;
 				// Notify the app controller that the file has been loaded
@@ -138,8 +138,8 @@ public class AudioController {
 	 */
 	public void seek(Float fraction) {
 		// If the media player is not stopped, set its playback position
-		if (mediaPlayer.isPlaying()) {
-			mediaPlayer.setPosition(fraction);
+		if (mediaPlayer.status().isPlaying()) {
+			mediaPlayer.controls().setPosition(fraction);
 		}
 		else {
 			// If the media player is stopped, setting its playback position won't work
