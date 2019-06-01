@@ -65,8 +65,8 @@ public class CloudInteractionHandler {
 	 */
 	public CloudInteractionHandler() {
 		try {
-			storage = authoriseCloudStorage(CloudInteractionHandler.class.getResourceAsStream("/SWEng-WeTech-6bbc22590207.json"));
-			datastore = authoriseCloudDatastore(CloudInteractionHandler.class.getResourceAsStream("/SWEng-WeTech-6bbc22590207.json"));
+			storage = authoriseCloudStorage(CloudInteractionHandler.class.getResourceAsStream("/SWEng WeTech-ce18ac873d97.json"));
+			datastore = authoriseCloudDatastore(CloudInteractionHandler.class.getResourceAsStream("/SWEng WeTech-ce18ac873d97.json"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
