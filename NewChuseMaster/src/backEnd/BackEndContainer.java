@@ -685,7 +685,7 @@ public class BackEndContainer {
 	 */
 	
 	public void exitPlayers(){
-		if ( this.video_controllers != null){
+		if ( this.video_controllers != 0){
 			for (int i = 0; i< this.video_controllers.size();i++){
 				this.video_controllers.get(i).exit();
 			}
@@ -697,7 +697,7 @@ public class BackEndContainer {
 			}
 			this.audio_controllers = null;
 		}
-		else if (this.spotify_controllers != null){
+		else if (this.spotify_controllers.size() != 0){
 			for (int i = 0; i< this.spotify_controllers.size();i++){
 				this.spotify_controllers.get(i).exit();
 			}
