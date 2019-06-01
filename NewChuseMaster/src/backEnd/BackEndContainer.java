@@ -683,8 +683,14 @@ public class BackEndContainer {
 	 *  player array to be null
 	 *  
 	 */
+<<<<<<< HEAD
 	public void exitPlayers(){
 		if ( this.video_controllers.size() != 0){
+=======
+	
+	public void exitPlayers(){
+		if ( this.video_controllers != 0){
+>>>>>>> 5b83bc0d666a0cc145a0e41084671c8c8a906755
 			for (int i = 0; i< this.video_controllers.size();i++){
 				this.video_controllers.get(i).exit();
 			}
