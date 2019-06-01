@@ -54,7 +54,7 @@
                <center>
                   <JFXTabPane stylesheets="@/tab_style.css" BorderPane.alignment="CENTER">
                      <tabs>
-                        <Tab text="Results">
+                        <Tab text="Preview">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>

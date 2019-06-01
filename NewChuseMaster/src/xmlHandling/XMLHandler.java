@@ -119,6 +119,7 @@ public abstract class XMLHandler {
 					
 					// Checks if node is of class BasicItem, if not it cycles through all available 
 					// class types until the right one is found. At that point it builds the item of that class.
+					// The XML goes through all available information of node.
 					if(element.getChildNodes().item(1).getTextContent().equals("BasicItem")) {
 						item = new BasicItem(element.getChildNodes().item(3).getTextContent());
 					} else if(element.getChildNodes().item(1).getTextContent().equals("ImageItem")) {
@@ -127,8 +128,6 @@ public abstract class XMLHandler {
 						item = new AudioItem(element.getChildNodes().item(5).getTextContent());
 					} else if(element.getChildNodes().item(1).getTextContent().equals("YouTubeItem")) {
 						item = new VideoItem(element.getChildNodes().item(3).getTextContent(),
-								// The XML goes through all available information of node.
-								// For some reason XML counts up in odd numbers :( 
 								element.getChildNodes().item(5).getTextContent(),
 								element.getChildNodes().item(7).getTextContent(),
 								element.getChildNodes().item(9).getTextContent());

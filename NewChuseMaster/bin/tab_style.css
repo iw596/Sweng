@@ -1,0 +1,19 @@
+/* Tab Pane */
+.tab {
+	-fx-pref-height : 40;
+	-fx-background-color: #35669C;
+	-fx-border-radius: 10 10 0 0;
+	
+}
+
+.tab-header-background {
+	-fx-background-color : #6D8AA9;
+	
+}
+.tap-pane .tab-header-area .tab-header-background{
+	-fx-opacity: 0;
+}
+.jfx-tab-pane .tab-selected-line {
+	
+	-fx-background-color : #c1d9f4;	
+}

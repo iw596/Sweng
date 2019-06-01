@@ -276,8 +276,11 @@ public class ResultsScreenController implements Initializable {
 	public void saveList(MouseEvent action){
 
     	if(back_end.getCurrentListFileName() != null) {
-    		back_end.updateSaveListToXML(back_end.getCurrentListFileName());
     		
+//    		if(!list_has_been_shared) {
+//    			back_end.updateSaveListToXML(back_end.getCurrentListFileName());
+//    		}
+//    		
     		if(back_end.getLocalAccount() != null && save_list_online) {
     			showListUploadScreen();
     			//back_end.uploadList(back_end.getCurrentListFileName(), shareListPublicly);

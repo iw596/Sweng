@@ -34,11 +34,8 @@ import xmlHandling.XMLHandler;
  * amongst all the different GUI controllers and allows for the program to follow the Model View Controller paradigm.
  * 
  * Date created: 13/03/2019
- * Date last edited: 15/03/2019
- * Last edited by: Dan Jackson
- * 
- * Date last edited: 27/04/2019
- * Last edited by: Harry Ogden and Isaac Watson
+ * Date last edited: 14/05/2019
+ * Last edited by:  Isaac Watson
  * 
  * @author Dan Jackson
  *
@@ -619,8 +616,6 @@ public class BackEndContainer {
 			return false;
 		}
 		
-		System.out.println("Current list is " + current_list_file_name);
-		
 		//creates a new set of statistics data
 		statistics_data = new StatisticsDataStructure(current_list_file_name, username);
 		
@@ -682,6 +677,35 @@ public class BackEndContainer {
 	 */
 	public ArrayList<SpotifyPlayer> getSpotifyPlayers(){
 		return this.spotify_controllers;
+	}
+	
+	/** Method to exit players. Goes through each player type, if not null then exits the player and sets
+	 *  player array to be null
+	 *  
+	 */
+	public void exitPlayers(){
+		if ( this.video_controllers.size() != 0){
+			for (int i = 0; i< this.video_controllers.size();i++){
+				this.video_controllers.get(i).exit();
+			}
+			this.video_controllers = null;
+		}
+		else if (this.audio_controllers != null){
+			for (int i = 0; i< this.audio_controllers.size();i++){
+				this.audio_controllers.get(i).exit();
+			}
+			this.audio_controllers = null;
+		}
+		else if (this.spotify_controllers.size() != 0){
+			for (int i = 0; i< this.spotify_controllers.size();i++){
+				this.spotify_controllers.get(i).exit();
+			}
+			this.spotify_controllers = null;
+			
+		}
+		
+		System.gc();
+		
 	}
 }
 	

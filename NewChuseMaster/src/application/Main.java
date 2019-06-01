@@ -44,8 +44,8 @@ public class Main extends Application {
 			//loads the FXML file
 			BorderPane root = loader.load();
 
-			//opens a new JavaFX scene of resolution 800px by 600px containing the master screen
-			Scene scene = new Scene(root,800, 600);
+			//opens a new JavaFX scene of resolution 1000px by 750px containing the master screen
+			Scene scene = new Scene(root,1000, 750);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			//sets the primary stage to contain the current scene and gives it a title and shows it
