@@ -96,6 +96,7 @@ public class SpotifyPlayer extends Renderer {
 		    	}
 		    	else{
 		    		no_preview = true;
+		    		controls.noPreviewScreen();
 		    		
 		    	}
 	       	
@@ -109,12 +110,6 @@ public class SpotifyPlayer extends Renderer {
 			return player_holder;
 		}
 
-		/** Set the holder where the video player will be displayed
-		 * @param player_holder the player_holder to set
-		 */
-		public void setPlayer_holder(Pane player_holder) {
-			this.player_holder = player_holder;
-		}
 
 		/** Method to exit from spotify player, 
 	     * releases the media and player to free memory

@@ -277,15 +277,16 @@ public class ResultsScreenController implements Initializable {
 
     	if(back_end.getCurrentListFileName() != null) {
     		
-//    		if(!list_has_been_shared) {
-//    			back_end.updateSaveListToXML(back_end.getCurrentListFileName());
-//    		}
-//    		
+    		if(!list_has_been_shared) {
+    			back_end.updateSaveListToXML(back_end.getCurrentListFileName());
+    		}
+    		
     		if(back_end.getLocalAccount() != null && save_list_online) {
     			showListUploadScreen();
     			//back_end.uploadList(back_end.getCurrentListFileName(), shareListPublicly);
     		} else if(back_end.getLocalAccount() != null && share_results) {
-    			if(!list_has_been_shared) { 
+    			if(list_has_been_shared == false) { 
+    				System.out.println("In sharing clause");
     				back_end.uploadResults();
     				list_has_been_shared = true;
     			}

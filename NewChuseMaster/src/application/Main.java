@@ -1,5 +1,7 @@
 package application;
 	
+import com.sun.jna.NativeLibrary;
+
 import backEnd.BackEndContainer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -8,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import sidebarContainerGUI.MasterScreenController;
+import uk.co.caprica.vlcj.binding.RuntimeUtil;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
@@ -28,7 +31,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			
+			NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files (x86)/VideoLAN/VLC");
+			NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files/VideoLAN/VLC");
+
 			//creates a new back end container
 			BackEndContainer back_end = new BackEndContainer();
 			
@@ -44,7 +49,7 @@ public class Main extends Application {
 			//loads the FXML file
 			BorderPane root = loader.load();
 
-			//opens a new JavaFX scene of resolution 1000px by 750px containing the master screen
+			//opens a new JavaFX scene of resolution 800px by 600px containing the master screen
 			Scene scene = new Scene(root,1000, 750);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			

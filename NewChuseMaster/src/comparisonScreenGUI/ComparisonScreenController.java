@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import listDataStructure.BasicItem;
 import resultsScreenGUI.ResultsScreenController;
 import spotifyplayer.SpotifyPlayer;
+import uk.co.caprica.vlcj.binding.RuntimeUtil;
 import videoPlayback.Player;
 
 /**
@@ -96,13 +97,15 @@ public class ComparisonScreenController implements Initializable {
     		for(int i = 0; i < video_controllers.size(); i++) {
     			video_controllers.get(i).exit();
     		}
-        	video_controllers = new ArrayList<Player>();
+    		video_controllers.remove(1);
+    		video_controllers.remove(0);
 
     	} else if(spotify_controllers.size() > 0) {
     		for(int i = 0; i < spotify_controllers.size(); i++) {
     			spotify_controllers.get(i).exit();
     		}
-    		spotify_controllers = new ArrayList<SpotifyPlayer>();
+    		spotify_controllers.remove(1);
+    		spotify_controllers.remove(0);
 
     	}  
     	
@@ -110,7 +113,7 @@ public class ComparisonScreenController implements Initializable {
     	
     	back_end.getComparison().chooseItem(0);
     	back_end.getComparison().advancePosition();
-    	
+
     	endCheck();
 
     }
@@ -136,13 +139,14 @@ public class ComparisonScreenController implements Initializable {
     		for(int i = 0; i < video_controllers.size(); i++) {
     			video_controllers.get(i).exit();
     		}
-        	video_controllers = new ArrayList<Player>();
-
+    		video_controllers.remove(1);
+    		video_controllers.remove(0);
     	} else if(spotify_controllers.size() > 0) {
     		for(int i = 0; i < spotify_controllers.size(); i++) {
     			spotify_controllers.get(i).exit();
     		}
-    		spotify_controllers = new ArrayList<SpotifyPlayer>();
+    		spotify_controllers.remove(1);
+    		spotify_controllers.remove(0);
 
     	}  
     	
@@ -152,7 +156,7 @@ public class ComparisonScreenController implements Initializable {
     	//chooses item 2 and advances the algorithms position
     	back_end.getComparison().chooseItem(1);
     	back_end.getComparison().advancePosition();
-    	
+
     	endCheck();
     	
     }
@@ -191,7 +195,6 @@ public class ComparisonScreenController implements Initializable {
         	left_button.setText(back_end.getComparison().getCurrentPairTitles().get(0));
         	checkObjectType();
     	} else {
-    		
     		//if the round is over, stores the results from the round
     		back_end.getComparison().storeResults();
     		
@@ -371,17 +374,13 @@ public class ComparisonScreenController implements Initializable {
 	 * @param pane - the pane where the player will be added
 	 */
 	private void instantiateVideoPlayer(BasicItem item, Pane pane) {
-		// Find vlc path
-		NativeLibrary.addSearchPath("libvlc", "C:/Program Files (x86)/VideoLAN/VLC");
-		NativeLibrary.addSearchPath("libvlc", "C:/Program Files/VideoLAN/VLC");
+
 		// Convert item path into array so its compatible with the player
 		// Create player with media and correct height
 		// If first player then add to first index in video controllers
-		
 		Player player = new Player();
 		video_controllers.add(player);
 		BorderPane video_pane = player.getPane();
-		//video_controllers.add(player);
 		StackPane.setAlignment(video_pane, Pos.CENTER);
 		pane.getChildren().add(video_pane);
 		player.setMedia(item.getPath());

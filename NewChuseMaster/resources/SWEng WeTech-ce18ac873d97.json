@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "sweng-wetech",
+  "private_key_id": "ce18ac873d977f5d0a608ab34af612fc73a60944",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCbce1lZMuHXAKJ\nyw6HbGtD6rK5za/jDKFW94d16BBefyhViigkJcS9nvEqdZu8EYhbBIg0hyMGM7CA\nH3nM9OCUcj8mpzNCeq+XK7lDQy/2iGSxZYJmD5fyX/nT9Y9KamkZbXQ1K65GoMdd\nFWiANB2v853fa+5YfjuevqYAaegh3D1CL2uSPVbgTLwuJzDroHvWIyIBbzJOMhBp\n+/vKfvyM3QsVQ2h6yqxWsdyiku1i0147JG6E30j61bpZ8Liq/RRjzbpobGKZM3rn\nAQ/NDnQcPEs18ViPWHovFsji963g1PyIE5eQH0wHgpNzz9QOgIbqRsJaNkrKH/VJ\noU4hyJxfAgMBAAECggEAOOdIx0BRvVhyWWzrAaovzioBiUEBrTU3brWocgIk0+Lq\nqf2sWic1UVD46dkpzHwClYcgMVJzANc1OoHLPbs65zy3X3f/rMtqsgVAiZ3z1eTy\nL3qAdMoqjoCR3QTckppHpRZLXxeBcbtzn+CxY5UwdPPSjDJfiyeSvbb+39HlN1dt\nN3PihDo1NEtreXKlRsb2Xbjzx6HSfw+fXjmvtJyfsFzT+92ch7D7eIGc9dAT6CfA\nnGUVew8wqnyYp7F+g80qqzhdILqq6xF/29MzXpDVNejjSNggahZFKg/CTsQNSRTP\nodb14VnXj8nbtdcynwdcrIBqEope/tmbyiYPvRxNmQKBgQDOO98aTXD6Y4xeGXx5\nqA8cPoum3WUmmaPVA/Jdg4dhQGfSd0J+VpAO27fBG+Io3YEM4TBPJkl4M/JhHpIe\nTG7Lh9LayiuWyfHu3W1jKqjIxF1RJiRMdrwpNcWxBpwpDiYIXGKR40gA+UMYIUqM\nEQ5nAy6dM2bvDK76OFDMU83DYwKBgQDA9JE89hVt7bGcyHHrOb+QsPaSmW53TIPr\nabJwjNtIkbHAjdo9aYTRN5y2feBJgcAh0pl0h9H4Edt+Ue+4zIf2aeDP4MFA3qDF\n2P4fdAfrUQ/jmlK8vywkwEhp/L/zW+g8q8EowcpcfBvTYUH/apijY10tn+VgfHCZ\ntgdL+tw51QKBgF4f90BS7ehpfMwJx8Tijhru9N/wldTbNGnpRjml6Sjas0fchG2S\n5mbRovkw17Sc++Q79sd5CvkghFQNFtVbPwoHcJXIxcIpYxEI4H7tHmGbNZfu14xK\neLA6SYL1KFqYiYUxXQ+Gcvt2yEeAEj0BH9imHCVFK4qY+FddUosfCH9PAoGBAKn8\ny5bxFJ/rr3V4ASRBk8pcnF06Xl8rQWy7iUAuV2DvObFxRrqjoybN33nGGzmm3STu\n69IFda0dzkjS1mXvijhDvpJkZtxHRUwHhpkfF3rvxxe0dP9jS/h0jVcSG+jBJy+M\nAHdvgl9H1xu5qvLhbedDOmtfWixOdMR14KfHMQyhAoGAMJfsdAfzvJ5PNe5XMkux\nEQJ2TImCEu0HRJNL+zo8M1B4gOHgnb1xhjtBYRMgpcYP8DW1l0mH2ljU+2h0Y7mQ\nJn0dhta3xUxZ4/gvy6xoV1GKJGZ3Et01OKAjIHHbGYPEgXs1pR7AdPlw2GuCXn9I\n3jY1VntM5rz79uskhcRQ8/o=\n-----END PRIVATE KEY-----\n",
+  "client_email": "wetech-cloud-key@sweng-wetech.iam.gserviceaccount.com",
+  "client_id": "105123476923501261375",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wetech-cloud-key%40sweng-wetech.iam.gserviceaccount.com"
+}

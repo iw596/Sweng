@@ -98,25 +98,27 @@ public abstract class Renderer {
     public Renderer() {
     	diplay_pane = new BorderPane();
         canvas = new Canvas();
+        stage = new Stage();
+        pane = new Pane();
 
         pixelWriter = canvas.getGraphicsContext2D().getPixelWriter();
         pixelFormat = PixelFormat.getByteBgraInstance();
 
         mediaPlayerFactory = new MediaPlayerFactory();
         media_player = mediaPlayerFactory.mediaPlayers().newEmbeddedMediaPlayer();
-
+      
         media_player.videoSurface().set(new JavaFxVideoSurface());
-        pane = new Pane();
         controls = new Controls(this);
         pane.getChildren().add(canvas);
-        
-        diplay_pane.setCenter(pane);
-        diplay_pane.setBottom(controls);
+		diplay_pane.setCenter(pane);
+		diplay_pane.setBottom(controls);
+            		
+ 
         //diplay_pane.setStyle("-fx-background-color: rgb(0, 0, 0);");
 
-
-       // canvas.widthProperty().bind(diplay_pane.widthProperty());
-        //canvas.heightProperty().bind(diplay_pane.heightProperty());
+       
+        canvas.widthProperty().bind(diplay_pane.widthProperty());
+        canvas.heightProperty().bind(diplay_pane.heightProperty());
     }
 
  
@@ -143,10 +145,14 @@ public abstract class Renderer {
             Platform.runLater(new Runnable () {
                 @Override
                 public void run() {
-                	controls.setPrefWidth(sourceWidth);
-                	controls.setPrefHeight(sourceHeight);
-                    stage.setWidth(sourceWidth);
-                    stage.setHeight(sourceHeight);
+                	if(stage != null){
+                    	stage.setWidth(sourceWidth);
+                        stage.setHeight(sourceHeight);
+                		
+                	}
+
+       
+
                 }
             });
             return new RV32BufferFormat(sourceWidth, sourceHeight);

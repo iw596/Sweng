@@ -1,11 +1,8 @@
 package videoPlayback;
 
-import java.text.DecimalFormat;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -36,12 +33,10 @@ public class Controls extends HBox {
 	// Text to show current time
 	private Text current_time_text = new Text("0.00");
 	
-	private DecimalFormat format = new DecimalFormat("#.##"); // To format time
-	
 	EmbeddedMediaPlayer media_player;
 	Renderer renderer;
 	protected boolean update_scrubber = true;
-	private Text no_preview_text = new Text("No preview available.");
+
 
 	/**
 	 * Constructor for a video player's controls.
@@ -98,7 +93,6 @@ public class Controls extends HBox {
  				if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
  					// Do not pause when onScreen time slider is pressed
  				    if (mouseEvent.getPickResult().getIntersectedNode().toString().contains("Canvas")) {
- 				    	System.out.println(mouseEvent.getPickResult().getIntersectedNode().toString());
  				   	   // If playing then pause
  		            	if(media_player.status().isPlaying() == true){
  		            		media_player.controls().pause();
@@ -183,9 +177,9 @@ public class Controls extends HBox {
 	 */
     protected void updatesValues(Float fraction) { 
   
+    	
         // Updating to the new time value 
     	// This will move the slider while running the video 
-    
     	if (update_scrubber) {
     		time_slider.setValue(fraction * 100);	
 		    // Get current time of video and the length of the video, convert to seconds and minutes
@@ -240,18 +234,6 @@ public class Controls extends HBox {
     		
     }
     
-    /** If there is no preview available then display this to the user 
-     * 
-     */
-    public void noPreviewScreen(){
-        getChildren().remove(play_pause); 
-        getChildren().remove(time_label);
-        getChildren().remove(time_slider);
-        getChildren().remove(current_time_text);
-        // Add no preview message
-        getChildren().add(no_preview_text );
-    	
-    }
 
     
 }

@@ -9,11 +9,9 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.QueryResults;
 
 import algorithms.TournamentAlgorithms;
-import apiHandlers.YouTubeAPIHandler;
 import audioPlayback.AppController;
 import cloudInteraction.CloudInteractionHandler;
 import cloudInteraction.UserAccount;
-import imageDisplay.ImageDisplayController;
 import javafx.stage.Stage;
 import listDataStructure.BasicItem;
 import listDataStructure.ChuseList;
@@ -529,9 +527,17 @@ public class BackEndContainer {
 	 */
 	public void uploadResults() {
 		
+		System.out.println("Username: " + getLocalAccount().getUsername());
+		
+		System.out.println("Old file name: " + getCurrentListFileName());
+		
 		String xml_file = getCurrentListFileName().replaceFirst("-" + getLocalAccount().getUsername() + ".xml", ".xml");
 		
+		System.out.println("New file name: " + xml_file);
+		
 		String folder_name = FilenameUtils.getBaseName(xml_file);
+		
+		System.out.println("Location: " + folder_name);
 		
 		String account_id = getAccountId(getListOwner());
 		
@@ -683,20 +689,21 @@ public class BackEndContainer {
 	 *  player array to be null
 	 *  
 	 */
+	
 	public void exitPlayers(){
-		if ( this.video_controllers.size() != 0){
+		if ( this.video_controllers != null && this.video_controllers.size() !=  0){
 			for (int i = 0; i< this.video_controllers.size();i++){
 				this.video_controllers.get(i).exit();
 			}
 			this.video_controllers = null;
 		}
-		else if (this.audio_controllers != null){
+		else if (this.audio_controllers != null && this.audio_controllers.size() !=  0){
 			for (int i = 0; i< this.audio_controllers.size();i++){
 				this.audio_controllers.get(i).exit();
 			}
 			this.audio_controllers = null;
 		}
-		else if (this.spotify_controllers.size() != 0){
+		else if (this.spotify_controllers != null && this.spotify_controllers.size() !=  0){
 			for (int i = 0; i< this.spotify_controllers.size();i++){
 				this.spotify_controllers.get(i).exit();
 			}

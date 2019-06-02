@@ -75,9 +75,12 @@ public class Player extends Renderer  {
     	
     }
     /** Method to exit from video player, releases the media and player to free memory
+     * @throws InterruptedException 
      * 
      */
 	public void exit() {
+		System.out.println("Player: " + media_player);
+		media_player.controls().setPause(true);
 		media_player.controls().stop();
 		this.media_player.release();
 		stopTimer();

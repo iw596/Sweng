@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import javafx.stage.Stage;
 import listDataStructure.AudioItem;
 import listDataStructure.BasicItem;
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
-import uk.co.caprica.vlcj.discovery.NativeDiscovery;
-import uk.co.caprica.vlcj.player.MediaMeta;
-import uk.co.caprica.vlcj.player.MediaPlayer;
+import uk.co.caprica.vlcj.media.Meta;
+import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 /**
  * Abstract class used for importing audio source files from a local file path. This class
@@ -36,8 +34,6 @@ public abstract class AudioFileHandler extends FileImportHandler{
 		
 		ArrayList<BasicItem> audio_items = new ArrayList<BasicItem>();
 		
-		//needed for getting the metadata through VLCj
-		new NativeDiscovery().discover();
 
 		//loops through every file path in the list 
 		for(String file_path : file_paths) {
@@ -57,29 +53,27 @@ public abstract class AudioFileHandler extends FileImportHandler{
 	 */
 	@SuppressWarnings("all")
 	public static ArrayList<String> getMetadata(String file_path) {
-		
-		//needed for getting the metadata through VLCj
-		new NativeDiscovery().discover();
+
 		
 		//creates a media player
 		EmbeddedMediaPlayerComponent mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
 		
 		//adds the audio file to the media player and parses it
-		mediaPlayerComponent.getMediaPlayer().prepareMedia(file_path);
-        mediaPlayerComponent.getMediaPlayer().parseMedia();
+		mediaPlayerComponent.mediaPlayer().media().prepare(file_path);
+     
         
         ArrayList<String> track_metadata = new ArrayList<String>();
-        
+        /*
         //gets the media player and the metadata for the track
         MediaPlayer mediaPlayer = mediaPlayerComponent.getMediaPlayer();
-        MediaMeta metadata = mediaPlayer.getMediaMeta();
+        MediaMeta metadata = mediaPlayer.getMediaMeta(); */
 
         //adds the relevant metadata to the metadata array list
-        track_metadata.add(metadata.getTitle());
-        track_metadata.add(metadata.getArtist());
-        track_metadata.add(metadata.getAlbum());
-        track_metadata.add(metadata.getDate());
-        track_metadata.add(metadata.getGenre());
+        track_metadata.add(mediaPlayerComponent.mediaPlayer().media().meta().get(Meta.TITLE));
+        track_metadata.add(mediaPlayerComponent.mediaPlayer().media().meta().get(Meta.ARTIST));
+        track_metadata.add(mediaPlayerComponent.mediaPlayer().media().meta().get(Meta.ALBUM));
+        track_metadata.add(mediaPlayerComponent.mediaPlayer().media().meta().get(Meta.DATE));
+        track_metadata.add(mediaPlayerComponent.mediaPlayer().media().meta().get(Meta.GENRE));
         
         return track_metadata;
 		
