@@ -31,6 +31,7 @@ import listDataStructure.ChuseList;
 import listDataStructure.ImageItem;
 import listDataStructure.RankingItem;
 import listDataStructure.RankingList;
+import listDataStructure.SpotifyItem;
 import listDataStructure.VideoItem;
 
 /**
@@ -133,6 +134,14 @@ public abstract class XMLHandler {
 								element.getChildNodes().item(9).getTextContent());
 					} else if(element.getChildNodes().item(1).getTextContent().equals("VideoItem")) {
 						item = new VideoItem(element.getChildNodes().item(5).getTextContent());
+					} else if(element.getChildNodes().item(1).getTextContent().equals("SpotifyItem")) {
+						ArrayList<String> metadata = new ArrayList<String>();
+						metadata.add(element.getChildNodes().item(3).getTextContent());
+						metadata.add(element.getChildNodes().item(9).getTextContent());
+						metadata.add(element.getChildNodes().item(11).getTextContent());
+						metadata.add(element.getChildNodes().item(13).getTextContent());
+						item = new SpotifyItem(element.getChildNodes().item(5).getTextContent(), 
+								metadata, element.getChildNodes().item(7).getTextContent(), null);
 					} else {
 						continue;
 					}
@@ -415,14 +424,21 @@ public abstract class XMLHandler {
         } else if(item.getType() == "AudioItem") {
         	//If item type is AudioItem it gets the stored path and adds it to the document.
         	multimedia.appendChild(createItemElement(document, "Filepath", item.getPath()));
-        } else if(item.getType() == "VideoItem") {
+        } else if(item.getType() == "YouTubeItem") {
         	// If item is of type VideoItem it will get the path, the meta data and channel and add it to
         	// the document.
         	multimedia.appendChild(createItemElement(document, "Filepath", item.getPath()));
         	multimedia.appendChild(createItemElement(document, "description", item.getMetadata().get(0)));
         	multimedia.appendChild(createItemElement(document, "channel", item.getMetadata().get(1)));
-        }
-        
+        } else if(item.getType() == "VideoItem") {
+        	multimedia.appendChild(createItemElement(document, "Filepath", item.getPath()));
+		} else if(item.getType() == "SpotifyItem") {
+			multimedia.appendChild(createItemElement(document, "Filepath", item.getPath()));
+			multimedia.appendChild(createItemElement(document, "previewUrl", item.getPreview()));
+			multimedia.appendChild(createItemElement(document, "artist", item.getMetadata().get(1)));
+			multimedia.appendChild(createItemElement(document, "album", item.getMetadata().get(2)));
+			multimedia.appendChild(createItemElement(document, "length", item.getMetadata().get(3)));
+		}	
         // Returns the new multimedia tag.
         return multimedia;
     }
