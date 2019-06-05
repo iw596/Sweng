@@ -24,7 +24,6 @@ import javafx.scene.layout.StackPane;
 import listDataStructure.BasicItem;
 import resultsScreenGUI.ResultsScreenController;
 import spotifyplayer.SpotifyPlayer;
-import uk.co.caprica.vlcj.binding.RuntimeUtil;
 import videoPlayback.Player;
 
 /**

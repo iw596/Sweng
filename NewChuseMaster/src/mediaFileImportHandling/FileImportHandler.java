@@ -68,6 +68,16 @@ public abstract class FileImportHandler {
 			file_chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
 					"Image files", image_extensions));
 			
+		} else if (type == "video") {
+			
+			List<String> video_extensions = new ArrayList<String>();
+			//allowed file extensions
+			video_extensions.add("*.mp4");
+			
+			//sets allowed file extensions
+			file_chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
+					"Video files", video_extensions));
+			
 		}
 
 		//opens the file chooser's multi-file dialogue box

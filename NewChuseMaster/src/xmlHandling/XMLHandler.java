@@ -80,7 +80,7 @@ public abstract class XMLHandler {
 			// this line is need for XML handling (don't know why :) )
 			Document document = builder.parse(file);
 			
-			id_check = document.getElementsByTagName("id");
+			id_check = document.getElementsByTagName("ID");
 
 			if(id_check.getLength() != 1) {
 				return null;
@@ -92,12 +92,12 @@ public abstract class XMLHandler {
 			
 			for(int j=1; j < id_check.item(0).getChildNodes().getLength(); j += 2) {
 				
-				if(!id_check.item(0).getChildNodes().item(j).getNodeName().equals("page")){
+				if(!id_check.item(0).getChildNodes().item(j).getNodeName().equals("Page")){
 					continue;
 				}
 
 				// set nodes in XML file in to array by the node tag name
-				//NodeList element_list = document.getElementsByTagName("multimedia");
+				//NodeList element_list = document.getElementsByTagName("Multimedia");
 
 				NodeList element_list = id_check.item(0).getChildNodes().item(j).getChildNodes();
 				
@@ -106,7 +106,7 @@ public abstract class XMLHandler {
 					// get node i from node array that came from XML file
 					Node element = element_list.item(i);
 					
-					if(!element.getNodeName().equals("multimedia")) {
+					if(!element.getNodeName().equals("Multimedia")) {
 						continue;
 					}
 					
@@ -202,14 +202,14 @@ public abstract class XMLHandler {
 				DocumentBuilder builder = factory.newDocumentBuilder();
 				Document document = builder.newDocument();
 				
-				// add node called "id" to the XML file
-				Element id = document.createElement("id");
+				// add node called "ID" to the XML file
+				Element id = document.createElement("ID");
 				
 				id.setAttribute("User", user);
 				
 				document.appendChild(id);
 				
-				// add the page tag with all "multimedia" tags 
+				// add the page tag with all "Multimedia" tags 
 				// where each one hold the information of an item in the list that is being stored 
 				document = addPage(document, id, list);
 				
@@ -284,7 +284,7 @@ public abstract class XMLHandler {
 	private static Document addPage(Document document, Element id, ChuseList list) {
 		
 		// add page tag
-		Element page = document.createElement("page");
+		Element page = document.createElement("Page");
 		id.appendChild(page);
 		
 		// loop through all list items and add them to the XML file under the page tag
@@ -348,7 +348,7 @@ public abstract class XMLHandler {
 	    	
 	    	Document document = builder.parse(file_path);
 	    	
-	    	NodeList id = document.getElementsByTagName("id");
+	    	NodeList id = document.getElementsByTagName("ID");
 	    	
 	    	document = addResults(document, (Element)id.item(0), results);
 	    	
@@ -398,27 +398,27 @@ public abstract class XMLHandler {
 	private static Node createItem(Document document, BasicItem item) {
         
 		// add multimedia tag
-        Node multimedia = document.createElement("multimedia");
+        Node multimedia = document.createElement("Multimedia");
         
         // add type tag under multimedia tag
-        multimedia.appendChild(createItemElement(document, "type", item.getType()));
+        multimedia.appendChild(createItemElement(document, "Type", item.getType()));
         // add title tag under multimedia tag
         multimedia.appendChild(createItemElement(document, "title", item.getTitle()));
         
         // Checks the class type of the item
         if(item.getType() == "BasicItem") {
         	// If class is basic item then it receives no path.
-        	multimedia.appendChild(createItemElement(document, "path", "n/a"));
+        	multimedia.appendChild(createItemElement(document, "Filepath", "n/a"));
         } else if(item.getType() == "ImageItem") {
         	// If item type is ImageItem, it gets the stored path and adds it to document.
-        	multimedia.appendChild(createItemElement(document, "path", item.getPath()));
+        	multimedia.appendChild(createItemElement(document, "Filepath", item.getPath()));
         } else if(item.getType() == "AudioItem") {
         	//If item type is AudioItem it gets the stored path and adds it to the document.
-        	multimedia.appendChild(createItemElement(document, "path", item.getPath()));
+        	multimedia.appendChild(createItemElement(document, "Filepath", item.getPath()));
         } else if(item.getType() == "VideoItem") {
         	// If item is of type VideoItem it will get the path, the meta data and channel and add it to
         	// the document.
-        	multimedia.appendChild(createItemElement(document, "path", item.getPath()));
+        	multimedia.appendChild(createItemElement(document, "Filepath", item.getPath()));
         	multimedia.appendChild(createItemElement(document, "description", item.getMetadata().get(0)));
         	multimedia.appendChild(createItemElement(document, "channel", item.getMetadata().get(1)));
         }
@@ -468,7 +468,7 @@ public abstract class XMLHandler {
 			// get node i from node array that came from XML file
 			Node element = element_list.item(i);
 							
-			if(!element.getNodeName().equals("multimedia")) {
+			if(!element.getNodeName().equals("Multimedia")) {
 				continue;
 			}
 			
@@ -540,7 +540,7 @@ public abstract class XMLHandler {
 				// this line is need for XML handling (don't know why :) )
 				Document document = builder.parse(file);
 				
-				NodeList id_check = document.getElementsByTagName("id");
+				NodeList id_check = document.getElementsByTagName("ID");
 
 				if(id_check.getLength() != 1) {
 					return null;
@@ -582,8 +582,8 @@ public abstract class XMLHandler {
 			
 			Document document = builder.newDocument();
 			
-			// add node called "id" to the XML file
-			Element id = document.createElement("id");
+			// add node called "ID" to the XML file
+			Element id = document.createElement("ID");
 			
 			document.appendChild(id);
 			

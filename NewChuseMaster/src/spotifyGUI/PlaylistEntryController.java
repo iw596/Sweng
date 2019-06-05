@@ -10,8 +10,6 @@ import com.wrapper.spotify.SpotifyApi;
 
 import backEnd.BackEndContainer;
 import comparisonScreenGUI.ComparisonScreenController;
-import intermediateScreensGUI.InterVideoController;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,7 +19,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import listDataStructure.BasicItem;
 import spotifydata.GetPlaylistsTracks;
 

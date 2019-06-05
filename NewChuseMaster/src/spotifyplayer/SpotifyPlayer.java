@@ -1,15 +1,11 @@
 package spotifyplayer;
 
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import javafx.beans.property.FloatProperty;
+
 import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
-import javafx.scene.image.WritablePixelFormat;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-
 import videoPlayback.NanoTimer;
 
 /**
