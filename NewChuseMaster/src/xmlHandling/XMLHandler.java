@@ -505,9 +505,9 @@ public abstract class XMLHandler {
 				item = new ImageItem(element.getChildNodes().item(5).getTextContent());
 				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(7).getTextContent()));
 			} else if(element.getChildNodes().item(1).getTextContent().equals("AudioItem")) {
-				/*item = new AudioItem(element.getChildNodes().item(5).getTextContent());
-				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(7).getTextContent()));*/
-			} else if(element.getChildNodes().item(1).getTextContent().equals("VideoItem")) {
+				item = new AudioItem(element.getChildNodes().item(5).getTextContent());
+				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(7).getTextContent()));
+			} else if(element.getChildNodes().item(1).getTextContent().equals("YouTubeItem")) {
 				item = new VideoItem(element.getChildNodes().item(3).getTextContent(),
 						// The XML goes through all available information of node.
 						// For some reason XML counts up in odd numbers :( 
@@ -515,10 +515,13 @@ public abstract class XMLHandler {
 						element.getChildNodes().item(7).getTextContent(),
 						element.getChildNodes().item(9).getTextContent());
 				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(11).getTextContent()));
+			} else if(element.getChildNodes().item(1).getTextContent().equals("VideoItem")) {
+				item = new VideoItem(element.getChildNodes().item(5).getTextContent());
+				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(7).getTextContent()));
 			} else {
 				continue;
 			}
-							
+			
 			// dumps the newly made item into the list array
 			list.addItem(item_2);
 						
