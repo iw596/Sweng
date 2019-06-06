@@ -121,18 +121,18 @@ public abstract class XMLHandler {
 					// Checks if node is of class BasicItem, if not it cycles through all available 
 					// class types until the right one is found. At that point it builds the item of that class.
 					// The XML goes through all available information of node.
-					if(element.getChildNodes().item(1).getTextContent().equals("BasicItem")) {
+					if(element.getChildNodes().item(1).getTextContent().equals("text")) {
 						item = new BasicItem(element.getChildNodes().item(3).getTextContent());
-					} else if(element.getChildNodes().item(1).getTextContent().equals("ImageItem")) {
+					} else if(element.getChildNodes().item(1).getTextContent().equals("image")) {
 						item = new ImageItem(element.getChildNodes().item(5).getTextContent());
-					} else if(element.getChildNodes().item(1).getTextContent().equals("AudioItem")) {
+					} else if(element.getChildNodes().item(1).getTextContent().equals("audio")) {
 						item = new AudioItem(element.getChildNodes().item(5).getTextContent());
 					} else if(element.getChildNodes().item(1).getTextContent().equals("YouTubeItem")) {
 						item = new VideoItem(element.getChildNodes().item(3).getTextContent(),
 								element.getChildNodes().item(5).getTextContent(),
 								element.getChildNodes().item(7).getTextContent(),
 								element.getChildNodes().item(9).getTextContent());
-					} else if(element.getChildNodes().item(1).getTextContent().equals("VideoItem")) {
+					} else if(element.getChildNodes().item(1).getTextContent().equals("video")) {
 						item = new VideoItem(element.getChildNodes().item(5).getTextContent());
 					} else if(element.getChildNodes().item(1).getTextContent().equals("SpotifyItem")) {
 						ArrayList<String> metadata = new ArrayList<String>();
@@ -415,13 +415,13 @@ public abstract class XMLHandler {
         multimedia.appendChild(createItemElement(document, "title", item.getTitle()));
         
         // Checks the class type of the item
-        if(item.getType() == "BasicItem") {
+        if(item.getType() == "text") {
         	// If class is basic item then it receives no path.
         	multimedia.appendChild(createItemElement(document, "Filelocation", "n/a"));
-        } else if(item.getType() == "ImageItem") {
+        } else if(item.getType() == "image") {
         	// If item type is ImageItem, it gets the stored path and adds it to document.
         	multimedia.appendChild(createItemElement(document, "Filelocation", item.getPath()));
-        } else if(item.getType() == "AudioItem") {
+        } else if(item.getType() == "audio") {
         	//If item type is AudioItem it gets the stored path and adds it to the document.
         	multimedia.appendChild(createItemElement(document, "Filelocation", item.getPath()));
         } else if(item.getType() == "YouTubeItem") {
@@ -430,7 +430,7 @@ public abstract class XMLHandler {
         	multimedia.appendChild(createItemElement(document, "Filelocation", item.getPath()));
         	multimedia.appendChild(createItemElement(document, "description", item.getMetadata().get(0)));
         	multimedia.appendChild(createItemElement(document, "channel", item.getMetadata().get(1)));
-        } else if(item.getType() == "VideoItem") {
+        } else if(item.getType() == "video") {
         	multimedia.appendChild(createItemElement(document, "Filelocation", item.getPath()));
 		} else if(item.getType() == "SpotifyItem") {
 			multimedia.appendChild(createItemElement(document, "Filelocation", item.getPath()));
@@ -498,13 +498,13 @@ public abstract class XMLHandler {
 							
 			// Checks if node is of class BasicItem, if not it cycles through all available 
 			// class types until the right one is found. At that point it builds the item of that class.
-			if(element.getChildNodes().item(1).getTextContent().equals("BasicItem")) {
+			if(element.getChildNodes().item(1).getTextContent().equals("text")) {
 				item = new BasicItem(element.getChildNodes().item(3).getTextContent());
 				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(7).getTextContent()));
-			} else if(element.getChildNodes().item(1).getTextContent().equals("ImageItem")) {
+			} else if(element.getChildNodes().item(1).getTextContent().equals("image")) {
 				item = new ImageItem(element.getChildNodes().item(5).getTextContent());
 				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(7).getTextContent()));
-			} else if(element.getChildNodes().item(1).getTextContent().equals("AudioItem")) {
+			} else if(element.getChildNodes().item(1).getTextContent().equals("audio")) {
 				item = new AudioItem(element.getChildNodes().item(5).getTextContent());
 				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(7).getTextContent()));
 			} else if(element.getChildNodes().item(1).getTextContent().equals("YouTubeItem")) {
@@ -515,7 +515,7 @@ public abstract class XMLHandler {
 						element.getChildNodes().item(7).getTextContent(),
 						element.getChildNodes().item(9).getTextContent());
 				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(11).getTextContent()));
-			} else if(element.getChildNodes().item(1).getTextContent().equals("VideoItem")) {
+			} else if(element.getChildNodes().item(1).getTextContent().equals("video")) {
 				item = new VideoItem(element.getChildNodes().item(5).getTextContent());
 				item_2 = new RankingItem(item, Integer.parseInt(element.getChildNodes().item(7).getTextContent()));
 			} else {
