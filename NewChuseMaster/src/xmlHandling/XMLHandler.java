@@ -417,23 +417,23 @@ public abstract class XMLHandler {
         // Checks the class type of the item
         if(item.getType() == "BasicItem") {
         	// If class is basic item then it receives no path.
-        	multimedia.appendChild(createItemElement(document, "Filepath", "n/a"));
+        	multimedia.appendChild(createItemElement(document, "Filelocation", "n/a"));
         } else if(item.getType() == "ImageItem") {
         	// If item type is ImageItem, it gets the stored path and adds it to document.
-        	multimedia.appendChild(createItemElement(document, "Filepath", item.getPath()));
+        	multimedia.appendChild(createItemElement(document, "Filelocation", item.getPath()));
         } else if(item.getType() == "AudioItem") {
         	//If item type is AudioItem it gets the stored path and adds it to the document.
-        	multimedia.appendChild(createItemElement(document, "Filepath", item.getPath()));
+        	multimedia.appendChild(createItemElement(document, "Filelocation", item.getPath()));
         } else if(item.getType() == "YouTubeItem") {
         	// If item is of type VideoItem it will get the path, the meta data and channel and add it to
         	// the document.
-        	multimedia.appendChild(createItemElement(document, "Filepath", item.getPath()));
+        	multimedia.appendChild(createItemElement(document, "Filelocation", item.getPath()));
         	multimedia.appendChild(createItemElement(document, "description", item.getMetadata().get(0)));
         	multimedia.appendChild(createItemElement(document, "channel", item.getMetadata().get(1)));
         } else if(item.getType() == "VideoItem") {
-        	multimedia.appendChild(createItemElement(document, "Filepath", item.getPath()));
+        	multimedia.appendChild(createItemElement(document, "Filelocation", item.getPath()));
 		} else if(item.getType() == "SpotifyItem") {
-			multimedia.appendChild(createItemElement(document, "Filepath", item.getPath()));
+			multimedia.appendChild(createItemElement(document, "Filelocation", item.getPath()));
 			multimedia.appendChild(createItemElement(document, "previewUrl", item.getPreview()));
 			multimedia.appendChild(createItemElement(document, "artist", item.getMetadata().get(1)));
 			multimedia.appendChild(createItemElement(document, "album", item.getMetadata().get(2)));
