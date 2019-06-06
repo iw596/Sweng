@@ -270,13 +270,13 @@ public class ComparisonScreenController implements Initializable {
 		right_content.getChildren().removeAll();
 		
 		//if the left object is a video item, instantiate the video player
-		if((left_object.getType().equals("VideoItem") 
+		if((left_object.getType().equals("video") 
 				||left_object.getType().equals("YouTubeItem"))) {
 			instantiateVideoPlayer(left_object, left_content);
 			back_end.setVideoControllers(video_controllers);
-		} else if(left_object.getType().equals("ImageItem")) {
+		} else if(left_object.getType().equals("image")) {
 			instantiateImageViewer(left_object, left_content);
-		} else if(left_object.getType().equals("AudioItem")) {
+		} else if(left_object.getType().equals("audio")) {
 			instantiateAudioPlayer(left_object, left_content);
 			back_end.setAudioControllers(audio_controllers);
 		} else if (left_object.getType().equals("SpotifyItem")){
@@ -285,13 +285,13 @@ public class ComparisonScreenController implements Initializable {
 		}
 		
 		//if the right object is a video item, instantiate the video player
-		if((right_object.getType().equals("VideoItem") 
+		if((right_object.getType().equals("video") 
 				|| right_object.getType().equals("YouTubeItem")) ) {
 			instantiateVideoPlayer(right_object, right_content);
 			back_end.setVideoControllers(video_controllers);
-		} else if(right_object.getType().equals("ImageItem")) {
+		} else if(right_object.getType().equals("image")) {
 			instantiateImageViewer(right_object, right_content);
-		} else if(right_object.getType().equals("AudioItem")) {
+		} else if(right_object.getType().equals("audio")) {
 			instantiateAudioPlayer(right_object, right_content);
 			back_end.setAudioControllers(audio_controllers);
 		}  else if (right_object.getType().equals("SpotifyItem")){
