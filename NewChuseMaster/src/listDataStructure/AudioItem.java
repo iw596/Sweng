@@ -32,7 +32,7 @@ public class AudioItem extends BasicItem implements ListInterface {
 		super(AudioFileHandler.getMetadata(file_path).get(0));
 		this.file_location = file_path;
 		this.metadata = AudioFileHandler.getMetadata(file_path);
-		this.type = "AudioItem";
+		this.type = "audio";
 		replaceNulls();
 	}
 	

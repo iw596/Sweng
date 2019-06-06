@@ -29,7 +29,7 @@ public class ImageItem extends BasicItem implements ListInterface {
 	public ImageItem(String file_location) {
 		super(new File(file_location).getName());
 		this.file_location = file_location;
-		this.type = "ImageItem";
+		this.type = "image";
 	}
 	
 	/**

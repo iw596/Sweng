@@ -28,7 +28,7 @@ public class BasicItem implements ListInterface {
 	 */
 	public BasicItem(String name) {
 		this.title = name;
-		this.type = "BasicItem";
+		this.type = "text";
 	}
 	
 	/**
@@ -41,7 +41,7 @@ public class BasicItem implements ListInterface {
 	
 	/**
 	 * Function to get the type of item.
-	 * @return this.type - the type of the item ("BasicItem")
+	 * @return this.type - the type of the item ("text")
 	 */
 	public String getType() {
 		return this.type;

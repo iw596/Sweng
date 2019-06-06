@@ -53,7 +53,7 @@ public class VideoItem extends BasicItem implements ListInterface {
 		this.video_id = "";
 		this.description = "";
 		this.channel = "";
-		this.type = "VideoItem";
+		this.type = "video";
 	}
 	
 	/**
